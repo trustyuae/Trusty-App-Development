@@ -126,7 +126,7 @@ import store from './src/Redux/Store/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from './src/Components/Counter';
 import {persistor} from './src/Redux/Store/store';
-import AppNavigations from './src/Components/Navigation/AppNavigations';
+import AppNavigations from './src/Navigation/AppNavigations';
 
 function HomeScreen() {
   return (
