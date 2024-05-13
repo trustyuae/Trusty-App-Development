@@ -15,6 +15,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import SelectDropdown from 'react-native-select-dropdown';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {CheckBox} from 'react-native-elements';
+// import CountryPicker from 'react-native-country-picker-modal';
+import PhoneInput from 'react-phone-number-input';
 
 import {globalColors} from '../Assets/Theme/globalColors';
 
@@ -26,23 +30,27 @@ const SignupPage = () => {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
+  const [checked, setChecked] = useState(false);
+  const [countryCode, setCountryCode] = useState('');
 
+  const onSelectCountry = country => {
+    setCountry(country.name);
+    setCountryCode(country.cca2);
+  };
   const handleSignup = () => {
     // Handle signup logic here
     navigation.navigate('DrawerHome');
   };
+
+  const handleCheckboxPress = () => {
+    setChecked(!checked);
+  };
   const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View style={styles.logoContainer}>
-        <Image
-          source={require('../Assets/Images/logo.png')}
-          style={styles.logo}
-        />
-      </View> */}
       <View style={styles.formContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.title}>Create an account</Text>
+          <Text style={styles.title}>Create An Account</Text>
           <Text style={styles.description}>
             By creating an account, Yoy agree to accept the General Terms And
             Conditions of Use and that your data will be processed in complines
@@ -63,13 +71,17 @@ const SignupPage = () => {
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index);
                 }}
-                renderButton={(selectedItem, isOpened) => {
+                renderButton={(selectedItem, isOpen) => {
                   return (
                     <View style={styles.dropdownButtonStyle}>
                       <Text>
                         {(selectedItem && selectedItem.title) ||
                           'Selected Title'}
                       </Text>
+                      <Icon
+                        name={isOpen ? 'chevron-up' : 'chevron-down'}
+                        style={styles.dropdownButtonArrowStyle}
+                      />
                     </View>
                   );
                 }}
@@ -86,8 +98,8 @@ const SignupPage = () => {
                     </View>
                   );
                 }}
-                showsVerticalScrollIndicator={false}
-                dropdownStyle={styles.dropdownMenuStyle}
+                // showsVerticalScrollIndicator={false}
+                // dropdownStyle={styles.dropdownMenuStyle}
               />
               <TextInput
                 style={styles.input}
@@ -108,6 +120,23 @@ const SignupPage = () => {
                 onChangeText={setPhoneNumber}
                 keyboardType="phone-pad"
               />
+
+              {/* <View>
+                <PhoneInput
+                  international
+                  countryCallingCodeEditable={false}
+                  defaultCountry="US"
+                  value={phoneNumber}
+                  onChange={setPhoneNumber}
+                  renderFlag={({countryCode, callingCode, flag}) => (
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      {flag && <PhoneInput.Flag countryCode={countryCode} />}
+                      <Text>{callingCode}</Text>
+                    </View>
+                  )}
+                  placeholder="Enter phone number"
+                />
+              </View> */}
             </View>
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Billing Information</Text>
@@ -163,9 +192,34 @@ const SignupPage = () => {
                 onChangeText={setCity}
               />
             </View>
+            <TouchableOpacity onPress={handleCheckboxPress}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={styles.CheckBoxContainer}>
+                  {checked && <Text style={styles.checkedMark}>✓</Text>}
+                </View>
+                <Text style={{fontSize: 14}}>
+                  I agree to receive information by email about offers,
+                  services, products and events from Trusty or other group
+                  companies, in accordance with the Privacy Policy.{'\n'}
+                  <Text style={{fontStyle: 'italic', fontSize: 12}}>
+                    You can unsubscribe from email marketing communications via
+                    the "unsubscribe" link at the bottom of each of our email
+                    promotional communications.
+                  </Text>
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {/* <Text>
+              I aress to receive information by email about offers,
+              services,products and events from Trusty or other group companies,
+              in accordance with the Privacy Policy. You can unsubscribe from
+              email marketing communications via the "unsubscribe" link at the
+              bottom of each of our email promotional communications.
+            </Text> */}
           </View>
+
           <TouchableOpacity style={styles.button} onPress={handleSignup}>
-            <Text style={styles.buttonText}>Create Account</Text>
+            <Text style={styles.buttonText}>Create an account</Text>
           </TouchableOpacity>
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>
@@ -203,10 +257,10 @@ const styles = StyleSheet.create({
     width: hp('45%'),
   },
   title: {
-    fontSize: 24,
+    fontSize: wp('5%'),
     fontWeight: 'bold',
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   headingInput: {
     backgroundColor: globalColors.headingBackground,
@@ -218,41 +272,43 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 20,
+    fontFamily: 'Courier New',
   },
   inputContainer: {
     marginBottom: 20,
   },
   input: {
     borderWidth: 1,
+    height: hp('5.5%'),
     borderColor: globalColors.inputBorder,
     borderRadius: 4,
     padding: 10,
-    marginBottom: 10,
-    fontSize: 16,
+    marginBottom: hp('1.5%'),
+    fontSize: wp('3.1%'),
     backgroundColor: globalColors.white,
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: globalColors.buttonBackground,
     borderRadius: 4,
     paddingVertical: 12,
     paddingHorizontal: 20,
     alignItems: 'center',
   },
   buttonText: {
-    color: 'red',
-    fontSize: 16,
+    color: globalColors.white,
+    fontSize: wp('3.5%'),
   },
   footerContainer: {
     alignItems: 'center',
     marginTop: 20,
   },
   footerText: {
-    fontSize: 16,
+    fontSize: wp('3.1%'),
     color: '#333',
+    marginBottom: hp('4%'),
   },
   footerLink: {
-    fontWeight: 'bold',
-    color: '#4CAF50',
+    color: globalColors.backgroundLight,
     marginLeft: 5,
   },
 
@@ -260,25 +316,29 @@ const styles = StyleSheet.create({
 
   dropdownButtonStyle: {
     height: 50,
+    height: hp('5.5%'),
+    fontSize: wp('3.1%'),
     backgroundColor: globalColors.white,
     borderRadius: 4,
     flexDirection: 'row',
-    // justifyContent: 'center',
+    borderColor: globalColors.inputBorder,
     alignItems: 'center',
     paddingHorizontal: 12,
     borderColor: globalColors.inputBorder,
+    marginBottom: hp('1.5%'),
   },
   dropdownButtonTxtStyle: {
     flex: 1,
-    fontSize: 16,
+    fontSize: wp('3.1%'),
     fontWeight: '500',
     color: 'red',
   },
   dropdownButtonArrowStyle: {
-    fontSize: 28,
+    fontSize: wp('6%'),
+    marginLeft: wp('50%'),
   },
   dropdownButtonIconStyle: {
-    fontSize: 28,
+    fontSize: wp('3.1%'),
     marginRight: 8,
   },
   dropdownMenuStyle: {
@@ -295,13 +355,25 @@ const styles = StyleSheet.create({
   },
   dropdownItemTxtStyle: {
     flex: 1,
-    fontSize: 18,
+    fontSize: wp('3.1%'),
     fontWeight: '500',
-    color: '#151E26',
+    // color: '#151E26',
   },
   dropdownItemIconStyle: {
-    fontSize: 28,
+    fontSize: wp('3.1%'),
     marginRight: 8,
+  },
+  CheckBoxContainer: {
+    width: wp('4.5%'),
+    height: wp('4.5%'),
+    borderWidth: 1,
+    // flexWrap: 'wrap',
+    borderRadius: wp('1.2%'),
+    backgroundColor: globalColors.white,
+    marginRight: wp('2%'),
+  },
+  checkedMark: {
+    color: globalColors.black,
   },
 });
 
