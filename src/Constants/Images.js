@@ -6,7 +6,10 @@ const watches = require('../Assets/Images/watches.png');
 const smallLeatherGoods = require('../Assets/Images/smallLeatherGoods.png');
 const travelBags = require('../Assets/Images/travelBags.png');
 const preview = require('../Assets/Images/preview.png');
-
+const product = require('../Assets/Images/product.png');
+const productBackground = require('../Assets/Images/productBackground.png');
+const HeadingImage = require('../Assets/Images/homeScreen.png');
+const logoHome = require('../Assets/Images/logoHome.png');
 export default {
   icons,
   bag,
@@ -16,4 +19,8 @@ export default {
   smallLeatherGoods,
   travelBags,
   preview,
+  product,
+  productBackground,
+  HeadingImage,
+  logoHome,
 };

@@ -12,7 +12,7 @@ const DrawerNavigation = () => {
   return (
     <Drawer.Navigator screenOptions={screenOptions}>
       <Drawer.Screen name="HomeScreen" component={BottomTabNavigation} />
-      <Drawer.Screen name="Settings" component={Settings} />
+      {/* <Drawer.Screen name="Settings" component={Settings} /> */}
       <Drawer.Screen name="Signup" component={SignupPage} />
     </Drawer.Navigator>
   );
