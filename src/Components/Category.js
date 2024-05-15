@@ -19,26 +19,22 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // height: '100%',
-    // width: '100%',
-    // alignItems: 'center',
-    // marginBottom: 10,
     justifyContent: 'center',
     width: '50%',
     backgroundColor: globalColors.headingBackground,
-    // paddingHorizontal: 10,
   },
   image: {
     width: wp('45%'),
     height: hp('25%'),
     marginBottom: wp('2.5%'),
-    marginLeft: wp('1%'),
   },
   name: {
     width: wp('50%'),
     marginLeft: wp('8%'),
     alignItems: 'flex-end',
     marginBottom: wp('2.5%'),
+    fontFamily: 'Intrepid Regular',
+    fontSize: 18,
     color: globalColors.black,
   },
 });

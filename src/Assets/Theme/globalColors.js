@@ -11,4 +11,5 @@ export const globalColors = {
   productBackground: '#D9D9D9',
   productTextColor: '#262525',
   productPriceText: '#858483',
+  homeScreenBackground: '#441B00',
 };

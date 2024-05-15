@@ -1,5 +1,11 @@
-import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from '../Components/Counter';
 import Category from '../Components/Category';
@@ -12,48 +18,77 @@ import PreviewImage from '../Components/Preview/PreviewImage';
 import {globalColors} from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
 import HeadingImage from '../Components/Preview/HeadingImage';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
+  const [startIndex, setStartIndex] = useState(0);
+
+  const navigateToCategoryProducts = categoryName => {
+    navigation.navigate('CategoryProducts', {categoryName});
+  };
+
   const previewimages = {
     previewImages: Images.preview,
   };
+  const onNextPress = () => {
+    setStartIndex(startIndex => startIndex + 2);
+  };
 
+  const onBackPress = () => {
+    setStartIndex(startIndex => startIndex - 2);
+  };
   const ProductList = [
     {
       id: 1,
       uri: Images.product,
       name: 'Dummy Product 1',
       price: 'AED 100',
+      saved: false,
     },
     {
       id: 2,
       uri: Images.product,
       name: 'Dummy Product 2',
       price: 'AED 200',
+      saved: true,
     },
     {
       id: 3,
       uri: Images.product,
       name: 'Dummy Product 3',
       price: 'AED 300',
+      saved: false,
     },
     {
       id: 4,
       uri: Images.product,
       name: 'Dummy Product 4',
       price: 'AED 400',
+      saved: true,
     },
+
     {
       id: 5,
       uri: Images.product,
       name: 'Dummy Product 5',
       price: 'AED 500',
+      saved: false,
     },
+
     {
       id: 6,
       uri: Images.product,
       name: 'Dummy Product 6',
       price: 'AED 600',
+      saved: false,
+    },
+    {
+      id: 7,
+      uri: Images.product,
+      name: 'Dummy Product 7',
+      price: 'AED 600',
+      saved: false,
     },
   ];
 
@@ -77,37 +112,66 @@ const Home = () => {
         <PreviewImage uri={previewimages.previewImages} />
         <Text style={styles.heading}>Ready To Go</Text>
         <View style={styles.categoryContainer}>
-          {/* <Counter /> */}
           {CategoryList.map(category => (
-            <Category
+            <TouchableOpacity
               key={category.id}
-              uri={category.uri}
-              name={category.name}
-            />
+              onPress={() => navigateToCategoryProducts(category.name)}>
+              <Category
+                key={category.id}
+                uri={category.uri}
+                name={category.name}
+              />
+            </TouchableOpacity>
           ))}
         </View>
         <Text style={styles.heading}>Signature Selections</Text>
-        <PreviewImage uri={previewimages.previewImages} />
+        <PreviewImage style={{height: hp('10%')}} uri={Images.preview1} />
         <View style={{flexDirection: 'column'}}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.productContainer}>
-              {ProductList.map(product => (
+              {ProductList.slice(startIndex, startIndex + 2).map(product => (
                 <Product
                   key={product.id}
                   uri={product.uri}
                   name={product.name}
-                  price={product.price}></Product>
+                  price={product.price}
+                  saved={product.saved}></Product>
               ))}
             </View>
           </ScrollView>
+
+          <TouchableOpacity onPress={onBackPress} disabled={startIndex === 0}>
+            <View style={styles.onBackPress}>
+              <Icon
+                name="keyboard-arrow-left"
+                size={20}
+                color={globalColors.white}
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={onNextPress}
+            disabled={startIndex + 2 >= ProductList.length}
+            style={[styles.arrowButton, {left: 10}]}>
+            <View style={styles.onNextPress}>
+              <Icon
+                name="keyboard-arrow-right"
+                size={20}
+                color={globalColors.white}
+              />
+            </View>
+          </TouchableOpacity>
+
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.productContainer}>
-              {ProductList.map(product => (
+              {ProductList.slice(startIndex, startIndex + 2).map(product => (
                 <Product
                   key={product.id}
                   uri={product.uri}
                   name={product.name}
-                  price={product.price}></Product>
+                  price={product.price}
+                  saved={product.saved}></Product>
               ))}
             </View>
           </ScrollView>
@@ -131,14 +195,10 @@ const styles = StyleSheet.create({
     marginLeft: wp('2.5%'),
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: hp('4%'),
   },
   categoryContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: hp('4%'),
+    marginLeft: wp('12%'),
   },
   image: {
     width: 100,
@@ -151,11 +211,30 @@ const styles = StyleSheet.create({
   },
   heading: {
     textAlign: 'center',
-    fontFamily: 'Georgia, serif',
-    fontWeight: '700',
-    fontSize: 18,
-    marginBottom: hp('3%'),
+    fontFamily: 'Intrepid Regular',
+    fontWeight: '600',
+    fontSize: 22,
+    marginTop: hp('2%'),
+    marginBottom: hp('2%'),
     color: globalColors.black,
+  },
+
+  onBackPress: {
+    alignItems: 'flex-start',
+    backgroundColor: 'black',
+    width: 20,
+    marginLeft: wp('3%'),
+    borderRadius: 20,
+    height: 20,
+  },
+  onNextPress: {
+    alignItems: 'flex-end',
+    marginTop: hp('-2.7%'),
+    marginLeft: wp('90%'),
+    width: 20,
+    height: 20,
+    borderRadius: 20,
+    backgroundColor: globalColors.black,
   },
 });
 

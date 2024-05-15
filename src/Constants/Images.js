@@ -10,6 +10,11 @@ const product = require('../Assets/Images/product.png');
 const productBackground = require('../Assets/Images/productBackground.png');
 const HeadingImage = require('../Assets/Images/homeScreen.png');
 const logoHome = require('../Assets/Images/logoHome.png');
+const homeScreenBackground = require('../Assets/Images/homeScreenBackground.png');
+const saveIconFill = require('../Assets/Images/saveIconFill.png');
+const saveIconUnFill = require('../Assets/Images/saveIconUnFill.png');
+const preview1 = require('../Assets/Images/preview1.png');
+
 export default {
   icons,
   bag,
@@ -23,4 +28,8 @@ export default {
   productBackground,
   HeadingImage,
   logoHome,
+  homeScreenBackground,
+  saveIconFill,
+  saveIconUnFill,
+  preview1,
 };
