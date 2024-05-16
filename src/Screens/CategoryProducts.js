@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
@@ -10,6 +10,9 @@ import {globalColors} from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
 import {Images} from '../Constants';
 import {ScrollView} from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {Picker} from '@react-native-picker/picker';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const CategoryProducts = () => {
   const ProductList = [
@@ -104,6 +107,10 @@ const CategoryProducts = () => {
   const route = useRoute();
   const {categoryName} = route.params;
   const count = 218;
+
+  const [selectedValue, setSelectedValue] = useState('One');
+  const data = ['One', 'Two', 'Three'];
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -113,7 +120,39 @@ const CategoryProducts = () => {
           <Text style={styles.CategoryText}>{categoryName}</Text>
           <Text>({count})</Text>
         </View>
+        {/* <View style={{width: 90}}>
+          <Text>Sort by</Text>
+          <Picker
+            selectedValue={selectedValue}
+            onValueChange={(itemValue, itemIndex) =>
+              setSelectedValue(itemValue)
+            }
+            style={styles.dropdownPicker}>
+            <Picker.Item label="One" value="one" />
+            <Picker.Item label="Two" value="two" />
+            <Picker.Item label="Three" value="three" />
+          </Picker>
+        </View> */}
 
+        <SelectDropdown
+          data={data}
+          onSelect={(selectedItem, index) => setSelectedValue(selectedItem)}
+          buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+          rowTextForSelection={(item, index) => item}
+          buttonStyle={styles.dropdownButtonStyle}
+          buttonTextStyle={styles.dropdownButtonTextStyle}
+          renderDropdownIcon={() => (
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: 10,
+              }}>
+              <Text style={styles.dropdownButtonTextStyle}>{'V'}</Text>
+            </View>
+          )}
+          dropdownStyle={styles.dropdownMenuStyle}
+        />
         <View style={styles.productContainer}>
           {ProductList.map(product => (
             <Product
@@ -150,6 +189,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textTransform: 'uppercase',
     color: globalColors.black,
+  },
+  dropdownPicker: {
+    // height: 40,
+    marginBottom: 10,
+    // backgroundColor: globalColors.white,
+    borderWidth: 1,
+    // borderColor: globalColors.inputBorder,
+    borderRadius: 4,
   },
 });
 

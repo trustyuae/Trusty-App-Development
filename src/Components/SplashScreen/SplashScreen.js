@@ -23,7 +23,7 @@ export default SplashScreen;
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
-    backgroundColor: globalColors.splachTheme,
+    backgroundColor: globalColors.headingBackground,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundSize: 'cover',
