@@ -8,10 +8,42 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import Product from '../../Components/Product/Product';
+import {Images} from '../../Constants';
+
+const ProductList = [
+  {
+    id: 1,
+    uri: Images.product,
+    name: 'Dummy Product 1',
+    price: 'AED 100',
+    saved: false,
+  },
+  {
+    id: 2,
+    uri: Images.product,
+    name: 'Dummy Product 2',
+    price: 'AED 200',
+    saved: true,
+  },
+  {
+    id: 3,
+    uri: Images.product,
+    name: 'Dummy Product 3',
+    price: 'AED 300',
+    saved: false,
+  },
+  {
+    id: 4,
+    uri: Images.product,
+    name: 'Dummy Product 4',
+    price: 'AED 400',
+    saved: true,
+  },
+];
 
 export default function Productdetailscreen() {
   const handlepress = () => {};
-
   return (
     <GestureHandlerRootView>
       <View>
@@ -40,16 +72,28 @@ export default function Productdetailscreen() {
             <Text
               style={{
                 textAlign: 'center',
-                marginTop: 5,
+                marginTop: 8,
                 fontSize: 20,
                 color: '#4b4746',
               }}>
               The Perfect Partner
             </Text>
+
+            <View style={styles.productContainer}>
+              {ProductList.map(product => (
+                <Product
+                  key={product.id}
+                  uri={product.uri}
+                  name={product.name}
+                  price={product.price}
+                  saved={product.saved}></Product>
+              ))}
+            </View>
           </View>
         </ScrollView>
         <Button
-          styles={styles}
+          stylesofbtn={styles.custbtn}
+          styleoffont={styles.custfontstyle}
           handlepress={handlepress}
           name={'Add To Cart'}
         />
@@ -91,5 +135,14 @@ const styles = StyleSheet.create({
   custfontstyle: {
     textAlign: 'center',
     color: 'white',
+  },
+  productContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap:-2,
+    paddingVertical: 10,
+    paddingHorizontal: wp('1%'),
+    marginTop: hp('1%'),
+    marginBottom: hp('7%')
   },
 });

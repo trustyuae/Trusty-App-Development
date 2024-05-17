@@ -36,7 +36,8 @@ const ForgotpasswordScreen = ({navigation}) => {
           />
 
           <Button
-            styles={styles}
+            stylesofbtn={styles.custbtn}
+            styleoffont={styles.custfontstyle}
             handlepress={handlepress}
             name={'Send Reset Password Link'}
           />

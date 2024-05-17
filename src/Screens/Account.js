@@ -1,8 +1,14 @@
-import React from 'react';
-import {Text} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
 const Account = () => {
-  return <Text>Account</Text>;
-};
+  return (
+    <View>
+      <Text>Account</Text>
+    </View>
+  )
+}
 
-export default Account;
+export default Account
+
+const styles = StyleSheet.create({})
