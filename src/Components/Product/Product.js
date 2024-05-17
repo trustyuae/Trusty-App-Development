@@ -1,5 +1,12 @@
-import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,18 +14,23 @@ import {
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
 
-const Product = ({uri, name, price, saved}) => {
+const Product = ({uri, name, price, saved: initialSaved}) => {
+  const [saved, setSaved] = useState(initialSaved);
+
+  const toggleSaved = () => {
+    setSaved(!saved);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={uri}></Image>
-        {saved ? (
-          <Image style={styles.saveImage} source={Images.saveIconFill}></Image>
-        ) : (
+        <Image style={styles.image} source={uri} />
+        <Pressable onPress={toggleSaved} style={styles.saveImage}>
           <Image
-            style={styles.saveImage}
-            source={Images.saveIconUnFill}></Image>
-        )}
+            // style={styles.saveImage}
+            source={saved ? Images.saveIconFill : Images.saveIconUnFill}
+          />
+        </Pressable>
       </View>
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{name}</Text>
@@ -42,7 +54,8 @@ const styles = StyleSheet.create({
     objectFit: 'cover',
     justifyContent: 'center',
     width: wp('46%'),
-    height: hp('25%'),
+    position: 'relative',
+    // height: hp('25%'),
     backgroundColor: globalColors.productBackground,
     // gap: 10,
   },
@@ -69,11 +82,13 @@ const styles = StyleSheet.create({
   },
   saveImage: {
     marginTop: wp('3%'),
-    marginLeft: 'auto',
-    marginRight: wp('6%'),
+    marginLeft: wp('7%'),
+
+    width: wp('3%'),
+    height: hp('4%'),
   },
   image: {
-    marginLeft: wp('12%'),
+    marginLeft: wp('8%'),
   },
 });
 

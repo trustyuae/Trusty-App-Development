@@ -17,10 +17,6 @@ const Category = ({uri, name}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    width: '50%',
     backgroundColor: globalColors.headingBackground,
   },
   image: {
@@ -30,9 +26,8 @@ const styles = StyleSheet.create({
   },
   name: {
     width: wp('50%'),
-    marginLeft: wp('8%'),
-    alignItems: 'flex-end',
     marginBottom: wp('2.5%'),
+    // marginLeft: wp('2%'),
     fontFamily: 'Intrepid Regular',
     fontSize: 18,
     color: globalColors.black,

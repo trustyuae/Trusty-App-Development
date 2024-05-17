@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -19,6 +19,7 @@ import {globalColors} from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
 import HeadingImage from '../Components/Preview/HeadingImage';
 import {useNavigation} from '@react-navigation/native';
+import {Pressable} from 'react-native';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -38,6 +39,11 @@ const Home = () => {
   const onBackPress = () => {
     setStartIndex(startIndex => startIndex - 2);
   };
+
+  useEffect(() => {
+    const productCategory = '';
+  });
+
   const ProductList = [
     {
       id: 1,
@@ -103,6 +109,21 @@ const Home = () => {
       uri: Images.bags,
       name: 'Shoes',
     },
+    {
+      id: 3,
+      uri: Images.bags,
+      name: 'Shoes',
+    },
+    {
+      id: 4,
+      uri: Images.bags,
+      name: 'Shoes',
+    },
+    {
+      id: 5,
+      uri: Images.bags,
+      name: 'Shoes',
+    },
   ];
   return (
     <View style={styles.container}>
@@ -112,17 +133,19 @@ const Home = () => {
         <PreviewImage uri={previewimages.previewImages} />
         <Text style={styles.heading}>Ready To Go</Text>
         <View style={styles.categoryContainer}>
-          {CategoryList.map(category => (
-            <TouchableOpacity
-              key={category.id}
-              onPress={() => navigateToCategoryProducts(category.name)}>
-              <Category
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {CategoryList.map(category => (
+              <Pressable
                 key={category.id}
-                uri={category.uri}
-                name={category.name}
-              />
-            </TouchableOpacity>
-          ))}
+                onPress={() => navigateToCategoryProducts(category.name)}>
+                <Category
+                  key={category.id}
+                  uri={category.uri}
+                  name={category.name}
+                />
+              </Pressable>
+            ))}
+          </ScrollView>
         </View>
         <Text style={styles.heading}>Signature Selections</Text>
         <PreviewImage style={{height: hp('10%')}} uri={Images.preview1} />
@@ -140,28 +163,31 @@ const Home = () => {
             </View>
           </ScrollView>
 
-          <TouchableOpacity onPress={onBackPress} disabled={startIndex === 0}>
-            <View style={styles.onBackPress}>
+          <Pressable
+            onPress={onBackPress}
+            disabled={startIndex === 0}
+            style={styles.onBackPress}>
+            <View>
               <Icon
                 name="keyboard-arrow-left"
                 size={20}
                 color={globalColors.white}
               />
             </View>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity
+          <Pressable
             onPress={onNextPress}
             disabled={startIndex + 2 >= ProductList.length}
-            style={[styles.arrowButton, {left: 10}]}>
-            <View style={styles.onNextPress}>
+            style={[styles.arrowButton, styles.onNextPress, {left: 10}]}>
+            <View>
               <Icon
                 name="keyboard-arrow-right"
                 size={20}
                 color={globalColors.white}
               />
             </View>
-          </TouchableOpacity>
+          </Pressable>
 
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.productContainer}>
@@ -197,8 +223,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   categoryContainer: {
-    flexDirection: 'row',
-    marginLeft: wp('12%'),
+    // flexDirection: 'row',
+
+    marginLeft: wp('2.5%'),
   },
   image: {
     width: 100,

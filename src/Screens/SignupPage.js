@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -16,11 +17,10 @@ import {
 } from 'react-native-responsive-screen';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {CheckBox} from 'react-native-elements';
-// import CountryPicker from 'react-native-country-picker-modal';
-import PhoneInput from 'react-phone-number-input';
-
+import {Picker} from '@react-native-picker/picker';
 import {globalColors} from '../Assets/Theme/globalColors';
+import MobileNo from '../Components/MobileNo';
+import CountrySelect from '../Components/CountrySelect';
 
 const SignupPage = () => {
   const navigation = useNavigation();
@@ -29,14 +29,26 @@ const SignupPage = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
-  const [country, setCountry] = useState('');
   const [checked, setChecked] = useState(false);
-  const [countryCode, setCountryCode] = useState('');
-
-  const onSelectCountry = country => {
-    setCountry(country.name);
-    setCountryCode(country.cca2);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selected, setSelected] = React.useState('+91');
+  const [countries, setCountries] = useState([]);
+  const [phone, setPhone] = React.useState('');
+  const handleCountryChange = value => {
+    setSelectedCountry(value);
   };
+
+  useEffect(() => {
+    fetch(
+      'https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code',
+    )
+      .then(response => response.json())
+      .then(data => {
+        setCountries(data.countries);
+        setSelectedCountry(data.userSelectValue);
+      });
+  }, []);
+
   const handleSignup = () => {
     // Handle signup logic here
     navigation.navigate('DrawerHome');
@@ -59,13 +71,6 @@ const SignupPage = () => {
           <View style={styles.inputContainer}>
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Personal Information</Text>
-              {/* <TextInput
-                style={styles.input}
-                placeholder="Select Title"
-                value={firstName}
-                onChangeText={setFirstName}
-              /> */}
-
               <SelectDropdown
                 data={emojisWithIcons}
                 onSelect={(selectedItem, index) => {
@@ -74,7 +79,12 @@ const SignupPage = () => {
                 renderButton={(selectedItem, isOpen) => {
                   return (
                     <View style={styles.dropdownButtonStyle}>
-                      <Text>
+                      <Text
+                        style={{
+                          fontFamily: 'Intrepid Regular',
+                          fontSize: 14,
+                          color: globalColors.buttonBackground,
+                        }}>
                         {(selectedItem && selectedItem.title) ||
                           'Selected Title'}
                       </Text>
@@ -98,8 +108,6 @@ const SignupPage = () => {
                     </View>
                   );
                 }}
-                // showsVerticalScrollIndicator={false}
-                // dropdownStyle={styles.dropdownMenuStyle}
               />
               <TextInput
                 style={styles.input}
@@ -113,39 +121,38 @@ const SignupPage = () => {
                 value={lastName}
                 onChangeText={setLastName}
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Phone Number"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                keyboardType="phone-pad"
-              />
 
-              {/* <View>
-                <PhoneInput
-                  international
-                  countryCallingCodeEditable={false}
-                  defaultCountry="US"
-                  value={phoneNumber}
-                  onChange={setPhoneNumber}
-                  renderFlag={({countryCode, callingCode, flag}) => (
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      {flag && <PhoneInput.Flag countryCode={countryCode} />}
-                      <Text>{callingCode}</Text>
-                    </View>
-                  )}
-                  placeholder="Enter phone number"
-                />
-              </View> */}
+              <MobileNo
+                selected={selected}
+                setSelected={setSelected}
+                setCountry={setSelectedCountry}
+                phone={phone}
+                setPhone={setPhone}></MobileNo>
             </View>
+
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Billing Information</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Country"
-                value={country}
-                onChangeText={setCountry}
-              />
+
+              <View style={styles.inputPicker}>
+                <Picker
+                  selectedValue={selectedCountry}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setSelectedCountry(itemValue)
+                  }>
+                  {countries.map((country, index) => (
+                    <Picker.Item
+                      key={index}
+                      label={country.label}
+                      value={country.value}
+                      style={{
+                        fontFamily: 'Intrepid Regular',
+                        fontSize: 14,
+                        color: globalColors.buttonBackground,
+                      }}
+                    />
+                  ))}
+                </Picker>
+              </View>
               <TextInput
                 style={styles.input}
                 placeholder="Address"
@@ -167,12 +174,27 @@ const SignupPage = () => {
             </View>
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Shipping Information</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Country"
-                value={country}
-                onChangeText={setCountry}
-              />
+              <View style={styles.inputPicker}>
+                <Picker
+                  selectedValue={selectedCountry}
+                  // styles={{backgroundColor: globalColors.white}}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setSelectedCountry(itemValue)
+                  }>
+                  {countries.map((country, index) => (
+                    <Picker.Item
+                      key={index}
+                      label={country.label}
+                      value={country.value}
+                      style={{
+                        fontFamily: 'Intrepid Regular',
+                        fontSize: 14,
+                        color: globalColors.buttonBackground,
+                      }}
+                    />
+                  ))}
+                </Picker>
+              </View>
               <TextInput
                 style={styles.input}
                 placeholder="Address"
@@ -192,38 +214,31 @@ const SignupPage = () => {
                 onChangeText={setCity}
               />
             </View>
-            <TouchableOpacity onPress={handleCheckboxPress}>
+            <Pressable onPress={handleCheckboxPress}>
               <View style={{flexDirection: 'row'}}>
                 <View style={styles.CheckBoxContainer}>
                   {checked && <Text style={styles.checkedMark}>✓</Text>}
                 </View>
-                <Text style={{fontSize: 14}}>
+                <Text style={{fontSize: 13, fontFamily: 'Intrepid Regular'}}>
                   I agree to receive information by email about offers,
                   services, products and events from Trusty or other group
                   companies, in accordance with the Privacy Policy.{'\n'}
-                  <Text style={{fontStyle: 'italic', fontSize: 12}}>
+                  <Text style={{fontFamily: 'Intrepid Regular', fontSize: 13}}>
                     You can unsubscribe from email marketing communications via
                     the "unsubscribe" link at the bottom of each of our email
                     promotional communications.
                   </Text>
                 </Text>
               </View>
-            </TouchableOpacity>
-            {/* <Text>
-              I aress to receive information by email about offers,
-              services,products and events from Trusty or other group companies,
-              in accordance with the Privacy Policy. You can unsubscribe from
-              email marketing communications via the "unsubscribe" link at the
-              bottom of each of our email promotional communications.
-            </Text> */}
+            </Pressable>
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleSignup}>
+          <Pressable style={styles.button} onPress={handleSignup}>
             <Text style={styles.buttonText}>Create an account</Text>
-          </TouchableOpacity>
+          </Pressable>
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>
-              Already have an account?{' '}
+              Already have an account?
               <Text
                 style={styles.footerLink}
                 onPress={() => navigation.navigate('DrawerHome')}>
@@ -240,9 +255,10 @@ const SignupPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: globalColors.primary,
+    backgroundColor: globalColors.headingBackground,
     alignItems: 'center',
     justifyContent: 'center',
+    fontFamily: 'Intrepid Regular',
   },
   logoContainer: {
     alignItems: 'center',
@@ -258,31 +274,58 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: wp('5%'),
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontSize: 22,
     marginBottom: 20,
     textAlign: 'left',
+    fontFamily: 'Intrepid Regular',
   },
   headingInput: {
+    position: 'absolute',
+    width: 'auto',
+    marginTop: -10,
     backgroundColor: globalColors.headingBackground,
-    width: hp('20%'),
-    marginBottom: wp('4%'),
+    marginLeft: wp('8%'),
+    marginRight: wp('2%'),
+    fontSize: 14,
+    // marginBottom: wp('4%'),
+    fontFamily: 'Intrepid Regular',
   },
   inputSection: {
     marginBottom: wp('6%'),
+    borderWidth: 1,
+    borderColor: globalColors.inputBorder,
+    // width: wp('80%'),
+    padding: 10,
   },
   description: {
     marginBottom: 20,
-    fontFamily: 'Courier New',
+    fontSize: 14,
+    fontFamily: 'Intrepid Regular',
   },
   inputContainer: {
     marginBottom: 20,
   },
   input: {
-    borderWidth: 1,
     height: hp('5.5%'),
+    borderWidth: 1,
     borderColor: globalColors.inputBorder,
     borderRadius: 4,
+    fontFamily: 'Intrepid Regular',
     padding: 10,
+    fontSize: 14,
+    marginBottom: hp('1.5%'),
+    color: globalColors.buttonBackground,
+    backgroundColor: globalColors.white,
+  },
+  inputPicker: {
+    borderWidth: 1,
+    height: hp('5.5%'),
+    justifyContent: 'center',
+    borderColor: globalColors.inputBorder,
+    borderRadius: 4,
+    fontFamily: 'Intrepid Regular',
+    fontSize: 14,
     marginBottom: hp('1.5%'),
     fontSize: wp('3.1%'),
     backgroundColor: globalColors.white,
@@ -297,6 +340,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: globalColors.white,
     fontSize: wp('3.5%'),
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
   },
   footerContainer: {
     alignItems: 'center',
@@ -306,6 +351,8 @@ const styles = StyleSheet.create({
     fontSize: wp('3.1%'),
     color: '#333',
     marginBottom: hp('4%'),
+    fontFamily: 'Intrepid Regular',
+    fontSize: 14,
   },
   footerLink: {
     color: globalColors.backgroundLight,
@@ -321,9 +368,9 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.white,
     borderRadius: 4,
     flexDirection: 'row',
-    borderColor: globalColors.inputBorder,
     alignItems: 'center',
     paddingHorizontal: 12,
+    borderWidth: 1,
     borderColor: globalColors.inputBorder,
     marginBottom: hp('1.5%'),
   },
@@ -335,7 +382,7 @@ const styles = StyleSheet.create({
   },
   dropdownButtonArrowStyle: {
     fontSize: wp('6%'),
-    marginLeft: wp('50%'),
+    marginLeft: wp('45%'),
   },
   dropdownButtonIconStyle: {
     fontSize: wp('3.1%'),
@@ -350,11 +397,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 12,
     justifyContent: 'center',
+    fontFamily: 'Intrepid Regular',
+
     alignItems: 'center',
     paddingVertical: 8,
   },
   dropdownItemTxtStyle: {
     flex: 1,
+    fontFamily: 'Intrepid Regular',
+
     fontSize: wp('3.1%'),
     fontWeight: '500',
     // color: '#151E26',
@@ -367,13 +418,17 @@ const styles = StyleSheet.create({
     width: wp('4.5%'),
     height: wp('4.5%'),
     borderWidth: 1,
-    // flexWrap: 'wrap',
     borderRadius: wp('1.2%'),
     backgroundColor: globalColors.white,
     marginRight: wp('2%'),
   },
   checkedMark: {
     color: globalColors.black,
+  },
+  countryPickerContainer: {
+    paddingHorizontal: wp('5%'),
+    marginBottom: hp('2%'),
+    width: 'auto',
   },
 });
 
