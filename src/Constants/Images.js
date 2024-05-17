@@ -14,7 +14,8 @@ const homeScreenBackground = require('../Assets/Images/homeScreenBackground.png'
 const saveIconFill = require('../Assets/Images/saveIconFill.png');
 const saveIconUnFill = require('../Assets/Images/saveIconUnFill.png');
 const preview1 = require('../Assets/Images/preview1.png');
-
+const confirmationTick = require('../Assets/Images/confirmationTick.png');
+const arrowBack = require('../Assets/Images/ArrowleftDirection.png');
 export default {
   icons,
   bag,
@@ -32,4 +33,6 @@ export default {
   saveIconFill,
   saveIconUnFill,
   preview1,
+  confirmationTick,
+  arrowBack,
 };

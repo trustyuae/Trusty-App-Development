@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     width: wp('45%'),
     height: hp('25%'),
     marginBottom: wp('2.5%'),
+    flexWrap: 'wrap',
   },
   name: {
     width: wp('50%'),
