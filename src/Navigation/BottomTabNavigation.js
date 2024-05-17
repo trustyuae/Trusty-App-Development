@@ -1,39 +1,96 @@
 import React from 'react';
-import {View, Text, Image, Platform} from 'react-native';
+import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, Settings, Watchlist, Cart, Account} from '../Screens';
-import {Icons} from '../Constants';
-import {globalColors} from '../Assets/Theme/globalColors';
+import {Account, Cart, Home, Watchlist} from '../Screens';
+import {
+  ProfileIcon,
+  HomeIcon,
+  SearchIcon,
+  BagIcon,
+  MenuIcon,
+} from '../Constants/Icons';
+
+import CategoryProducts from '../Screens/CategoryProducts';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
-  const screenOptions = {
-    headerShown: false,
-    tabBarStyle: {
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      left: 0,
-      elevation: 0,
-      backgroundColor: globalColors.white,
-    },
-  };
   return (
-    <Tab.Navigator screenOptions={screenOptions}>
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarStyle: {backgroundColor: '#101010', height: 50},
+      })}>
       <Tab.Screen
-        name="Home"
+        name="DrawerHome"
         component={Home}
         options={{
-          tapbarIcon: () => {
-            <Image source={Icons.home} resizeMode="contain"></Image>;
-          },
+          tabBarIcon: () => (
+            <Image
+              source={HomeIcon}
+              style={{width: 20, height: 20}}
+              resizeMode="contain"
+            />
+          ),
+          tabBarShowLabel: false,
         }}
       />
-      {/* <Tab.Screen name="Settings" component={Settings} /> */}
-      <Tab.Screen name="Watchlist" component={Watchlist} />
-      <Tab.Screen name="Cart" component={Cart} />
-      <Tab.Screen name="Account" component={Account} />
+      <Tab.Screen
+        name="Search"
+        component={Cart}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={SearchIcon}
+              style={{width: 15, height: 15}}
+              resizeMode="contain"
+            />
+          ),
+          tabBarShowLabel: false,
+        }}
+      />
+      <Tab.Screen
+        name="Menu"
+        component={Watchlist}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={MenuIcon}
+              style={{width: 40, height: 20}}
+              resizeMode="contain"
+            />
+          ),
+          tabBarShowLabel: false,
+        }}
+      />
+      <Tab.Screen
+        name="Bag"
+        component={Account}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={BagIcon}
+              style={{width: 15, height: 15}}
+              resizeMode="contain"
+            />
+          ),
+          tabBarShowLabel: false,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Watchlist}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              source={ProfileIcon}
+              style={{width: 15, height: 15}}
+              resizeMode="contain"
+            />
+          ),
+          tabBarShowLabel: false,
+        }}
+      />
     </Tab.Navigator>
   );
 };

@@ -105,7 +105,7 @@ const CategoryProducts = () => {
     },
   ];
   const route = useRoute();
-  const {categoryName} = route.params;
+   const {categoryName} = route.params;
   const count = 218;
 
   const [selectedValue, setSelectedValue] = useState('One');

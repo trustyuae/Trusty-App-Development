@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: globalColors.headingBackground,
     marginBottom: hp('6%'),
-
     height: hp('94%'),
     justifyContent: 'center',
   },
