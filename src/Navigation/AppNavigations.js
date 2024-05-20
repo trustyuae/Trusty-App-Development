@@ -5,29 +5,10 @@ import BottomTabNavigation from './BottomTabNavigation';
 import DrawerNavigation from './DrawerNavigation';
 import SplashScreen from '../Components/SplashScreen/SplashScreen';
 import CategoryProducts from '../Screens/CategoryProducts';
-<<<<<<< Updated upstream
-=======
-import ForgotpasswordScreen from '../Screens/Login/ForgotpasswordScreen';
-import Loginscreen from '../Screens/Login/Loginscreen';
-import SignupPage from '../Screens/Login/SignupPage';
-import Productdetailscreen from '../Screens/Productdetail/Productdetailscreen';
-import CartScreen from '../Screens/Cart/CartScreen';
-import Theme from '../Assets/Theme/Theme';
-import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
->>>>>>> Stashed changes
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = () => {
   return (
-<<<<<<< Updated upstream
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="splash"
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name="splash" component={SplashScreen} />
-        <Stack.Screen name="Main" component={DrawerNavigation} />
-        <Stack.Screen name="CategoryProducts" component={CategoryProducts} />
-=======
     <NavigationContainer theme={Theme}>
       <Stack.Navigator initialRouteName="splash">
         <Stack.Screen
@@ -123,7 +104,6 @@ const AppNavigations = () => {
             // },
           }}
         />
->>>>>>> Stashed changes
       </Stack.Navigator>
     </NavigationContainer>
   );
