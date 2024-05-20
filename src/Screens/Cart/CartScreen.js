@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image, TextInput} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,124 +7,131 @@ import {
 import {CartImg} from '../../Constants/Icons';
 import Button from '../../Components/Button';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ProgressSteps, ProgressStep} from 'react-native-progress-steps';
-const CartScreen = () => {
-  const handlepress = () => {};
+import StepperComponet from '../../Components/Stepper/StepperComponet';
+const labels = ['Cart', 'Checkout', 'confirmation'];
 
-  const handleCheckout = () => {};
+const CartScreen = () => {
+  const [count, setCount] = useState(0);
+
+  const handlepress = () => {
+  };
+
+  const handleCheckout = () => {
+    setCount(pre => (count >= 2 ? 0 : pre + 1));
+
+  };
 
   return (
-    <View style={{flex: 1, marginTop: 50}}>
-      <ProgressSteps borderWidth={1} progressBarColor={'#696969'}>
-        <ProgressStep label="First Step" nextBtnText={' next'}>
-          <View>
-            <View style={styles.container}>
-              <Text style={styles.custText}>You have 1 items in your cart</Text>
+    <View>
+      <View style={{marginTop: 90}}>
+        <StepperComponet labels={labels} count={count} stepCount={3} />
+      </View>
+      {count == 0 ? (
+        <View style={styles.container}>
+          <Text style={styles.custText}>You have 1 items in your cart</Text>
 
-              <View style={styles.custborder} />
+          <View style={styles.custborder} />
 
+          <View
+            style={{
+              marginVertical: 15,
+              flexDirection: 'row',
+              gap: 10,
+              justifyContent: 'space-evenly',
+            }}>
+            <View>
+              <Image source={CartImg} />
+            </View>
+            <View>
+              <Text style={{color: 'black'}}>Dummy Product 3 CHANEL</Text>
+              <Text style={{marginVertical: 2, color: '#676766'}}>
+                200,00 AED
+              </Text>
+              <Text style={{marginVertical: 3, color: 'black'}}>
+                Color : <Text style={{color: '#676766'}}>red</Text>{' '}
+              </Text>
+              <Text style={{color: 'black'}}>Size</Text>
+            </View>
+            <View>
+              <Icon name={'close'} size={30} color="black"></Icon>
               <View
                 style={{
-                  marginVertical: 15,
-                  flexDirection: 'row',
-                  gap: 10,
-                  justifyContent: 'space-evenly',
+                  backgroundColor: 'white',
+                  padding: 5,
+                  marginTop: 50,
                 }}>
-                <View>
-                  <Image source={CartImg} />
-                </View>
-                <View>
-                  <Text style={{color: 'black'}}>Dummy Product 3 CHANEL</Text>
-                  <Text style={{marginVertical: 2, color: '#676766'}}>
-                    200,00 AED
-                  </Text>
-                  <Text style={{marginVertical: 3, color: 'black'}}>
-                    Color : <Text style={{color: '#676766'}}>red</Text>{' '}
-                  </Text>
-                  <Text style={{color: 'black'}}>Size</Text>
-                </View>
-                <View>
-                  <Icon name={'close'} size={30} color="black"></Icon>
-                  <View
-                    style={{
-                      backgroundColor: 'white',
-                      padding: 5,
-                      marginTop: 50,
-                    }}>
-                    <Text>- 1 +</Text>
-                  </View>
-                </View>
+                <Text>- 1 +</Text>
               </View>
-
-              <View style={styles.custborder} />
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: 10,
-                }}>
-                <Text style={{fontWeight: 'bold'}}>SUBTOTAL</Text>
-                <Text>200,00 AED</Text>
-              </View>
-
-              <View style={styles.custborder} />
-
-              <View style={{marginVertical: 10}}>
-                <Text style={{fontWeight: 'bold'}}>SHIPPING</Text>
-                <Text style={{marginTop: 5}}>
-                  Delivery fees Cash on Arrival 30 AED
-                </Text>
-                <Text style={{marginTop: 5}}>
-                  Shipping options will be updated during Checkout
-                </Text>
-              </View>
-
-              <View style={styles.custborder} />
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginTop: 10,
-                }}>
-                <Text style={{fontWeight: 'bold'}}>TOTAL</Text>
-                <Text>200,00 AED</Text>
-              </View>
-
-              <View style={styles.custborder} />
-
-              <View style={{marginVertical: 10}}>
-                <Text style={{fontWeight: 'bold', marginVertical: 10}}>
-                  DISCOUNT CODE
-                </Text>
-                <TextInput
-                  type="text"
-                  placeholder="Coupon code"
-                  style={styles.custInput}></TextInput>
-              </View>
-
-              <Button
-                styles={styles}
-                name={'Apply'}
-                handlepress={handlepress}
-              />
-
-              {/* <Button styles={styles} name={"Checkout"} handlepress={handleCheckout} /> */}
             </View>
           </View>
-        </ProgressStep>
-        <ProgressStep label="Second Step">
-          <View style={{alignItems: 'center'}}>
-            <Text>This is the content within step 2!</Text>
+
+          <View style={styles.custborder} />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 10,
+            }}>
+            <Text style={styles.custText}>SUBTOTAL</Text>
+            <Text>200,00 AED</Text>
           </View>
-        </ProgressStep>
-        <ProgressStep label="Third Step">
-          <View style={{alignItems: 'center'}}>
-            <Text>This is the content within step 3!</Text>
+
+          <View style={styles.custborder} />
+
+          <View style={{marginVertical: 10}}>
+            <Text style={styles.custText}>SHIPPING</Text>
+            <Text style={{marginTop: 5}}>
+              Delivery fees Cash on Arrival 30 AED
+            </Text>
+            <Text style={{marginTop: 5}}>
+              Shipping options will be updated during Checkout
+            </Text>
           </View>
-        </ProgressStep>
-      </ProgressSteps>
+
+          <View style={styles.custborder} />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 10,
+            }}>
+            <Text style={styles.custText}>TOTAL</Text>
+            <Text>200,00 AED</Text>
+          </View>
+
+          <View style={styles.custborder} />
+
+          <View style={{marginVertical: 10}}>
+            <Text style={[styles.custText, styles.custmargin]}>
+              DISCOUNT CODE
+            </Text>
+            <TextInput
+              type="text"
+              placeholder="Coupon code"
+              style={styles.custInput}></TextInput>
+          </View>
+
+          <Button
+            stylesofbtn={styles.custbtn}
+            styleoffont={styles.custfontstyle}
+            name={'Apply'}
+            handlepress={handlepress}
+          />
+
+          <Button
+            stylesofbtn={styles.custcheckoutbtn}
+            styleoffont={styles.custfontstyle}
+            name={'Checkout'}
+            handlepress={handleCheckout}
+          />
+        </View>
+      ) : null}
+      {count == 1 ? (
+        <Button  stylesofbtn={styles.custbtn}
+        styleoffont={styles.custfontstyle} name={'Apply'} handlepress={handlepress} />
+      ) : null}
     </View>
   );
 };
@@ -134,10 +141,11 @@ export default CartScreen;
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: wp('3%'),
-    marginTop: hp('1%'),
+    marginTop: hp('2%'),
   },
   custText: {
     fontWeight: 'bold',
+    marginVertical: 5,
   },
   custborder: {
     borderWidth: 0.8,
@@ -162,5 +170,14 @@ const styles = StyleSheet.create({
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
+  },
+  custmargin: {
+    marginBottom: 10,
+  },
+  custcheckoutbtn: {
+    backgroundColor: '#000000',
+    padding: 7,
+    marginVertical: 20,
+    borderRadius: 5,
   },
 });

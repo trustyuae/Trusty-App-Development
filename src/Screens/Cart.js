@@ -1,8 +1,14 @@
-import React from 'react';
-import {Text} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
 const Cart = () => {
-  return <Text>Cart</Text>;
-};
+  return (
+    <View>
+      <Text>Cart</Text>
+    </View>
+  )
+}
 
-export default Cart;
+export default Cart
+
+const styles = StyleSheet.create({})
