@@ -33,9 +33,11 @@ const views1 = [
   },
 ];
 
-function MyCarousel() {
-  const width = Dimensions.get('window').width;
 
+
+function MyCarousel({views1}) {
+  const width = Dimensions.get('window').width;
+ 
   return (
     <View>
       <Carousel
@@ -45,12 +47,14 @@ function MyCarousel() {
         data={views1}
         onSnapToItem={index => console.log(index)}
         renderItem={({item}) => (
+          
           <View
             style={{
               flex: 1,
               justifyContent: 'center',
             }}>
-            <Image source={item.imgUrl} style={styles.Imgcontainer} />
+          
+            <Image source={item?.imgUrl} style={styles.Imgcontainer} />
           </View>
         )}
       />

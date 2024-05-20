@@ -127,6 +127,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from './src/Components/Counter';
 import {persistor} from './src/Redux/Store/store';
 import AppNavigations from './src/Navigation/AppNavigations';
+import {RootSiblingParent} from 'react-native-root-siblings';
+import Toast from 'react-native-toast-message';
 
 function HomeScreen() {
   return (
@@ -160,13 +162,18 @@ function MyTabs() {
 
 export default function App() {
   return (
+  <>
     <Provider store={store}>
       {/* <PersistGate loading={null} persistor={persistor}> */}
       {/* <NavigationContainer>
         <MyTabs />
       </NavigationContainer> */}
+
       <AppNavigations />
+
       {/* </PersistGate> */}
     </Provider>
+     <Toast/>
+    </>
   );
 }

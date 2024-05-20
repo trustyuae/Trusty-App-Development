@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
 import counterReducer from '../Slice/counterSlice';
-import authReducer from "../Slice/authSlice"
+import userSliceReducer from "../Slice/authSlice"
+import getByIdSlice from "../Slice/SingleProductslice"
 
 const rootReducer = combineReducers({
   counter: counterReducer,
-  auth:authReducer
+  user:userSliceReducer,
+  getById:getByIdSlice
 
 });
 

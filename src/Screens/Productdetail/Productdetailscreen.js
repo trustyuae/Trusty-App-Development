@@ -10,6 +10,9 @@ import MyCarousel from '../../Components/MyCarousel';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Product from '../../Components/Product/Product';
 import {Images} from '../../Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchById } from '../../Redux/Slice/SingleProductslice';
 
 const ProductList = [
   {
@@ -43,17 +46,30 @@ const ProductList = [
 ];
 
 export default function Productdetailscreen() {
+  const dispatch=useDispatch()
+  const {loading,error,responseData}=useSelector(state=>state.getById)
+
+
+  useEffect(()=>{
+    dispatch(fetchById(9824))
+  },[])
+
+
+
+
   const handlepress = () => {};
   return (
     <GestureHandlerRootView>
       <View>
         <ScrollView>
-          <MyCarousel />
+
+      <MyCarousel views1={responseData?.images}/>
+        
           <View style={styles.custcontainer}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View>
-                <Text style={styles.cust_text}>Dummy Product 2</Text>
+                <Text style={styles.cust_text}>{responseData?.name}</Text>
               </View>
               <View>
                 <Image source={SaveICon} onPress={() => setSave(false)} />

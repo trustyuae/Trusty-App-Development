@@ -3,7 +3,7 @@ import { Text,View,TouchableOpacity } from 'react-native';
 
 const Watchlist = ({navigation}) => {
   return( <View>
-    <TouchableOpacity onPress={()=>navigation.navigate("Login")}>
+<TouchableOpacity onPress={()=>navigation.navigate("Login")}>
 <Text>Login</Text>
 </TouchableOpacity>
 <TouchableOpacity onPress={()=>navigation.navigate("Singup")}>
