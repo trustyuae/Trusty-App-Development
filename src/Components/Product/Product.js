@@ -15,6 +15,7 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
 
 const Product = ({uri, name, price, saved: initialSaved}) => {
+  console.log('-----', uri);
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {
@@ -24,7 +25,11 @@ const Product = ({uri, name, price, saved: initialSaved}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={uri} />
+        {uri ? (
+          <Image style={styles.image} source={{uri: uri}} resizeMode="cover" />
+        ) : (
+          <Text style={styles.errorText}>Image not available</Text>
+        )}
         <Pressable onPress={toggleSaved} style={styles.saveImage}>
           <Image
             // style={styles.saveImage}
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    objectFit: 'cover',
+    objectFit: 'resizeMode',
     justifyContent: 'center',
     width: wp('46%'),
     position: 'relative',

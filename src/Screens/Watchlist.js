@@ -1,14 +1,17 @@
 import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Cart from './Cart';
+import {useNavigation} from '@react-navigation/native';
 
 const Watchlist = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
         Comming Soon
       </Text>
-      {/* <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
@@ -22,7 +25,7 @@ const Watchlist = () => {
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('ThankYou')}>
         <Text>ThankYou</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       {/* <Cart></Cart> */}
     </View>
   );

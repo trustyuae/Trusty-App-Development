@@ -5,6 +5,13 @@ import BottomTabNavigation from './BottomTabNavigation';
 import DrawerNavigation from './DrawerNavigation';
 import SplashScreen from '../Components/SplashScreen/SplashScreen';
 import CategoryProducts from '../Screens/CategoryProducts';
+import ForgotpasswordScreen from '../Screens/Login/ForgotpasswordScreen';
+import Loginscreen from '../Screens/Login/Loginscreen';
+import SignupPage from '../Screens/Login/SignupPage';
+import Productdetailscreen from '../Screens/Productdetail/Productdetailscreen';
+import CartScreen from '../Screens/Cart/CartScreen';
+import Theme from '../Assets/Theme/Theme';
+import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = () => {

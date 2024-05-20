@@ -20,10 +20,23 @@ import Product from '../../Components/Product/Product';
 import HeadingImage from '../../Components/Preview/HeadingImage';
 import {useNavigation} from '@react-navigation/native';
 import {Pressable} from 'react-native';
+import {fetchCategories} from '../../Redux/Slice/categorySlice';
+import {fetchProducts} from '../../Redux/Slice/productSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Home = () => {
   const navigation = useNavigation();
   const [startIndex, setStartIndex] = useState(0);
+  const dispatch = useDispatch();
+  const {categories, categoryStatus, categoryError} = useSelector(
+    state => state.category,
+  ); // Select category state from Redux store
+  const {products, status, error} = useSelector(state => state.product);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   const navigateToCategoryProducts = categoryName => {
     navigation.navigate('CategoryProducts', {categoryName});
@@ -33,16 +46,12 @@ const Home = () => {
     previewImages: Images.preview,
   };
   const onNextPress = () => {
-    setStartIndex(startIndex => startIndex + 2);
+    setStartIndex(startIndex => startIndex + 4);
   };
 
   const onBackPress = () => {
-    setStartIndex(startIndex => startIndex - 2);
+    setStartIndex(startIndex => Math.max(0, startIndex - 4));
   };
-
-  useEffect(() => {
-    const productCategory = '';
-  });
 
   const ProductList = [
     {
@@ -96,20 +105,36 @@ const Home = () => {
       price: 'AED 600',
       saved: false,
     },
+    {
+      id: 8,
+      uri: Images.product,
+      name: 'Dummy Product 8',
+      price: 'AED 600',
+      saved: false,
+    },
+    {
+      id: 9,
+      uri: Images.product,
+      name: 'Dummy Product 9',
+      price: 'AED 600',
+      saved: false,
+    },
+    {
+      id: 10,
+      uri: Images.product,
+      name: 'Dummy Product 10',
+      price: 'AED 600',
+      saved: false,
+    },
+    {
+      id: 11,
+      uri: Images.product,
+      name: 'Dummy Product 11',
+      price: 'AED 600',
+      saved: false,
+    },
   ];
 
-  const CategoryList = [
-    {
-      id: 1,
-      uri: Images.bag,
-      name: 'Bags',
-    },
-    {
-      id: 2,
-      uri: Images.bags,
-      name: 'Shoes',
-    },
-  ];
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -118,35 +143,34 @@ const Home = () => {
         <PreviewImage uri={previewimages.previewImages} />
         <Text style={styles.heading}>Ready To Go</Text>
         <View style={styles.categoryContainer}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {CategoryList.map(category => (
-              <Pressable
+          {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
+          {categories.map(category => (
+            <Pressable
+              key={category.id}
+              onPress={() => navigateToCategoryProducts(category.name)}>
+              <Category
                 key={category.id}
-                onPress={() => navigateToCategoryProducts(category.name)}>
-                <Category
-                  key={category.id}
-                  uri={category.uri}
-                  name={category.name}
-                />
-              </Pressable>
-            ))}
-          </ScrollView>
+                uri={category?.image?.src}
+                name={category.name}
+              />
+            </Pressable>
+          ))}
+          {/* </ScrollView> */}
         </View>
         <Text style={styles.heading}>Signature Selections</Text>
         <PreviewImage style={{height: hp('10%')}} uri={Images.preview1} />
         <View style={{flexDirection: 'column'}}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View style={styles.productContainer}>
-              {ProductList.slice(startIndex, startIndex + 2).map(product => (
-                <Product
-                  key={product.id}
-                  uri={product.uri}
-                  name={product.name}
-                  price={product.price}
-                  saved={product.saved}></Product>
-              ))}
-            </View>
-          </ScrollView>
+          <View style={styles.productContainer}>
+            {products.slice(startIndex, startIndex + 4).map(product => (
+              <Product
+                key={product.id}
+                uri={product?.images[0]?.src}
+                name={product.name}
+                price={product.price}
+                saved={product.saved}></Product>
+            ))}
+          </View>
+          {/* </ScrollView> */}
 
           <Pressable
             onPress={onBackPress}
@@ -163,7 +187,7 @@ const Home = () => {
 
           <Pressable
             onPress={onNextPress}
-            disabled={startIndex + 2 >= ProductList.length}
+            disabled={startIndex + 4 >= ProductList.length}
             style={[styles.arrowButton, styles.onNextPress, {left: 10}]}>
             <View>
               <Icon
@@ -174,18 +198,18 @@ const Home = () => {
             </View>
           </Pressable>
 
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View style={styles.productContainer}>
-              {ProductList.slice(startIndex, startIndex + 2).map(product => (
-                <Product
-                  key={product.id}
-                  uri={product.uri}
-                  name={product.name}
-                  price={product.price}
-                  saved={product.saved}></Product>
-              ))}
-            </View>
-          </ScrollView>
+          {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
+          <View style={styles.productContainer}>
+            {products.slice(startIndex + 2, startIndex + 4).map(product => (
+              <Product
+                key={product.id}
+                uri={product?.images[0]?.src}
+                name={product.name}
+                price={product.price}
+                saved={product.saved}></Product>
+            ))}
+          </View>
+          {/* </ScrollView> */}
         </View>
       </ScrollView>
     </View>
@@ -195,8 +219,6 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: globalColors.headingBackground,
-    marginBottom: hp('6%'),
-    height: hp('94%'),
     justifyContent: 'center',
   },
   productContainer: {
@@ -207,10 +229,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   categoryContainer: {
-    // flexDirection: 'row',
-    // flexWrap: 'wrap',
-
-    marginLeft: wp('2.5%'),
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   image: {
     width: 100,
