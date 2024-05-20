@@ -18,9 +18,11 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
-import {globalColors} from '../Assets/Theme/globalColors';
-import MobileNo from '../Components/MobileNo';
-import CountrySelect from '../Components/CountrySelect';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import MobileNo from '../../Components/MobileNo';
+import CountrySelect from '../../Components/CountrySelect';
+import Home from '../Home/Home';
+import Header from '../../Components/Header';
 
 const SignupPage = () => {
   const navigation = useNavigation();
@@ -238,10 +240,10 @@ const SignupPage = () => {
           </Pressable>
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>
-              Already have an account?
+              Already have an account?{' '}
               <Text
                 style={styles.footerLink}
-                onPress={() => navigation.navigate('DrawerHome')}>
+                onPress={() => navigation.navigate('Login')}>
                 Log in
               </Text>
             </Text>
@@ -271,12 +273,15 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: hp('45%'),
+    // marginTop: hp('5%'),
   },
   title: {
     fontSize: wp('5%'),
     // fontWeight: 'bold',
     fontSize: 22,
     marginBottom: 20,
+    marginTop: hp('10%'),
+
     textAlign: 'left',
     fontFamily: 'Intrepid Regular',
   },
@@ -356,7 +361,6 @@ const styles = StyleSheet.create({
   },
   footerLink: {
     color: globalColors.backgroundLight,
-    marginLeft: 5,
   },
 
   //---------------------------------------------

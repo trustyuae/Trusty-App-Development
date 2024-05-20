@@ -111,10 +111,15 @@ const styles = StyleSheet.create({
     fontSize: wp('5%'),
     padding: wp('5%'),
     fontWeight: '600',
+    fontSize: 22,
+    fontFamily: 'Intrepid Regular',
   },
   inputfield: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
+    marginBottom: hp('2%'),
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
     borderColor: '#dbccc1',
     paddingHorizontal: wp('5%'),
     borderRadius: 1,
@@ -135,26 +140,29 @@ const styles = StyleSheet.create({
   },
   custforgotpasstext: {
     textAlign: 'right',
-    marginTop: hp('0.9%'),
+    marginTop: hp('-0.5%'),
     marginBottom: hp('4%'),
+    fontFamily: 'Intrepid Regular',
+    fontSize: 12,
     fontWeight: '600',
   },
   custposition: {
     position: 'relative',
-    marginTop: 20,
   },
   cust_icon: {
     position: 'absolute',
     right: 14,
     top: 15,
   },
-  errorText: {
-    color: 'red',
-    margin: 2,
+  custbtn: {
+    backgroundColor: 'black',
+    padding: wp('3%'),
+    borderRadius: 5,
   },
-  createAccountText: {
+  custfontstyle: {
+    color: 'white',
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
     textAlign: 'center',
-    marginTop: 10,
-    color: '#684934',
   },
 });

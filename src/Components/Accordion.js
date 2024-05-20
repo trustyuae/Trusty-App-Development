@@ -19,6 +19,7 @@ const Accordion = () => {
           paddingTop: -5,
           borderBottomWidth: expandedSize ? 0 : 1,
           borderBottomColor: '#D8D8D8',
+          fontFamily: 'Intrepid Regular',
         }}
         onPress={() => setExpandedSize(!expandedSize)}>
         {expandedSize && (
@@ -120,6 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     marginTop: -6,
+    fontFamily: 'Intrepid Regular',
   },
   custBorder: {
     marginTop: 13,

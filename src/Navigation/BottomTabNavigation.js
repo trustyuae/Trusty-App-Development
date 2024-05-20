@@ -1,7 +1,8 @@
 import React from 'react';
-import {Image} from 'react-native';
+import {View, Text, Image, Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Account, Cart, Home, Watchlist} from '../Screens';
+import {Account, Cart, SignupPage, Watchlist} from '../Screens';
+import Home from '../Screens/Home/Home';
 import {
   ProfileIcon,
   HomeIcon,
@@ -11,18 +12,26 @@ import {
 } from '../Constants/Icons';
 
 import CategoryProducts from '../Screens/CategoryProducts';
+import Loginscreen from '../Screens/Login/Loginscreen';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
+  const screenOptions = {
+    headerShown: false,
+    tabBarStyle: {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      left: 0,
+      elevation: 0,
+      backgroundColor: globalColors.white,
+    },
+  };
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        headerShown: false,
-        tabBarStyle: {backgroundColor: '#101010', height: 50},
-      })}>
+    <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
-        name="DrawerHome"
+        name="Home"
         component={Home}
         options={{
           tabBarIcon: () => (
@@ -78,8 +87,8 @@ const BottomTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={Watchlist}
+        name="Login"
+        component={Loginscreen}
         options={{
           tabBarIcon: () => (
             <Image
@@ -91,6 +100,10 @@ const BottomTabNavigation = () => {
           tabBarShowLabel: false,
         }}
       />
+      {/* <Tab.Screen name="Settings" component={Settings} /> */}
+      <Tab.Screen name="Watchlist" component={Watchlist} />
+      <Tab.Screen name="Cart" component={Cart} />
+      <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
 };
