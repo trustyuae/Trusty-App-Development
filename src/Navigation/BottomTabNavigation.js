@@ -1,11 +1,6 @@
 import React from 'react';
 import {View, Text, Image, Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-<<<<<<< Updated upstream
-import {Home, Settings, Watchlist, Cart, Account} from '../Screens';
-import {Icons} from '../Constants';
-import {globalColors} from '../Assets/Theme/globalColors';
-=======
 import {Account, Cart, SignupPage, Watchlist} from '../Screens';
 import Home from '../Screens/Home/Home';
 import {
@@ -18,7 +13,6 @@ import {
 
 import CategoryProducts from '../Screens/CategoryProducts';
 import Loginscreen from '../Screens/Login/Loginscreen';
->>>>>>> Stashed changes
 
 const Tab = createBottomTabNavigator();
 
@@ -40,11 +34,6 @@ const BottomTabNavigation = () => {
         name="Home"
         component={Home}
         options={{
-<<<<<<< Updated upstream
-          tapbarIcon: () => {
-            <Image source={Icons.home} resizeMode="contain"></Image>;
-          },
-=======
           tabBarIcon: () => (
             <Image
               source={HomeIcon}
@@ -109,7 +98,6 @@ const BottomTabNavigation = () => {
             />
           ),
           tabBarShowLabel: false,
->>>>>>> Stashed changes
         }}
       />
       {/* <Tab.Screen name="Settings" component={Settings} /> */}

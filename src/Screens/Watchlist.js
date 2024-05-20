@@ -1,10 +1,4 @@
 import React from 'react';
-<<<<<<< Updated upstream
-import { Text } from 'react-native';
-
-const Watchlist = () => {
-  return <Text>Watchlist</Text>;
-=======
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Cart from './Cart';
 
@@ -32,7 +26,6 @@ const Watchlist = () => {
       {/* <Cart></Cart> */}
     </View>
   );
->>>>>>> Stashed changes
 };
 const styles = StyleSheet.create({
   container: {
