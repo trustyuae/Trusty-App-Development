@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, Platform} from 'react-native';
+import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Account, Cart, SignupPage, Watchlist} from '../Screens';
 import Home from '../Screens/Home/Home';
@@ -17,21 +17,14 @@ import Loginscreen from '../Screens/Login/Loginscreen';
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
-  const screenOptions = {
-    headerShown: false,
-    tabBarStyle: {
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      left: 0,
-      elevation: 0,
-      backgroundColor: globalColors.white,
-    },
-  };
   return (
-    <Tab.Navigator screenOptions={screenOptions}>
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarStyle: {backgroundColor: '#101010', height: 50},
+      })}>
       <Tab.Screen
-        name="Home"
+        name="DrawerHome"
         component={Home}
         options={{
           tabBarIcon: () => (
@@ -100,10 +93,6 @@ const BottomTabNavigation = () => {
           tabBarShowLabel: false,
         }}
       />
-      {/* <Tab.Screen name="Settings" component={Settings} /> */}
-      <Tab.Screen name="Watchlist" component={Watchlist} />
-      <Tab.Screen name="Cart" component={Cart} />
-      <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
 };

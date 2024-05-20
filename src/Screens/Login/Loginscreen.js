@@ -6,41 +6,22 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useNavigation} from '@react-navigation/native';
 
-const Loginscreen = ({navigation}) => {
-  const [showPassword, setShowPassword] = useState(true);
-  const [errors, setErrors] = useState({
+const Loginscreen = () => {
+  const navigation = useNavigation();
+
+  const [show, setShow] = useState(true);
+  const [value, setValues] = useState({
     email: '',
     password: '',
   });
 
-  const [values, setValues] = useState({
-    email: '',
-    password: '',
-  });
-
-  const validateEmail = email => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
+  const handlechange = (key, value) => {
+    setValues(pre => ({...pre, [key]: value}));
   };
 
-  const handlePress = () => {
-    if (!validateEmail(values.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
-      return;
-    } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
-    }
-    if (values.password.length < 6) {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        password: 'Password must be at least 6 characters long',
-      }));
-      return;
-    } else {
-      setErrors(prevErrors => ({...prevErrors, password: ''}));
-    }
-  };
+  const handlepress = () => {};
 
   return (
     <View>
@@ -51,33 +32,33 @@ const Loginscreen = ({navigation}) => {
           <TextInput
             style={styles.inputfield}
             placeholder="E-mail"
-            value={values.email}
-            onChangeText={text =>
-              setValues(prevValues => ({...prevValues, email: text}))
-            }
+            value={value.email}
+            onChangeText={text => handlechange('email', text)}
           />
-          {errors.email !== '' && (
-            <Text style={styles.errorText}>{errors.email}</Text>
-          )}
+
           <View style={styles.custposition}>
             <TextInput
               style={styles.inputfield}
               placeholder="Password"
-              value={values.password}
-              secureTextEntry={showPassword}
-              onChangeText={text =>
-                setValues(prevValues => ({...prevValues, password: text}))
-              }
+              value={value.password}
+              secureTextEntry={show ? true : false}
+              onChangeText={text => handlechange('password', text)}
             />
-            {errors.password !== '' && (
-              <Text style={styles.errorText}>{errors.password}</Text>
+            {show ? (
+              <Icon
+                name="eye-off-outline"
+                size={20}
+                style={styles.cust_icon}
+                onPress={() => setShow(false)}
+              />
+            ) : (
+              <Icon
+                name="eye-outline"
+                size={20}
+                style={styles.cust_icon}
+                onPress={() => setShow(true)}
+              />
             )}
-            <Icon
-              name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-              size={20}
-              style={styles.cust_icon}
-              onPress={() => setShowPassword(prevShow => !prevShow)}
-            />
           </View>
 
           <Text
@@ -89,11 +70,21 @@ const Loginscreen = ({navigation}) => {
           <Button
             stylesofbtn={styles.custbtn}
             styleoffont={styles.custfontstyle}
-            handlepress={handlePress}
-            name={'Continue'}
+            handlepress={handlepress}
+            name={'Contiune'}
           />
 
-          <Text style={styles.createAccountText}>Create a new account</Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              marginTop: 10,
+              color: '#684934',
+              fontSize: 16,
+              fontFamily: 'Intrepid Regular',
+            }}
+            onPress={() => navigation.navigate('Signup')}>
+            Create a new account
+          </Text>
         </View>
       </View>
     </View>
