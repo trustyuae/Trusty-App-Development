@@ -13,6 +13,7 @@ import {ScrollView} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Picker} from '@react-native-picker/picker';
 import SelectDropdown from 'react-native-select-dropdown';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CategoryProducts = () => {
   const ProductList = [
@@ -105,11 +106,12 @@ const CategoryProducts = () => {
     },
   ];
   const route = useRoute();
-   const {categoryName} = route.params;
+  const {categoryName} = route.params;
   const count = 218;
 
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
+  const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
 
   return (
     <View style={styles.container}>
@@ -120,39 +122,100 @@ const CategoryProducts = () => {
           <Text style={styles.CategoryText}>{categoryName}</Text>
           <Text>({count})</Text>
         </View>
-        {/* <View style={{width: 90}}>
-          <Text>Sort by</Text>
-          <Picker
-            selectedValue={selectedValue}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }
-            style={styles.dropdownPicker}>
-            <Picker.Item label="One" value="one" />
-            <Picker.Item label="Two" value="two" />
-            <Picker.Item label="Three" value="three" />
-          </Picker>
-        </View> */}
-
-        <SelectDropdown
-          data={data}
-          onSelect={(selectedItem, index) => setSelectedValue(selectedItem)}
-          buttonTextAfterSelection={(selectedItem, index) => selectedItem}
-          rowTextForSelection={(item, index) => item}
-          buttonStyle={styles.dropdownButtonStyle}
-          buttonTextStyle={styles.dropdownButtonTextStyle}
-          renderDropdownIcon={() => (
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 10,
-              }}>
-              <Text style={styles.dropdownButtonTextStyle}>{'V'}</Text>
-            </View>
-          )}
-          dropdownStyle={styles.dropdownMenuStyle}
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginRight: 10,
+            borderBottomColor: '#ccc',
+            marginBottom: 10,
+            marginTop: 10,
+          }}
         />
+
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: wp('48%'),
+            justifyContent: 'center',
+          }}>
+          <SelectDropdown
+            data={emojisWithIcons}
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index);
+            }}
+            // style={{marginLeft: 0}}
+            renderButton={(selectedItem, isOpen) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text
+                    style={{
+                      fontFamily: 'Intrepid Regular',
+                      fontSize: 15,
+                      color: globalColors.buttonBackground,
+                    }}>
+                    {(selectedItem && selectedItem.title) || 'filter'}
+                  </Text>
+                  <Icon
+                    name={isOpen ? 'chevron-up' : 'chevron-down'}
+                    style={styles.dropdownButtonArrowStyle}
+                  />
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <View
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                  }}>
+                  <Text style={{fontSize: 14, fontFamily: 'Intrepid Regular'}}>
+                    {item}
+                  </Text>
+                </View>
+              );
+            }}
+          />
+          <SelectDropdown
+            data={emojisWithIcons}
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index);
+            }}
+            // style={{marginLeft: 0}}
+            renderButton={(selectedItem, isOpen) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text
+                    style={{
+                      fontFamily: 'Intrepid Regular',
+                      fontSize: 15,
+                      color: globalColors.buttonBackground,
+                    }}>
+                    {(selectedItem && selectedItem.title) || 'Sort By'}
+                  </Text>
+                  <Icon
+                    name={isOpen ? 'chevron-up' : 'chevron-down'}
+                    style={styles.dropdownButtonArrowStyle}
+                  />
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <View
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                  }}>
+                  <Text style={{fontSize: 14, fontFamily: 'Intrepid Regular'}}>
+                    {item}
+                  </Text>
+                </View>
+              );
+            }}
+          />
+        </View>
+
         <View style={styles.productContainer}>
           {ProductList.map(product => (
             <Product
@@ -170,10 +233,9 @@ const CategoryProducts = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: wp('3%'),
-    // marginBottom: hp('6%'),
+    marginLeft: wp('2%'),
+    alignContent: 'center',
 
-    // height: hp('9%'),
     backgroundColor: globalColors.headingBackground,
   },
   productContainer: {
@@ -184,19 +246,24 @@ const styles = StyleSheet.create({
   },
   TextHeading: {
     fontSize: 10,
+    marginTop: hp('5%'),
   },
   CategoryText: {
     fontSize: 25,
     textTransform: 'uppercase',
     color: globalColors.black,
   },
-  dropdownPicker: {
-    // height: 40,
-    marginBottom: 10,
-    // backgroundColor: globalColors.white,
-    borderWidth: 1,
-    // borderColor: globalColors.inputBorder,
-    borderRadius: 4,
+
+  dropdownItemStyle: {
+    position: 'relative',
+    textAlign: 'center',
+    marginLeft: 5,
+    width: 80,
+    height: 30,
+  },
+  dropdownButtonStyle: {
+    width: 80,
+    flexDirection: 'row',
   },
 });
 

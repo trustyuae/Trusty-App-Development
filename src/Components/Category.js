@@ -9,7 +9,7 @@ import {globalColors} from '../Assets/Theme/globalColors';
 const Category = ({uri, name}) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={uri}></Image>
+      <Image style={styles.image} source={{uri: uri}}></Image>
       <Text style={styles.name}>{name}</Text>
     </View>
   );
@@ -18,19 +18,20 @@ const Category = ({uri, name}) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: globalColors.headingBackground,
+    gap: 10,
+    marginHorizontal: 5,
   },
   image: {
-    width: wp('45%'),
+    width: wp('46%'),
     height: hp('25%'),
     marginBottom: wp('2.5%'),
   },
   name: {
-    width: wp('50%'),
     marginBottom: wp('2.5%'),
-    // marginLeft: wp('2%'),
     fontFamily: 'Intrepid Regular',
     fontSize: 18,
     color: globalColors.black,
+    textTransform: 'capitalize',
   },
 });
 

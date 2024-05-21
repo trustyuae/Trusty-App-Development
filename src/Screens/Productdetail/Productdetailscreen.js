@@ -44,7 +44,6 @@ const ProductList = [
     saved: true,
   },
 ];
-
 export default function Productdetailscreen() {
   const dispatch=useDispatch()
   const {loading,error,responseData}=useSelector(state=>state.getById)
@@ -83,18 +82,16 @@ export default function Productdetailscreen() {
             </View>
             <Accordion />
           </View>
-
           <View style={{borderTopWidth: 1, borderColor: '#DBCCC1'}}>
             <Text
               style={{
                 textAlign: 'center',
                 marginTop: 8,
                 fontSize: 20,
-                color: '#4b4746',
+                color: '#4B4746',
               }}>
               The Perfect Partner
             </Text>
-
             <View style={styles.productContainer}>
               {ProductList.map(product => (
                 <Product
@@ -117,7 +114,6 @@ export default function Productdetailscreen() {
     </GestureHandlerRootView>
   );
 }
-
 const styles = StyleSheet.create({
   Imgcontainer: {
     width: wp('100%'),
@@ -142,7 +138,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginHorizontal: 110,
     borderRadius: 5,
-    marginVertical: 5,
+    marginVertical: 0,
     position: 'absolute',
     bottom: 40,
     left: 20,
@@ -155,10 +151,10 @@ const styles = StyleSheet.create({
   productContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap:-2,
+    gap: -2,
     paddingVertical: 10,
     paddingHorizontal: wp('1%'),
     marginTop: hp('1%'),
-    marginBottom: hp('7%')
+    marginBottom: hp('7%'),
   },
 });

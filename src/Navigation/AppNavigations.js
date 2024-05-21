@@ -1,15 +1,16 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import DrawerNavigation from './DrawerNavigation';
 import SplashScreen from '../Components/SplashScreen/SplashScreen';
 import CategoryProducts from '../Screens/CategoryProducts';
 import ForgotpasswordScreen from '../Screens/Login/ForgotpasswordScreen';
 import Loginscreen from '../Screens/Login/Loginscreen';
-import {SignupPage} from '../Screens';
+import SignupPage from '../Screens/Login/SignupPage';
 import Productdetailscreen from '../Screens/Productdetail/Productdetailscreen';
 import CartScreen from '../Screens/Cart/CartScreen';
 import Theme from '../Assets/Theme/Theme';
+import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
+import BottomTabNavigation from './BottomTabNavigation';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = () => {
@@ -25,7 +26,7 @@ const AppNavigations = () => {
         />
         <Stack.Screen
           name="Main"
-          component={DrawerNavigation}
+          component={BottomTabNavigation}
           options={{
             headerShown: false,
           }}
@@ -63,7 +64,7 @@ const AppNavigations = () => {
         />
 
         <Stack.Screen
-          name="Singup"
+          name="Signup"
           component={SignupPage}
           options={{
             headerTransparent: true,
@@ -95,6 +96,18 @@ const AppNavigations = () => {
             headerStyle: {
               backgroundColor: '#f6f1eb',
             },
+          }}
+        />
+
+        <Stack.Screen
+          name="ThankYou"
+          component={ThankYouScreen}
+          options={{
+            headerTransparent: true,
+            title: null,
+            // headerStyle: {
+            //   backgroundColor: '#f6f1eb',
+            // },
           }}
         />
       </Stack.Navigator>

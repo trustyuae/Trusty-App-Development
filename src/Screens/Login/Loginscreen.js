@@ -7,7 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
-import {loginUser } from '../../Redux/Slice/authSlice';
+import {loginUser} from '../../Redux/Slice/loginslice';
 
 const Loginscreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -25,8 +25,8 @@ const Loginscreen = ({navigation}) => {
   }, [userData]);
 
   const [values, setValues] = useState({
-    email:'',
-    password:'',
+    email: '',
+    password: '',
   });
 
   const validateEmail = email => {
@@ -36,9 +36,9 @@ const Loginscreen = ({navigation}) => {
 
   const handlePress = () => {
     if (!values.email) {
-      setErrors(prevErrors => ({...prevErrors, email:'email is required'}));
+      setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
     } else if (!validateEmail(values.email)) {
-      setErrors(prevErrors => ({...prevErrors, email:'Invalid email'}));
+      setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
       return;
     } else {
       setErrors(prevErrors => ({...prevErrors, email: ''}));
@@ -46,7 +46,7 @@ const Loginscreen = ({navigation}) => {
     if (values.password.length < 6) {
       setErrors(prevErrors => ({
         ...prevErrors,
-        password:'Password must be at least 6 characters long',
+        password: 'Password must be at least 6 characters long',
       }));
       return;
     } else {
@@ -114,7 +114,7 @@ const Loginscreen = ({navigation}) => {
               name={'Continue'}
             />
 
-            <Text style={styles.createAccountText}>Create a new account</Text>
+            <Text style={styles.createAccountText} onPress={()=>navigation.navigate("Signup")}>Create a new account</Text>
           </View>
           <Text></Text>
         </View>
@@ -134,10 +134,15 @@ const styles = StyleSheet.create({
     fontSize: wp('5%'),
     padding: wp('5%'),
     fontWeight: '600',
+    fontSize: 22,
+    fontFamily: 'Intrepid Regular',
   },
   inputfield: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
+    marginBottom: hp('2%'),
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
     borderColor: '#dbccc1',
     paddingHorizontal: wp('5%'),
     borderRadius: 1,
@@ -158,26 +163,37 @@ const styles = StyleSheet.create({
   },
   custforgotpasstext: {
     textAlign: 'right',
-    marginTop: hp('0.9%'),
+    marginTop: hp('-0.5%'),
     marginBottom: hp('4%'),
+    fontFamily: 'Intrepid Regular',
+    fontSize: 12,
     fontWeight: '600',
   },
   custposition: {
     position: 'relative',
-    marginTop: 20,
   },
   cust_icon: {
     position: 'absolute',
     right: 14,
     top: 15,
   },
-  errorText: {
-    color: 'red',
-    margin: 2,
+  custbtn: {
+    backgroundColor: 'black',
+    padding: wp('3%'),
+    borderRadius: 5,
+  },
+  custfontstyle: {
+    color: 'white',
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
+    textAlign: 'center',
   },
   createAccountText: {
     textAlign: 'center',
-    marginTop: 10,
-    color: '#684934',
+    marginVertical: 15,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: -13,
   },
 });

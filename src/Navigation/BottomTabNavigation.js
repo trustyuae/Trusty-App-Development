@@ -1,7 +1,8 @@
 import React from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Account, Cart, Home, Watchlist} from '../Screens';
+import {Account, Cart, SignupPage, Watchlist} from '../Screens';
+import Home from '../Screens/Home/Home';
 import {
   ProfileIcon,
   HomeIcon,
@@ -11,6 +12,7 @@ import {
 } from '../Constants/Icons';
 
 import CategoryProducts from '../Screens/CategoryProducts';
+import Loginscreen from '../Screens/Login/Loginscreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -78,8 +80,8 @@ const BottomTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={Watchlist}
+        name="Login"
+        component={Loginscreen}
         options={{
           tabBarIcon: () => (
             <Image

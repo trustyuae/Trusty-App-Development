@@ -18,26 +18,58 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
-import {globalColors} from '../Assets/Theme/globalColors';
-import MobileNo from '../Components/MobileNo';
-import CountrySelect from '../Components/CountrySelect';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import MobileNo from '../../Components/MobileNo';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {signupUser} from '../../Redux/Slice/authSlice';
 
 const SignupPage = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
+  const [addressContinued, setAddressContinued] = useState('');
   const [city, setCity] = useState('');
   const [checked, setChecked] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selected, setSelected] = React.useState('+91');
   const [countries, setCountries] = useState([]);
   const [phone, setPhone] = React.useState('');
+  const [show, setShow] = useState(true);
+
+  const [value, setValues] = useState({
+    email: '',
+    password: '',
+  });
+  const {loading, error} = useSelector(state => state.auth);
+
+  const isValidEmail = email => {
+    // Regular expression for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isValidPassword = password => {
+    // Check if password length is at least 8 characters
+    return password.length >= 8;
+  };
+
+  const isValidName = name => {
+    // Check if name contains only alphabetic characters
+    const nameRegex = /^[a-zA-Z]+$/;
+    return nameRegex.test(name);
+  };
+
   const handleCountryChange = value => {
     setSelectedCountry(value);
   };
-
+  const handlechange = (key, value) => {
+    setValues(pre => ({...pre, [key]: value}));
+  };
   useEffect(() => {
     fetch(
       'https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code',
@@ -48,14 +80,63 @@ const SignupPage = () => {
         setSelectedCountry(data.userSelectValue);
       });
   }, []);
-
+  const clearForm = () => {
+    setFirstName('');
+    setLastName('');
+    setPhoneNumber('');
+    setAddress('');
+    setAddressContinued('');
+    setCity('');
+    setChecked(false);
+    setSelectedCountry('');
+    setSelected('+91');
+    setPhone('');
+    setShow(true);
+    setValues({email: '', password: ''});
+  };
   const handleSignup = () => {
-    // Handle signup logic here
-    navigation.navigate('DrawerHome');
+    if (!isValidEmail(value.email)) {
+      console.log('Please enter a valid email address');
+      return;
+    }
+    if (!isValidPassword(value.password)) {
+      console.log('Password must be at least 8 characters long');
+      return;
+    }
+    if (!isValidName(firstName)) {
+      console.log('First name should contain only alphabetic characters');
+      return;
+    }
+    if (!isValidName(lastName)) {
+      console.log('Last name should contain only alphabetic characters');
+      return;
+    }
+    const userData = {
+      title: selectedTitle,
+      email: value.email,
+      password: value.password,
+      first_name: firstName,
+      last_name: lastName,
+      phone: phone,
+      address: address + (addressContinued ? ', ' + addressContinued : ''),
+      city,
+      country: selectedCountry,
+    };
+    console.log('userData-------------', userData);
+    dispatch(signupUser(userData)).then(action => {
+      if (signupUser.fulfilled.match(action)) {
+        clearForm();
+        navigation.navigate('DrawerHome');
+      }
+    });
   };
 
   const handleCheckboxPress = () => {
-    setChecked(!checked);
+    if (checked) {
+      handleSignup();
+    } else {
+      console.log('please check the mark');
+    }
   };
   const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
   return (
@@ -71,6 +152,38 @@ const SignupPage = () => {
           <View style={styles.inputContainer}>
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Personal Information</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="E-mail"
+                value={value.email}
+                onChangeText={text => handlechange('email', text)}
+              />
+
+              <View style={styles.custposition}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  value={value.password}
+                  secureTextEntry={show ? true : false}
+                  onChangeText={text => handlechange('password', text)}
+                />
+                {show ? (
+                  <Icon
+                    name="eye-off-outline"
+                    size={20}
+                    style={styles.cust_icon}
+                    onPress={() => setShow(false)}
+                  />
+                ) : (
+                  <Icon
+                    name="eye-outline"
+                    size={20}
+                    style={styles.cust_icon}
+                    onPress={() => setShow(true)}
+                  />
+                )}
+              </View>
+
               <SelectDropdown
                 data={emojisWithIcons}
                 onSelect={(selectedItem, index) => {
@@ -157,13 +270,15 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="Address"
                 value={address}
-                onChangeText={setAddress}
+                onChangeText={text =>
+                  setAddress(prevAddress => prevAddress + text)
+                }
               />
               <TextInput
                 style={styles.input}
                 placeholder="Address Continued"
-                value={address}
-                onChangeText={setAddress}
+                value={addressContinued}
+                onChangeText={text => setAddressContinued(text)}
               />
               <TextInput
                 style={styles.input}
@@ -238,10 +353,10 @@ const SignupPage = () => {
           </Pressable>
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>
-              Already have an account?
+              Already have an account?{' '}
               <Text
                 style={styles.footerLink}
-                onPress={() => navigation.navigate('DrawerHome')}>
+                onPress={() => navigation.navigate('Login')}>
                 Log in
               </Text>
             </Text>
@@ -265,18 +380,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 20,
   },
+  custposition: {
+    position: 'relative',
+  },
+  cust_icon: {
+    position: 'absolute',
+    right: 14,
+    marginTop: wp('3%'),
+  },
   logo: {
     width: 150,
     height: 150,
   },
   formContainer: {
     width: hp('45%'),
+    // marginTop: hp('5%'),
   },
   title: {
     fontSize: wp('5%'),
     // fontWeight: 'bold',
     fontSize: 22,
     marginBottom: 20,
+    marginTop: hp('10%'),
+
     textAlign: 'left',
     fontFamily: 'Intrepid Regular',
   },
@@ -356,7 +482,6 @@ const styles = StyleSheet.create({
   },
   footerLink: {
     color: globalColors.backgroundLight,
-    marginLeft: 5,
   },
 
   //---------------------------------------------

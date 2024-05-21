@@ -10,12 +10,20 @@ const Cart = () => {
   },[])
 
   return (
-    <View>
-      <Text>Cart</Text>
+    <View style={styles.container}>
+      <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
+        Comming Soon
+      </Text>
     </View>
-  )
-}
+  );
+};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
 
-export default Cart
-
-const styles = StyleSheet.create({})
+    backgroundColor: '#F6F1EB',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+export default Cart;

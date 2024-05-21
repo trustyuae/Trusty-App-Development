@@ -23,7 +23,12 @@ const ForgotpasswordScreen = ({navigation}) => {
         <Text style={styles.headingtext}>Forgot Your Password?</Text>
 
         <View style={styles.custContainer}>
-          <Text style={{fontWeight: '600'}}>
+          <Text
+            style={{
+              fontWeight: '600',
+              fontFamily: 'Intrepid Regular',
+              fontSize: 14,
+            }}>
             Enter the email address associated with account and we will send you
             a link to reset your password
           </Text>
@@ -57,12 +62,15 @@ const styles = StyleSheet.create({
   headingtext: {
     fontSize: 20,
     padding: 20,
-    fontWeight: 'bold',
+    fontFamily: 'Intrepid Regular',
+    // fontWeight: 'bold',
+    fontSize: 22,
   },
   inputfield: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
     marginTop: hp('3%'),
+    fontFamily: 'Intrepid Regular',
     marginBottom: hp('3%'),
     paddingHorizontal: wp('5%'),
     borderColor: '#dbccc1',
@@ -77,9 +85,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: wp('3%'),
     borderRadius: 5,
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
   },
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
   },
 });
