@@ -33,7 +33,6 @@ const Watchlist = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: '#F6F1EB',
     justifyContent: 'center',
     alignItems: 'center',

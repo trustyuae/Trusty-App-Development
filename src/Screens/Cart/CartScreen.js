@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, Image, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import React, {useState} from 'react';
 import {
   widthPercentageToDP as wp,
@@ -13,126 +20,130 @@ const labels = ['Cart', 'Checkout', 'confirmation'];
 const CartScreen = () => {
   const [count, setCount] = useState(0);
 
-  const handlepress = () => {
-  };
+  const handlepress = () => {};
 
   const handleCheckout = () => {
     setCount(pre => (count >= 2 ? 0 : pre + 1));
-
   };
 
   return (
-    <View>
-      <View style={{marginTop: 90}}>
-        <StepperComponet labels={labels} count={count} stepCount={3} />
-      </View>
-      {count == 0 ? (
-        <View style={styles.container}>
-          <Text style={styles.custText}>You have 1 items in your cart</Text>
+    <ScrollView>
+      <View>
+        <View style={{marginTop: 90}}>
+          <StepperComponet labels={labels} count={count} stepCount={3} />
+        </View>
+        {count == 0 ? (
+          <View style={styles.container}>
+            <Text style={styles.custText}>You have 1 items in your cart</Text>
 
-          <View style={styles.custborder} />
+            <View style={styles.custborder} />
 
-          <View
-            style={{
-              marginVertical: 15,
-              flexDirection: 'row',
-              gap: 10,
-              justifyContent: 'space-evenly',
-            }}>
-            <View>
-              <Image source={CartImg} />
-            </View>
-            <View>
-              <Text style={{color: 'black'}}>Dummy Product 3 CHANEL</Text>
-              <Text style={{marginVertical: 2, color: '#676766'}}>
-                200,00 AED
-              </Text>
-              <Text style={{marginVertical: 3, color: 'black'}}>
-                Color : <Text style={{color: '#676766'}}>red</Text>{' '}
-              </Text>
-              <Text style={{color: 'black'}}>Size</Text>
-            </View>
-            <View>
-              <Icon name={'close'} size={30} color="black"></Icon>
-              <View
-                style={{
-                  backgroundColor: 'white',
-                  padding: 5,
-                  marginTop: 50,
-                }}>
-                <Text>- 1 +</Text>
+            <View
+              style={{
+                marginVertical: 15,
+                flexDirection: 'row',
+                gap: 10,
+                justifyContent: 'space-evenly',
+              }}>
+              <View>
+                <Image source={CartImg} />
+              </View>
+              <View>
+                <Text style={{color: 'black'}}>Dummy Product 3 CHANEL</Text>
+                <Text style={{marginVertical: 2, color: '#676766'}}>
+                  200,00 AED
+                </Text>
+                <Text style={{marginVertical: 3, color: 'black'}}>
+                  Color : <Text style={{color: '#676766'}}>red</Text>{' '}
+                </Text>
+                <Text style={{color: 'black'}}>Size</Text>
+              </View>
+              <View>
+                <Icon name={'close'} size={30} color="black"></Icon>
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    padding: 5,
+                    marginTop: 50,
+                  }}>
+                  <Text>- 1 +</Text>
+                </View>
               </View>
             </View>
+
+            <View style={styles.custborder} />
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginVertical: 10,
+              }}>
+              <Text style={styles.custText}>SUBTOTAL</Text>
+              <Text>200,00 AED</Text>
+            </View>
+
+            <View style={styles.custborder} />
+
+            <View style={{marginVertical: 10}}>
+              <Text style={styles.custText}>SHIPPING</Text>
+              <Text style={{marginTop: 5}}>
+                Delivery fees Cash on Arrival 30 AED
+              </Text>
+              <Text style={{marginTop: 5}}>
+                Shipping options will be updated during Checkout
+              </Text>
+            </View>
+
+            <View style={styles.custborder} />
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 10,
+              }}>
+              <Text style={styles.custText}>TOTAL</Text>
+              <Text>200,00 AED</Text>
+            </View>
+
+            <View style={styles.custborder} />
+
+            <View style={{marginVertical: 10}}>
+              <Text style={[styles.custText, styles.custmargin]}>
+                DISCOUNT CODE
+              </Text>
+              <TextInput
+                type="text"
+                placeholder="Coupon code"
+                style={styles.custInput}></TextInput>
+            </View>
+
+            <Button
+              stylesofbtn={styles.custbtn}
+              styleoffont={styles.custfontstyle}
+              name={'Apply'}
+              handlepress={handlepress}
+            />
+
+            <Button
+              stylesofbtn={styles.custcheckoutbtn}
+              styleoffont={styles.custfontstyle}
+              name={'Checkout'}
+              handlepress={handleCheckout}
+            />
           </View>
-
-          <View style={styles.custborder} />
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 10,
-            }}>
-            <Text style={styles.custText}>SUBTOTAL</Text>
-            <Text>200,00 AED</Text>
-          </View>
-
-          <View style={styles.custborder} />
-
-          <View style={{marginVertical: 10}}>
-            <Text style={styles.custText}>SHIPPING</Text>
-            <Text style={{marginTop: 5}}>
-              Delivery fees Cash on Arrival 30 AED
-            </Text>
-            <Text style={{marginTop: 5}}>
-              Shipping options will be updated during Checkout
-            </Text>
-          </View>
-
-          <View style={styles.custborder} />
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 10,
-            }}>
-            <Text style={styles.custText}>TOTAL</Text>
-            <Text>200,00 AED</Text>
-          </View>
-
-          <View style={styles.custborder} />
-
-          <View style={{marginVertical: 10}}>
-            <Text style={[styles.custText, styles.custmargin]}>
-              DISCOUNT CODE
-            </Text>
-            <TextInput
-              type="text"
-              placeholder="Coupon code"
-              style={styles.custInput}></TextInput>
-          </View>
-
+        ) : null}
+        {count == 1 ? (
           <Button
             stylesofbtn={styles.custbtn}
             styleoffont={styles.custfontstyle}
             name={'Apply'}
             handlepress={handlepress}
           />
-
-          <Button
-            stylesofbtn={styles.custcheckoutbtn}
-            styleoffont={styles.custfontstyle}
-            name={'Checkout'}
-            handlepress={handleCheckout}
-          />
-        </View>
-      ) : null}
-      {count == 1 ? (
-        <Button  stylesofbtn={styles.custbtn}
-        styleoffont={styles.custfontstyle} name={'Apply'} handlepress={handlepress} />
-      ) : null}
-    </View>
+        ) : null}
+      </View>
+    </ScrollView>
   );
 };
 

@@ -1,6 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
+
+import { getToken } from '../Utils/localstorage';
+
 const Cart = () => {
+  useEffect(()=>{
+   let data= getToken()
+   console.log(data);
+  },[])
+
   return (
     <View style={styles.container}>
       <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>

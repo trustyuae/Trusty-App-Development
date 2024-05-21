@@ -1,8 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import BottomTabNavigation from './BottomTabNavigation';
-import DrawerNavigation from './DrawerNavigation';
 import SplashScreen from '../Components/SplashScreen/SplashScreen';
 import CategoryProducts from '../Screens/CategoryProducts';
 import ForgotpasswordScreen from '../Screens/Login/ForgotpasswordScreen';
@@ -12,6 +10,7 @@ import Productdetailscreen from '../Screens/Productdetail/Productdetailscreen';
 import CartScreen from '../Screens/Cart/CartScreen';
 import Theme from '../Assets/Theme/Theme';
 import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
+import BottomTabNavigation from './BottomTabNavigation';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = () => {

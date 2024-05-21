@@ -1,93 +1,125 @@
-import {StyleSheet, Text, View, TextInput} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../Components/Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginUser} from '../../Redux/Slice/loginslice';
 
-const Loginscreen = () => {
-  const navigation = useNavigation();
-
-  const [show, setShow] = useState(true);
-  const [value, setValues] = useState({
+const Loginscreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {loading, error, userData} = useSelector(state => state?.user);
+  const [showPassword, setShowPassword] = useState(true);
+  const [errors, setErrors] = useState({
     email: '',
     password: '',
   });
 
-  const handlechange = (key, value) => {
-    setValues(pre => ({...pre, [key]: value}));
+  useEffect(() => {
+    if (userData) {
+      navigation.navigate('Cart');
+    }
+  }, [userData]);
+
+  const [values, setValues] = useState({
+    email: '',
+    password: '',
+  });
+
+  const validateEmail = email => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
   };
 
-  const handlepress = () => {};
+  const handlePress = () => {
+    if (!values.email) {
+      setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
+    } else if (!validateEmail(values.email)) {
+      setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
+      return;
+    } else {
+      setErrors(prevErrors => ({...prevErrors, email: ''}));
+    }
+    if (values.password.length < 6) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        password: 'Password must be at least 6 characters long',
+      }));
+      return;
+    } else {
+      setErrors(prevErrors => ({...prevErrors, password: ''}));
+    }
+
+    const {email, password} = values;
+    const ChangeKey = {
+      username: email,
+      password: password,
+    };
+
+    dispatch(loginUser(ChangeKey));
+  };
 
   return (
-    <View>
-      <View style={styles.logincontainer}>
-        <Text style={styles.headingtext}>Sign In</Text>
+    <ScrollView>
+      <View>
+        <View style={styles.logincontainer}>
+          <Text style={styles.headingtext}>Sign In</Text>
 
-        <View style={styles.custContainer}>
-          <TextInput
-            style={styles.inputfield}
-            placeholder="E-mail"
-            value={value.email}
-            onChangeText={text => handlechange('email', text)}
-          />
-
-          <View style={styles.custposition}>
+          <View style={styles.custContainer}>
             <TextInput
               style={styles.inputfield}
-              placeholder="Password"
-              value={value.password}
-              secureTextEntry={show ? true : false}
-              onChangeText={text => handlechange('password', text)}
+              placeholder="E-mail"
+              value={values.email}
+              onChangeText={text =>
+                setValues(prevValues => ({...prevValues, email: text}))
+              }
             />
-            {show ? (
-              <Icon
-                name="eye-off-outline"
-                size={20}
-                style={styles.cust_icon}
-                onPress={() => setShow(false)}
-              />
-            ) : (
-              <Icon
-                name="eye-outline"
-                size={20}
-                style={styles.cust_icon}
-                onPress={() => setShow(true)}
-              />
+            {errors.email !== '' && (
+              <Text style={styles.errorText}>{errors.email}</Text>
             )}
+            <View style={styles.custposition}>
+              <TextInput
+                style={styles.inputfield}
+                placeholder="Password"
+                value={values.password}
+                secureTextEntry={showPassword}
+                onChangeText={text =>
+                  setValues(prevValues => ({...prevValues, password: text}))
+                }
+              />
+              {errors.password !== '' && (
+                <Text style={styles.errorText}>{errors.password}</Text>
+              )}
+              <Icon
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={20}
+                style={styles.cust_icon}
+                onPress={() => setShowPassword(prevShow => !prevShow)}
+              />
+            </View>
+
+            <Text
+              style={styles.custforgotpasstext}
+              onPress={() => navigation.navigate('Forgotpassword')}>
+              Forgot Password?
+            </Text>
+
+            <Button
+              stylesofbtn={styles.custbtn}
+              styleoffont={styles.custfontstyle}
+              handlepress={handlePress}
+              name={'Continue'}
+            />
+
+            <Text style={styles.createAccountText} onPress={()=>navigation.navigate("Signup")}>Create a new account</Text>
           </View>
-
-          <Text
-            style={styles.custforgotpasstext}
-            onPress={() => navigation.navigate('Forgotpassword')}>
-            Forgot Password?
-          </Text>
-
-          <Button
-            stylesofbtn={styles.custbtn}
-            styleoffont={styles.custfontstyle}
-            handlepress={handlepress}
-            name={'Contiune'}
-          />
-
-          <Text
-            style={{
-              textAlign: 'center',
-              marginTop: 10,
-              color: '#684934',
-              fontSize: 16,
-              fontFamily: 'Intrepid Regular',
-            }}
-            onPress={() => navigation.navigate('Signup')}>
-            Create a new account
-          </Text>
+          <Text></Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -155,5 +187,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
     textAlign: 'center',
+  },
+  createAccountText: {
+    textAlign: 'center',
+    marginVertical: 15,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: -13,
   },
 });
