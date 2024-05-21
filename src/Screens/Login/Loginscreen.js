@@ -112,6 +112,7 @@ const Loginscreen = ({navigation}) => {
               styleoffont={styles.custfontstyle}
               handlepress={handlePress}
               name={'Continue'}
+              loading={loading}
             />
 
             <Text style={styles.createAccountText} onPress={()=>navigation.navigate("Signup")}>Create a new account</Text>

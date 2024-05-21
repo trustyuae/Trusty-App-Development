@@ -129,6 +129,7 @@ import {persistor} from './src/Redux/Store/store';
 import AppNavigations from './src/Navigation/AppNavigations';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import Toast from 'react-native-toast-message';
+import { configureFonts, MD3LightTheme, PaperProvider } from 'react-native-paper';
 
 function HomeScreen() {
   return (
@@ -160,9 +161,18 @@ function MyTabs() {
   );
 }
 
+const fontConfig = {
+  fontFamily: 'Intrepid Regular',
+};
+
+const theme = {
+  
+  fonts: configureFonts({config: fontConfig}),
+};
 export default function App() {
   return (
   <>
+   <PaperProvider theme={theme}>
     <Provider store={store}>
       {/* <PersistGate loading={null} persistor={persistor}> */}
       {/* <NavigationContainer>
@@ -174,6 +184,7 @@ export default function App() {
       {/* </PersistGate> */}
     </Provider>
      <Toast/>
+     </PaperProvider>
     </>
   );
 }

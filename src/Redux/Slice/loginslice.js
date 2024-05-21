@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error?.response?.data);
+      return rejectWithValue(error?.response?.data?.message);
     }
   },
 );
@@ -67,10 +67,10 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'An error occurred';
+        state.error =  'Invalid credentials'||action.error.message ;
         Toast.show({
           type: 'error',
-          text1: action.error.message,
+          text1: 'Invalid credentials',
           visibilityTime: 2000,
         });
       })
@@ -91,7 +91,7 @@ const userSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'An error occurred during logout';
+        state.error =  'An error occurred during logout'||action.error.message;
         Toast.show({
           type: 'error',
           text1: action.error.message,

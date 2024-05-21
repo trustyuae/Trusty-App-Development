@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import {SaveICon} from '../../Constants/Icons';
+import {DummyProductimg, SaveICon} from '../../Constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -13,6 +13,7 @@ import {Images} from '../../Constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchById } from '../../Redux/Slice/SingleProductslice';
+
 
 const ProductList = [
   {
@@ -50,9 +51,8 @@ export default function Productdetailscreen() {
 
 
   useEffect(()=>{
-    dispatch(fetchById(9824))
+    dispatch(fetchById(10173))
   },[])
-
 
 
 
@@ -63,10 +63,11 @@ export default function Productdetailscreen() {
         <ScrollView>
 
       <MyCarousel views1={responseData?.images}/>
+      {/* <MyCarousel /> */}
         
           <View style={styles.custcontainer}>
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              style={{flexDirection: 'row', justifyContent:'space-between'}}>
               <View>
                 <Text style={styles.cust_text}>{responseData?.name}</Text>
               </View>
@@ -74,13 +75,14 @@ export default function Productdetailscreen() {
                 <Image source={SaveICon} onPress={() => setSave(false)} />
               </View>
             </View>
-            <Text style={styles.custAEDtext}>AED 100,00</Text>
+            <Text style={styles.custAEDtext}>AED {responseData?.price}</Text>
             <View style={{borderBottomWidth: 1, borderColor: '#D8D8D8'}}>
               <Text style={{color: '#86D973', marginBottom: '10'}}>
-                In stock
+                {responseData?.stock_status}
               </Text>
             </View>
-            <Accordion />
+            <Accordion  Size={responseData?.attributes[0].options}/>
+            {/* <DummyAccordion attributes={responseData?.attributes}/> */}
           </View>
           <View style={{borderTopWidth: 1, borderColor: '#DBCCC1'}}>
             <Text
@@ -109,6 +111,7 @@ export default function Productdetailscreen() {
           styleoffont={styles.custfontstyle}
           handlepress={handlepress}
           name={'Add To Cart'}
+          
         />
       </View>
     </GestureHandlerRootView>
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
   },
   custcontainer: {
     marginHorizontal: wp('3%'),
-    marginTop: hp('1%'),
+    marginTop:hp("-5%")
   },
   cust_text: {
     fontWeight: '500',

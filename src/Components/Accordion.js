@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {List} from 'react-native-paper';
 import {Dummyproduct1, Dummyproduct2} from '../Constants/Icons';
 
-const Accordion = () => {
+const Accordion = ({Size}) => {
   const [expandedSize, setExpandedSize] = useState(true);
   const [expandedimg, setExpandedimg] = useState(true);
   const [expandedproductDetail, setProductDetail] = useState(false);
@@ -25,13 +25,12 @@ const Accordion = () => {
         {expandedSize && (
           <>
             <View style={styles.custView}>
+          {Size?.map((item)=>(
               <View style={[styles.custcontainer]}>
-                <Text style={styles.custboldtext}>L</Text>
+                <Text style={styles.custboldtext}>{item}</Text>
               </View>
-              <View style={styles.custcontainer}>
-                <Text style={styles.custboldtext}>M</Text>
-              </View>
-            </View>
+              
+             ))}</View>
             <View style={styles.custBorder} />
           </>
         )}
