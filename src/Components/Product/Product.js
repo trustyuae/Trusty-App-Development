@@ -15,7 +15,7 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
 
 const Product = ({uri, name, price, saved: initialSaved}) => {
-  console.log('-----', uri);
+
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {
@@ -26,7 +26,7 @@ const Product = ({uri, name, price, saved: initialSaved}) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         {uri ? (
-          <Image style={styles.image} source={{uri: uri}} resizeMode="cover" />
+          <Image style={styles.image} source={uri} resizeMode="cover" />
         ) : (
           <Text style={styles.errorText}>Image not available</Text>
         )}

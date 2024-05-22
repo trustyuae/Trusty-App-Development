@@ -6,4 +6,7 @@ export const USER_LOGOUT_REQUEST=' USER_LOGOUT_REQUEST'
 
 export const GET_SINGLE_PRODUCT='GET_SINGLE_PRODUCT'
 
+export const POST_API="POST_API"
+
+
 

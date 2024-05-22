@@ -8,7 +8,6 @@ const Account = () => {
   const dispatch=useDispatch()
   const {loading,error,responseData}=useSelector(state=>state.getById)
 
-  console.log("state---------->",responseData);
 
   useEffect(()=>{
     dispatch(fetchById(3276))

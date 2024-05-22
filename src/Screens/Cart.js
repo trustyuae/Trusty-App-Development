@@ -12,7 +12,7 @@ const Cart = () => {
   return (
     <View style={styles.container}>
       <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
-        Comming Soon
+        Comming Soon 
       </Text>
     </View>
   );
