@@ -5,9 +5,20 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Button from '../../Components/Button';
+import {useDispatch, useSelector} from 'react-redux';
+import {postApi} from '../../Redux/Slice/postApiSlice';
 
 const ForgotpasswordScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+   const {loading, error, postData} = useSelector(state => state.post);
+
+
+console.log("postData",postData.reset_link);
   const [value, setValues] = useState({
+    email: '',
+  })
+
+  const [errors, setErrors] = useState({
     email: '',
   });
 
@@ -15,7 +26,22 @@ const ForgotpasswordScreen = ({navigation}) => {
     setValues(pre => ({...pre, [key]: value}));
   };
 
-  const handlepress = () => {};
+  const validateEmail = email => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
+  const handlepress = () => {
+    if (!value.email) {
+      setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
+    } else if (!validateEmail(value.email)) {
+      setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
+      return;
+    } else {
+      setErrors(prevErrors => ({...prevErrors, email: ''}));
+    }
+    dispatch(postApi(value));
+  };
 
   return (
     <View>
@@ -39,12 +65,14 @@ const ForgotpasswordScreen = ({navigation}) => {
             value={value.email}
             onChangeText={text => handlechange('email', text)}
           />
+          {errors && <Text style={styles.errorText}>{errors.email}</Text>}
 
           <Button
             stylesofbtn={styles.custbtn}
             styleoffont={styles.custfontstyle}
             handlepress={handlepress}
             name={'Send Reset Password Link'}
+             loading={loading}
           />
         </View>
       </View>
@@ -93,5 +121,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: -24,
+    marginBottom: 20,
   },
 });

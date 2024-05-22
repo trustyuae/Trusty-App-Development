@@ -9,8 +9,8 @@ export const fetchById = createAsyncThunk(
     try {
       const response = await axios.get(`${baseURL}/wc/v3/products/${id}`,{
         auth: {
-            username: "ck_74025587053512828ec315f206d134bc313d97cb",
-            password: "cs_72ca42854e72b72e3143a14d79fd0a91c649fbeb"
+            username:"ck_74025587053512828ec315f206d134bc313d97cb",
+            password:"cs_72ca42854e72b72e3143a14d79fd0a91c649fbeb"
           }
       })
       return response.data;

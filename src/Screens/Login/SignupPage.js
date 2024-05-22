@@ -125,17 +125,13 @@ const SignupPage = () => {
       city,
       country: selectedCountry,
     };
-    console.log('userData-------------', userData);
-    dispatch(signupUser(userData))
-      .then(action => {
-        if (signupUser.fulfilled.match(action)) {
-          clearForm();
-          navigation.navigate('DrawerHome');
-        }
-      })
-      .catch(err => {
-        console.error('Signup failed', err);
-      });
+
+    dispatch(signupUser(userData)).then(action => {
+      if (signupUser.fulfilled.match(action)) {
+        clearForm();
+        navigation.navigate('DrawerHome');
+      }
+    });
   };
 
   const handleCheckboxPress = () => {

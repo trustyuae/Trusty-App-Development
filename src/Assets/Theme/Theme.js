@@ -5,7 +5,7 @@ const Theme = {
     background: globalColors.headingBackground,
   },
   fonts: {
-    fontFamily: 'Intrepid Regular',
+    fontFamily:'Intrepid Regular',
   },
 };
 

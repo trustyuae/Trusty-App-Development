@@ -15,7 +15,6 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
 
 const Product = ({uri, name, price, saved: initialSaved}) => {
-  console.log('-----', uri);
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {

@@ -5,6 +5,7 @@ import getByIdSlice from '../Slice/SingleProductslice';
 import productReducer from '../Slice/productSlice';
 import categoryReducer from '../Slice/categorySlice';
 import authReducer from '../Slice/authSlice';
+import postApiSlice from '../Slice/postApiSlice';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   getById: getByIdSlice,
   user: userSliceReducer,
   getById: getByIdSlice,
+  post: postApiSlice,
 });
 
 export default rootReducer;
