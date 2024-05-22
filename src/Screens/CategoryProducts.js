@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
@@ -14,6 +14,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {Picker} from '@react-native-picker/picker';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from 'axios';
 
 const CategoryProducts = () => {
   const ProductList = [
@@ -106,8 +107,28 @@ const CategoryProducts = () => {
     },
   ];
   const route = useRoute();
-  const {categoryName} = route.params;
-  const count = 218;
+  const {category} = route.params;
+  const [productss, setProducts] = useState([]);
+  const count = productss?.length;
+
+  useEffect(() => {
+    const fetchCategoryProducts = async () => {
+      try {
+        const response = await axios.get(
+          `https://ghostwhite-guanaco-836757.hostingersite.com/wp-json/wc/v3/products?category=${category.id}&consumer_key=ck_74025587053512828ec315f206d134bc313d97cb&consumer_secret=cs_72ca42854e72b72e3143a14d79fd0a91c649fbeb`,
+        );
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching category products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategoryProducts();
+  }, [category.id]);
+
+  // console.log('###########', products?.name);
 
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
@@ -119,7 +140,7 @@ const CategoryProducts = () => {
         <Text style={styles.TextHeading}>Women</Text>
         <View
           style={{flexDirection: 'row', alignItems: 'baseline', fontSize: 12}}>
-          <Text style={styles.CategoryText}>{categoryName}</Text>
+          <Text style={styles.CategoryText}>{category.name}</Text>
           <Text>({count})</Text>
         </View>
         <View
@@ -217,14 +238,20 @@ const CategoryProducts = () => {
         </View>
 
         <View style={styles.productContainer}>
-          {ProductList.map(product => (
-            <Product
-              key={product.id}
-              uri={product.uri}
-              name={product.name}
-              price={product.price}
-              saved={product.saved}></Product>
-          ))}
+          {productss.length === 0 ? (
+            <Text style={{fontSize: 30, textAlign: 'center'}}>
+              No products available
+            </Text>
+          ) : (
+            productss.map(product => (
+              <Product
+                key={product.id}
+                uri={product?.images?.[0]?.src}
+                name={product?.name}
+                price={product?.price}
+                saved={product?.saved}></Product>
+            ))
+          )}
         </View>
       </ScrollView>
     </View>
@@ -250,7 +277,7 @@ const styles = StyleSheet.create({
   },
   CategoryText: {
     fontSize: 25,
-    textTransform: 'uppercase',
+    // textTransform: 'uppercase',
     color: globalColors.black,
   },
 

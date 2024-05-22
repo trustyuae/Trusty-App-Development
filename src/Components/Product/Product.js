@@ -15,7 +15,6 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
 
 const Product = ({uri, name, price, saved: initialSaved}) => {
-
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {
@@ -25,14 +24,21 @@ const Product = ({uri, name, price, saved: initialSaved}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {uri ? (
-          <Image style={styles.image} source={uri} resizeMode="cover" />
-        ) : (
+        {/* {uri ? ( */}
+
+        {/* ) : (
           <Text style={styles.errorText}>Image not available</Text>
-        )}
+        )} */}
+        <Image
+          style={styles.image}
+          source={{
+            uri,
+          }}
+          resizeMode="cover"
+        />
         <Pressable onPress={toggleSaved} style={styles.saveImage}>
           <Image
-            // style={styles.saveImage}
+            style={styles.saveImage}
             source={saved ? Images.saveIconFill : Images.saveIconUnFill}
           />
         </Pressable>
@@ -74,8 +80,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     marginLeft: wp('2%'),
+    textTransform: 'capitalize',
     fontFamily: 'Intrepid Regular',
-
     color: globalColors.productTextColor,
   },
   price: {
@@ -86,14 +92,20 @@ const styles = StyleSheet.create({
     color: globalColors.productPriceText,
   },
   saveImage: {
-    marginTop: wp('3%'),
-    marginLeft: wp('7%'),
+    position: 'absolute',
+    marginTop: wp('2%'),
+    marginLeft: wp('15%'),
+    // width: wp('3%'),
 
-    width: wp('3%'),
-    height: hp('4%'),
+    // height: hp('4%'),
   },
   image: {
-    marginLeft: wp('8%'),
+    // marginLeft: wp('8%'),
+    // height: hp('30%'),
+    // width: wp('40%'),
+    width: wp('46%'),
+    height: hp('25%'),
+    // alignContent: 'center',
   },
 });
 

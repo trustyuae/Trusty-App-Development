@@ -1,12 +1,15 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+import {baseURL} from '../../Utils/API';
+import {USER_SIGNUP_REQUEST} from '../../Constants/UserConstants';
+import Toast from 'react-native-toast-message';
 
 export const signupUser = createAsyncThunk(
-  'auth/signupUser',
+  USER_SIGNUP_REQUEST,
   async (userData, {rejectWithValue}) => {
     try {
       const response = await axios.post(
-        'https://ghostwhite-guanaco-836757.hostingersite.com/wp-json/custom-woo-api/v1/register',
+        `${baseURL}/custom-woo-api/v1/register`,
         userData,
       );
       return response.data;
@@ -32,10 +35,21 @@ const authSlice = createSlice({
       .addCase(signupUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        Toast.show({
+          type: 'success',
+          text1: 'Signup Successful',
+          position: 'bottom',
+          visibilityTime: 1000,
+        });
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload || 'An error occurred';
+        Toast.show({
+          type: 'error',
+          text1: action.error.message,
+          visibilityTime: 2000,
+        });
       });
   },
 });

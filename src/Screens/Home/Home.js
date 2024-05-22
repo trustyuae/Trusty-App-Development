@@ -38,8 +38,8 @@ const Home = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const navigateToCategoryProducts = categoryName => {
-    navigation.navigate('CategoryProducts', {categoryName});
+  const navigateToCategoryProducts = category => {
+    navigation.navigate('CategoryProducts', {category, products});
   };
 
   const previewimages = {
@@ -147,7 +147,7 @@ const Home = () => {
           {categories.map(category => (
             <Pressable
               key={category.id}
-              onPress={() => navigateToCategoryProducts(category.name)}>
+              onPress={() => navigateToCategoryProducts(category)}>
               <Category
                 key={category.id}
                 uri={category?.image?.src}
@@ -165,14 +165,14 @@ const Home = () => {
               <Product
                 key={product.id}
                 uri={product?.images[0]?.src}
-                name={product.name}
-                price={product.price}
-                saved={product.saved}></Product>
+                name={product?.name}
+                price={product?.price}
+                saved={product?.saved}></Product>
             ))}
           </View>
           {/* </ScrollView> */}
 
-          <Pressable
+          <TouchableOpacity
             onPress={onBackPress}
             disabled={startIndex === 0}
             style={styles.onBackPress}>
@@ -183,9 +183,9 @@ const Home = () => {
                 color={globalColors.white}
               />
             </View>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity
             onPress={onNextPress}
             disabled={startIndex + 4 >= ProductList.length}
             style={[styles.arrowButton, styles.onNextPress, {left: 10}]}>
@@ -196,20 +196,18 @@ const Home = () => {
                 color={globalColors.white}
               />
             </View>
-          </Pressable>
+          </TouchableOpacity>
 
-          {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
           <View style={styles.productContainer}>
             {products.slice(startIndex + 2, startIndex + 4).map(product => (
               <Product
                 key={product.id}
                 uri={product?.images[0]?.src}
-                name={product.name}
-                price={product.price}
-                saved={product.saved}></Product>
+                name={product?.name}
+                price={product?.price}
+                saved={product?.saved}></Product>
             ))}
           </View>
-          {/* </ScrollView> */}
         </View>
       </ScrollView>
     </View>
