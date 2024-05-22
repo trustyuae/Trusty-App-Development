@@ -22,10 +22,25 @@ export const fetchProducts = createAsyncThunk('product', async () => {
   return response.data;
 });
 
+export const fetchCategoryProducts = createAsyncThunk(
+  'products/fetchCategoryProducts',
+  async ({categoryId, consumerKey, consumerSecret}, {rejectWithValue}) => {
+    try {
+      const response = await axios.get(
+        `https://ghostwhite-guanaco-836757.hostingersite.com/wp-json/wc/v3/products?category=${categoryId}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 const productSlice = createSlice({
   name: 'product',
   initialState: {
     products: [], // Ensure products is initialized as an empty array
+    categoryProducts: [],
     status: 'idle',
     error: null,
   },
@@ -40,6 +55,17 @@ const productSlice = createSlice({
         state.products = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(fetchCategoryProducts.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(fetchCategoryProducts.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.categoryProducts = action.payload;
+      })
+      .addCase(fetchCategoryProducts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });

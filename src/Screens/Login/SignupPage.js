@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import MobileNo from '../../Components/MobileNo';
-
+import Button from '../../Components/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {signupUser} from '../../Redux/Slice/authSlice';
 
@@ -36,6 +36,7 @@ const SignupPage = () => {
   const [city, setCity] = useState('');
   const [checked, setChecked] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedTitle, setSelectedTitle] = useState('');
   const [selected, setSelected] = React.useState('+91');
   const [countries, setCountries] = useState([]);
   const [phone, setPhone] = React.useState('');
@@ -49,7 +50,7 @@ const SignupPage = () => {
 
   const isValidEmail = email => {
     // Regular expression for email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /\S+@\S+\.\S+/;
     return emailRegex.test(email);
   };
 
@@ -80,6 +81,7 @@ const SignupPage = () => {
         setSelectedCountry(data.userSelectValue);
       });
   }, []);
+
   const clearForm = () => {
     setFirstName('');
     setLastName('');
@@ -94,6 +96,7 @@ const SignupPage = () => {
     setShow(true);
     setValues({email: '', password: ''});
   };
+
   const handleSignup = () => {
     if (!isValidEmail(value.email)) {
       console.log('Please enter a valid email address');
@@ -123,20 +126,20 @@ const SignupPage = () => {
       country: selectedCountry,
     };
     console.log('userData-------------', userData);
-    dispatch(signupUser(userData)).then(action => {
-      if (signupUser.fulfilled.match(action)) {
-        clearForm();
-        navigation.navigate('DrawerHome');
-      }
-    });
+    dispatch(signupUser(userData))
+      .then(action => {
+        if (signupUser.fulfilled.match(action)) {
+          clearForm();
+          navigation.navigate('DrawerHome');
+        }
+      })
+      .catch(err => {
+        console.error('Signup failed', err);
+      });
   };
 
   const handleCheckboxPress = () => {
-    if (checked) {
-      handleSignup();
-    } else {
-      console.log('please check the mark');
-    }
+    setChecked(!checked);
   };
   const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
   return (
@@ -187,6 +190,7 @@ const SignupPage = () => {
               <SelectDropdown
                 data={emojisWithIcons}
                 onSelect={(selectedItem, index) => {
+                  setSelectedTitle(selectedItem.title);
                   console.log(selectedItem, index);
                 }}
                 renderButton={(selectedItem, isOpen) => {
@@ -348,12 +352,16 @@ const SignupPage = () => {
             </Pressable>
           </View>
 
-          <Pressable style={styles.button} onPress={handleSignup}>
-            <Text style={styles.buttonText}>Create an account</Text>
-          </Pressable>
+          <Button
+            stylesofbtn={styles.custbtn}
+            styleoffont={styles.custfontstyle}
+            handlepress={handleSignup}
+            name={'Create an account'}
+          />
+
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>
-              Already have an account?{' '}
+              Already have an account?
               <Text
                 style={styles.footerLink}
                 onPress={() => navigation.navigate('Login')}>
@@ -456,12 +464,15 @@ const styles = StyleSheet.create({
     fontSize: wp('3.1%'),
     backgroundColor: globalColors.white,
   },
-  button: {
+
+  custfontstyle: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  custbtn: {
     backgroundColor: globalColors.buttonBackground,
-    borderRadius: 4,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    alignItems: 'center',
+    padding: wp('3%'),
+    borderRadius: 5,
   },
   buttonText: {
     color: globalColors.white,

@@ -114,7 +114,11 @@ const Loginscreen = ({navigation}) => {
               name={'Continue'}
             />
 
-            <Text style={styles.createAccountText} onPress={()=>navigation.navigate("Signup")}>Create a new account</Text>
+            <Text
+              style={styles.createAccountText}
+              onPress={() => navigation.navigate('Signup')}>
+              Create a new account
+            </Text>
           </View>
           <Text></Text>
         </View>
