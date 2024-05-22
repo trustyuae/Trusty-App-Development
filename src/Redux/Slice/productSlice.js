@@ -23,12 +23,10 @@ export const fetchProducts = createAsyncThunk('product', async () => {
 });
 
 export const fetchCategoryProducts = createAsyncThunk(
-  'products/fetchCategoryProducts',
-  async ({categoryId, consumerKey, consumerSecret}, {rejectWithValue}) => {
+  'product/fetchCategoryProducts',
+  async ({categoryId}, {rejectWithValue}) => {
     try {
-      const response = await axios.get(
-        `https://ghostwhite-guanaco-836757.hostingersite.com/wp-json/wc/v3/products?category=${categoryId}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`,
-      );
+      const response = await api.get(`/products?category=${categoryId}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);

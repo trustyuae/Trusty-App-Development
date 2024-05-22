@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text} from 'react-native';
 import {View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {
@@ -15,6 +15,8 @@ import {Picker} from '@react-native-picker/picker';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
+import {useSelector, useDispatch} from 'react-redux';
+import {fetchCategoryProducts} from '../Redux/Slice/productSlice';
 
 const CategoryProducts = () => {
   const ProductList = [
@@ -109,26 +111,15 @@ const CategoryProducts = () => {
   const route = useRoute();
   const {category} = route.params;
   const [productss, setProducts] = useState([]);
-  const count = productss?.length;
+  const dispatch = useDispatch();
+  const {categoryProducts, status, error} = useSelector(state => state.product);
 
   useEffect(() => {
-    const fetchCategoryProducts = async () => {
-      try {
-        const response = await axios.get(
-          `https://ghostwhite-guanaco-836757.hostingersite.com/wp-json/wc/v3/products?category=${category.id}&consumer_key=ck_74025587053512828ec315f206d134bc313d97cb&consumer_secret=cs_72ca42854e72b72e3143a14d79fd0a91c649fbeb`,
-        );
-        setProducts(response.data);
-      } catch (error) {
-        console.error('Error fetching category products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategoryProducts();
-  }, [category.id]);
+    dispatch(fetchCategoryProducts({categoryId: category.id}));
+  }, [category.id, dispatch]);
 
   // console.log('###########', products?.name);
+  const count = categoryProducts?.length;
 
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
@@ -238,18 +229,21 @@ const CategoryProducts = () => {
         </View>
 
         <View style={styles.productContainer}>
-          {productss.length === 0 ? (
-            <Text style={{fontSize: 30, textAlign: 'center'}}>
-              No products available
-            </Text>
+          {status === 'loading' ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : status === 'failed' ? (
+            <Text style={styles.errorText}>Error: {error}</Text>
+          ) : categoryProducts.length === 0 ? (
+            <Text style={styles.noProductsText}>No products available</Text>
           ) : (
-            productss.map(product => (
+            categoryProducts.map(product => (
               <Product
                 key={product.id}
                 uri={product?.images?.[0]?.src}
                 name={product?.name}
                 price={product?.price}
-                saved={product?.saved}></Product>
+                saved={product?.saved}
+              />
             ))
           )}
         </View>
@@ -260,25 +254,26 @@ const CategoryProducts = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: wp('2%'),
     alignContent: 'center',
 
     backgroundColor: globalColors.headingBackground,
   },
   productContainer: {
     flexDirection: 'row',
-
+    justifyContent: 'center',
     flexWrap: 'wrap',
     marginTop: hp('3%'),
   },
   TextHeading: {
     fontSize: 10,
     marginTop: hp('5%'),
+    marginLeft: wp('2%'),
   },
   CategoryText: {
     fontSize: 25,
     // textTransform: 'uppercase',
     color: globalColors.black,
+    marginLeft: wp('2%'),
   },
 
   dropdownItemStyle: {
