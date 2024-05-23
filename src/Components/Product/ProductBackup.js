@@ -14,7 +14,7 @@ import {
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
 
-const Product = ({data, name, price, saved: initialSaved}) => {
+const ProductBackup = ({data, name, price, saved: initialSaved}) => {
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Product;
+export default ProductBackup;

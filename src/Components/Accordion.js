@@ -2,13 +2,22 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import {useState} from 'react';
 import {List} from 'react-native-paper';
 import {Dummyproduct1, Dummyproduct2} from '../Constants/Icons';
+import {color} from 'react-native-elements/dist/helpers';
 
-const Accordion = ({Size}) => {
+const Accordion = ({Size, Description, Color}) => {
   const [expandedSize, setExpandedSize] = useState(true);
   const [expandedimg, setExpandedimg] = useState(true);
   const [expandedproductDetail, setProductDetail] = useState(false);
   const [expandedproductreturn, setProductReturn] = useState(false);
+  const [ChangeColor, setColor] = useState({Color})
+  
+  const stripHTMLTags = html => {
+    // Replace HTML tags with an empty string
+    return html.replace(/<[^>]*>?/gm, '');
+  };
 
+
+  console.log("Color----------->",ChangeColor);
   return (
     <List.Section>
       <List.Accordion
@@ -25,19 +34,20 @@ const Accordion = ({Size}) => {
         {expandedSize && (
           <>
             <View style={styles.custView}>
-          {Size?.map((item)=>(
-              <View style={[styles.custcontainer]}>
-                <Text style={styles.custboldtext}>{item}</Text>
-              </View>
-              
-             ))}</View>
+              {Size?.map(item => (
+                <View style={[styles.custcontainer]}>
+                  
+                  <Text style={styles.custboldtext}>{item}</Text>
+                </View>
+              ))}
+            </View>
             <View style={styles.custBorder} />
           </>
         )}
       </List.Accordion>
 
       <List.Accordion
-        title="Color:Brown"
+        title={`color:Black`}
         expanded={expandedimg}
         style={{
           backgroundColor: '#f6f1eb',
@@ -49,8 +59,15 @@ const Accordion = ({Size}) => {
         {expandedimg && (
           <>
             <View style={styles.custView}>
-              <Image source={Dummyproduct1}></Image>
-              <Image source={Dummyproduct2}></Image>
+              {Color?.map(item => (
+                <View  onPress={() =>setColor(item)}> 
+                { console.log(item)}
+                            <Image
+                  source={Dummyproduct1}
+                 ></Image>
+                </View>
+       
+              ))}
             </View>
             <View style={styles.custBorder} />
           </>
@@ -70,11 +87,7 @@ const Accordion = ({Size}) => {
         {expandedproductDetail && (
           <>
             <View style={styles.custView}>
-              <Text>
-                {' '}
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry{' '}
-              </Text>
+              <Text> {stripHTMLTags(Description)}</Text>
             </View>
             <View style={styles.custBorder} />
           </>
@@ -93,9 +106,7 @@ const Accordion = ({Size}) => {
           <>
             <View style={styles.custView}>
               <Text>
-                {' '}
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry{' '}
               </Text>
             </View>
             <View style={styles.custBorder} />

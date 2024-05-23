@@ -37,10 +37,12 @@ const Loginscreen = ({navigation}) => {
   const handlePress = () => {
     if (!values.email) {
       setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
-    } else if (!validateEmail(values.email)) {
+    }
+     else if (!validateEmail(values.email)) {
       setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
       return;
-    } else {
+    } 
+    else {
       setErrors(prevErrors => ({...prevErrors, email: ''}));
     }
     if (values.password.length < 6) {
