@@ -1,27 +1,25 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {useState} from 'react';
 import {List} from 'react-native-paper';
-import {Dummyproduct1, Dummyproduct2} from '../Constants/Icons';
-import {color} from 'react-native-elements/dist/helpers';
+import {Dummyproduct1, } from '../Constants/Icons';
 
-const Accordion = ({Size, Description, Color}) => {
+const Accordion = ({Size, Description, Color, ChangeColor, setColor}) => {
   const [expandedSize, setExpandedSize] = useState(true);
   const [expandedimg, setExpandedimg] = useState(true);
   const [expandedproductDetail, setProductDetail] = useState(false);
   const [expandedproductreturn, setProductReturn] = useState(false);
-  const [ChangeColor, setColor] = useState({Color})
-  
+  // const [ChangeColor, setColor] = useState({Color})
+
   const stripHTMLTags = html => {
     // Replace HTML tags with an empty string
     return html.replace(/<[^>]*>?/gm, '');
   };
 
-
-  console.log("Color----------->",ChangeColor);
   return (
     <List.Section>
       <List.Accordion
         title="Size"
+        titleStyle={{color: '#444444'}}
         expanded={expandedSize}
         style={{
           backgroundColor: '#f6f1eb',
@@ -34,9 +32,8 @@ const Accordion = ({Size, Description, Color}) => {
         {expandedSize && (
           <>
             <View style={styles.custView}>
-              {Size?.map(item => (
-                <View style={[styles.custcontainer]}>
-                  
+              {Size?.map((item, key) => (
+                <View key={key} style={[styles.custcontainer]}>
                   <Text style={styles.custboldtext}>{item}</Text>
                 </View>
               ))}
@@ -47,7 +44,8 @@ const Accordion = ({Size, Description, Color}) => {
       </List.Accordion>
 
       <List.Accordion
-        title={`color:Black`}
+        title={`Color:black`}
+        titleStyle={{color: '#444444'}}
         expanded={expandedimg}
         style={{
           backgroundColor: '#f6f1eb',
@@ -59,14 +57,12 @@ const Accordion = ({Size, Description, Color}) => {
         {expandedimg && (
           <>
             <View style={styles.custView}>
-              {Color?.map(item => (
-                <View  onPress={() =>setColor(item)}> 
-                { console.log(item)}
-                            <Image
-                  source={Dummyproduct1}
-                 ></Image>
+              {Color?.map((item, key) => (
+                <View key={key}>
+                  <Image
+                    onPress={() => setColor(item)}
+                    source={Dummyproduct1}></Image>
                 </View>
-       
               ))}
             </View>
             <View style={styles.custBorder} />
@@ -75,6 +71,7 @@ const Accordion = ({Size, Description, Color}) => {
       </List.Accordion>
 
       <List.Accordion
+        titleStyle={{color: '#444444'}}
         title="Product details"
         expanded={expandedproductDetail}
         style={{
@@ -95,6 +92,7 @@ const Accordion = ({Size, Description, Color}) => {
       </List.Accordion>
 
       <List.Accordion
+        titleStyle={{color: '#444444'}}
         title="Delivery And Returns"
         expanded={expandedproductreturn}
         style={{
@@ -138,5 +136,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#D8D8D8',
     borderBottomWidth: 1,
   },
-  custboldtext: {textAlign: 'center', fontWeight: 'bold'},
+  custboldtext: {
+    textAlign: 'center',
+    color: '#444444',
+    fontFamily: 'Intrepid Regular',
+  },
 });

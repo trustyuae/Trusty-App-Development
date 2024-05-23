@@ -7,33 +7,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-// const views1 = [
-//   {
-//     imgUrl: ProductIMG,
-//     title: 'Airport Cabs',
-//   },
-//   {
-//     imgUrl: ProductIMG,
-//     title: 'Gift Cards',
-//   },
-//   {
-//     imgUrl: ProductIMG,
-//     title: 'Hourly Stays',
-//   },
-//   {
-//     imgUrl: ProductIMG,
-//     title: 'Travel Insurance',
-//   },
-//   {
-//     imgUrl: ProductIMG,
-//     title: 'Forex',
-//   },
-//   {
-//     imgUrl: ProductIMG,
-//     title: 'HomeStays & Villas',
-//   },
-// ];
-
 function MyCarousel({views1}) {
   const width = Dimensions.get('window').width;
 
@@ -51,9 +24,7 @@ function MyCarousel({views1}) {
               flex: 1,
               justifyContent: 'center',
             }}>
-     
-              <Image source={{uri: item?.src}} style={styles.Imgcontainer} />
-            
+            <Image source={{uri: item?.src}} style={styles.Imgcontainer} />
           </View>
         )}
       />

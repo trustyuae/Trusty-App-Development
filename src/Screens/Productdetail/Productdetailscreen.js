@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import {DummyProductimg, SaveICon} from '../../Constants/Icons';
+import {StyleSheet, Text, View, Image, ScrollView, Pressable} from 'react-native';
+import { NotSaveICon, SaveICon} from '../../Constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
 import {fetchById} from '../../Redux/Slice/SingleProductslice';
 import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
+import ProductBackup from '../../Components/Product/ProductBackup';
 
 const ProductList = [
   {
@@ -50,6 +51,8 @@ export default function Productdetailscreen() {
   const dispatch = useDispatch();
   const {loading, error, responseData} = useSelector(state => state.getById);
   const {load, errormessage, partner} = useSelector(state => state.PatnerGet);
+  const [changeColor,setChange]=useState()
+  const [saved,setSaved]=useState(true)
 
   // console.log('partner---------->', responseData?.categories[0]?.id);
 
@@ -76,10 +79,14 @@ export default function Productdetailscreen() {
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View>
-                <Text style={styles.cust_text}>{responseData?.name}</Text>
+                <Text style={{color:"#444444",fontWeight:"500",marginBottom:2}}>{responseData?.name}</Text>
               </View>
               <View>
-                <Image source={SaveICon} onPress={() => setSave(false)} />
+               {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
+                   <Pressable onPress={()=>setSaved(!saved)}>
+
+           { saved?  <Image source={SaveICon} />:<Image source={NotSaveICon} height={100} width={100} />}
+                   </Pressable>
               </View>
             </View>
             <Text style={styles.custAEDtext}>AED {responseData?.price}</Text>
@@ -92,6 +99,8 @@ export default function Productdetailscreen() {
               Size={responseData?.attributes[0]?.options}
               Color={responseData?.attributes[1]?.options}
               Description={responseData?.description}
+              setChange={setChange}
+              changeColor={changeColor}
             />
             {/* <DummyAccordion attributes={responseData?.attributes}/> */}
           </View>
@@ -108,12 +117,14 @@ export default function Productdetailscreen() {
             <View style={styles.productContainer}>
               {partner
                 ?.map((product, key) => (
-                  <Product
+                  <View key={key}>
+                  <ProductBackup
                     key={product?.id}
                     data={product?.images}
                     name={product?.name}
                     price={product?.price}
-                    saved={product?.saved}></Product>
+                    saved={product?.saved}/>
+                    </View>
                 ))
                 .slice(0, 4)}
             </View>
