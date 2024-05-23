@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {
   widthPercentageToDP as wp,
@@ -12,73 +12,79 @@ const ThankYouScreen = () => {
   const handlepress = () => {};
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={Images.logoHome}></Image>
-      </View>
-      <Text style={styles.MainHeading}>Dear trusty</Text>
-      <View style={styles.subHeadingContainer}>
-        <Text style={styles.subHeading}>Thank you for your orders!</Text>
-        <Text style={styles.subHeading}>We appreciate your business.</Text>
-        <Text style={styles.subHeading}>
-          You'll receive an email confirmation shortly.
-        </Text>
-      </View>
-      <Text style={styles.MainHeading}>ORDER DETAILS</Text>
-      <View style={styles.containerTable}>
-        <View style={styles.table}>
-          <View style={styles.row}>
-            <View style={styles.cell}>
-              <Text style={styles.label}>Order Number:</Text>
+      <ScrollView
+        style={{padding: wp('10%')}}
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
+        <View style={styles.imageContainer}>
+          <Image source={Images.logoHome}></Image>
+        </View>
+        <Text style={styles.MainHeading}>Dear trusty</Text>
+        <View style={styles.subHeadingContainer}>
+          <Text style={styles.subHeading}>Thank you for your orders!</Text>
+          <Text style={styles.subHeading}>We appreciate your business.</Text>
+          <Text style={styles.subHeading}>
+            You'll receive an email confirmation shortly.
+          </Text>
+        </View>
+        <Text style={styles.MainHeading}>ORDER DETAILS</Text>
+        <View style={styles.containerTable}>
+          <View style={styles.table}>
+            <View style={styles.row}>
+              <View style={styles.cell}>
+                <Text style={styles.label}>Order Number:</Text>
+              </View>
+              <View style={styles.cell}>
+                <Text style={styles.value}>3489</Text>
+              </View>
             </View>
-            <View style={styles.cell}>
-              <Text style={styles.value}>3489</Text>
+            <View style={styles.row}>
+              <View style={styles.cell}>
+                <Text style={styles.label}>Date:</Text>
+              </View>
+              <View style={styles.cell}>
+                <Text style={styles.value}>May 9, 2024</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.row}>
-            <View style={styles.cell}>
-              <Text style={styles.label}>Date:</Text>
+            <View style={styles.row}>
+              <View style={styles.cell}>
+                <Text style={styles.label}>Total:</Text>
+              </View>
+              <View style={styles.cell}>
+                <Text style={styles.value}>200.00 AED</Text>
+              </View>
             </View>
-            <View style={styles.cell}>
-              <Text style={styles.value}>May 9, 2024</Text>
-            </View>
-          </View>
-          <View style={styles.row}>
-            <View style={styles.cell}>
-              <Text style={styles.label}>Total:</Text>
-            </View>
-            <View style={styles.cell}>
-              <Text style={styles.value}>200.00 AED</Text>
-            </View>
-          </View>
-          <View style={styles.row}>
-            <View style={styles.cell}>
-              <Text style={styles.label}>Payment method:</Text>
-            </View>
-            <View style={styles.cell}>
-              <Text style={styles.value}>Cash on delivery</Text>
+            <View style={styles.row}>
+              <View style={styles.cell}>
+                <Text style={styles.label}>Payment method:</Text>
+              </View>
+              <View style={styles.cell}>
+                <Text style={styles.value}>Cash on delivery</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-      <View style={styles.imageContainer1}>
-        <Image source={Images.confirmationTick}></Image>
-      </View>
-
-      <Button
-        stylesofbtn={styles.custbtn}
-        styleoffont={styles.custfontstyle}
-        name={'Shop more'}
-        handlepress={handlepress}
-      />
+        <View style={styles.imageContainer1}>
+          <Image source={Images.confirmationTick}></Image>
+        </View>
+        <Button
+          stylesofbtn={styles.custbtn}
+          styleoffont={styles.custfontstyle}
+          name={'Shop more'}
+          handlepress={handlepress}
+        />
+      </ScrollView>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    padding: wp('10%'),
-    width: wp('100%'),
-    height: hp('100%'),
+    // padding: wp('10%'),
+    // width: wp('100%'),
+    // height: hp('100%'),
     // marginTop: hp('2%'),
+    // paddingTop: 30,
     backgroundColor: globalColors.headingBackground,
   },
   custbtn: {

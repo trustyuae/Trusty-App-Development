@@ -11,6 +11,8 @@ import CartScreen from '../Screens/Cart/CartScreen';
 import Theme from '../Assets/Theme/Theme';
 import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
 import BottomTabNavigation from './BottomTabNavigation';
+import Profile from '../Screens/Profile/Profile';
+import Order from '../Screens/Profile/Order';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = () => {
@@ -38,7 +40,6 @@ const AppNavigations = () => {
             headerShown: false,
           }}
         />
-
         <Stack.Screen
           name="Login"
           component={Loginscreen}
@@ -50,7 +51,6 @@ const AppNavigations = () => {
             },
           }}
         />
-
         <Stack.Screen
           name="Forgotpassword"
           component={ForgotpasswordScreen}
@@ -62,7 +62,6 @@ const AppNavigations = () => {
             },
           }}
         />
-
         <Stack.Screen
           name="Signup"
           component={SignupPage}
@@ -74,7 +73,6 @@ const AppNavigations = () => {
             },
           }}
         />
-
         <Stack.Screen
           name="ProductDetail"
           component={Productdetailscreen}
@@ -86,7 +84,6 @@ const AppNavigations = () => {
             },
           }}
         />
-
         <Stack.Screen
           name="Cart"
           component={CartScreen}
@@ -98,10 +95,31 @@ const AppNavigations = () => {
             },
           }}
         />
-
         <Stack.Screen
           name="ThankYou"
           component={ThankYouScreen}
+          options={{
+            headerTransparent: true,
+            title: null,
+            // headerStyle: {
+            //   backgroundColor: '#f6f1eb',
+            // },
+          }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerTransparent: true,
+            title: null,
+            // headerStyle: {
+            //   backgroundColor: '#f6f1eb',
+            // },
+          }}
+        />
+        <Stack.Screen
+          name="Order"
+          component={Order}
           options={{
             headerTransparent: true,
             title: null,

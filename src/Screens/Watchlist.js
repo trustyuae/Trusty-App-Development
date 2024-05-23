@@ -26,6 +26,12 @@ const Watchlist = () => {
       <TouchableOpacity onPress={() => navigation.navigate('ThankYou')}>
         <Text>ThankYou</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+        <Text>profile</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+        <Text>order</Text>
+      </TouchableOpacity>
       {/* <Cart></Cart> */}
     </View>
   );

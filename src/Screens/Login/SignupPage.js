@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Pressable,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -27,42 +28,75 @@ import {signupUser} from '../../Redux/Slice/authSlice';
 const SignupPage = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
-  const [addressContinued, setAddressContinued] = useState('');
-  const [city, setCity] = useState('');
-  const [checked, setChecked] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedTitle, setSelectedTitle] = useState('');
-  const [selected, setSelected] = React.useState('+91');
-  const [countries, setCountries] = useState([]);
-  const [phone, setPhone] = React.useState('');
   const [show, setShow] = useState(true);
-
-  const [value, setValues] = useState({
+  const [isCheckbox, setIsCheckbox] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({
     email: '',
     password: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    addressContinued: '',
+    city: '',
+    selectedCountry: '+91',
+    selectedTitle: '',
+    phone: '',
+    selected: '91',
+    billingAddress: '',
+    billingAddressContinued: '',
+    billingCity: '',
+    shippingAddress: '',
+    shippingAddressContinued: '',
+    shippingCity: '',
   });
-  const {loading, error} = useSelector(state => state.auth);
 
   const isValidEmail = email => {
-    // Regular expression for email validation
     const emailRegex = /\S+@\S+\.\S+/;
     return emailRegex.test(email);
   };
 
   const isValidPassword = password => {
-    // Check if password length is at least 8 characters
     return password.length >= 8;
   };
 
   const isValidName = name => {
-    // Check if name contains only alphabetic characters
     const nameRegex = /^[a-zA-Z]+$/;
     return nameRegex.test(name);
+  };
+
+  const isValidPhoneNumber = phoneNumber => {
+    // Regular expression for phone number validation
+    const phoneRegex = /^[0-9]{10}$/;
+    return phoneRegex.test(phoneNumber);
+  };
+  const {loading, error, user} = useSelector(state => state.auth);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     navigation.navigate('DrawerHome');
+  //   }
+  // }, [user]);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!isValidEmail(formData.email))
+      newErrors.email = 'Invalid email address';
+    if (!isValidPassword(formData.password))
+      newErrors.password = 'Password must be at least 8 characters';
+    if (!isValidName(formData.firstName))
+      newErrors.firstName = 'First name should contain only letters';
+    if (!isValidName(formData.lastName))
+      newErrors.lastName = 'Last name should contain only letters';
+    if (!isValidPhoneNumber(formData.phone)) {
+      newErrors.phone = 'Please enter a valid phone number';
+    }
+    if (!isCheckbox) {
+      newErrors.isCheckbox = 'Please check the above mark';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleCountryChange = value => {
@@ -78,52 +112,49 @@ const SignupPage = () => {
       .then(response => response.json())
       .then(data => {
         setCountries(data.countries);
-        setSelectedCountry(data.userSelectValue);
-      });
+        setFormData(prevState => ({
+          ...prevState,
+          selectedCountry: data.userSelectValue,
+        }));
+      })
+      .catch(error => console.error('Error fetching countries:', error));
   }, []);
 
-  const clearForm = () => {
-    setFirstName('');
-    setLastName('');
-    setPhoneNumber('');
-    setAddress('');
-    setAddressContinued('');
-    setCity('');
-    setChecked(false);
-    setSelectedCountry('');
-    setSelected('+91');
-    setPhone('');
-    setShow(true);
-    setValues({email: '', password: ''});
-  };
-
   const handleSignup = () => {
-    if (!isValidEmail(value.email)) {
-      console.log('Please enter a valid email address');
-      return;
-    }
-    if (!isValidPassword(value.password)) {
-      console.log('Password must be at least 8 characters long');
-      return;
-    }
-    if (!isValidName(firstName)) {
-      console.log('First name should contain only alphabetic characters');
-      return;
-    }
-    if (!isValidName(lastName)) {
-      console.log('Last name should contain only alphabetic characters');
-      return;
-    }
+    if (!validateForm()) return;
+
+    const address1 = `${formData.shippingAddress}${
+      formData.shippingAddressContinued
+        ? ', ' + formData.shippingAddressContinued
+        : ''
+    }`;
+    const address2 = `${formData.billingAddress}${
+      formData.billingAddressContinued
+        ? ', ' + formData.shippingAddressContinued
+        : ''
+    }`;
+
+    const billingAddress = {
+      address_1: address2,
+      city: formData.billingCity,
+      country: formData.selectedCountry,
+    };
+
+    const shippingAddress = {
+      address_1: address1,
+      city: formData.shippingCity,
+      country: formData.selectedCountry,
+    };
+
     const userData = {
-      title: selectedTitle,
-      email: value.email,
-      password: value.password,
-      first_name: firstName,
-      last_name: lastName,
-      phone: phone,
-      address: address + (addressContinued ? ', ' + addressContinued : ''),
-      city,
-      country: selectedCountry,
+      title: formData.selectedTitle,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      phone: formData.phone,
+      billing: billingAddress,
+      shipping: shippingAddress,
     };
 
     dispatch(signupUser(userData)).then(action => {
@@ -134,8 +165,30 @@ const SignupPage = () => {
     });
   };
 
+  const clearForm = () => {
+    setFormData({
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      addressContinued: '',
+      city: '',
+      selectedCountry: '',
+      selectedTitle: '',
+      phone: '',
+      billingAddress: '',
+      billingAddressContinued: '',
+      billingCity: '',
+      shippingAddress: '',
+      shippingAddressContinued: '',
+      shippingCity: '',
+    });
+    setShow(true);
+    setErrors({});
+  };
   const handleCheckboxPress = () => {
-    setChecked(!checked);
+    setIsCheckbox(!isCheckbox);
   };
   const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
   return (
@@ -154,17 +207,22 @@ const SignupPage = () => {
               <TextInput
                 style={styles.input}
                 placeholder="E-mail"
-                value={value.email}
-                onChangeText={text => handlechange('email', text)}
+                value={formData.email}
+                onChangeText={text => setFormData({...formData, email: text})}
               />
+              {errors.email && (
+                <Text style={styles.errorText}>{errors.email}</Text>
+              )}
 
               <View style={styles.custposition}>
                 <TextInput
                   style={styles.input}
                   placeholder="Password"
-                  value={value.password}
+                  value={formData.password}
                   secureTextEntry={show ? true : false}
-                  onChangeText={text => handlechange('password', text)}
+                  onChangeText={text =>
+                    setFormData({...formData, password: text})
+                  }
                 />
                 {show ? (
                   <Icon
@@ -181,12 +239,15 @@ const SignupPage = () => {
                     onPress={() => setShow(true)}
                   />
                 )}
+                {errors.password && (
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                )}
               </View>
 
               <SelectDropdown
                 data={emojisWithIcons}
                 onSelect={(selectedItem, index) => {
-                  setSelectedTitle(selectedItem.title);
+                  setFormData({...formData, selectedTitle: selectedItem.title});
                   console.log(selectedItem, index);
                 }}
                 renderButton={(selectedItem, isOpen) => {
@@ -196,10 +257,9 @@ const SignupPage = () => {
                         style={{
                           fontFamily: 'Intrepid Regular',
                           fontSize: 14,
-                          color: globalColors.buttonBackground,
+                          color: globalColors.buttonBackground, // fontStyle: globalColors.buttonBackground,
                         }}>
-                        {(selectedItem && selectedItem.title) ||
-                          'Selected Title'}
+                        {selectedItem?.title || 'Selected Title'}
                       </Text>
                       <Icon
                         name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -225,22 +285,42 @@ const SignupPage = () => {
               <TextInput
                 style={styles.input}
                 placeholder="First Name"
-                value={firstName}
-                onChangeText={setFirstName}
+                value={formData.firstName}
+                onChangeText={text =>
+                  setFormData({...formData, firstName: text})
+                }
               />
+              {errors.firstName && (
+                <Text style={styles.errorText}>{errors.firstName}</Text>
+              )}
+
               <TextInput
                 style={styles.input}
                 placeholder="Last Name"
-                value={lastName}
-                onChangeText={setLastName}
+                value={formData.lastName}
+                onChangeText={text =>
+                  setFormData({...formData, lastName: text})
+                }
               />
+              {errors.lastName && (
+                <Text style={styles.errorText}>{errors.lastName}</Text>
+              )}
 
               <MobileNo
-                selected={selected}
-                setSelected={setSelected}
-                setCountry={setSelectedCountry}
-                phone={phone}
-                setPhone={setPhone}></MobileNo>
+                selected={formData.selected}
+                setSelected={val =>
+                  setFormData({...formData.selected, selected: val})
+                }
+                setCountry={val =>
+                  setFormData({...formData, selectedCountry: val})
+                }
+                phone={formData.phone}
+                setPhone={val =>
+                  setFormData({...formData, phone: val})
+                }></MobileNo>
+              {errors.phone && (
+                <Text style={styles.errorText}>{errors.phone}</Text>
+              )}
             </View>
 
             <View style={styles.inputSection}>
@@ -248,9 +328,9 @@ const SignupPage = () => {
 
               <View style={styles.inputPicker}>
                 <Picker
-                  selectedValue={selectedCountry}
+                  selectedValue={formData.selectedCountry}
                   onValueChange={(itemValue, itemIndex) =>
-                    setSelectedCountry(itemValue)
+                    setFormData({...formData, selectedCountry: itemValue})
                   }>
                   {countries.map((country, index) => (
                     <Picker.Item
@@ -269,32 +349,35 @@ const SignupPage = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Address"
-                value={address}
+                value={formData.billingAddress}
                 onChangeText={text =>
-                  setAddress(prevAddress => prevAddress + text)
+                  setFormData({...formData, billingAddress: text})
                 }
               />
               <TextInput
                 style={styles.input}
                 placeholder="Address Continued"
-                value={addressContinued}
-                onChangeText={text => setAddressContinued(text)}
+                value={formData.billingAddressContinued}
+                onChangeText={text =>
+                  setFormData({...formData, billingAddressContinued: text})
+                }
               />
               <TextInput
                 style={styles.input}
                 placeholder="City"
-                value={city}
-                onChangeText={setCity}
+                value={formData.billingCity}
+                onChangeText={text =>
+                  setFormData({...formData, billingCity: text})
+                }
               />
             </View>
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Shipping Information</Text>
               <View style={styles.inputPicker}>
                 <Picker
-                  selectedValue={selectedCountry}
-                  // styles={{backgroundColor: globalColors.white}}
+                  selectedValue={formData.selectedCountry}
                   onValueChange={(itemValue, itemIndex) =>
-                    setSelectedCountry(itemValue)
+                    setFormData({...formData, selectedCountry: itemValue})
                   }>
                   {countries.map((country, index) => (
                     <Picker.Item
@@ -313,26 +396,32 @@ const SignupPage = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Address"
-                value={address}
-                onChangeText={setAddress}
+                value={formData.shippingAddress}
+                onChangeText={text =>
+                  setFormData({...formData, shippingAddress: text})
+                }
               />
               <TextInput
                 style={styles.input}
                 placeholder="Address Continued"
-                value={address}
-                onChangeText={setAddress}
+                value={formData.shippingAddressContinued}
+                onChangeText={text =>
+                  setFormData({...formData, shippingAddressContinued: text})
+                }
               />
               <TextInput
                 style={styles.input}
                 placeholder="City"
-                value={city}
-                onChangeText={setCity}
+                value={formData.shippingCity}
+                onChangeText={text =>
+                  setFormData({...formData, shippingCity: text})
+                }
               />
             </View>
             <Pressable onPress={handleCheckboxPress}>
               <View style={{flexDirection: 'row'}}>
                 <View style={styles.CheckBoxContainer}>
-                  {checked && <Text style={styles.checkedMark}>✓</Text>}
+                  {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
                 </View>
                 <Text style={{fontSize: 13, fontFamily: 'Intrepid Regular'}}>
                   I agree to receive information by email about offers,
@@ -346,6 +435,9 @@ const SignupPage = () => {
                 </Text>
               </View>
             </Pressable>
+            {errors.isCheckbox && (
+              <Text style={styles.errorText}>{errors.isCheckbox}</Text>
+            )}
           </View>
 
           <Button
@@ -353,6 +445,7 @@ const SignupPage = () => {
             styleoffont={styles.custfontstyle}
             handlepress={handleSignup}
             name={'Create an account'}
+            loading={loading}
           />
 
           <View style={styles.footerContainer}>
@@ -391,6 +484,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 14,
     marginTop: wp('3%'),
+  },
+  errorInput: {
+    borderColor: 'red',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
   },
   logo: {
     width: 150,
@@ -514,7 +614,7 @@ const styles = StyleSheet.create({
   },
   dropdownButtonArrowStyle: {
     fontSize: wp('6%'),
-    marginLeft: wp('45%'),
+    marginLeft: 'auto',
   },
   dropdownButtonIconStyle: {
     fontSize: wp('3.1%'),
