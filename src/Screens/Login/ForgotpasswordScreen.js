@@ -7,16 +7,19 @@ import {
 import Button from '../../Components/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {postApi} from '../../Redux/Slice/postApiSlice';
+import {openComposer} from 'react-native-email-link';
+import {sendPasswordResetEmail} from '../../Utils/config/firebase';
+
+
 
 const ForgotpasswordScreen = ({navigation}) => {
   const dispatch = useDispatch();
-   const {loading, error, postData} = useSelector(state => state.post);
+  const {loading, error, postData} = useSelector(state => state.post);
 
-
-console.log("postData",postData.reset_link);
+  openComposer;
   const [value, setValues] = useState({
     email: '',
-  })
+  });
 
   const [errors, setErrors] = useState({
     email: '',
@@ -41,6 +44,8 @@ console.log("postData",postData.reset_link);
       setErrors(prevErrors => ({...prevErrors, email: ''}));
     }
     dispatch(postApi(value));
+    sendPasswordResetEmail(value.email);
+    setValues(pre => ({...pre, email: ''}));
   };
 
   return (
@@ -72,13 +77,15 @@ console.log("postData",postData.reset_link);
             styleoffont={styles.custfontstyle}
             handlepress={handlepress}
             name={'Send Reset Password Link'}
-             loading={loading}
+            loading={loading}
           />
         </View>
+       
       </View>
     </View>
   );
 };
+
 
 export default ForgotpasswordScreen;
 
