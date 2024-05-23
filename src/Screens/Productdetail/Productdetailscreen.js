@@ -123,7 +123,7 @@ export default function Productdetailscreen() {
           stylesofbtn={styles.custbtn}
           styleoffont={styles.custfontstyle}
           handlepress={handlepress}
-          name={'Add To Cart'}
+          name={'Add To Carts'}
         />
       </View>
     </GestureHandlerRootView>
