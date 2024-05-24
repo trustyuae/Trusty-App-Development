@@ -7,10 +7,13 @@ import {
 } from 'react-native-responsive-screen';
 import {Images} from '../../Constants/index';
 import Button from '../Button';
+import {useNavigation} from '@react-navigation/native';
 
 const Confirmation = () => {
-  
-  const handlepress = () => {};
+  const navigation = useNavigation();
+  const handlepress = () => {
+    navigation.navigate('DrawerHome');
+  };
 
   return (
     <View>
@@ -98,7 +101,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.black,
     borderRadius: 4,
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
     marginVertical: 20,
     borderRadius: 5,
   },
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
   },
   MainHeading: {
     fontSize: 22,
-    marginTop: hp('5%'),
+    marginTop: hp('2%'),
     marginBottom: hp('2%'),
     fontFamily: 'Intrepid Regular',
 

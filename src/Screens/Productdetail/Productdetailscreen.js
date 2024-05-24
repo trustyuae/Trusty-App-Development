@@ -141,9 +141,9 @@ export default function Productdetailscreen({route,navigation}) {
               {partner
                 ?.map((product, key) => (
                   <View key={key}>
-                    <ProductBackup
+                    <Product
                       key={product?.id}
-                      data={product?.images}
+                      uri={product?.images[0]?.src}
                       name={product?.name}
                       price={product?.price}
                       saved={product?.saved}

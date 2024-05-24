@@ -9,7 +9,7 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 
 const HeadingImage = () => {
   return (
-    <View>
+    <View style={{width: wp('100%'), alignSelf: 'center'}}>
       <ImageBackground style={styles.container} source={Images.HeadingImage}>
         <Image
           style={styles.container}
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     ImageBackground: globalColors.homeScreenBackground,
     height: hp('49%'),
     objectFit: 'cover',
-    alignItems: 'center',
     marginBottom: hp('1%'),
   },
   imageContainer: {

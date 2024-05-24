@@ -62,7 +62,7 @@ const SignupPage = () => {
   };
 
   const isValidName = name => {
-    const nameRegex = /^[a-zA-Z]+$/;
+    const nameRegex = /^[a-z ,.'-]+$/i;
     return nameRegex.test(name);
   };
 
@@ -264,8 +264,22 @@ const SignupPage = () => {
     setErrors({});
   };
   const handleCheckboxPress = () => {
-    setIsCheckbox(!isCheckbox);
+    setIsCheckbox(prevState => {
+      const newCheckboxState = !prevState;
+      if (newCheckboxState) {
+        const newErrors = {...errors};
+        delete newErrors.isCheckbox;
+        setErrors(newErrors);
+      } else {
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          isCheckbox: 'Please check the above mark',
+        }));
+      }
+      return newCheckboxState;
+    });
   };
+
   const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
   return (
     <SafeAreaView style={styles.container}>
@@ -473,6 +487,9 @@ const SignupPage = () => {
                 value={formData.shippingAddress}
                 onChangeText={text => handleChange('shippingAddress', text)}
               />
+              {errors.shippingAddress && (
+                <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+              )}
               <TextInput
                 style={styles.input}
                 placeholder="Address Continued"
@@ -481,9 +498,6 @@ const SignupPage = () => {
                   setFormData({...formData, shippingAddressContinued: text})
                 }
               />
-              {errors.shippingAddress && (
-                <Text style={styles.errorText}>{errors.shippingAddress}</Text>
-              )}
               <TextInput
                 style={styles.input}
                 placeholder="City"
