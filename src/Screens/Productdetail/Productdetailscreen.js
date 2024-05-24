@@ -1,5 +1,12 @@
-import {StyleSheet, Text, View, Image, ScrollView, Pressable} from 'react-native';
-import { NotSaveICon, SaveICon} from '../../Constants/Icons';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Pressable,
+} from 'react-native';
+import {NotSaveICon, SaveICon} from '../../Constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -47,17 +54,20 @@ const ProductList = [
   },
 ];
 
-export default function Productdetailscreen() {
+export default function Productdetailscreen({route,navigation}) {
+  const {userId} = route?.params;
+
+ 
+
   const dispatch = useDispatch();
   const {loading, error, responseData} = useSelector(state => state.getById);
   const {load, errormessage, partner} = useSelector(state => state.PatnerGet);
-  const [changeColor,setChange]=useState()
-  const [saved,setSaved]=useState(true)
+  const [changeColor, setChange] = useState();
+  const [saved, setSaved] = useState(true);
 
-  // console.log('partner---------->', responseData?.categories[0]?.id);
 
   useEffect(() => {
-    dispatch(fetchById(10173));
+    dispatch(fetchById(userId));
   }, []);
 
   useEffect(() => {
@@ -65,8 +75,11 @@ export default function Productdetailscreen() {
       dispatch(PartnerPerfect(responseData?.categories[0]?.id));
     }
   }, [responseData]);
+  userId;
 
-  const handlepress = () => {};
+  const handlepress = () => {
+    navigation.navigate('Cart')
+  };
 
   return (
     <GestureHandlerRootView>
@@ -79,14 +92,24 @@ export default function Productdetailscreen() {
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View>
-                <Text style={{color:"#444444",fontWeight:"500",marginBottom:2}}>{responseData?.name}</Text>
+                <Text
+                  style={{
+                    color: '#444444',
+                    fontWeight: '500',
+                    marginBottom: 2,
+                  }}>
+                  {responseData?.name}
+                </Text>
               </View>
               <View>
-               {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
-                   <Pressable onPress={()=>setSaved(!saved)}>
-
-           { saved?  <Image source={SaveICon} />:<Image source={NotSaveICon} height={100} width={100} />}
-                   </Pressable>
+                {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
+                <Pressable onPress={() => setSaved(!saved)}>
+                  {saved ? (
+                    <Image source={SaveICon} />
+                  ) : (
+                    <Image source={NotSaveICon} height={100} width={100} />
+                  )}
+                </Pressable>
               </View>
             </View>
             <Text style={styles.custAEDtext}>AED {responseData?.price}</Text>
@@ -118,13 +141,14 @@ export default function Productdetailscreen() {
               {partner
                 ?.map((product, key) => (
                   <View key={key}>
-                  <ProductBackup
-                    key={product?.id}
-                    data={product?.images}
-                    name={product?.name}
-                    price={product?.price}
-                    saved={product?.saved}/>
-                    </View>
+                    <ProductBackup
+                      key={product?.id}
+                      data={product?.images}
+                      name={product?.name}
+                      price={product?.price}
+                      saved={product?.saved}
+                    />
+                  </View>
                 ))
                 .slice(0, 4)}
             </View>

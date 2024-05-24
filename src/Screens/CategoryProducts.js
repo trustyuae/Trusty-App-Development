@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, StyleSheet, Text} from 'react-native';
+import {ActivityIndicator, Pressable, StyleSheet, Text} from 'react-native';
 import {View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {
@@ -17,7 +17,7 @@ import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchCategoryProducts} from '../Redux/Slice/productSlice';
 
-const CategoryProducts = () => {
+const CategoryProducts = ({navigation}) => {
   const ProductList = [
     {
       id: 1,
@@ -112,7 +112,10 @@ const CategoryProducts = () => {
   const [productss, setProducts] = useState([]);
   const dispatch = useDispatch();
   const {categoryProducts, status, error} = useSelector(state => state.product);
-
+  const [proudctid, setProductID] = useState();
+   
+  console.log("categoryProducts-------->",categoryProducts);
+  
   useEffect(() => {
     dispatch(fetchCategoryProducts({categoryId: category.id}));
   }, [category.id, dispatch]);
@@ -123,11 +126,12 @@ const CategoryProducts = () => {
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
   const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
-
+  console.log();
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.TextHeading}>Women</Text>
+
         <View
           style={{flexDirection: 'row', alignItems: 'baseline', fontSize: 12}}>
           <Text style={styles.CategoryText}>{category.name}</Text>
@@ -236,13 +240,18 @@ const CategoryProducts = () => {
             <Text style={styles.noProductsText}>No products available</Text>
           ) : (
             categoryProducts.map(product => (
-              <Product
-                key={product.id}
-                uri={product?.images?.[0]?.src}
-                name={product?.name}
-                price={product?.price}
-                saved={product?.saved}
-              />
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('ProductDetail', {userId: product.id})
+                }>
+                <Product
+                  key={product.id}
+                  uri={product?.images?.[0]?.src}
+                  name={product?.name}
+                  price={product?.price}
+                  saved={product?.saved}
+                />
+              </Pressable>
             ))
           )}
         </View>
