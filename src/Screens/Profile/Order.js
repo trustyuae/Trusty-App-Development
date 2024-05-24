@@ -7,47 +7,30 @@ import {
 import {Images} from '../../Constants/index';
 import Button from '../../Components/Button';
 import {globalColors} from '../../Assets/Theme/globalColors';
+import OrderComponents from '../../Components/Order/OrderComponents';
 
 const Order = () => {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
         <Text>Order page</Text>
-        <View style={styles.line} />
-        <View style={styles.orderProducts}>
-          <Image style={{}} source={Images.cart_img}></Image>
-          <View style={{flexDirection: 'column', gap: 32, paddingLeft: 20}}>
-            <View>
-              <Text style={styles.headingText}>Order On</Text>
-              <Text>May 15, 2024</Text>
-            </View>
-            <View>
-              <Text style={styles.headingText}>Total Amount</Text>
-              <Text>200 AED</Text>
-            </View>
-          </View>
-          <View style={{gap: 75}}>
-            <Text style={{color: globalColors.black}}>processing</Text>
-            <Button
-              name={'Details'}
-              stylesofbtn={styles.stylesofbtn}
-              styleoffont={styles.styleoffont}></Button>
-          </View>
-        </View>
-        <View style={styles.line} />
+
+        <OrderComponents />
+        <OrderComponents />
+        <OrderComponents />
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    // alignItems: 'center',
+    alignItems: 'center',
     marginTop: 120,
   },
   line: {
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
-    width: '100%',
+    // width: '100%',
     marginVertical: 10,
   },
   subContainer: {

@@ -2,10 +2,13 @@ import React from 'react';
 import {View} from 'react-native';
 import CountryCodeDropdownPicker from 'react-native-dropdown-country-picker';
 import {globalColors} from '../Assets/Theme/globalColors';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const MobileNo = ({selected, setSelected, setCountry, phone, setPhone}) => {
   return (
-    <View style={{}}>
+    <View style={{marginBottom: hp('1.5%')}}>
       <CountryCodeDropdownPicker
         selected={selected}
         setSelected={setSelected}

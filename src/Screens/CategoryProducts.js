@@ -10,7 +10,6 @@ import {globalColors} from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
 import {Images} from '../Constants';
 import {ScrollView} from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {Picker} from '@react-native-picker/picker';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
