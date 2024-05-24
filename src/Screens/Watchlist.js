@@ -17,12 +17,8 @@ const Watchlist = () => {
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
         <Text>Singup</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('ProductDetail')}>
-        <Text>ProductDetail</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
-        <Text>CartScreen</Text>
-      </TouchableOpacity>
+     
+
       <TouchableOpacity onPress={() => navigation.navigate('ThankYou')}>
         <Text>ThankYou</Text>
       </TouchableOpacity>
