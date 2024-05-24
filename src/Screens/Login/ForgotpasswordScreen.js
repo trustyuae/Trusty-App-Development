@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, TextInput} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -11,6 +11,19 @@ import {postApi} from '../../Redux/Slice/postApiSlice';
 const ForgotpasswordScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const {loading, error, postData} = useSelector(state => state.post);
+
+  useEffect(() => {
+    if (postData) {
+      navigation.navigate('Login');
+    }
+
+    if (!error) {
+      setValues({
+        email: '',
+        password: '',
+      });
+    }
+  }, [postData]);
 
   const [value, setValues] = useState({
     email: '',
@@ -45,8 +58,7 @@ const ForgotpasswordScreen = ({navigation}) => {
   const handlepress = () => {
     if (validation()) {
       dispatch(postApi(value));
-      setValues(pre => ({email: ''}));
-      navigation.navigate('Login');
+      console.log();
     }
   };
 

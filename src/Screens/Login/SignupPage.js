@@ -232,7 +232,6 @@ const SignupPage = () => {
       billing: billingAddress,
       shipping: shippingAddress,
     };
-    console.log('signup', userData);
     dispatch(signupUser(userData)).then(action => {
       if (signupUser.fulfilled.match(action)) {
         clearForm();
@@ -330,7 +329,6 @@ const SignupPage = () => {
                 data={emojisWithIcons}
                 onSelect={(selectedItem, index) => {
                   setFormData({...formData, selectedTitle: selectedItem.title});
-                  console.log(selectedItem, index);
                 }}
                 renderButton={(selectedItem, isOpen) => {
                   return (

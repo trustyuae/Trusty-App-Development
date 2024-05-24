@@ -1,20 +1,19 @@
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {useState} from 'react';
 import {List} from 'react-native-paper';
-import {Dummyproduct1, } from '../Constants/Icons';
+import {Dummyproduct1} from '../Constants/Icons';
 
-const Accordion = ({Size, Description, Color, ChangeColor, setColor}) => {
+const Accordion = ({Size, Description, Color, changeColor, setChange}) => {
   const [expandedSize, setExpandedSize] = useState(true);
   const [expandedimg, setExpandedimg] = useState(true);
   const [expandedproductDetail, setProductDetail] = useState(false);
   const [expandedproductreturn, setProductReturn] = useState(false);
-  // const [ChangeColor, setColor] = useState({Color})
 
   const stripHTMLTags = html => {
-    // Replace HTML tags with an empty string
     return html.replace(/<[^>]*>?/gm, '');
   };
 
+  console.log('changeColor', changeColor);
   return (
     <List.Section>
       <List.Accordion
@@ -44,7 +43,7 @@ const Accordion = ({Size, Description, Color, ChangeColor, setColor}) => {
       </List.Accordion>
 
       <List.Accordion
-        title={`Color:black`}
+        title={`Color:${changeColor}`}
         titleStyle={{color: '#444444'}}
         expanded={expandedimg}
         style={{
@@ -59,9 +58,9 @@ const Accordion = ({Size, Description, Color, ChangeColor, setColor}) => {
             <View style={styles.custView}>
               {Color?.map((item, key) => (
                 <View key={key}>
-                  <Image
-                    onPress={() => setColor(item)}
-                    source={Dummyproduct1}></Image>
+                  <Pressable onPress={() => setChange(item)}>
+                    <Image source={Dummyproduct1}></Image>
+                  </Pressable>
                 </View>
               ))}
             </View>

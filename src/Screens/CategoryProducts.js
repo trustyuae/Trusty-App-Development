@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Pressable, StyleSheet, Text} from 'react-native';
+import {ActivityIndicator, Pressable, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {
@@ -114,19 +114,16 @@ const CategoryProducts = ({navigation}) => {
   const {categoryProducts, status, error} = useSelector(state => state.product);
   const [proudctid, setProductID] = useState();
    
-  console.log("categoryProducts-------->",categoryProducts);
   
   useEffect(() => {
     dispatch(fetchCategoryProducts({categoryId: category.id}));
   }, [category.id, dispatch]);
 
-  // console.log('###########', products?.name);
   const count = categoryProducts?.length;
 
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
   const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
-  console.log();
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -156,7 +153,6 @@ const CategoryProducts = ({navigation}) => {
           <SelectDropdown
             data={emojisWithIcons}
             onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index);
             }}
             // style={{marginLeft: 0}}
             renderButton={(selectedItem, isOpen) => {
@@ -194,7 +190,6 @@ const CategoryProducts = ({navigation}) => {
           <SelectDropdown
             data={emojisWithIcons}
             onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index);
             }}
             // style={{marginLeft: 0}}
             renderButton={(selectedItem, isOpen) => {
@@ -240,7 +235,7 @@ const CategoryProducts = ({navigation}) => {
             <Text style={styles.noProductsText}>No products available</Text>
           ) : (
             categoryProducts.map(product => (
-              <Pressable
+              <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('ProductDetail', {userId: product.id})
                 }>
@@ -251,7 +246,7 @@ const CategoryProducts = ({navigation}) => {
                   price={product?.price}
                   saved={product?.saved}
                 />
-              </Pressable>
+              </TouchableOpacity>
             ))
           )}
         </View>

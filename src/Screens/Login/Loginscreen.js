@@ -22,6 +22,13 @@ const Loginscreen = ({navigation}) => {
     if (userData) {
       navigation.navigate('DrawerHome');
     }
+
+    if (!error) {
+      setValues({
+        email: '',
+        password: '',
+      });
+    }
   }, [userData]);
 
   const [values, setValues] = useState({
@@ -50,11 +57,11 @@ const Loginscreen = ({navigation}) => {
         ...prevErrors,
         password: 'password is required',
       }));
-      return
-    } else if (values.password.length < 6) {
+      return;
+    } else if (values.password.length < 4) {
       setErrors(prevErrors => ({
         ...prevErrors,
-        password: 'Password must be at least 6 characters long',
+        password: 'Password must be at least 4 characters long',
       }));
       return;
     } else {
@@ -63,9 +70,7 @@ const Loginscreen = ({navigation}) => {
     return true;
   };
 
-
   const handlePress = () => {
-
     const {email, password} = values;
     const ChangeKey = {
       username: email,
@@ -73,7 +78,6 @@ const Loginscreen = ({navigation}) => {
     };
     if (validation()) {
       dispatch(loginUser(ChangeKey));
-      setValues(Pre=>({email:"",password:""}))
     }
   };
 
@@ -93,7 +97,9 @@ const Loginscreen = ({navigation}) => {
               }
             />
             {errors.email !== '' && (
-              <Text style={{marginTop:-10,color:"red",marginBottom:10}}>{errors.email}</Text>
+              <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+                {errors.email}
+              </Text>
             )}
             <View style={styles.custposition}>
               <TextInput
@@ -106,7 +112,9 @@ const Loginscreen = ({navigation}) => {
                 }
               />
               {errors.password !== '' && (
-                <Text style={{marginTop:-10,color:"red",marginBottom:10}}>{errors.password}</Text>
+                <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+                  {errors.password}
+                </Text>
               )}
               <Icon
                 name={showPassword ? 'eye-off-outline' : 'eye-outline'}
@@ -214,6 +222,5 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-  
   },
 });

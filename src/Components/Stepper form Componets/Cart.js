@@ -7,11 +7,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useState } from 'react';
+import {useState} from 'react';
 
-const Cart = ({count, setCount,number,setNumber}) => {
+const Cart = ({count, setCount, number, setNumber}) => {
   const handlepress = () => {};
-
 
   const handleCheckout = () => {
     setCount(pre => (count >= 2 ? 0 : pre + 1));
@@ -25,70 +24,74 @@ const Cart = ({count, setCount,number,setNumber}) => {
         <View style={styles.custborder} />
 
         <View
+          style={{
+            marginVertical: 15,
+            flexDirection: 'row',
+            gap: 10,
+            justifyContent: 'space-evenly',
+          }}>
+          <View>
+            <Image source={CartImg} height={5} />
+          </View>
+          <View>
+            <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+              Dummy Product 3 CHANEL
+            </Text>
+            <Text
               style={{
-                marginVertical: 15,
-                flexDirection: 'row',
-                gap: 10,
-                justifyContent: 'space-evenly',
+                marginVertical: 2,
+                color: '#676766',
+                fontFamily: 'Intrepid Regular',
               }}>
-              <View >
-                <Image source={CartImg} height={5} />
-              </View>
-              <View>
-                <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                  Dummy Product 3 CHANEL
-                </Text>
-                <Text
-                  style={{
-                    marginVertical: 2,
-                    color: '#676766',
-                    fontFamily: 'Intrepid Regular',
-                  }}>
-                  200,00 AED
-                </Text>
-                <Text
-                  style={{
-                    marginVertical: 3,
-                    color: 'black',
-                    fontFamily: 'Intrepid Regular',
-                  }}>
-                  Color : <Text style={{color: '#676766'}}>red</Text>{' '}
-                </Text>
-                <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                  Size
-                </Text>
-              </View>
-              <View >
-                <Icon name={'close'} size={30} color="black" style={{marginLeft:40}}></Icon>
-                <View
-                  style={{
-                    backgroundColor: 'white',
-                    padding: 7,
-                    marginTop: 50,
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-evenly',
-                      gap: 20,
-                    }}>
-                    {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
+              200,00 AED
+            </Text>
+            <Text
+              style={{
+                marginVertical: 3,
+                color: 'black',
+                fontFamily: 'Intrepid Regular',
+              }}>
+              Color : <Text style={{color: '#676766'}}>red</Text>{' '}
+            </Text>
+            <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+              Size
+            </Text>
+          </View>
+          <View>
+            <Icon
+              name={'close'}
+              size={30}
+              color="black"
+              style={{marginLeft: 70}}></Icon>
+            <View
+              style={{
+                backgroundColor: '#ffffff',
+                paddingVertical: 4,
+
+                marginTop: 50,
+                
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}>
+                {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
                 <View><Text>{number}</Text></View>
                 <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
 
-                    <View>
-                      <Text>-</Text>
-                    </View>
-                    <View>
-                      <Text>1</Text>
-                    </View>
-                    <View>
-                      <Text>+</Text>
-                    </View>
-                  </View>
+                <View  >
+                  <Text style={{fontSize: 20, color: '#444444',marginLeft:3}}>-</Text>
+                </View>
+                <View >
+                  <Text style={{fontSize: 20, color: '#444444',fontFamily: 'Intrepid Regular',marginHorizontal:32}}>1</Text>
+                </View>
+                <View >
+                  <Text style={{fontSize: 20, color: '#444444',marginLeft:7}}>+</Text>
                 </View>
               </View>
             </View>
+          </View>
+        </View>
 
         <View style={styles.custborder} />
 

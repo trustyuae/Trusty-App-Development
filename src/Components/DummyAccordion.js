@@ -8,7 +8,6 @@ const DummyAccordion = ({attributes}) => {
   const [expandedimg, setExpandedimg] = useState(true);
   const [expandedproductDetail, setProductDetail] = useState(false);
   const [expandedproductreturn, setProductReturn] = useState(false);
-  console.log('attributes------------>', attributes);
 
   return (
     // <List.Section>
