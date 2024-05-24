@@ -20,7 +20,7 @@ const Loginscreen = ({navigation}) => {
 
   useEffect(() => {
     if (userData) {
-      navigation.navigate('Cart');
+      navigation.navigate('DrawerHome');
     }
   }, [userData]);
 
@@ -34,18 +34,24 @@ const Loginscreen = ({navigation}) => {
     return re.test(email);
   };
 
-  const handlePress = () => {
+  const validation = () => {
     if (!values.email) {
       setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
-    }
-     else if (!validateEmail(values.email)) {
+      return;
+    } else if (!validateEmail(values.email)) {
       setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
       return;
-    } 
-    else {
+    } else {
       setErrors(prevErrors => ({...prevErrors, email: ''}));
     }
-    if (values.password.length < 6) {
+
+    if (!values.password) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        password: 'password is required',
+      }));
+      return
+    } else if (values.password.length < 6) {
       setErrors(prevErrors => ({
         ...prevErrors,
         password: 'Password must be at least 6 characters long',
@@ -54,14 +60,21 @@ const Loginscreen = ({navigation}) => {
     } else {
       setErrors(prevErrors => ({...prevErrors, password: ''}));
     }
+    return true;
+  };
+
+
+  const handlePress = () => {
 
     const {email, password} = values;
     const ChangeKey = {
       username: email,
       password: password,
     };
-
-    dispatch(loginUser(ChangeKey));
+    if (validation()) {
+      dispatch(loginUser(ChangeKey));
+      setValues(Pre=>({email:"",password:""}))
+    }
   };
 
   return (
@@ -80,7 +93,7 @@ const Loginscreen = ({navigation}) => {
               }
             />
             {errors.email !== '' && (
-              <Text style={styles.errorText}>{errors.email}</Text>
+              <Text style={{marginTop:-10,color:"red",marginBottom:10}}>{errors.email}</Text>
             )}
             <View style={styles.custposition}>
               <TextInput
@@ -93,7 +106,7 @@ const Loginscreen = ({navigation}) => {
                 }
               />
               {errors.password !== '' && (
-                <Text style={styles.errorText}>{errors.password}</Text>
+                <Text style={{marginTop:-10,color:"red",marginBottom:10}}>{errors.password}</Text>
               )}
               <Icon
                 name={showPassword ? 'eye-off-outline' : 'eye-outline'}
@@ -201,6 +214,6 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    marginTop: -13,
+  
   },
 });
