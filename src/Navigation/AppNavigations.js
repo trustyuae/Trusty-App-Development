@@ -37,7 +37,11 @@ const AppNavigations = () => {
           name="CategoryProducts"
           component={CategoryProducts}
           options={{
-            headerShown: false,
+            headerTransparent: true,
+            title: null,
+            headerStyle: {
+              backgroundColor: '#f6f1eb',
+            },
           }}
         />
         <Stack.Screen
@@ -99,8 +103,10 @@ const AppNavigations = () => {
           name="ThankYou"
           component={ThankYouScreen}
           options={{
-            headerTransparent: true,
+            headerTransparent: false,
             title: null,
+            headerShown: false,
+
             // headerStyle: {
             //   backgroundColor: '#f6f1eb',
             // },

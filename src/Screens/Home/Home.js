@@ -162,60 +162,75 @@ const Home = () => {
         <View style={{flexDirection: 'column'}}>
           <View style={styles.productContainer}>
             {products.slice(startIndex, startIndex + 4).map(product => (
-              <Product
-                key={product.id}
-                uri={product?.images[0]?.src}
-                name={product?.name}
-                price={product?.price}
-                saved={product?.saved}></Product>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('ProductDetail', {userId: product.id})
+                }>
+                <Product
+                  key={product.id}
+                  uri={product?.images[0]?.src}
+                  name={product?.name}
+                  price={product?.price}
+                  saved={product?.saved}></Product>
+              </Pressable>
             ))}
           </View>
           {/* </ScrollView> */}
 
-          <TouchableOpacity
-            onPress={onBackPress}
-            disabled={startIndex === 0}
-            style={[
-              styles.onBackPress,
-              startIndex === 0 ? styles.disabledButton : styles.enabledButton,
-            ]}>
-            <View>
-              <Icon
-                name="keyboard-arrow-left"
-                size={20}
-                color={globalColors.white}
-              />
-            </View>
-          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingLeft: 10,
+              paddingRight: 10,
+            }}>
+            <TouchableOpacity
+              onPress={onBackPress}
+              disabled={startIndex === 0}
+              style={{
+                backgroundColor: startIndex === 0 ? '#B9B9B9' : 'black',
+                borderRadius: wp('50%'),
+              }}>
+              <View>
+                <Icon
+                  name="keyboard-arrow-left"
+                  size={20}
+                  color={globalColors.white}
+                />
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={onNextPress}
-            disabled={startIndex + 4 >= ProductList.length}
-            style={[
-              styles.arrowButton,
-              styles.onNextPress,
-              {left: 10},
-              startIndex + 4 >= products.length
-                ? styles.disabledButton
-                : styles.enabledButton,
-            ]}>
-            <View>
-              <Icon
-                name="keyboard-arrow-right"
-                size={20}
-                color={globalColors.white}
-              />
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onNextPress}
+              disabled={startIndex + 4 >= ProductList.length}
+              style={{
+                backgroundColor:
+                  startIndex + 4 >= ProductList.length ? '#B9B9B9' : 'black',
+                borderRadius: wp('50%'),
+              }}>
+              <View>
+                <Icon
+                  name="keyboard-arrow-right"
+                  size={20}
+                  color={globalColors.white}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.productContainer}>
             {products.slice(startIndex + 2, startIndex + 4).map(product => (
-              <Product
-                key={product.id}
-                uri={product?.images[0]?.src}
-                name={product?.name}
-                price={product?.price}
-                saved={product?.saved}></Product>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('ProductDetail', {userId: product.id})
+                }>
+                <Product
+                  key={product.id}
+                  uri={product?.images[0]?.src}
+                  name={product?.name}
+                  price={product?.price}
+                  saved={product?.saved}></Product>
+              </Pressable>
             ))}
           </View>
         </View>
