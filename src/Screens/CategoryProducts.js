@@ -138,6 +138,8 @@ const CategoryProducts = ({navigation}) => {
           style={{
             borderBottomWidth: 1,
             marginRight: 10,
+            marginLeft: 10,
+            paddingRight: 20,
             borderBottomColor: '#ccc',
             marginBottom: 10,
             marginTop: 10,
@@ -147,8 +149,10 @@ const CategoryProducts = ({navigation}) => {
         <View
           style={{
             flexDirection: 'row',
-            gap: wp('48%'),
-            justifyContent: 'center',
+            // gap: wp('48%'),
+            paddingLeft: 20,
+            paddingRight: 10,
+            justifyContent: 'space-between',
           }}>
           <SelectDropdown
             data={emojisWithIcons}
@@ -180,7 +184,13 @@ const CategoryProducts = ({navigation}) => {
                     ...styles.dropdownItemStyle,
                     ...(isSelected && {backgroundColor: '#D2D9DF'}),
                   }}>
-                  <Text style={{fontSize: 14, fontFamily: 'Intrepid Regular'}}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontFamily: 'Intrepid Regular',
+                      marginLeft: 4,
+                      marginRight: 4,
+                    }}>
                     {item}
                   </Text>
                 </View>
@@ -217,7 +227,13 @@ const CategoryProducts = ({navigation}) => {
                     ...styles.dropdownItemStyle,
                     ...(isSelected && {backgroundColor: '#D2D9DF'}),
                   }}>
-                  <Text style={{fontSize: 14, fontFamily: 'Intrepid Regular'}}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontFamily: 'Intrepid Regular',
+                      marginLeft: 4,
+                      marginRight: 4,
+                    }}>
                     {item}
                   </Text>
                 </View>
@@ -282,9 +298,12 @@ const styles = StyleSheet.create({
   dropdownItemStyle: {
     position: 'relative',
     textAlign: 'center',
-    marginLeft: 5,
-    width: 80,
-    height: 30,
+    borderBottomWidth: 1,
+    borderColor: globalColors.inputBorder,
+    justifyContent: 'center',
+    width: 100,
+    height: 40,
+    color: globalColors.black,
   },
   dropdownButtonStyle: {
     width: 80,

@@ -14,7 +14,15 @@ export const signupUser = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      if (error.response && error.response.data) {
+        // Customize the error messages based on the response from the server
+        if (error.response.data.code === 'email_already_registered') {
+          return rejectWithValue('This email is already taken/registered');
+        }
+        // Add more cases as needed
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue('An unknown error occurred');
     }
   },
 );
@@ -39,7 +47,7 @@ const authSlice = createSlice({
           type: 'success',
           text1: 'Signup Successful',
           position: 'bottom',
-          visibilityTime: 1000,
+          visibilityTime: 2000,
         });
       })
       .addCase(signupUser.rejected, (state, action) => {
@@ -47,8 +55,8 @@ const authSlice = createSlice({
         state.error = action.payload || 'An error occurred';
         Toast.show({
           type: 'error',
-          text1: action.error.message,
-          visibilityTime: 2000,
+          text1: action.payload || 'An error occurred',
+          visibilityTime: 4000,
         });
       });
   },

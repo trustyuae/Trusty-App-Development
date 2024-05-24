@@ -37,7 +37,6 @@ export default function Productdetailscreen({route, navigation}) {
     dispatch(fetchById(id));
   }, [id]);
 
-  console.log("id------------->",id);
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
@@ -118,14 +117,15 @@ export default function Productdetailscreen({route, navigation}) {
                 ?.map((product, key) => (
                   <View key={key}>
                     <TouchableOpacity onPress={() => setId(product.id)}>
-                      <ProductBackup
+                    <Product
                         key={product?.id}
-                        data={product?.images}
+                        uri={product?.images[0]?.src}
                         name={product?.name}
                         price={product?.price}
                         saved={product?.saved}
                       />
                     </TouchableOpacity>
+                    
                   </View>
                 ))
                 .slice(0, 4)}

@@ -14,10 +14,12 @@ import {
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
 
-const Product = ({uri, name, price, saved: initialSaved}) => {
+const Product = ({uri, name, price}) => {
+  const initialSaved = true;
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {
+    console.log('Toggle saved');
     setSaved(!saved);
   };
 
@@ -37,14 +39,14 @@ const Product = ({uri, name, price, saved: initialSaved}) => {
           }}
           resizeMode="cover"
         />
-
-        <Pressable onPress={toggleSaved} style={styles.saveImage}>
+        <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
             style={styles.saveImage}
             source={saved ? Images.saveIconFill : Images.saveIconUnFill}
           />
         </Pressable>
       </View>
+
       <View style={styles.detailsContainer}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.price}>{price}</Text>
@@ -62,10 +64,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   imageContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    objectFit: 'resizeMode',
-    justifyContent: 'center',
+    // flexDirection: 'row',
+    // flexWrap: 'wrap',
+    // objectFit: 'resizeMode',
+    // justifyContent: 'center',
     width: wp('46%'),
     position: 'relative',
     // height: hp('25%'),
@@ -93,18 +95,24 @@ const styles = StyleSheet.create({
 
     color: globalColors.productPriceText,
   },
-  saveImage: {
+  saveImagea: {
     position: 'absolute',
-    marginTop: wp('2%'),
-    marginLeft: wp('15%'),
-    // width: wp('3%'),
+    marginTop: wp('3%'),
+    // backgroundColor: 'red',
+    marginLeft: wp('32%'),
 
-    // height: hp('4%'),
+    width: 12,
+    height: 14,
+    left: 19,
+  },
+  saveImage: {
+    // position: 'absolute',
+    // marginLeft: wp('15%'),
+    width: 11,
+    padding: 4,
+    height: 12,
   },
   image: {
-    // marginLeft: wp('8%'),
-    // height: hp('30%'),
-    // width: wp('40%'),a
     width: wp('46%'),
     height: hp('25%'),
     // alignContent: 'center',
