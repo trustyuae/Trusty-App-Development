@@ -14,7 +14,7 @@ import {
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
 
-const Product = ({data, name, price, saved: initialSaved}) => {
+const Product = ({uri, name, price, saved: initialSaved}) => {
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {
@@ -29,17 +29,15 @@ const Product = ({data, name, price, saved: initialSaved}) => {
         {/* ) : (
           <Text style={styles.errorText}>Image not available</Text>
         )} */}
-        {data
-          ?.map(item => (
-            <Image
-              style={styles.image}
-              source={{
-                uri: item?.src,
-              }}
-              resizeMode="cover"
-            />
-          ))
-          .slice(0, 1)}
+
+        <Image
+          style={styles.image}
+          source={{
+            uri,
+          }}
+          resizeMode="cover"
+        />
+
         <Pressable onPress={toggleSaved} style={styles.saveImage}>
           <Image
             style={styles.saveImage}
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
   image: {
     // marginLeft: wp('8%'),
     // height: hp('30%'),
-    // width: wp('40%'),
+    // width: wp('40%'),a
     width: wp('46%'),
     height: hp('25%'),
     // alignContent: 'center',

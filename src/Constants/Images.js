@@ -17,6 +17,8 @@ const preview1 = require('../Assets/Images/preview1.png');
 const confirmationTick = require('../Assets/Images/confirmationTick.png');
 const arrowBack = require('../Assets/Images/ArrowleftDirection.png');
 const cart_img = require('../Assets/Images/cart_img.png');
+const Logout = require('../Assets/Images/Logout.png');
+
 export default {
   icons,
   bag,
@@ -37,4 +39,5 @@ export default {
   confirmationTick,
   arrowBack,
   cart_img,
+  Logout,
 };

@@ -175,7 +175,10 @@ const Home = () => {
           <TouchableOpacity
             onPress={onBackPress}
             disabled={startIndex === 0}
-            style={styles.onBackPress}>
+            style={[
+              styles.onBackPress,
+              startIndex === 0 ? styles.disabledButton : styles.enabledButton,
+            ]}>
             <View>
               <Icon
                 name="keyboard-arrow-left"
@@ -188,7 +191,14 @@ const Home = () => {
           <TouchableOpacity
             onPress={onNextPress}
             disabled={startIndex + 4 >= ProductList.length}
-            style={[styles.arrowButton, styles.onNextPress, {left: 10}]}>
+            style={[
+              styles.arrowButton,
+              styles.onNextPress,
+              {left: 10},
+              startIndex + 4 >= products.length
+                ? styles.disabledButton
+                : styles.enabledButton,
+            ]}>
             <View>
               <Icon
                 name="keyboard-arrow-right"
@@ -252,7 +262,7 @@ const styles = StyleSheet.create({
 
   onBackPress: {
     alignItems: 'flex-start',
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
     width: 20,
     marginLeft: wp('3%'),
     borderRadius: 20,
@@ -265,7 +275,13 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 20,
+    // backgroundColor: globalColors.black,
+  },
+  enabledButton: {
     backgroundColor: globalColors.black,
+  },
+  disabledButton: {
+    backgroundColor: '#B9B9B9',
   },
 });
 

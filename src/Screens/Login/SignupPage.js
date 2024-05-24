@@ -40,10 +40,10 @@ const SignupPage = () => {
     address: '',
     addressContinued: '',
     city: '',
-    selectedCountry: '+91',
+    selectedCountry: '',
     selectedTitle: '',
     phone: '',
-    selected: '91',
+    selected: '+91',
     billingAddress: '',
     billingAddressContinued: '',
     billingCity: '',
@@ -58,7 +58,7 @@ const SignupPage = () => {
   };
 
   const isValidPassword = password => {
-    return password.length >= 8;
+    return password.length >= 4;
   };
 
   const isValidName = name => {
@@ -73,37 +73,113 @@ const SignupPage = () => {
   };
   const {loading, error, user} = useSelector(state => state.auth);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     navigation.navigate('DrawerHome');
-  //   }
-  // }, [user]);
-
   const validateForm = () => {
     const newErrors = {};
-    if (!isValidEmail(formData.email))
+
+    // Check for empty fields first
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    else if (!isValidEmail(formData.email))
       newErrors.email = 'Invalid email address';
-    if (!isValidPassword(formData.password))
-      newErrors.password = 'Password must be at least 8 characters';
-    if (!isValidName(formData.firstName))
+
+    if (!formData.password.trim()) newErrors.password = 'Password is required';
+    else if (!isValidPassword(formData.password))
+      newErrors.password = 'Password must be at least 4 characters';
+
+    if (!formData.firstName.trim())
+      newErrors.firstName = 'First name is required';
+    else if (!isValidName(formData.firstName))
       newErrors.firstName = 'First name should contain only letters';
-    if (!isValidName(formData.lastName))
+
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+    else if (!isValidName(formData.lastName))
       newErrors.lastName = 'Last name should contain only letters';
-    if (!isValidPhoneNumber(formData.phone)) {
+
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    else if (!isValidPhoneNumber(formData.phone))
       newErrors.phone = 'Please enter a valid phone number';
-    }
-    if (!isCheckbox) {
-      newErrors.isCheckbox = 'Please check the above mark';
-    }
+
+    if (!formData.billingAddress.trim())
+      newErrors.billingAddress = 'Billing address is required';
+    if (!formData.billingCity.trim())
+      newErrors.billingCity = 'Billing city is required';
+    if (!formData.shippingAddress.trim())
+      newErrors.shippingAddress = 'Shipping address is required';
+    if (!formData.shippingCity.trim())
+      newErrors.shippingCity = 'Shipping city is required';
+    if (!isCheckbox) newErrors.isCheckbox = 'Please check the above mark';
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const validateField = (key, value) => {
+    const newErrors = {...errors};
+
+    switch (key) {
+      case 'email':
+        if (!value.trim()) newErrors.email = 'Email is required';
+        else if (!isValidEmail(value))
+          newErrors.email = 'Invalid email address';
+        else delete newErrors.email;
+        break;
+      case 'password':
+        if (!value.trim()) newErrors.password = 'Password is required';
+        else if (!isValidPassword(value))
+          newErrors.password = 'Password must be at least 4 characters';
+        else delete newErrors.password;
+        break;
+      case 'firstName':
+        if (!value.trim()) newErrors.firstName = 'First name is required';
+        else if (!isValidName(value))
+          newErrors.firstName = 'First name should contain only letters';
+        else delete newErrors.firstName;
+        break;
+      case 'lastName':
+        if (!value.trim()) newErrors.lastName = 'Last name is required';
+        else if (!isValidName(value))
+          newErrors.lastName = 'Last name should contain only letters';
+        else delete newErrors.lastName;
+        break;
+      case 'phone':
+        if (!value.trim()) newErrors.phone = 'Phone number is required';
+        else if (!isValidPhoneNumber(value))
+          newErrors.phone = 'Please enter a valid phone number';
+        else delete newErrors.phone;
+        break;
+      case 'billingAddress':
+        if (!value.trim())
+          newErrors.billingAddress = 'Billing address is required';
+        else delete newErrors.billingAddress;
+        break;
+      case 'billingCity':
+        if (!value.trim()) newErrors.billingCity = 'Billing city is required';
+        else delete newErrors.billingCity;
+        break;
+      case 'shippingAddress':
+        if (!value.trim())
+          newErrors.shippingAddress = 'Shipping address is required';
+        else delete newErrors.shippingAddress;
+        break;
+      case 'shippingCity':
+        if (!value.trim()) newErrors.shippingCity = 'Shipping city is required';
+        else delete newErrors.shippingCity;
+        break;
+      default:
+        break;
+    }
+
+    setErrors(newErrors);
+  };
+  const [selectedCountry, setSelectedCountry] = useState('');
   const handleCountryChange = value => {
     setSelectedCountry(value);
   };
-  const handlechange = (key, value) => {
-    setValues(pre => ({...pre, [key]: value}));
+  const handleChange = (key, value) => {
+    if (key === 'phone' && value.length > 10) {
+      return;
+    }
+    setFormData(prevState => ({...prevState, [key]: value}));
+    validateField(key, value);
   };
   useEffect(() => {
     fetch(
@@ -156,11 +232,11 @@ const SignupPage = () => {
       billing: billingAddress,
       shipping: shippingAddress,
     };
-
+    console.log('signup', userData);
     dispatch(signupUser(userData)).then(action => {
       if (signupUser.fulfilled.match(action)) {
         clearForm();
-        navigation.navigate('DrawerHome');
+        navigation.navigate('Login');
       }
     });
   };
@@ -197,9 +273,17 @@ const SignupPage = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>Create An Account</Text>
           <Text style={styles.description}>
-            By creating an account, Yoy agree to accept the General Terms And
-            Conditions of Use and that your data will be processed in complines
-            with the privacy Policy of Trusty.
+            By creating an account, Yoy agree to accept the
+            <Text style={{color: globalColors.backgroundLight}}>
+              {' '}
+              General Terms And Conditions
+            </Text>{' '}
+            of Use and that your data will be processed in complines with the
+            <Text style={{color: globalColors.backgroundLight}}>
+              {' '}
+              privacy Policy
+            </Text>{' '}
+            of Trusty.
           </Text>
           <View style={styles.inputContainer}>
             <View style={styles.inputSection}>
@@ -208,7 +292,7 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="E-mail"
                 value={formData.email}
-                onChangeText={text => setFormData({...formData, email: text})}
+                onChangeText={text => handleChange('email', text)}
               />
               {errors.email && (
                 <Text style={styles.errorText}>{errors.email}</Text>
@@ -220,9 +304,7 @@ const SignupPage = () => {
                   placeholder="Password"
                   value={formData.password}
                   secureTextEntry={show ? true : false}
-                  onChangeText={text =>
-                    setFormData({...formData, password: text})
-                  }
+                  onChangeText={text => handleChange('password', text)}
                 />
                 {show ? (
                   <Icon
@@ -286,9 +368,7 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="First Name"
                 value={formData.firstName}
-                onChangeText={text =>
-                  setFormData({...formData, firstName: text})
-                }
+                onChangeText={text => handleChange('firstName', text)}
               />
               {errors.firstName && (
                 <Text style={styles.errorText}>{errors.firstName}</Text>
@@ -298,9 +378,7 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="Last Name"
                 value={formData.lastName}
-                onChangeText={text =>
-                  setFormData({...formData, lastName: text})
-                }
+                onChangeText={text => handleChange('lastName', text)}
               />
               {errors.lastName && (
                 <Text style={styles.errorText}>{errors.lastName}</Text>
@@ -308,16 +386,10 @@ const SignupPage = () => {
 
               <MobileNo
                 selected={formData.selected}
-                setSelected={val =>
-                  setFormData({...formData.selected, selected: val})
-                }
-                setCountry={val =>
-                  setFormData({...formData, selectedCountry: val})
-                }
+                setSelected={value => handleChange('selected', value)}
+                setCountry={handleCountryChange}
                 phone={formData.phone}
-                setPhone={val =>
-                  setFormData({...formData, phone: val})
-                }></MobileNo>
+                setPhone={text => handleChange('phone', text)}></MobileNo>
               {errors.phone && (
                 <Text style={styles.errorText}>{errors.phone}</Text>
               )}
@@ -350,10 +422,11 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="Address"
                 value={formData.billingAddress}
-                onChangeText={text =>
-                  setFormData({...formData, billingAddress: text})
-                }
+                onChangeText={text => handleChange('billingAddress', text)}
               />
+              {errors.billingAddress && (
+                <Text style={styles.errorText}>{errors.billingAddress}</Text>
+              )}
               <TextInput
                 style={styles.input}
                 placeholder="Address Continued"
@@ -366,10 +439,11 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="City"
                 value={formData.billingCity}
-                onChangeText={text =>
-                  setFormData({...formData, billingCity: text})
-                }
+                onChangeText={text => handleChange('billingCity', text)}
               />
+              {errors.billingCity && (
+                <Text style={styles.errorText}>{errors.billingCity}</Text>
+              )}
             </View>
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Shipping Information</Text>
@@ -397,9 +471,7 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="Address"
                 value={formData.shippingAddress}
-                onChangeText={text =>
-                  setFormData({...formData, shippingAddress: text})
-                }
+                onChangeText={text => handleChange('shippingAddress', text)}
               />
               <TextInput
                 style={styles.input}
@@ -409,30 +481,47 @@ const SignupPage = () => {
                   setFormData({...formData, shippingAddressContinued: text})
                 }
               />
+              {errors.shippingAddress && (
+                <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+              )}
               <TextInput
                 style={styles.input}
                 placeholder="City"
                 value={formData.shippingCity}
-                onChangeText={text =>
-                  setFormData({...formData, shippingCity: text})
-                }
+                onChangeText={text => handleChange('shippingCity', text)}
               />
+              {errors.shippingCity && (
+                <Text style={styles.errorText}>{errors.shippingCity}</Text>
+              )}
             </View>
             <Pressable onPress={handleCheckboxPress}>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', marginBottom: hp('1.5%')}}>
                 <View style={styles.CheckBoxContainer}>
                   {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
                 </View>
-                <Text style={{fontSize: 13, fontFamily: 'Intrepid Regular'}}>
-                  I agree to receive information by email about offers,
-                  services, products and events from Trusty or other group
-                  companies, in accordance with the Privacy Policy.{'\n'}
-                  <Text style={{fontFamily: 'Intrepid Regular', fontSize: 13}}>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      marginBottom: 5,
+                      fontFamily: 'Intrepid Regular',
+                      color: globalColors.black,
+                    }}>
+                    I agree to receive information by email about offers,
+                    services, products and events from Trusty or other group
+                    companies, in accordance with the Privacy Policy.{'\n'}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: 'Intrepid Regular',
+                      fontSize: 13,
+                      color: globalColors.black,
+                    }}>
                     You can unsubscribe from email marketing communications via
                     the "unsubscribe" link at the bottom of each of our email
                     promotional communications.
                   </Text>
-                </Text>
+                </View>
               </View>
             </Pressable>
             {errors.isCheckbox && (
@@ -454,7 +543,7 @@ const SignupPage = () => {
               <Text
                 style={styles.footerLink}
                 onPress={() => navigation.navigate('Login')}>
-                Log in
+                {''} Log in
               </Text>
             </Text>
           </View>
@@ -491,13 +580,18 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
+    marginTop: -10,
+    marginBottom: hp('1.5%'),
+    marginLeft: wp('2%'),
   },
   logo: {
     width: 150,
     height: 150,
   },
   formContainer: {
-    width: hp('45%'),
+    // width: 'auto',
+    paddingLeft: 25,
+    paddingRight: 25,
     // marginTop: hp('5%'),
   },
   title: {
@@ -512,6 +606,7 @@ const styles = StyleSheet.create({
   },
   headingInput: {
     position: 'absolute',
+    color: globalColors.black,
     width: 'auto',
     marginTop: -10,
     backgroundColor: globalColors.headingBackground,
@@ -531,10 +626,11 @@ const styles = StyleSheet.create({
   description: {
     marginBottom: 20,
     fontSize: 14,
+    color: globalColors.black,
     fontFamily: 'Intrepid Regular',
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   input: {
     height: hp('5.5%'),
