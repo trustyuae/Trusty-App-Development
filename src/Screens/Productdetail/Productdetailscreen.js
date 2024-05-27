@@ -23,6 +23,8 @@ import {useEffect, useState} from 'react';
 import {fetchById} from '../../Redux/Slice/SingleProductslice';
 import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
+import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
+import { color } from 'react-native-elements/dist/helpers';
 
 export default function Productdetailscreen({route, navigation}) {
   const {userId} = route?.params;
@@ -32,9 +34,13 @@ export default function Productdetailscreen({route, navigation}) {
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(true);
   const [id, setId] = useState(userId);
+  const[changeSize,setChangeSize]=useState('')
+
 
   useEffect(() => {
     dispatch(fetchById(id));
+    setChange('')
+    setChangeSize('')
   }, [id]);
 
 
@@ -45,7 +51,20 @@ export default function Productdetailscreen({route, navigation}) {
   }, [responseData]);
 
   const handlepress = () => {
-    navigation.navigate('Cart');
+        // const data={
+        //   productid:responseData?.id,
+        //   color:changeColor,
+        //   Size:changeSize,
+        // }
+        // dispatch(addToCart(data))
+        navigation.navigate('Cart');
+
+    //  dispatch(addToCart(data)).then(action => {
+    //   if (postApi.fulfilled.match(action)) {
+    //     navigation.navigate('Cart');
+    //   }
+    // });
+   
   };
 
   return (
@@ -98,6 +117,8 @@ export default function Productdetailscreen({route, navigation}) {
               Description={responseData?.description}
               setChange={setChange}
               changeColor={changeColor}
+              changeSize={changeSize}
+              setChangeSize={setChangeSize}
             />
             {/* <DummyAccordion attributes={responseData?.attributes}/> */}
           </View>

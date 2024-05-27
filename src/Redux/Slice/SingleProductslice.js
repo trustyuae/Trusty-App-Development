@@ -1,18 +1,18 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {GET_SINGLE_PRODUCT} from '../../Constants/UserConstants';
-import { baseURL } from '../../Utils/API';
+import {Consumer_key, Consumer_secret, baseURL} from '../../Utils/API';
 
 export const fetchById = createAsyncThunk(
   GET_SINGLE_PRODUCT,
   async (id, {rejectWithValue}) => {
     try {
-      const response = await axios.get(`${baseURL}/wc/v3/products/${id}`,{
+      const response = await axios.get(`${baseURL}/wc/v3/products/${id}`, {
         auth: {
-            username:"ck_74025587053512828ec315f206d134bc313d97cb",
-            password:"cs_72ca42854e72b72e3143a14d79fd0a91c649fbeb"
-          }
-      })
+          username: Consumer_key,
+          password: Consumer_secret,
+        },
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

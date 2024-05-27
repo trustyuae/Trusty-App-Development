@@ -9,6 +9,7 @@ import BottomTabNavigation from './BottomTabNavigation';
 import Profile from '../Screens/Profile/Profile';
 import Order from '../Screens/Profile/Order';
 import ProfileNavigations from './ProfileNavigations';
+import Points from '../Screens/Profile/Points';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = () => {
@@ -64,6 +65,8 @@ const AppNavigations = () => {
             },
           }}
         />
+
+
         <Stack.Screen
           name="Order"
           component={Order}

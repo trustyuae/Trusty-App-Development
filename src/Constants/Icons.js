@@ -28,4 +28,10 @@ export const Dummyproduct2 = require('../Assets/Images/dummyproduct2.png');
 export const SaveICon = require('../Assets/Images/Vector.png');
 export const NotSaveICon = require('../Assets/Images/notSaved.png');
 export const CartImg = require('../Assets/Images/cart_img.png');
+export const Gold=require("../Assets/Images/Gold.png")
+export const Bronze=require("../Assets/Images/Bronze.png")
+export const Platinum=require("../Assets/Images/Platnium.png")
+export const Sliver=require("../Assets/Images/Sliver.png")
+export const Gift=require("../Assets/Images/gifts.png")
+
 

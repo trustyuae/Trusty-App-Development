@@ -143,34 +143,34 @@ const Checkout = ({count, setCount}) => {
                 </Text>
               </View>
               <View>
-                <Icon name={'close'} size={30} color="black" style={{marginLeft:40}}></Icon>
+                <Icon name={'close'} size={30} color="black" style={{marginLeft:70}}></Icon>
                 <View
-                  style={{
-                    backgroundColor: 'white',
-                    padding: 7,
-                    marginTop: 50,
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-evenly',
-                      gap: 20,
-                    }}>
-                    {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
+              style={{
+                backgroundColor: '#ffffff',
+                paddingVertical: 4,
+
+                marginTop: 50,
+                
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}>
+                {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
                 <View><Text>{number}</Text></View>
                 <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
 
-                    <View>
-                      <Text>-</Text>
-                    </View>
-                    <View>
-                      <Text>1</Text>
-                    </View>
-                    <View>
-                      <Text>+</Text>
-                    </View>
-                  </View>
+                <View  >
+                  <Text style={{fontSize: 20, color: '#444444',marginLeft:3}}>-</Text>
                 </View>
+                <View >
+                  <Text style={{fontSize: 20, color: '#444444',fontFamily: 'Intrepid Regular',marginHorizontal:32}}>1</Text>
+                </View>
+                <View >
+                  <Text style={{fontSize: 20, color: '#444444',marginLeft:7}}>+</Text>
+                </View>
+              </View>
+            </View>
               </View>
             </View>
           </List.Accordion>

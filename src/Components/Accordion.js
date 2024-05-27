@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {List} from 'react-native-paper';
 import {Dummyproduct1} from '../Constants/Icons';
 
-const Accordion = ({Size, Description, Color, changeColor, setChange}) => {
+const Accordion = ({Size, Description, Color, changeColor, setChange,changeSize,setChangeSize}) => {
   const [expandedSize, setExpandedSize] = useState(true);
   const [expandedimg, setExpandedimg] = useState(true);
   const [expandedproductDetail, setProductDetail] = useState(false);
@@ -13,11 +13,10 @@ const Accordion = ({Size, Description, Color, changeColor, setChange}) => {
     return html.replace(/<[^>]*>?/gm, '');
   };
 
-  console.log('changeColor', changeColor);
   return (
     <List.Section>
       <List.Accordion
-        title="Size"
+        title={`Size:${ changeSize}`}
         titleStyle={{color: '#444444'}}
         expanded={expandedSize}
         style={{
@@ -32,9 +31,12 @@ const Accordion = ({Size, Description, Color, changeColor, setChange}) => {
           <>
             <View style={styles.custView}>
               {Size?.map((item, key) => (
-                <View key={key} style={[styles.custcontainer]}>
-                  <Text style={styles.custboldtext}>{item}</Text>
+                <Pressable onPress={()=>setChangeSize(item)}>
+                 <View key={key} style={[styles.custcontainer]} >
+                  <Text style={styles.custboldtext} >{item}</Text>
                 </View>
+                </Pressable>
+                
               ))}
             </View>
             <View style={styles.custBorder} />

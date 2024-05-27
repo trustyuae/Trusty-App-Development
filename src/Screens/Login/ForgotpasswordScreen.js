@@ -13,10 +13,6 @@ const ForgotpasswordScreen = ({navigation}) => {
   const {loading, error, postData} = useSelector(state => state.post);
 
   useEffect(() => {
-    if (postData) {
-      navigation.navigate('Login');
-    }
-
     if (!error) {
       setValues({
         email: '',
@@ -57,8 +53,11 @@ const ForgotpasswordScreen = ({navigation}) => {
 
   const handlepress = () => {
     if (validation()) {
-      dispatch(postApi(value));
-      console.log();
+      dispatch(postApi(value)).then(action => {
+        if (postApi.fulfilled.match(action)) {
+          navigation.navigate('Login');
+        }
+      });
     }
   };
 

@@ -43,9 +43,11 @@ const CartScreen = () => {
   return (
     <ScrollView>
       <View>
-        <View style={{marginTop: 90}}>
-          <StepperComponet labels={labels} count={count} stepCount={3} />
-        </View>
+        {count == 2 ? null : (
+          <View style={{marginTop: 90}}>
+            <StepperComponet labels={labels} count={count} stepCount={3} />
+          </View>
+        )}
         {renderContent()}
       </View>
     </ScrollView>

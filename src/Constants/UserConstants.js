@@ -11,3 +11,8 @@ export const POST_API = 'POST_API';
 export const PARTNER_PERFECT="PARTNER_PERFECT"
 
 export const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST';
+
+
+// ***************************Add to cart **************************
+
+export const ADD_TO_CART="ADD_TO_CART"
