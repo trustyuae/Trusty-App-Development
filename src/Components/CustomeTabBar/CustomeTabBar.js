@@ -15,9 +15,8 @@ import {
 } from 'react-native-responsive-screen';
 const CustomTabBar = ({state, descriptors, navigation}) => {
   return (
-    <ScrollView>
-      {' '}
-      <View style={styles.tabBarContainer}>
+    <View style={styles.tabBarContainer}>
+      <ScrollView>
         <View style={{alignItems: 'center', paddingBottom: 2}}>
           <Image source={Images.ProfileIcon}></Image>
           <Text>MR SAF ASD</Text>
@@ -81,8 +80,8 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
             );
           })}
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
