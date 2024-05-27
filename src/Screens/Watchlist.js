@@ -11,7 +11,7 @@ const Watchlist = () => {
       <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
         Comming Soon
       </Text>
-      {/* <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
@@ -26,7 +26,7 @@ const Watchlist = () => {
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Order')}>
         <Text>order</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };

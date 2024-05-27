@@ -8,6 +8,7 @@ import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
 import BottomTabNavigation from './BottomTabNavigation';
 import Profile from '../Screens/Profile/Profile';
 import Order from '../Screens/Profile/Order';
+import ProfileNavigations from './ProfileNavigations';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = () => {
@@ -54,13 +55,13 @@ const AppNavigations = () => {
         />
         <Stack.Screen
           name="Profile"
-          component={Profile}
+          component={ProfileNavigations}
           options={{
             headerTransparent: true,
             title: null,
-            // headerStyle: {
-            //   backgroundColor: '#f6f1eb',
-            // },
+            headerStyle: {
+              // backgroundColor: 'black',
+            },
           }}
         />
         <Stack.Screen
