@@ -19,9 +19,11 @@ const Gifts = () => {
 const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
+    marginTop: hp('20%'),
   },
   mainText: {
     textAlign: 'center',
+    marginTop: hp('20%'),
   },
 });
 

@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingHorizontal: wp('15%'),
+    backgroundColor: 'red',
     alignContent: 'center',
   },
 });
