@@ -7,6 +7,7 @@ import categoryReducer from '../Slice/categorySlice';
 import authReducer from '../Slice/authSlice';
 import postApiSlice from '../Slice/postApiSlice';
 import perfectpatnerSlice from '../Slice/perfectpatnerSlice';
+import AddToCartSlice from '../Slice/car_slice/addtocart';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   user: userSliceReducer,
   getById: getByIdSlice,
   post: postApiSlice,
-  PatnerGet:perfectpatnerSlice
+  PatnerGet:perfectpatnerSlice,
+  AddToCart:AddToCartSlice
 });
 
 export default rootReducer;

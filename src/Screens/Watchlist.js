@@ -8,9 +8,7 @@ const Watchlist = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
-        Comming Soon
-      </Text>
+     
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text>Login</Text>
       </TouchableOpacity>

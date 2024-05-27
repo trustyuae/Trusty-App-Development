@@ -7,7 +7,6 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 function MyCarousel({views}) {
   const width = Dimensions.get('window').width;
 
-  console.log(views);
   return (
     <View>
       <ScrollView >

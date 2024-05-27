@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {PARTNER_PERFECT} from '../../Constants/UserConstants';
-import {baseURL} from '../../Utils/API';
+import {Consumer_key, Consumer_secret, baseURL} from '../../Utils/API';
 import Toast from 'react-native-toast-message';
 import axios from 'axios';
 
@@ -12,8 +12,8 @@ export const PartnerPerfect = createAsyncThunk(
         `${baseURL}/wc/v3/products?category=${id}`,
         {
           auth: {
-            username: 'ck_74025587053512828ec315f206d134bc313d97cb',
-            password: 'cs_72ca42854e72b72e3143a14d79fd0a91c649fbeb',
+            username: Consumer_key,
+            password: Consumer_secret,
           },
         },
       );

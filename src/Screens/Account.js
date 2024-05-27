@@ -1,24 +1,22 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchById } from '../Redux/Slice/SingleProductslice'
-
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchById} from '../Redux/Slice/SingleProductslice';
 
 const Account = () => {
-  const dispatch=useDispatch()
-  const {loading,error,responseData}=useSelector(state=>state.getById)
+  const dispatch = useDispatch();
+  const {loading, error, responseData} = useSelector(state => state.getById);
 
-
-  useEffect(()=>{
-    dispatch(fetchById(3276))
-  },[])
+  useEffect(() => {
+    dispatch(fetchById(3276));
+  }, []);
 
   return (
     <View>
-    <View style={styles.container}>
-      <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
-        Comming Soon
-      </Text>
+      <View style={styles.container}>
+        <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
+          Comming Soon
+        </Text>
       </View>
     </View>
   );

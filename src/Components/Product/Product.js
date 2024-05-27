@@ -19,7 +19,6 @@ const Product = ({uri, name, price}) => {
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {
-    console.log('Toggle saved');
     setSaved(!saved);
   };
 
