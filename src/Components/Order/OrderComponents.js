@@ -9,12 +9,21 @@ import {
 } from 'react-native-responsive-screen';
 import {globalColors} from '../../Assets/Theme/globalColors';
 
-const OrderComponents = ({uri, OrderDate, TotalAmount, status}) => {
+const OrderComponents = ({
+  line_items,
+  OrderDate,
+  TotalAmount,
+  status,
+  currency,
+}) => {
+  console.log('line Items-->', line_items);
   return (
     <View>
       <View style={styles.line} />
       <View style={{flexDirection: 'row'}}>
-        <Image style={{}} source={Images.cart_img}></Image>
+        <Image
+          style={{width: wp('30%'), height: hp('20%')}}
+          source={{uri: line_items}}></Image>
         <View style={styles.orderProducts}>
           <View
             style={{
@@ -25,10 +34,12 @@ const OrderComponents = ({uri, OrderDate, TotalAmount, status}) => {
             }}>
             <View style={{flexDirection: 'column'}}>
               <Text style={styles.headingTextOrder}>Order On</Text>
-              <Text>May 15, 2024</Text>
+              <Text>{OrderDate}</Text>
 
               <Text style={styles.headingText}>Total Amount</Text>
-              <Text>200 AED</Text>
+              <Text>
+                {TotalAmount} {currency}
+              </Text>
             </View>
 
             <View
@@ -37,7 +48,7 @@ const OrderComponents = ({uri, OrderDate, TotalAmount, status}) => {
                 marginHorizontal: 'auto',
                 marginRight: 'auto',
               }}>
-              <Text style={{color: globalColors.black}}>processing</Text>
+              <Text style={{color: globalColors.black}}>{status}</Text>
               <Button
                 name={'Details'}
                 stylesofbtn={styles.stylesofbtn}

@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -8,18 +8,41 @@ import {Images} from '../../Constants/index';
 import Button from '../../Components/Button';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import OrderComponents from '../../Components/Order/OrderComponents';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {fetchOrder} from '../../Redux/Slice/orderSlice';
 
 const Order = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.subContainer}>
-        <Text>Order page</Text>
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {data, loading, error} = useSelector(state => state.order); // Update state slice name
+  console.log('order Data-->', data);
 
+  useEffect(() => {
+    dispatch(fetchOrder());
+  }, [dispatch]); // Add dispatch as dependency
+  return (
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.subContainer}>
+          <Text>Order page</Text>
+          {data &&
+            data.map(order => (
+              <OrderComponents
+                key={order.id}
+                currency={order.currency}
+                OrderDate={order.date_created}
+                TotalAmount={order.total}
+                status={order.status}
+                line_items={order?.line_items[0]?.image?.src}
+              />
+            ))}
+          {/* <OrderComponents />
         <OrderComponents />
-        <OrderComponents />
-        <OrderComponents />
+        <OrderComponents /> */}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
