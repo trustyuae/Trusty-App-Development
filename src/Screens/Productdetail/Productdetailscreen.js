@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import {NotSaveICon, SaveICon} from '../../Constants/Icons';
 import {
@@ -23,69 +24,42 @@ import {fetchById} from '../../Redux/Slice/SingleProductslice';
 import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
 
-const ProductList = [
-  {
-    id: 1,
-    uri: Images.product,
-    name: 'Dummy Product 1',
-    price: 'AED 100',
-    saved: false,
-  },
-  {
-    id: 2,
-    uri: Images.product,
-    name: 'Dummy Product 2',
-    price: 'AED 200',
-    saved: true,
-  },
-  {
-    id: 3,
-    uri: Images.product,
-    name: 'Dummy Product 3',
-    price: 'AED 300',
-    saved: false,
-  },
-  {
-    id: 4,
-    uri: Images.product,
-    name: 'Dummy Product 4',
-    price: 'AED 400',
-    saved: true,
-  },
-];
-
-export default function Productdetailscreen({route,navigation}) {
+export default function Productdetailscreen({route, navigation}) {
   const {userId} = route?.params;
-
- 
-
   const dispatch = useDispatch();
-  const {loading, error, responseData} = useSelector(state => state.getById);
-  const {load, errormessage, partner} = useSelector(state => state.PatnerGet);
-  const [changeColor, setChange] = useState();
+  const {loading, error, responseData} = useSelector(state => state?.getById);
+  const {load, errormessage, partner} = useSelector(state => state?.PatnerGet);
+  const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(true);
-
+  const [id, setId] = useState(userId);
 
   useEffect(() => {
-    dispatch(fetchById(userId));
-  }, []);
+    dispatch(fetchById(id));
+  }, [id]);
+
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
       dispatch(PartnerPerfect(responseData?.categories[0]?.id));
     }
   }, [responseData]);
-  userId;
 
   const handlepress = () => {
-    navigation.navigate('Cart')
+    navigation.navigate('Cart');
   };
 
   return (
     <GestureHandlerRootView>
       <View>
         <ScrollView>
-          <MyCarousel views1={responseData?.images} />
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <MyCarousel views={responseData?.images} />
+          </View>
           {/* <MyCarousel /> */}
 
           <View style={styles.custcontainer}>
@@ -103,13 +77,13 @@ export default function Productdetailscreen({route,navigation}) {
               </View>
               <View>
                 {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
-                <Pressable onPress={() => setSaved(!saved)}>
+                <TouchableOpacity onPress={() => setSaved(!saved)}>
                   {saved ? (
                     <Image source={SaveICon} />
                   ) : (
-                    <Image source={NotSaveICon} height={100} width={100} />
+                    <Image source={NotSaveICon} style={styles.iconContainer} />
                   )}
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </View>
             <Text style={styles.custAEDtext}>AED {responseData?.price}</Text>
@@ -131,9 +105,10 @@ export default function Productdetailscreen({route,navigation}) {
             <Text
               style={{
                 textAlign: 'center',
-                marginTop: 8,
+                marginTop: 20,
                 fontSize: 20,
                 color: '#4B4746',
+                fontFamily: 'Intrepid Regular',
               }}>
               The Perfect Partner
             </Text>
@@ -141,13 +116,16 @@ export default function Productdetailscreen({route,navigation}) {
               {partner
                 ?.map((product, key) => (
                   <View key={key}>
+                    <TouchableOpacity onPress={() => setId(product.id)}>
                     <Product
-                      key={product?.id}
-                      uri={product?.images[0]?.src}
-                      name={product?.name}
-                      price={product?.price}
-                      saved={product?.saved}
-                    />
+                        key={product?.id}
+                        uri={product?.images[0]?.src}
+                        name={product?.name}
+                        price={product?.price}
+                        saved={product?.saved}
+                      />
+                    </TouchableOpacity>
+                    
                   </View>
                 ))
                 .slice(0, 4)}
@@ -190,7 +168,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 0,
     position: 'absolute',
-    bottom: 40,
+    bottom: 20,
     left: 20,
     right: 20,
   },
@@ -206,5 +184,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('1%'),
     marginTop: hp('1%'),
     marginBottom: hp('7%'),
+  },
+  iconContainer: {
+    height: 18,
+    width: 15,
   },
 });

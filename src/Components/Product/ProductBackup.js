@@ -97,9 +97,11 @@ const styles = StyleSheet.create({
   },
   saveImage: {
     position: 'absolute',
-    marginTop: wp('2%'),
+    marginTop: wp('3%'),
     marginLeft: wp('15%'),
-    // width: wp('3%'),
+    //  width: wp('3%'),
+    height:12,
+    width: 12
 
     // height: hp('4%'),
   },

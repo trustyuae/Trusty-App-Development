@@ -12,9 +12,9 @@ export const postApi = createAsyncThunk(
         `${baseURL}/custom-woo-api/v1/forgot-password`,
         data,
       );
+
       return response.data;
     } catch (error) {
-     
       return rejectWithValue(error?.response?.data?.message);
     }
   },
@@ -24,6 +24,7 @@ const initialState = {
   loading: false,
   error: null,
   postData: null,
+  nav: false,
 };
 
 const postApiSlice = createSlice({
@@ -39,6 +40,7 @@ const postApiSlice = createSlice({
       .addCase(postApi.fulfilled, (state, action) => {
         state.loading = false;
         state.postData = action.payload;
+        state.nav = true;
         Toast.show({
           type: 'success',
           text1: state.postData.message,
@@ -50,7 +52,7 @@ const postApiSlice = createSlice({
         state.error = action.payload;
         Toast.show({
           type: 'error',
-          text1: "Invalid Credentials"|| state.error,
+          text1: 'Invalid Credentials' || state.error,
           visibilityTime: 2000,
         });
       });

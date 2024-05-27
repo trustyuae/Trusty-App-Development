@@ -6,7 +6,6 @@ import { getToken } from '../Utils/localstorage';
 const Cart = () => {
   useEffect(()=>{
    let data= getToken()
-   console.log(data);
   },[])
 
   return (

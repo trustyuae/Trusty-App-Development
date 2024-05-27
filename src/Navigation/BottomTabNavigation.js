@@ -13,6 +13,8 @@ import {
 
 import CategoryProducts from '../Screens/CategoryProducts';
 import Loginscreen from '../Screens/Login/Loginscreen';
+import HomeCustomeNavigation from './HomeCustomeNavigation';
+import LoginCustomeNavigation from './LoginCustomeNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,8 +26,8 @@ const BottomTabNavigation = () => {
         tabBarStyle: {backgroundColor: '#101010', height: 50},
       })}>
       <Tab.Screen
-        name="DrawerHome"
-        component={Home}
+        name="HomeCustomeNavigation"
+        component={HomeCustomeNavigation}
         options={{
           tabBarIcon: () => (
             <Image
@@ -80,8 +82,8 @@ const BottomTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Login"
-        component={Loginscreen}
+        name="LoginCustomeNavigation"
+        component={LoginCustomeNavigation}
         options={{
           tabBarIcon: () => (
             <Image

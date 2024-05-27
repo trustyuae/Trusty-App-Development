@@ -15,7 +15,6 @@ export const fetchById = createAsyncThunk(
       })
       return response.data;
     } catch (error) {
-        console.log(error);
       return rejectWithValue(error.response.data);
     }
   },
