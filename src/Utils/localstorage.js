@@ -14,3 +14,17 @@ export const getToken = async () => {
     return null;
   }
 };
+
+export const getUserId = async () => {
+  try {
+    const userIdJson = await AsyncStorage.getItem('user_id');
+    if (userIdJson !== null) {
+      const user_id = JSON.parse(userIdJson);
+      return user_id;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log('Error retrieving token: ', error);
+  }
+};
