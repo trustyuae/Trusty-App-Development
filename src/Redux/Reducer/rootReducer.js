@@ -9,6 +9,7 @@ import postApiSlice from '../Slice/postApiSlice';
 import perfectpatnerSlice from '../Slice/perfectpatnerSlice';
 import AddToCartSlice from '../Slice/car_slice/addtocart';
 import orderSlice from '../Slice/orderSlice';
+import  ViewToCartSlice  from '../Slice/car_slice/viewcart';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   AddToCart:AddToCartSlice,
   PatnerGet: perfectpatnerSlice,
   order: orderSlice,
+  ViewToCart:ViewToCartSlice,
 });
 
 export default rootReducer;

@@ -9,22 +9,16 @@ const Watchlist = () => {
   return (
     <View style={styles.container}>
      
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-        <Text>Singup</Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('ThankYou')}>
-        <Text>ThankYou</Text>
-      </TouchableOpacity>
+     
+
+    
       <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
         <Text>profile</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Order')}>
+      {/* <TouchableOpacity onPress={() => navigation.navigate('Order')}>
         <Text>order</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
