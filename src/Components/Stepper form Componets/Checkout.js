@@ -143,34 +143,51 @@ const Checkout = ({count, setCount}) => {
                 </Text>
               </View>
               <View>
-                <Icon name={'close'} size={30} color="black" style={{marginLeft:70}}></Icon>
+                <Icon
+                  name={'close'}
+                  size={30}
+                  color="black"
+                  style={{marginLeft: 70}}></Icon>
                 <View
-              style={{
-                backgroundColor: '#ffffff',
-                paddingVertical: 4,
+                  style={{
+                    backgroundColor: '#ffffff',
+                    paddingVertical: 4,
 
-                marginTop: 50,
-                
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                }}>
-                {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
+                    marginTop: 50,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
+                    {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
                 <View><Text>{number}</Text></View>
                 <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
 
-                <View  >
-                  <Text style={{fontSize: 20, color: '#444444',marginLeft:3}}>-</Text>
+                    <View>
+                      <Text
+                        style={{fontSize: 20, color: '#444444', marginLeft: 3}}>
+                        -
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: '#444444',
+                          fontFamily: 'Intrepid Regular',
+                          marginHorizontal: 32,
+                        }}>
+                        1
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{fontSize: 20, color: '#444444', marginLeft: 7}}>
+                        +
+                      </Text>
+                    </View>
+                  </View>
                 </View>
-                <View >
-                  <Text style={{fontSize: 20, color: '#444444',fontFamily: 'Intrepid Regular',marginHorizontal:32}}>1</Text>
-                </View>
-                <View >
-                  <Text style={{fontSize: 20, color: '#444444',marginLeft:7}}>+</Text>
-                </View>
-              </View>
-            </View>
               </View>
             </View>
           </List.Accordion>

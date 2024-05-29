@@ -4,10 +4,10 @@ import {baseURL} from '../../Utils/API';
 
 export const fetchOrder = createAsyncThunk(
   'order/fetchOrder',
-  async rejectWithValue => {
+  async (customer_id, {rejectWithValue}) => {
     try {
       const response = await axios.get(
-        `https://wordpress.trustysystem.com/wp-json/wc/v3/orders?customer=1`,
+        `${baseURL}/wc/v3/orders?customer=${customer_id}`,
         {
           auth: {
             username: 'ck_604dffdbe6cb804616978b0b6a04bae3de51db57',

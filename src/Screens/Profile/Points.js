@@ -63,24 +63,26 @@ const Points = () => {
           />
 
           <View style={{flexDirection: 'row', gap: 17, flexWrap: 'wrap'}}>
-          <Pressable onPress={() => setCount(1)}>
+            <Pressable onPress={() => setCount(1)}>
               <View
                 style={
                   count == 1
                     ? [styles.cust_continer, styles.custBorder]
                     : styles.cust_continer
                 }>
-              <Image
-                source={Bronze}
-                style={{
-                  height: 50,
-                  width: 50,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}></Image>
-              <Text style={styles.custboxText}>Bronze</Text>
-              <Text style={{textAlign: 'center', color: '#92908E'}}>Opts</Text>
-            </View>
+                <Image
+                  source={Bronze}
+                  style={{
+                    height: 50,
+                    width: 50,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}></Image>
+                <Text style={styles.custboxText}>Bronze</Text>
+                <Text style={{textAlign: 'center', color: '#92908E'}}>
+                  Opts
+                </Text>
+              </View>
             </Pressable>
             <Pressable onPress={() => setCount(2)}>
               <View
@@ -131,22 +133,21 @@ const Points = () => {
                     ? [styles.cust_continer, styles.custBorder]
                     : styles.cust_continer
                 }>
-              <Image
-                source={Platinum}
-                style={{
-                  height: 50,
-                  width: 50,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}></Image>
-              <Text style={styles.custboxText}>Platinum</Text>
-              <Text style={{textAlign: 'center', color: '#92908E'}}>
-                5000pts
-              </Text>
-            </View>
+                <Image
+                  source={Platinum}
+                  style={{
+                    height: 50,
+                    width: 50,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}></Image>
+                <Text style={styles.custboxText}>Platinum</Text>
+                <Text style={{textAlign: 'center', color: '#92908E'}}>
+                  5000pts
+                </Text>
+              </View>
             </Pressable>
           </View>
-        
 
           <View
             style={{borderWidth: 1, borderColor: '#DBCCC1', marginVertical: 10}}

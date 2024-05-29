@@ -13,13 +13,15 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useSelector} from 'react-redux';
 const CustomTabBar = ({state, descriptors, navigation}) => {
+  const {data} = useSelector(state => state.profile);
   return (
     <View style={styles.tabBarContainer}>
       <ScrollView>
         <View style={{alignItems: 'center', paddingBottom: 2}}>
           <Image source={Images.ProfileIcon}></Image>
-          <Text>MR SAF ASD</Text>
+          <Text>{data?.first_name}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           {state.routes.map((route, index) => {
@@ -91,9 +93,9 @@ const styles = StyleSheet.create({
     // width: '50%',
     // height: '30%',
     paddingTop: hp('10%'),
-
+    borderBottomWidth: 1,
+    borderColor: globalColors.white,
     position: 'absolute',
-    // top: '30%', // Position it in the middle
     left: 0,
     right: 0,
     backgroundColor: globalColors.headingBackground, // Ensure background color to cover content below
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10, // Adjust padding as needed
+    // paddingVertical: 10, // Adjust padding as needed
   },
 });
 
