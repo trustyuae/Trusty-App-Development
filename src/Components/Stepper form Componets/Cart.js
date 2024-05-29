@@ -1,4 +1,4 @@
-import {Image, Text, View, TextInput, Pressable} from 'react-native';
+import {Image, Text, View, TextInput, Pressable, Alert} from 'react-native';
 import {CartImg, Plus, minus} from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StyleSheet} from 'react-native';
@@ -7,23 +7,69 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import { useDispatch, useSelector } from 'react-redux';
+import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
+const product=[
+  {name:" Dummy Product 3 CHANEL",
+   img:CartImg,
+   price:20000,
+   color:"red",
+   size:"M" 
+  },
+  {name:" Dummy Product 3 CHANEL",
+   img:CartImg,
+   price:20000,
+   color:"red",
+   size:"M" 
+  },
 
-const Cart = ({count, setCount, number, setNumber}) => {
+ 
+ 
+]
+
+
+
+
+
+const Cart = ({count, setCount, number, setNumber,quntity,setQuntity}) => {
   const handlepress = () => {};
+
+  const dispatch=useDispatch()
+  const {erros,loading,viewcartdata}=useSelector(state=>state.ViewToCart)
+  const total = viewcartdata?.cart_items?.map(item => item.product_price).reduce((acc, price) => acc + price, 0);
+ 
+  console.log(total);
+
+  useEffect(()=>{
+    dispatch(ViewToCart())
+  },[])
 
   const handleCheckout = () => {
     setCount(pre => (count >= 2 ? 0 : pre + 1));
   };
 
+  const handleRemove=()=>{
+    Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => console.log('OK Pressed')},
+    ]);
+  }
+
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.custText}>You have 1 items in your cart</Text>
+        <Text style={styles.custText}>You have {viewcartdata?.cart_count} items in your cart</Text>
 
         <View style={styles.custborder} />
 
-        <View
+       {viewcartdata?.cart_items?.map((Item)=>(
+         <View
           style={{
             marginVertical: 15,
             flexDirection: 'row',
@@ -31,11 +77,11 @@ const Cart = ({count, setCount, number, setNumber}) => {
             justifyContent: 'space-evenly',
           }}>
           <View>
-            <Image source={CartImg} height={5} />
+            <Image source={{uri:Item?.product_image}} height={70} width={70}/>
           </View>
           <View>
             <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-              Dummy Product 3 CHANEL
+              {Item.product_name}
             </Text>
             <Text
               style={{
@@ -43,7 +89,7 @@ const Cart = ({count, setCount, number, setNumber}) => {
                 color: '#676766',
                 fontFamily: 'Intrepid Regular',
               }}>
-              200,00 AED
+             {Item.product_price} AED
             </Text>
             <Text
               style={{
@@ -51,10 +97,10 @@ const Cart = ({count, setCount, number, setNumber}) => {
                 color: 'black',
                 fontFamily: 'Intrepid Regular',
               }}>
-              Color : <Text style={{color: '#676766'}}>red</Text>{' '}
+              Color : <Text style={{color: '#676766'}}>{Item?.color}</Text>{' '}
             </Text>
             <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-              Size
+            Size : <Text style={{color: '#676766'}}>{Item?.size}</Text>{' '}
             </Text>
           </View>
           <View>
@@ -62,12 +108,11 @@ const Cart = ({count, setCount, number, setNumber}) => {
               name={'close'}
               size={30}
               color="black"
-              style={{marginLeft: 70}}></Icon>
+              style={{marginLeft: 70}} onPress={handleRemove}></Icon>
             <View
               style={{
                 backgroundColor: '#ffffff',
                 paddingVertical: 4,
-
                 marginTop: 50,
                 
               }}>
@@ -80,18 +125,18 @@ const Cart = ({count, setCount, number, setNumber}) => {
                 <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
 
                 <View  >
-                  <Text style={{fontSize: 20, color: '#444444',marginLeft:3}}>-</Text>
+                  <Text style={{fontSize: 20, color: '#444444',marginLeft:3}} onPress={(pre)=>Item.quantity-1}>-</Text>
                 </View>
                 <View >
-                  <Text style={{fontSize: 20, color: '#444444',fontFamily: 'Intrepid Regular',marginHorizontal:32}}>1</Text>
+                  <Text style={{fontSize: 20, color: '#444444',fontFamily: 'Intrepid Regular',marginHorizontal:32}}>{Item.quantity}</Text>
                 </View>
                 <View >
-                  <Text style={{fontSize: 20, color: '#444444',marginLeft:7}}>+</Text>
+                  <Text style={{fontSize: 20, color: '#444444',marginLeft:7}} onPress={(pre)=>Item.quantity+1}>+</Text>
                 </View>
               </View>
             </View>
           </View>
-        </View>
+        </View>))}
 
         <View style={styles.custborder} />
 

@@ -1,13 +1,22 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {ADD_TO_CART} from '../../../Constants/UserConstants';
-import {baseURL, dummyurl} from '../../../Utils/API';
+import {Consumer_key, Consumer_secret, baseURL, dummyurl} from '../../../Utils/API';
+import Toast from 'react-native-toast-message';
 
 export const addToCart = createAsyncThunk(
   ADD_TO_CART,
+ 
+
   async (data, {rejectWithValue}) => {
     try {
-      const response = await axios.post(`${baseURL}`, data);
+      const config ={
+          auth: {
+            username: Consumer_key,
+            password: Consumer_secret,
+          },
+        }
+      const response = await axios.post(`${baseURL}/ade-woocart/v1/cart?username=<username>`, data,config);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -19,9 +28,9 @@ export const addToCart = createAsyncThunk(
 
 
 const initialState = {
-  loading: false,
-  error: null,
-  responseData: null,
+ loa: false,
+  err: null,
+  cartdata: null,
 };
 
 const AddToCartSlice = createSlice({
@@ -31,18 +40,24 @@ const AddToCartSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(addToCart.pending, state => {
-        state.loading = true;
-        state.error = null;
+        state.loa = true;
+        state.err = null;
       })
 
       .addCase(addToCart.fulfilled, (state, action) => {
-        state.loading = false;
-        state.responseData = action.payload;
+        state.loa = false;
+        state.cartdata = action.payload;
+        Toast.show({
+          type: 'success',
+          text1:  state.cartdata.message,
+          position: 'bottom',
+          visibilityTime: 1500,
+        });
       })
 
       .addCase(addToCart.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'An error occurred';
+        state.loa = false;
+        state.err = action.error.message || 'An error occurred';
       });
   },
 });

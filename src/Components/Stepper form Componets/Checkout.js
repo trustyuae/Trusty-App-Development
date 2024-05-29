@@ -1,4 +1,9 @@
-import {Image, Text, View, TextInput} from 'react-native';
+import {
+  Image,
+  Text,
+  View,
+  Pressable,
+} from 'react-native';
 import {CartImg, EditICon, Groupicon, PlusIcon} from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StyleSheet} from 'react-native';
@@ -9,13 +14,24 @@ import {
 } from 'react-native-responsive-screen';
 import {List} from 'react-native-paper';
 import {useState} from 'react';
+import ModalComponent from '../Model/Modalcomopnet';
 
 const Checkout = ({count, setCount}) => {
   const [expanded, setExpanded] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleConfirmpay = () => {
     setCount(pre => (count >= 2 ? 0 : pre + 1));
   };
+
+  const handleEditClick = () => {
+    setIsModalVisible(true); 
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <View>
       <View style={styles.container}>
@@ -33,13 +49,19 @@ const Checkout = ({count, setCount}) => {
           style={{
             marginTop: 10,
           }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View
+             style={{flexDirection:"row",justifyContent:"space-between"}} >
             <View>
               <Image source={Groupicon} />
             </View>
-            <View>
-              <Image source={EditICon} />
-            </View>
+              
+              <View >
+              <Pressable
+               onPress={() => console.log('hiii')}>
+               <Image source={EditICon} />
+             </Pressable>
+              </View>
+           
           </View>
 
           <View style={{marginLeft: 30, marginTop: -20, marginVertical: 10}}>
@@ -62,6 +84,7 @@ const Checkout = ({count, setCount}) => {
           }}>
           <Image source={PlusIcon} style={{marginHorizontal: 10}}></Image>
           <Text
+            onPress={handleEditClick}
             style={{
               textDecorationLine: 'underline',
               color: 'black',
@@ -248,6 +271,7 @@ const Checkout = ({count, setCount}) => {
           handlepress={handleConfirmpay}
         />
       </View>
+      <ModalComponent visible={isModalVisible} onClose={closeModal} />
     </View>
   );
 };

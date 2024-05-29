@@ -23,26 +23,27 @@ import {useEffect, useState} from 'react';
 import {fetchById} from '../../Redux/Slice/SingleProductslice';
 import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
-import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
-import { color } from 'react-native-elements/dist/helpers';
+import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
 
 export default function Productdetailscreen({route, navigation}) {
   const {userId} = route?.params;
   const dispatch = useDispatch();
   const {loading, error, responseData} = useSelector(state => state?.getById);
-  const {load, errormessage, partner} = useSelector(state => state?.PatnerGet);
+  const { errormessage, partner} = useSelector(state => state?.PatnerGet);
+  const {loa, err, cartdata} = useSelector(state => state);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(true);
   const [id, setId] = useState(userId);
-  const[changeSize,setChangeSize]=useState('')
+  const [changeSize, setChangeSize] = useState('');
+  const [load,setLoding]=useState(false)
 
+  console.log(loa);
 
   useEffect(() => {
     dispatch(fetchById(id));
-    setChange('')
-    setChangeSize('')
+    setChange('');
+    setChangeSize('');
   }, [id]);
-
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
@@ -51,20 +52,26 @@ export default function Productdetailscreen({route, navigation}) {
   }, [responseData]);
 
   const handlepress = () => {
-        // const data={
-        //   productid:responseData?.id,
-        //   color:changeColor,
-        //   Size:changeSize,
-        // }
-        // dispatch(addToCart(data))
-        navigation.navigate('Cart');
+    setLoding(true)
+    // const data={
+    //   productid:responseData?.id,
+    //   color:changeColor,
+    //   Size:changeSize,
+    // }
+    // dispatch(addToCart(data))
+    // navigation.navigate('Cart');
 
-    //  dispatch(addToCart(data)).then(action => {
-    //   if (postApi.fulfilled.match(action)) {
-    //     navigation.navigate('Cart');
-    //   }
-    // });
-   
+    const data = {
+      product_id: id,
+      quantity: 1,
+    };
+
+    dispatch(addToCart(data)).then(action => {
+      if (addToCart.fulfilled.match(action)) {
+        setLoding(false)
+        navigation.navigate('Cart');
+      }
+    });
   };
 
   return (
@@ -138,7 +145,7 @@ export default function Productdetailscreen({route, navigation}) {
                 ?.map((product, key) => (
                   <View key={key}>
                     <TouchableOpacity onPress={() => setId(product.id)}>
-                    <Product
+                      <Product
                         key={product?.id}
                         uri={product?.images[0]?.src}
                         name={product?.name}
@@ -146,7 +153,6 @@ export default function Productdetailscreen({route, navigation}) {
                         saved={product?.saved}
                       />
                     </TouchableOpacity>
-                    
                   </View>
                 ))
                 .slice(0, 4)}
@@ -158,6 +164,7 @@ export default function Productdetailscreen({route, navigation}) {
           styleoffont={styles.custfontstyle}
           handlepress={handlepress}
           name={'Add To Carts'}
+          loading={load}
         />
       </View>
     </GestureHandlerRootView>
