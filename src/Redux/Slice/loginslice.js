@@ -13,6 +13,7 @@ export const logoutUser = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     try {
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('user_id');
       return true;
     } catch (error) {
       return rejectWithValue(
@@ -30,6 +31,10 @@ export const loginUser = createAsyncThunk(
       await AsyncStorage.setItem(
         'token',
         JSON.stringify(response?.data?.jwt_token),
+      );
+      await AsyncStorage.setItem(
+        'user_id',
+        JSON.stringify(response?.data?.user_id),
       );
       return response.data;
     } catch (error) {
@@ -67,7 +72,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error =  'Invalid credentials'||action.error.message ;
+        state.error = 'Invalid credentials' || action.error.message;
         Toast.show({
           type: 'error',
           text1: 'Invalid credentials',
@@ -91,7 +96,7 @@ const userSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
-        state.error =  'An error occurred during logout'||action.error.message;
+        state.error = 'An error occurred during logout' || action.error.message;
         Toast.show({
           type: 'error',
           text1: action.error.message,
