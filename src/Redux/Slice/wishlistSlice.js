@@ -5,18 +5,35 @@ import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import {baseURL} from '../../Utils/API';
 
+export const fetchWishlist = createAsyncThunk(
+  'wishlist/fetchWishlist',
+  async (tokenData, {rejectWithValue}) => {
+    try {
+      console.log(tokenData);
+      const response = await axios.get(`${baseURL}/custom/v1/wish/list`, {
+        headers: {
+          Authorization: `Bearer ${tokenData}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const addToWishlist = createAsyncThunk(
   'wishlist/addToWishlist',
-  async ({productId, tokenData}, {rejectWithValue}) => {
+  async ({product_id, tokenData}, {rejectWithValue}) => {
     try {
       const response = await axios.post(
         `${baseURL}/custom/v1/wish/list/add`,
         {
-          productId,
+          product_id: product_id,
         },
         {
           headers: {
-            Authorization: `Bearer ${tokenData}`, // Include token in the request headers
+            Authorization: `Bearer ${tokenData}`,
           },
         },
       );
@@ -29,16 +46,16 @@ export const addToWishlist = createAsyncThunk(
 
 export const removeFromWishlist = createAsyncThunk(
   'wishlist/removeFromWishlist',
-  async ({productId, tokenData}, {rejectWithValue}) => {
+  async ({product_id, tokenData}, {rejectWithValue}) => {
     try {
       const response = await axios.post(
         `${baseURL}/custom/v1/wish/list/remove`,
         {
-          productId,
+          product_id: product_id,
         },
         {
           headers: {
-            Authorization: `Bearer ${tokenData}`, // Include token in the request headers
+            Authorization: `Bearer ${tokenData}`,
           },
         },
       );
@@ -59,6 +76,26 @@ const wishlistSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
+      .addCase(fetchWishlist.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchWishlist.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+        Toast.show({
+          type: 'success',
+          text1: 'Wishlist loaded',
+        });
+      })
+      .addCase(fetchWishlist.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Error fetching wishlist';
+        Toast.show({
+          type: 'error',
+          text1: 'Error fetching wishlist',
+        });
+      })
       .addCase(addToWishlist.pending, state => {
         state.loading = true;
         state.error = null;
