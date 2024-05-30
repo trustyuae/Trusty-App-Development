@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {NotSaveICon, SaveICon} from '../../Constants/Icons';
 import {
@@ -19,7 +20,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Product from '../../Components/Product/Product';
 import {Images} from '../../Constants';
 import {useDispatch, useSelector} from 'react-redux';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {fetchById} from '../../Redux/Slice/SingleProductslice';
 import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
@@ -27,6 +28,7 @@ import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
 import {getToken, getUsername} from '../../Utils/localstorage';
 
 export default function Productdetailscreen({route, navigation}) {
+  const scrollViewRef = useRef();
   const {userId} = route?.params;
   const dispatch = useDispatch();
   const {loading, error, responseData} = useSelector(state => state?.getById);
@@ -37,19 +39,6 @@ export default function Productdetailscreen({route, navigation}) {
   const [id, setId] = useState(userId);
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
-
-  //  useEffect(()=>{
-  //   const fetchtoken = async () => {
-  //     try {
-  //       const username = await getUsername();
-  //     }
-  //     catch(error){
-
-  //     }
-  //   }
-  // },
-  // fetchtoken()
-  //  },[])
 
   useEffect(() => {
     const fetchtoken = async () => {
@@ -75,13 +64,6 @@ export default function Productdetailscreen({route, navigation}) {
 
   const handlepress = async () => {
     setLoding(true);
-    // const data={
-    //   productid:responseData?.id,
-    //   color:changeColor,
-    //   Size:changeSize,
-    // }
-    // dispatch(addToCart(data))
-    // navigation.navigate('Cart');
 
     const data = {
       product_id: id,
@@ -96,99 +78,121 @@ export default function Productdetailscreen({route, navigation}) {
     });
   };
 
+  const handleproduct = id => {
+    scrollViewRef.current.scrollTo({y: 0, animated: true});
+    navigation.navigate('ProductDetail', {userId: id});
+    setId(id);
+  };
+
   return (
     <GestureHandlerRootView>
-      <View>
-        <ScrollView>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <MyCarousel views={responseData?.images} />
-          </View>
-          {/* <MyCarousel /> */}
+      {loading ? (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="blue" style={styles.loader} />
+        </View>
+      ) : (
+        <>
+          <View>
+            <ScrollView ref={scrollViewRef}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <MyCarousel views={responseData?.images} />
+              </View>
 
-          <View style={styles.custcontainer}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View>
-                <Text
+              <View style={styles.custcontainer}>
+                <View
                   style={{
-                    color: '#444444',
-                    fontWeight: '500',
-                    marginBottom: 2,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                   }}>
-                  {responseData?.name}
-                </Text>
-              </View>
-              <View>
-                {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
-                <TouchableOpacity onPress={() => setSaved(!saved)}>
-                  {saved ? (
-                    <Image source={SaveICon} />
-                  ) : (
-                    <Image source={NotSaveICon} style={styles.iconContainer} />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <Text style={styles.custAEDtext}>AED {responseData?.price}</Text>
-            <View style={{borderBottomWidth: 1, borderColor: '#D8D8D8'}}>
-              <Text style={{color: '#86D973', marginBottom: '10'}}>
-                {responseData?.stock_status}
-              </Text>
-            </View>
-            <Accordion
-              Size={responseData?.attributes[0]?.options}
-              Color={responseData?.attributes[1]?.options}
-              Description={responseData?.description}
-              setChange={setChange}
-              changeColor={changeColor}
-              changeSize={changeSize}
-              setChangeSize={setChangeSize}
-            />
-            {/* <DummyAccordion attributes={responseData?.attributes}/> */}
-          </View>
-          <View style={{borderTopWidth: 1, borderColor: '#DBCCC1'}}>
-            <Text
-              style={{
-                textAlign: 'center',
-                marginTop: 20,
-                fontSize: 20,
-                color: '#4B4746',
-                fontFamily: 'Intrepid Regular',
-              }}>
-              The Perfect Partner
-            </Text>
-            <View style={styles.productContainer}>
-              {partner
-                ?.map((product, key) => (
-                  <View key={key}>
-                    <TouchableOpacity onPress={() => setId(product.id)}>
-                      <Product
-                        key={product?.id}
-                        uri={product?.images[0]?.src}
-                        name={product?.name}
-                        price={product?.price}
-                        saved={product?.saved}
-                      />
+                  <View>
+                    <Text
+                      style={{
+                        color: '#444444',
+                        fontWeight: '500',
+                        marginBottom: 2,
+                      }}>
+                      {responseData?.name}
+                    </Text>
+                  </View>
+                  <View>
+                    {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
+                    <TouchableOpacity onPress={() => setSaved(!saved)}>
+                      {saved ? (
+                        <Image source={SaveICon} />
+                      ) : (
+                        <Image
+                          source={NotSaveICon}
+                          style={styles.iconContainer}
+                        />
+                      )}
                     </TouchableOpacity>
                   </View>
-                ))
-                .slice(0, 4)}
-            </View>
+                </View>
+                <Text style={styles.custAEDtext}>
+                  AED {responseData?.price}
+                </Text>
+                <View style={{borderBottomWidth: 1, borderColor: '#D8D8D8'}}>
+                  <Text style={{color: '#86D973', marginBottom: '10'}}>
+                    {responseData?.stock_status}
+                  </Text>
+                </View>
+                <Accordion
+                  Size={responseData?.attributes[0]?.options}
+                  Color={responseData?.attributes[1]?.options}
+                  Description={responseData?.description}
+                  setChange={setChange}
+                  changeColor={changeColor}
+                  changeSize={changeSize}
+                  setChangeSize={setChangeSize}
+                />
+                {/* <DummyAccordion attributes={responseData?.attributes}/> */}
+              </View>
+              <View style={{borderTopWidth: 1, borderColor: '#DBCCC1'}}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    marginTop: 20,
+                    fontSize: 20,
+                    color: '#4B4746',
+                    fontFamily: 'Intrepid Regular',
+                  }}>
+                  The Perfect Partner
+                </Text>
+                <View style={styles.productContainer}>
+                  {partner
+                    ?.map((product, key) => (
+                      <View key={key}>
+                        <TouchableOpacity
+                          onPress={() => handleproduct(product?.id)}>
+                          <Product
+                            key={product?.id}
+                            uri={product?.images[0]?.src}
+                            name={product?.name}
+                            price={product?.price}
+                            saved={product?.saved}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ))
+                    .slice(0, 4)}
+                </View>
+              </View>
+            </ScrollView>
+            <Button
+              stylesofbtn={styles.custbtn}
+              styleoffont={styles.custfontstyle}
+              handlepress={handlepress}
+              name={'Add To Carts'}
+              loading={load}
+            />
           </View>
-        </ScrollView>
-        <Button
-          stylesofbtn={styles.custbtn}
-          styleoffont={styles.custfontstyle}
-          handlepress={handlepress}
-          name={'Add To Carts'}
-          loading={load}
-        />
-      </View>
+        </>
+      )}
     </GestureHandlerRootView>
   );
 }
@@ -238,5 +242,16 @@ const styles = StyleSheet.create({
   iconContainer: {
     height: 18,
     width: 15,
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginTop: hp('20%'),
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -13,6 +13,8 @@ import ViewToCartSlice from '../Slice/car_slice/viewcart';
 import profileSlice from '../Slice/profileSlice';
 import wishlistSlice from '../Slice/wishlistSlice';
 import DeleteToCartSlice from '../Slice/car_slice/deletecart';
+import OrderToCartSlice from '../Slice/car_slice/placeordercart';
+import OrderDetailCartSlice from '../Slice/car_slice/orderdeatails';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -25,12 +27,14 @@ const rootReducer = combineReducers({
   post: postApiSlice,
   PatnerGet: perfectpatnerSlice,
   AddToCart: AddToCartSlice,
-  DeleteToCart :DeleteToCartSlice,
+  DeleteToCart: DeleteToCartSlice,
   PatnerGet: perfectpatnerSlice,
   order: orderSlice,
   ViewToCart: ViewToCartSlice,
   profile: profileSlice,
   wishlist: wishlistSlice,
+  OrderToCart: OrderToCartSlice,
+  OrderDetailCart: OrderDetailCartSlice,
 });
 
 export default rootReducer;

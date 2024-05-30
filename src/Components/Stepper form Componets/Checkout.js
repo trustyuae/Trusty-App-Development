@@ -8,12 +8,28 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {List} from 'react-native-paper';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ModalComponent from '../Model/Modalcomopnet';
+import {useDispatch, useSelector} from 'react-redux';
+import {OrderDetail} from '../../Redux/Slice/car_slice/orderdeatails';
+import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
+import {Alert} from 'react-native';
 
-const Checkout = ({count, setCount}) => {
+const Checkout = ({count, setCount, orderdetail}) => {
   const [expanded, setExpanded] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const dispatch = useDispatch();
+  const {data, loading, error} = useSelector(state => state.profile);
+  const [cartData, setCartData] = useState(orderdetail);
+  const {deteltedData} = useSelector(state => state?.DeleteToCart);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const customer_id = await getUserId();
+      dispatch(fetchProfile(customer_id));
+    };
+    fetchData();
+  }, []);
 
   const handleConfirmpay = () => {
     setCount(pre => (count >= 2 ? 0 : pre + 1));
@@ -27,6 +43,14 @@ const Checkout = ({count, setCount}) => {
     setIsModalVisible(false);
   };
 
+  const update = cartData?.map(item => ({
+    ...item,
+    total: item.product_price * item.quantity,
+  }));
+  const totalSum = update?.reduce(
+    (accumulator, currentItem) => accumulator + currentItem.total,
+    0,
+  );
 
   const handleIncrease = key => {
     const updatedCart = cartData?.map(item => {
@@ -53,6 +77,30 @@ const Checkout = ({count, setCount}) => {
     });
     setCartData(updatedCart);
   };
+
+  const handleRemove = id => {
+    const data = {
+      product_id: id,
+    };
+
+    Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          dispatch(deleteToCart(data));
+          const filterdata = cartData.filter(
+            item => item.product_id !== data.product_id,
+          );
+          setCartData(filterdata);
+        },
+      },
+    ]);
+  };
   return (
     <View>
       <View style={styles.container}>
@@ -76,20 +124,23 @@ const Checkout = ({count, setCount}) => {
             </View>
 
             <View>
-              <Pressable onPress={() => console.log('hiii')}>
-                <Image source={EditICon} />
+              <Pressable onPress={handleEditClick}>
+                <Image source={EditICon} height={20} width={20} />
               </Pressable>
             </View>
           </View>
 
           <View style={{marginLeft: 30, marginTop: -20, marginVertical: 10}}>
             <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-              Mr. Safwan Aipuram Ap
+              Mr. {data?.billing?.first_name} {data?.billing?.last_name}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
-              31,Madinath dubai,DH
+              {data?.billing?.postcode},Madinath {data?.billing?.country},
+              {data?.billing?.state}
             </Text>
-            <Text style={{fontFamily: 'Intrepid Regular'}}>+971581563589</Text>
+            <Text style={{fontFamily: 'Intrepid Regular'}}>
+              +{data?.billing?.phone}
+            </Text>
           </View>
         </View>
         <View style={styles.custborder} />
@@ -149,98 +200,103 @@ const Checkout = ({count, setCount}) => {
               fontFamily: 'Intrepid Regular',
             }}
             onPress={() => setExpanded(!expanded)}>
-                 <View
-            style={{
-              marginVertical: 15,
-              flexDirection: 'row',
-              gap: 10,
-              position: 'relative',
-            }}>
-            <Icon
-              name={'close'}
-              size={30}
-              color="black"
-              style={{
-                position: 'absolute',
-                right: 0,
-              }}
-              onPress={() => handleRemove(Item.product_id)}></Icon>
-
-            <View
-              style={{
-                backgroundColor: '#ffffff',
-                paddingVertical: 2,
-                position: 'absolute',
-                bottom: -8,
-                right: 0,
-              }}>
+            {cartData.map(item => (
               <View
                 style={{
+                  marginVertical: 15,
                   flexDirection: 'row',
+                  gap: 10,
+                  position: 'relative',
                 }}>
-                {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
+                <Icon
+                  name={'close'}
+                  size={20}
+                  color="black"
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                  }}
+                  onPress={() => handleRemove(item.product_id)}></Icon>
+
+                <View
+                  style={{
+                    backgroundColor: '#ffffff',
+                    paddingVertical: 2,
+                    position: 'absolute',
+                    bottom: -8,
+                    right: 0,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
+                    {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
                 <View><Text>{number}</Text></View>
                 <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
 
-                <View>
-                  <Text
-                    style={{fontSize: 20, color: '#444444', marginLeft: 7}}
-                    onPress={() => handleDecrease(Item.key)}>
-                    -
-                  </Text>
+                    <View>
+                      <Text
+                        style={{fontSize: 20, color: '#444444', marginLeft: 7}}
+                        onPress={() => handleDecrease(item.key)}>
+                        -
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: '#444444',
+                          fontFamily: 'Intrepid Regular',
+                          marginHorizontal: 30,
+                        }}>
+                        {item.quantity}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{fontSize: 20, color: '#444444', marginRight: 7}}
+                        onPress={() => handleIncrease(item.key)}>
+                        +
+                      </Text>
+                    </View>
+                  </View>
                 </View>
                 <View>
+                  <Image
+                    source={{uri: item.product_image}}
+                    height={100}
+                    width={90}
+                  />
+                </View>
+                <View>
+                  <Text
+                    style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                    {item.product_name}
+                  </Text>
                   <Text
                     style={{
-                      fontSize: 20,
-                      color: '#444444',
+                      marginVertical: 2,
+                      color: '#676766',
                       fontFamily: 'Intrepid Regular',
-                      marginHorizontal: 30,
                     }}>
-                    1
+                    {item.product_price} AED
                   </Text>
-                </View>
-                <View>
                   <Text
-                    style={{fontSize: 20, color: '#444444', marginRight: 7}}
-                    onPress={() => handleIncrease(Item.key)}>
-                    +
+                    style={{
+                      marginVertical: 3,
+                      color: 'black',
+                      fontFamily: 'Intrepid Regular',
+                    }}>
+                    Color : <Text style={{color: '#676766'}}>red</Text>{' '}
+                  </Text>
+                  <Text
+                    style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                    Size
                   </Text>
                 </View>
+                <View></View>
               </View>
-            </View>
-              <View>
-                <Image source={CartImg} height={5} />
-              </View>
-              <View>
-                <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                  Dummy Product 3 CHANEL
-                </Text>
-                <Text
-                  style={{
-                    marginVertical: 2,
-                    color: '#676766',
-                    fontFamily: 'Intrepid Regular',
-                  }}>
-                  200,00 AED
-                </Text>
-                <Text
-                  style={{
-                    marginVertical: 3,
-                    color: 'black',
-                    fontFamily: 'Intrepid Regular',
-                  }}>
-                  Color : <Text style={{color: '#676766'}}>red</Text>{' '}
-                </Text>
-                <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                  Size
-                </Text>
-              </View>
-              <View>
-               
-           
-              </View>
-            </View>
+            ))}
           </List.Accordion>
         </List.Section>
 
@@ -253,7 +309,7 @@ const Checkout = ({count, setCount}) => {
             marginVertical: 5,
           }}>
           <Text style={styles.custText}>SUBTOTAL</Text>
-          <Text>200 AED</Text>
+          <Text>{totalSum} AED</Text>
         </View>
 
         <View style={styles.custborder} />
