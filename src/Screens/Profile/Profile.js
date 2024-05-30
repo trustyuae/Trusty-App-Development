@@ -33,7 +33,7 @@ const Profile = () => {
 
   // data
   const [editable, setEditable] = useState(false);
-  const [name, setName] = useState(data.first_name);
+  const [name, setName] = useState(data?.first_name);
   const [email, setEmail] = useState(data?.email);
   const [phone, setPhone] = useState(data?.phone);
   const [address, setAddress] = useState(data?.shipping?.address_1);
@@ -158,7 +158,6 @@ const Profile = () => {
             <View style={styles.subContantContainer}>
               <Text style={styles.textHeading}>Password</Text>
               <Text style={styles.textHeadingValue}>********</Text>
-              
             </View>
             <View style={styles.subContantContainer}>
               <Text style={styles.textHeading}>Currency</Text>

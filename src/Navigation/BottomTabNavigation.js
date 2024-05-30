@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Account, Cart, SignupPage, Watchlist} from '../Screens';
@@ -15,10 +15,28 @@ import CategoryProducts from '../Screens/CategoryProducts';
 import Loginscreen from '../Screens/Login/Loginscreen';
 import HomeCustomeNavigation from './HomeCustomeNavigation';
 import LoginCustomeNavigation from './LoginCustomeNavigation';
+import Profile from '../Screens/Profile/Profile';
+import {getToken} from '../Utils/localstorage';
+import ProfileNavigations from './ProfileNavigations';
+import {useFocusEffect} from '@react-navigation/native';
+import CartScreen from '../Screens/Cart/CartScreen';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useFocusEffect(() => {
+    const checkLoginStatus = async () => {
+      const token = await getToken();
+      if (token) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    checkLoginStatus();
+  });
+
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -69,7 +87,7 @@ const BottomTabNavigation = () => {
       />
       <Tab.Screen
         name="Bag"
-        component={Account}
+        component={CartScreen}
         options={{
           tabBarIcon: () => (
             <Image
@@ -81,20 +99,38 @@ const BottomTabNavigation = () => {
           tabBarShowLabel: false,
         }}
       />
-      <Tab.Screen
-        name="LoginCustomeNavigation"
-        component={LoginCustomeNavigation}
-        options={{
-          tabBarIcon: () => (
-            <Image
-              source={ProfileIcon}
-              style={{width: 15, height: 15}}
-              resizeMode="contain"
-            />
-          ),
-          tabBarShowLabel: false,
-        }}
-      />
+
+      {isLoggedIn ? (
+        <Tab.Screen
+          name="Profile"
+          component={ProfileNavigations}
+          options={{
+            tabBarIcon: () => (
+              <Image
+                source={ProfileIcon}
+                style={{width: 15, height: 15}}
+                resizeMode="contain"
+              />
+            ),
+            tabBarShowLabel: false,
+          }}
+        />
+      ) : (
+        <Tab.Screen
+          name="LoginCustomeNavigation"
+          component={LoginCustomeNavigation}
+          options={{
+            tabBarIcon: () => (
+              <Image
+                source={ProfileIcon}
+                style={{width: 15, height: 15}}
+                resizeMode="contain"
+              />
+            ),
+            tabBarShowLabel: false,
+          }}
+        />
+      )}
     </Tab.Navigator>
   );
 };
