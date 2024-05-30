@@ -12,8 +12,7 @@ export const logoutUser = createAsyncThunk(
   USER_LOGOUT_REQUEST,
   async (_, {rejectWithValue}) => {
     try {
-      await AsyncStorage.removeItem('token');
-      await AsyncStorage.removeItem('user_id');
+    await  AsyncStorage.clear();
       return true;
     } catch (error) {
       return rejectWithValue(
@@ -36,6 +35,11 @@ export const loginUser = createAsyncThunk(
         'user_id',
         JSON.stringify(response?.data?.user_id),
       );
+      await AsyncStorage.setItem(
+        'user_email',
+        JSON.stringify(response?.data?.user_email),
+      );
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data?.message);

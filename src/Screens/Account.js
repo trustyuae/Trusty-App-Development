@@ -11,8 +11,8 @@ const Account = () => {
    
       <View style={styles.container}>
         <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
-          Comming Soon
-        </Text>
+          Comming Soon abc
+        </Text> 
       </View>
     
   );

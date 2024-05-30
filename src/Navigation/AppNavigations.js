@@ -54,17 +54,7 @@ const AppNavigations = () => {
             // },
           }}
         />
-        <Stack.Screen
-          name="Profile"
-          component={ProfileNavigations}
-          options={{
-            headerTransparent: true,
-            title: null,
-            headerStyle: {
-              // backgroundColor: 'black',
-            },
-          }}
-        />
+       
 
 
         <Stack.Screen

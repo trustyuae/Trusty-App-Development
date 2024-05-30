@@ -6,16 +6,14 @@ import Cart from '../../Components/Stepper form Componets/Cart';
 import Checkout from '../../Components/Stepper form Componets/Checkout';
 import Confirmation from '../../Components/Stepper form Componets/Confirmation';
 import ModalComponent from '../../Components/Model/Modalcomopnet';
-import { useDispatch, useSelector } from 'react-redux';
-import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
+import {useDispatch, useSelector} from 'react-redux';
+import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
 
 const labels = ['Cart', 'Checkout', 'confirmation'];
 
 const CartScreen = () => {
   const [count, setCount] = useState(0);
   const [number, setNumber] = useState(1);
-  const [quntity, setQuntity] = useState(1);
-  
 
   // const openModal = () => {
   //   setIsModalVisible(true);
@@ -26,22 +24,13 @@ const CartScreen = () => {
   };
 
   const renderCartItems = () => (
-    <Cart
-      count={count}
-      setCount={setCount}
-      number={number}
-      setNumber={setNumber}
-      quntity={quntity}
-      setQuntity={setQuntity}
-    />
+    <Cart count={count} setCount={setCount} number={number} />
   );
 
-  const renderDelivery = () => (
-    <Checkout count={count} setCount={setCount}  />
-  );
+  const renderDelivery = () => <Checkout count={count} setCount={setCount} />;
 
   const renderConfirmation = () => (
-    <Confirmation count={count} setCount={setCount}  />
+    <Confirmation count={count} setCount={setCount} />
   );
 
   const renderContent = () => {
@@ -67,7 +56,6 @@ const CartScreen = () => {
         )}
         {renderContent()}
       </View>
-
     </ScrollView>
   );
 };

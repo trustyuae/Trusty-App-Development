@@ -1,9 +1,4 @@
-import {
-  Image,
-  Text,
-  View,
-  Pressable,
-} from 'react-native';
+import {Image, Text, View, Pressable} from 'react-native';
 import {CartImg, EditICon, Groupicon, PlusIcon} from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StyleSheet} from 'react-native';
@@ -25,13 +20,39 @@ const Checkout = ({count, setCount}) => {
   };
 
   const handleEditClick = () => {
-    setIsModalVisible(true); 
+    setIsModalVisible(true);
   };
 
   const closeModal = () => {
     setIsModalVisible(false);
   };
 
+
+  const handleIncrease = key => {
+    const updatedCart = cartData?.map(item => {
+      if (item.key === key) {
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      }
+      return item;
+    });
+    setCartData(updatedCart);
+  };
+
+  const handleDecrease = key => {
+    const updatedCart = cartData?.map(item => {
+      if (item.key === key && item.quantity > 1) {
+        return {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+      }
+      return item;
+    });
+    setCartData(updatedCart);
+  };
   return (
     <View>
       <View style={styles.container}>
@@ -49,19 +70,16 @@ const Checkout = ({count, setCount}) => {
           style={{
             marginTop: 10,
           }}>
-          <View
-             style={{flexDirection:"row",justifyContent:"space-between"}} >
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View>
               <Image source={Groupicon} />
             </View>
-              
-              <View >
-              <Pressable
-               onPress={() => console.log('hiii')}>
-               <Image source={EditICon} />
-             </Pressable>
-              </View>
-           
+
+            <View>
+              <Pressable onPress={() => console.log('hiii')}>
+                <Image source={EditICon} />
+              </Pressable>
+            </View>
           </View>
 
           <View style={{marginLeft: 30, marginTop: -20, marginVertical: 10}}>
@@ -131,13 +149,66 @@ const Checkout = ({count, setCount}) => {
               fontFamily: 'Intrepid Regular',
             }}
             onPress={() => setExpanded(!expanded)}>
+                 <View
+            style={{
+              marginVertical: 15,
+              flexDirection: 'row',
+              gap: 10,
+              position: 'relative',
+            }}>
+            <Icon
+              name={'close'}
+              size={30}
+              color="black"
+              style={{
+                position: 'absolute',
+                right: 0,
+              }}
+              onPress={() => handleRemove(Item.product_id)}></Icon>
+
             <View
               style={{
-                marginVertical: 15,
-                flexDirection: 'row',
-                gap: 10,
-                justifyContent: 'space-evenly',
+                backgroundColor: '#ffffff',
+                paddingVertical: 2,
+                position: 'absolute',
+                bottom: -8,
+                right: 0,
               }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}>
+                {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
+                <View><Text>{number}</Text></View>
+                <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
+
+                <View>
+                  <Text
+                    style={{fontSize: 20, color: '#444444', marginLeft: 7}}
+                    onPress={() => handleDecrease(Item.key)}>
+                    -
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: '#444444',
+                      fontFamily: 'Intrepid Regular',
+                      marginHorizontal: 30,
+                    }}>
+                    1
+                  </Text>
+                </View>
+                <View>
+                  <Text
+                    style={{fontSize: 20, color: '#444444', marginRight: 7}}
+                    onPress={() => handleIncrease(Item.key)}>
+                    +
+                  </Text>
+                </View>
+              </View>
+            </View>
               <View>
                 <Image source={CartImg} height={5} />
               </View>
@@ -166,51 +237,8 @@ const Checkout = ({count, setCount}) => {
                 </Text>
               </View>
               <View>
-                <Icon
-                  name={'close'}
-                  size={30}
-                  color="black"
-                  style={{marginLeft: 70}}></Icon>
-                <View
-                  style={{
-                    backgroundColor: '#ffffff',
-                    paddingVertical: 4,
-
-                    marginTop: 50,
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                    }}>
-                    {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
-                <View><Text>{number}</Text></View>
-                <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
-
-                    <View>
-                      <Text
-                        style={{fontSize: 20, color: '#444444', marginLeft: 3}}>
-                        -
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: 20,
-                          color: '#444444',
-                          fontFamily: 'Intrepid Regular',
-                          marginHorizontal: 32,
-                        }}>
-                        1
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{fontSize: 20, color: '#444444', marginLeft: 7}}>
-                        +
-                      </Text>
-                    </View>
-                  </View>
-                </View>
+               
+           
               </View>
             </View>
           </List.Accordion>

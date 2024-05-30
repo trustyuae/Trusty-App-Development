@@ -8,113 +8,126 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useEffect, useState} from 'react';
-import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
-import { useDispatch, useSelector } from 'react-redux';
-import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
-const product=[
-  {name:" Dummy Product 3 CHANEL",
-   img:CartImg,
-   price:20000,
-   color:"red",
-   size:"M" 
-  },
-  {name:" Dummy Product 3 CHANEL",
-   img:CartImg,
-   price:20000,
-   color:"red",
-   size:"M" 
-  },
+import {useDispatch, useSelector} from 'react-redux';
+import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
+import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
 
- 
- 
-]
-
-
-
-
-
-const Cart = ({count, setCount, number, setNumber,quntity,setQuntity}) => {
+const Cart = ({count, setCount, number, setNumber}) => {
   const handlepress = () => {};
+  const [updated, setupdate] = useState(false);
+  const dispatch = useDispatch();
+  const {erros, loading, viewcartdata} = useSelector(
+    state => state?.ViewToCart,
+  );
+  const {deteltedData} = useSelector(state => state?.DeleteToCart);
+  const [cartData, setCartData] = useState([]);
 
-  const dispatch=useDispatch()
-  const {erros,loading,viewcartdata}=useSelector(state=>state.ViewToCart)
-  const total = viewcartdata?.cart_items?.map(item => item.product_price).reduce((acc, price) => acc + price, 0);
- 
-  console.log(total);
-
-  useEffect(()=>{
-    dispatch(ViewToCart())
-  },[])
+  useEffect(() => {
+    setCartData(viewcartdata?.cart_items);
+  }, [viewcartdata, deteltedData]);
 
   const handleCheckout = () => {
-    setCount(pre => (count >= 2 ? 0 : pre + 1));
+    setCount(count + 1);
   };
 
-  const handleRemove=()=>{
+  const handleRemove = id => {
+    const data = {
+      product_id: id,
+    };
+
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
       {
         text: 'Cancel',
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
+      {
+        text: 'OK',
+        onPress: () => {
+          dispatch(deleteToCart(data));
+          setCartData(viewcartdata?.cart_items);
+        },
+      },
     ]);
-  }
+  };
+
+  const handleIncrease = key => {
+    const updatedCart = cartData?.map(item => {
+      if (item.key === key) {
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      }
+      return item;
+    });
+    setCartData(updatedCart);
+  };
+
+  const handleDecrease = key => {
+    const updatedCart = cartData?.map(item => {
+      if (item.key === key && item.quantity > 1) {
+        return {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+      }
+      return item;
+    });
+    setCartData(updatedCart);
+  };
+
+  const update = cartData?.map(item => ({
+    ...item,
+    total: item.product_price * item.quantity,
+  }));
+  const totalSum = update?.reduce(
+    (accumulator, currentItem) => accumulator + currentItem.total,
+    0,
+  );
+
+  useEffect(() => {
+    const fetch = async () => {
+      let data = await dispatch(ViewToCart());
+    };
+
+    fetch();
+  }, [deteltedData]);
 
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.custText}>You have {viewcartdata?.cart_count} items in your cart</Text>
+        <Text style={styles.custText}>
+          You have {viewcartdata?.cart_count} items in your cart
+        </Text>
 
         <View style={styles.custborder} />
 
-       {viewcartdata?.cart_items?.map((Item)=>(
-         <View
-          style={{
-            marginVertical: 15,
-            flexDirection: 'row',
-            gap: 10,
-            justifyContent: 'space-evenly',
-          }}>
-          <View>
-            <Image source={{uri:Item?.product_image}} height={70} width={70}/>
-          </View>
-          <View>
-            <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-              {Item.product_name}
-            </Text>
-            <Text
-              style={{
-                marginVertical: 2,
-                color: '#676766',
-                fontFamily: 'Intrepid Regular',
-              }}>
-             {Item.product_price} AED
-            </Text>
-            <Text
-              style={{
-                marginVertical: 3,
-                color: 'black',
-                fontFamily: 'Intrepid Regular',
-              }}>
-              Color : <Text style={{color: '#676766'}}>{Item?.color}</Text>{' '}
-            </Text>
-            <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-            Size : <Text style={{color: '#676766'}}>{Item?.size}</Text>{' '}
-            </Text>
-          </View>
-          <View>
+        {cartData?.map(Item => (
+          <View
+            style={{
+              marginVertical: 15,
+              flexDirection: 'row',
+              gap: 10,
+              position: 'relative',
+            }}>
             <Icon
               name={'close'}
               size={30}
               color="black"
-              style={{marginLeft: 70}} onPress={handleRemove}></Icon>
+              style={{
+                position: 'absolute',
+                right: 0,
+              }}
+              onPress={() => handleRemove(Item.product_id)}></Icon>
+
             <View
               style={{
                 backgroundColor: '#ffffff',
-                paddingVertical: 4,
-                marginTop: 50,
-                
+                paddingVertical: 2,
+                position: 'absolute',
+                bottom: -8,
+                right: 0,
               }}>
               <View
                 style={{
@@ -124,19 +137,67 @@ const Cart = ({count, setCount, number, setNumber,quntity,setQuntity}) => {
                 <View><Text>{number}</Text></View>
                 <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
 
-                <View  >
-                  <Text style={{fontSize: 20, color: '#444444',marginLeft:3}} onPress={(pre)=>Item.quantity-1}>-</Text>
+                <View>
+                  <Text
+                    style={{fontSize: 20, color: '#444444', marginLeft: 7}}
+                    onPress={() => handleDecrease(Item.key)}>
+                    -
+                  </Text>
                 </View>
-                <View >
-                  <Text style={{fontSize: 20, color: '#444444',fontFamily: 'Intrepid Regular',marginHorizontal:32}}>{Item.quantity}</Text>
+                <View>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: '#444444',
+                      fontFamily: 'Intrepid Regular',
+                      marginHorizontal: 30,
+                    }}>
+                    {Item.quantity}
+                  </Text>
                 </View>
-                <View >
-                  <Text style={{fontSize: 20, color: '#444444',marginLeft:7}} onPress={(pre)=>Item.quantity+1}>+</Text>
+                <View>
+                  <Text
+                    style={{fontSize: 20, color: '#444444', marginRight: 7}}
+                    onPress={() => handleIncrease(Item.key)}>
+                    +
+                  </Text>
                 </View>
               </View>
             </View>
+            <View>
+              <Image
+                source={{uri: Item?.product_image}}
+                height={70}
+                width={70}
+              />
+            </View>
+            <View>
+              <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                {Item.product_name}
+              </Text>
+              <Text
+                style={{
+                  marginVertical: 2,
+                  color: '#676766',
+                  fontFamily: 'Intrepid Regular',
+                }}>
+                {Item.product_price} AED
+              </Text>
+              <Text
+                style={{
+                  marginVertical: 3,
+                  color: 'black',
+                  fontFamily: 'Intrepid Regular',
+                }}>
+                Color : <Text style={{color: '#676766'}}>{Item?.color}</Text>{' '}
+              </Text>
+              <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                Size : <Text style={{color: '#676766'}}>{Item?.size}</Text>{' '}
+              </Text>
+            </View>
+            <View></View>
           </View>
-        </View>))}
+        ))}
 
         <View style={styles.custborder} />
 
@@ -147,7 +208,7 @@ const Cart = ({count, setCount, number, setNumber,quntity,setQuntity}) => {
             marginVertical: 10,
           }}>
           <Text style={styles.custText}>SUBTOTAL</Text>
-          <Text>200,00 AED</Text>
+          <Text>{totalSum} AED</Text>
         </View>
 
         <View style={styles.custborder} />
