@@ -9,9 +9,10 @@ import {Images} from '../../Constants/index';
 import Button from '../Button';
 import {useNavigation} from '@react-navigation/native';
 
-const Confirmation = () => {
+const Confirmation = ({setCount}) => {
   const navigation = useNavigation();
   const handlepress = () => {
+    setCount(0)
     navigation.navigate('DrawerHome');
   };
 

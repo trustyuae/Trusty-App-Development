@@ -24,20 +24,42 @@ import {fetchById} from '../../Redux/Slice/SingleProductslice';
 import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
 import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
+import {getToken, getUsername} from '../../Utils/localstorage';
 
 export default function Productdetailscreen({route, navigation}) {
   const {userId} = route?.params;
   const dispatch = useDispatch();
   const {loading, error, responseData} = useSelector(state => state?.getById);
-  const { errormessage, partner} = useSelector(state => state?.PatnerGet);
+  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
   const {loa, err, cartdata} = useSelector(state => state);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(true);
   const [id, setId] = useState(userId);
   const [changeSize, setChangeSize] = useState('');
-  const [load,setLoding]=useState(false)
+  const [load, setLoding] = useState(false);
 
-  console.log(loa);
+  //  useEffect(()=>{
+  //   const fetchtoken = async () => {
+  //     try {
+  //       const username = await getUsername();
+  //     }
+  //     catch(error){
+
+  //     }
+  //   }
+  // },
+  // fetchtoken()
+  //  },[])
+
+  useEffect(() => {
+    const fetchtoken = async () => {
+      try {
+        const username = await getUsername();
+        console.log(username);
+      } catch (error) {}
+    };
+    fetchtoken();
+  }, []);
 
   useEffect(() => {
     dispatch(fetchById(id));
@@ -51,8 +73,8 @@ export default function Productdetailscreen({route, navigation}) {
     }
   }, [responseData]);
 
-  const handlepress = () => {
-    setLoding(true)
+  const handlepress = async () => {
+    setLoding(true);
     // const data={
     //   productid:responseData?.id,
     //   color:changeColor,
@@ -68,7 +90,7 @@ export default function Productdetailscreen({route, navigation}) {
 
     dispatch(addToCart(data)).then(action => {
       if (addToCart.fulfilled.match(action)) {
-        setLoding(false)
+        setLoding(false);
         navigation.navigate('Cart');
       }
     });

@@ -8,6 +8,9 @@ import {
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from '../../Redux/Slice/loginslice';
+import {getToken, getUserId} from '../../Utils/localstorage';
+import Profile from '../Profile/Profile';
+import CustomTabBar from '../../Components/CustomeTabBar/CustomeTabBar';
 
 const Loginscreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -17,6 +20,8 @@ const Loginscreen = ({navigation}) => {
     email: '',
     password: '',
   });
+
+  const [isAuth, setAuth] = useState();
 
   useEffect(() => {
     if (userData) {

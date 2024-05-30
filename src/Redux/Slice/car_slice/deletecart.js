@@ -11,9 +11,9 @@ import Toast from 'react-native-toast-message';
 import {getUsername} from '../../../Utils/localstorage';
 import {useEffect} from 'react';
 
-export const addToCart = createAsyncThunk(
+export const deleteToCart = createAsyncThunk(
   ADD_TO_CART,
-  async (data, {rejectWithValue}) => {
+  async (id, {rejectWithValue}) => {
     try {
       const config = {
         auth: {
@@ -24,14 +24,12 @@ export const addToCart = createAsyncThunk(
 
       let useremail = await getUsername();
 
-      console.log("useremail--------------->",useremail);
-
       const response = await axios.post(
-        `${baseURL}/ade-woocart/v1/cart?username=${useremail}`,
-        data,
+        `${baseURL}/ade-woocart/v1/cart/delete?username=${useremail}`,
+        id,
         config,
       );
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       console.error('Network Error:', error);
@@ -41,38 +39,38 @@ export const addToCart = createAsyncThunk(
 );
 
 const initialState = {
-  loa: false,
-  err: null,
-  cartdata: null,
+  loading: false,
+  erros: null,
+  deteltedData: null,
 };
 
-const AddToCartSlice = createSlice({
-  name: 'AddToCart',
+const DeleteToCartSlice = createSlice({
+  name: 'DeleteToCart',
   initialState,
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(addToCart.pending, state => {
-        state.loa = true;
-        state.err = null;
+      .addCase(deleteToCart.pending, state => {
+        state.loading = true;
+        state.erros = null;
       })
 
-      .addCase(addToCart.fulfilled, (state, action) => {
-        state.loa = false;
-        state.cartdata = action.payload;
+      .addCase(deleteToCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.deteltedData = action.payload;
         Toast.show({
           type: 'success',
-          text1: state.cartdata.message,
+          text1: state.deteltedData.message,
           position: 'bottom',
           visibilityTime: 1500,
         });
       })
 
-      .addCase(addToCart.rejected, (state, action) => {
-        state.loa = false;
-        state.err = action.error.message || 'An error occurred';
+      .addCase(deleteToCart.rejected, (state, action) => {
+        state.loading = false;
+        state.erros = action.error.message || 'An error occurred';
       });
   },
 });
 
-export default AddToCartSlice.reducer;
+export default DeleteToCartSlice.reducer;
