@@ -50,7 +50,6 @@ export const updateProfile = createAsyncThunk(
   },
 );
 
-
 const initialState = {
   data: null,
   loading: false,

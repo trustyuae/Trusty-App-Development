@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     alignItems: 'center',
-    marginTop: hp('2%'),
+    marginTop: hp('4%'),
     marginBottom: hp('2%'),
   },
   imageContainer1: {

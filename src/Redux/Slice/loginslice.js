@@ -12,7 +12,7 @@ export const logoutUser = createAsyncThunk(
   USER_LOGOUT_REQUEST,
   async (_, {rejectWithValue}) => {
     try {
-      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('tokens');
       await AsyncStorage.removeItem('user_id');
       return true;
     } catch (error) {
@@ -29,7 +29,7 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await axios.post(`${baseURL}/custom/v1/login`, data);
       await AsyncStorage.setItem(
-        'token',
+        'tokens',
         JSON.stringify(response?.data?.jwt_token),
       );
       await AsyncStorage.setItem(
