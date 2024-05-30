@@ -29,14 +29,13 @@ export const getUserId = async () => {
   }
 };
 
-
 export const getUsername = async () => {
   try {
     const username = await AsyncStorage.getItem('user_email');
     if (username !== null) {
       const useremail = JSON.parse(username);
       return useremail;
-    } 
+    }
   } catch (error) {
     console.log('Error retrieving token: ', error);
     return null;

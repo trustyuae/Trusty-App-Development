@@ -9,8 +9,9 @@ import postApiSlice from '../Slice/postApiSlice';
 import perfectpatnerSlice from '../Slice/perfectpatnerSlice';
 import AddToCartSlice from '../Slice/car_slice/addtocart';
 import orderSlice from '../Slice/orderSlice';
-import  ViewToCartSlice  from '../Slice/car_slice/viewcart';
+import ViewToCartSlice from '../Slice/car_slice/viewcart';
 import profileSlice from '../Slice/profileSlice';
+import wishlistSlice from '../Slice/wishlistSlice';
 import DeleteToCartSlice from '../Slice/car_slice/deletecart';
 
 const rootReducer = combineReducers({
@@ -27,8 +28,9 @@ const rootReducer = combineReducers({
   DeleteToCart :DeleteToCartSlice,
   PatnerGet: perfectpatnerSlice,
   order: orderSlice,
-  ViewToCart:ViewToCartSlice,
+  ViewToCart: ViewToCartSlice,
   profile: profileSlice,
+  wishlist: wishlistSlice,
 });
 
 export default rootReducer;

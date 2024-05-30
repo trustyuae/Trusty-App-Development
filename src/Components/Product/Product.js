@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Pressable,
@@ -13,12 +13,44 @@ import {
 } from 'react-native-responsive-screen';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
+import {useDispatch} from 'react-redux';
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from '../../Redux/Slice/wishlistSlice';
 
-const Product = ({uri, name, price}) => {
+const Product = ({uri, name, price, productId}) => {
+  const dispatch = useDispatch();
+  console.log('productID', productId);
   const initialSaved = true;
   const [saved, setSaved] = useState(initialSaved);
+  const [tokenData, setTokenData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getToken();
+
+        console.log('token-------', token);
+        if (token) {
+          setTokenData(token);
+        }
+        console.log('Token:', token);
+      } catch (error) {
+        console.log('Error retrieving data:', error);
+      }
+    };
+
+    fetchData();
+  }, [saved]);
 
   const toggleSaved = () => {
+    console.log('dsfds', tokenData);
+    if (saved) {
+      dispatch(removeFromWishlist({productId,  tokenData: formattedToken }));
+    } else {
+      dispatch(addToWishlist({productId,  tokenData: formattedToken }));
+    }
     setSaved(!saved);
   };
 

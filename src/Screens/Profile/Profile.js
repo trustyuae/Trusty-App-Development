@@ -19,31 +19,21 @@ import {logoutUser} from '../../Redux/Slice/loginslice';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {getToken, getUserId} from '../../Utils/localstorage';
+import RNPickerSelect from 'react-native-picker-select';
+import {currencies} from '../../Assets/Currency.js';
 import {
   fetchProfile,
   resetProfile,
   updateProfile,
 } from '../../Redux/Slice/profileSlice';
 import {ActivityIndicator} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const {data, loading, error} = useSelector(state => state.profile);
-
-  // data
-  const [editable, setEditable] = useState(false);
-  const [name, setName] = useState(data?.first_name);
-  const [email, setEmail] = useState(data?.email);
-  const [phone, setPhone] = useState(data?.phone);
-  const [address, setAddress] = useState(data?.shipping?.address_1);
-  const [shippingAddress, setShippingAddress] = useState(
-    data?.shipping?.address_1,
-  );
-  const [shippingCity, setShippingCity] = useState(data?.shipping?.city);
-  const [shippingCountry, setShippingCountry] = useState(
-    data?.shipping?.country,
-  );
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,13 +47,36 @@ const Profile = () => {
     };
     fetchData();
   }, [dispatch]);
+
+  useEffect(() => {
+    const phoneNumberMetadata = data?.meta_data.find(
+      item => item.key === 'phone',
+    );
+    if (phoneNumberMetadata) {
+      setPhone(phoneNumberMetadata.value);
+    }
+  }, [data]);
+
+  // data
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [currency, setCurrency] = useState('');
+  const [isoCode, setIsoCode] = useState('');
+  const [editable, setEditable] = useState(false);
+  const [name, setName] = useState(data?.first_name);
+  const [email, setEmail] = useState(data?.email);
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value);
+  const [address, setAddress] = useState(data?.shipping?.address_1);
+  const [shippingAddress, setShippingAddress] = useState(
+    data?.shipping?.address_1,
+  );
+  const [shippingCity, setShippingCity] = useState(data?.shipping?.city);
+  const [shippingCountry, setShippingCountry] = useState(
+    data?.shipping?.country,
+  );
+
   const handleEdit = () => {
     setEditable(true);
   };
-
-  // useEffect(() => {
-  //   handleSave();
-  // }, [data]);
   const handleSave = async () => {
     let billingData = {
       address_1: address,
@@ -71,28 +84,22 @@ const Profile = () => {
       country: shippingCountry,
     };
 
-    // "shipping": {
-    //     "first_name": "",
-    //     "last_name": "",
-    //     "company": "",
-    //     "address_1": "2Nd 3 f",
-    //     "address_2": "",
-    //     "city": "Kolhapurfdfdf",
-    //     "postcode": "",
-    //     "country": "AD",
-    //     "state": "",
-    //     "phone": "9898767898"
-    // },
     const updatedData = {
       first_name: name,
       email,
-      phone,
+
       shipping: {
         address_1: shippingAddress,
         city: shippingCity,
         country: shippingCountry,
       },
+      meta_data: [
+        ...data.meta_data.slice(0, 2), // Keep the first two items unchanged
+        {...data.meta_data[2], value: phone}, // Update the phone number
+        ...data.meta_data.slice(3), // Keep the remaining items unchanged
+      ],
     };
+    console.log('updatedData', updatedData);
     const customer_id = await getUserId();
     try {
       dispatch(updateProfile({customer_id, newData: updatedData}));
@@ -107,12 +114,25 @@ const Profile = () => {
     JSON.stringify(data?.shipping?.address_1),
   );
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    // await AsyncStorage.removeItem('token');
+    // await AsyncStorage.removeItem('user_id');
     dispatch(logoutUser());
     dispatch(resetProfile());
     navigation.navigate('DrawerHome');
   };
 
+  const handleCountryChange = country => {
+    setSelectedCountry(country);
+    const selected = currencies.find(item => item.name === country);
+    if (selected) {
+      setCurrency(selected.symbol);
+      setIsoCode(selected.iso_code);
+    } else {
+      setCurrency('');
+      setIsoCode('');
+    }
+  };
   return (
     <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
       {loading ? (
@@ -161,7 +181,17 @@ const Profile = () => {
             </View>
             <View style={styles.subContantContainer}>
               <Text style={styles.textHeading}>Currency</Text>
-              <Text style={styles.textHeadingValue}>IND</Text>
+              {editable ? (
+                <RNPickerSelect
+                  onValueChange={value => handleCountryChange(value)}
+                  items={currencies.map(item => ({
+                    label: item.name,
+                    value: item.name,
+                  }))}
+                />
+              ) : (
+                <Text style={styles.textHeadingValue}>{isoCode}</Text>
+              )}
             </View>
             <View style={styles.subContantContainer}>
               <Text style={styles.textHeading}>Phone Number</Text>
@@ -173,7 +203,9 @@ const Profile = () => {
                   onChangeText={setPhone}
                 />
               ) : (
-                <Text style={styles.textHeadingValue}>{data?.phone}</Text>
+                <Text style={styles.textHeadingValue}>
+                  {data?.meta_data[2]?.value}
+                </Text>
               )}
             </View>
             <View style={styles.subContantContainer}>
@@ -186,7 +218,7 @@ const Profile = () => {
                 />
               ) : (
                 <Text style={styles.textHeadingValue}>
-                  {data?.billing?.address_1}
+                  {data?.shipping?.address_1}
                 </Text>
               )}
             </View>

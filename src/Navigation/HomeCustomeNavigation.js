@@ -30,7 +30,11 @@ const HomeCustomeNavigation = () => {
         name="CategoryProducts"
         component={CategoryProducts}
         options={{
-          headerShown: false,
+          headerTransparent: true,
+          title: null,
+          headerStyle: {
+            backgroundColor: '#f6f1eb',
+          },
         }}
       />
     </Stack.Navigator>

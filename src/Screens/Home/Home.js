@@ -171,7 +171,8 @@ const Home = () => {
                   uri={product?.images[0]?.src}
                   name={product?.name}
                   price={product?.price}
-                  saved={product?.saved}></Product>
+                  saved={product?.saved}
+                  productId={product?.id}></Product>
               </Pressable>
             ))}
           </View>
@@ -229,7 +230,8 @@ const Home = () => {
                   uri={product?.images[0]?.src}
                   name={product?.name}
                   price={product?.price}
-                  saved={product?.saved}></Product>
+                  saved={product?.saved}
+                  productId={product?.id}></Product>
               </Pressable>
             ))}
           </View>

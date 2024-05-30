@@ -56,7 +56,6 @@ const AppNavigations = () => {
         />
        
 
-
         <Stack.Screen
           name="Order"
           component={Order}

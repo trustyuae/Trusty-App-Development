@@ -2,23 +2,25 @@ import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Cart from './Cart';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const Watchlist = () => {
   const navigation = useNavigation();
+  const isLoggedIn = useSelector(state => state.user.userData !== null);
+
+  const handleProfileNavigation = () => {
+    if (isLoggedIn) {
+      navigation.navigate('Profile');
+    } else {
+      navigation.navigate('Login'); // Navigate to the login screen if not logged in
+    }
+  };
 
   return (
     <View style={styles.container}>
-     
-
-     
-
-    
-      <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+      <TouchableOpacity onPress={handleProfileNavigation}>
         <Text>profile</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => navigation.navigate('Order')}>
-        <Text>order</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };

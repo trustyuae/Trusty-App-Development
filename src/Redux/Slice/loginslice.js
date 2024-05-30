@@ -12,7 +12,7 @@ export const logoutUser = createAsyncThunk(
   USER_LOGOUT_REQUEST,
   async (_, {rejectWithValue}) => {
     try {
-    await  AsyncStorage.clear();
+      await AsyncStorage.clear();
       return true;
     } catch (error) {
       return rejectWithValue(

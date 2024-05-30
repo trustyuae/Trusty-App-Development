@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Pressable, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import {View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {
@@ -113,8 +119,7 @@ const CategoryProducts = ({navigation}) => {
   const dispatch = useDispatch();
   const {categoryProducts, status, error} = useSelector(state => state.product);
   const [proudctid, setProductID] = useState();
-   
-  
+
   useEffect(() => {
     dispatch(fetchCategoryProducts({categoryId: category.id}));
   }, [category.id, dispatch]);
@@ -156,8 +161,7 @@ const CategoryProducts = ({navigation}) => {
           }}>
           <SelectDropdown
             data={emojisWithIcons}
-            onSelect={(selectedItem, index) => {
-            }}
+            onSelect={(selectedItem, index) => {}}
             // style={{marginLeft: 0}}
             renderButton={(selectedItem, isOpen) => {
               return (
@@ -199,8 +203,7 @@ const CategoryProducts = ({navigation}) => {
           />
           <SelectDropdown
             data={emojisWithIcons}
-            onSelect={(selectedItem, index) => {
-            }}
+            onSelect={(selectedItem, index) => {}}
             // style={{marginLeft: 0}}
             renderButton={(selectedItem, isOpen) => {
               return (
