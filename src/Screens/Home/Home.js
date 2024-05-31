@@ -23,15 +23,83 @@ import {Pressable} from 'react-native';
 import {fetchCategories} from '../../Redux/Slice/categorySlice';
 import {fetchProducts} from '../../Redux/Slice/productSlice';
 import {useDispatch, useSelector} from 'react-redux';
+import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import {getToken} from '../../Utils/localstorage';
 
 const Home = () => {
   const navigation = useNavigation();
   const [startIndex, setStartIndex] = useState(0);
+  const [newWitchList, setNewWitchList] = useState([]);
+
   const dispatch = useDispatch();
   const {categories, categoryStatus, categoryError} = useSelector(
     state => state.category,
   ); // Select category state from Redux store
   const {products, status, error} = useSelector(state => state.product);
+  const {items} = useSelector(state => state.wishlist);
+  const [tokenData, setTokenData] = useState(null);
+  //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
+  console.log('inside home---->', newWitchList);
+
+  useEffect(() => {
+    const itemIdList = items?.Wishlist?.map(item => ({id: item}));
+
+    // const newArray = products.map(product => ({
+    //   ...product,
+    //   isWatchList: itemIdList?.some(
+    //     wishlistItem => wishlistItem.id == product.id,
+    //   ),
+    // }));
+
+    // const result = products?.map(watchItem => {
+    //   const productMatch = items?.Wishlist?.find(
+    //     item => console.log('Mtachs product', item),
+    //     // productItem => productItem?.id?.toString() === watchItem?.id,
+    //   );
+
+    //   return {
+    //     ...watchItem,
+    //     isWatchList: !!productMatch,
+    //   };
+    // });
+
+    const productIds = new Set(itemIdList?.map(item => Number(item.id)));
+    const result = products.map(productItem => ({
+      ...productItem,
+      isWatchList: productIds.has(productItem.id),
+    }));
+    console.log('roductIds', result);
+  }, [items]);
+
+  // useEffect(() => {
+  //   const newArray = products.map(product => ({
+  //     ...product,
+  //     isWatchList: newWitchList?.some(
+  //       wishlistItem => wishlistItem.id === product.id,
+  //     ),
+  //   }));
+  // }, [items]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getToken();
+        console.log('inside home---->', token);
+        if (token) {
+          setTokenData(token);
+        }
+      } catch (error) {
+        console.log('Error retrieving data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchWishlist(tokenData));
+  }, [tokenData]);
+  console.log('**********888888888888', products);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -172,7 +240,8 @@ const Home = () => {
                   name={product?.name}
                   price={product?.price}
                   saved={product?.saved}
-                  productId={product?.id}></Product>
+                  product_id={product?.id}
+                />
               </Pressable>
             ))}
           </View>
@@ -231,7 +300,7 @@ const Home = () => {
                   name={product?.name}
                   price={product?.price}
                   saved={product?.saved}
-                  productId={product?.id}></Product>
+                  product_id={product?.id}></Product>
               </Pressable>
             ))}
           </View>

@@ -13,45 +13,61 @@ import {
 } from 'react-native-responsive-screen';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {Images} from '../../Constants/index';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   addToWishlist,
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
+import {getToken} from '../../Utils/localstorage';
 
-const Product = ({uri, name, price, productId}) => {
+const Product = ({uri, name, price, product_id}) => {
   const dispatch = useDispatch();
-  console.log('productID', productId);
-  const initialSaved = true;
-  const [saved, setSaved] = useState(initialSaved);
+
+  // const wishlist = useSelector(state => state.wishlist.items);
+
+  // const initialSaved = false;
+  const [saved, setSaved] = useState(false);
   const [tokenData, setTokenData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-
-        console.log('token-------', token);
         if (token) {
           setTokenData(token);
         }
-        console.log('Token:', token);
       } catch (error) {
         console.log('Error retrieving data:', error);
       }
     };
 
     fetchData();
-  }, [saved]);
+  }, []);
 
-  const toggleSaved = () => {
-    console.log('dsfds', tokenData);
-    if (saved) {
-      dispatch(removeFromWishlist({productId,  tokenData: formattedToken }));
+  // useEffect(() => {
+  //   if (wishlist && wishlist.length > 0) {
+  //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
+  //     console.log('dd', wishlistIds);
+  //     if (wishlistIds.includes(product_id.toString())) {
+  //       setSaved(true);
+  //     } else {
+  //       setSaved(false);
+  //     }
+  //   }
+  // }, [wishlist, product_id]);
+
+  const toggleSaved = async () => {
+    if (tokenData) {
+      if (saved) {
+        dispatch(removeFromWishlist({product_id, tokenData}));
+        setSaved(false);
+      } else {
+        dispatch(addToWishlist({product_id, tokenData}));
+        setSaved(true);
+      }
     } else {
-      dispatch(addToWishlist({productId,  tokenData: formattedToken }));
+      console.log('No token available');
     }
-    setSaved(!saved);
   };
 
   return (

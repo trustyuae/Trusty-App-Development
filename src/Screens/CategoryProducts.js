@@ -264,6 +264,7 @@ const CategoryProducts = ({navigation}) => {
                   name={product?.name}
                   price={product?.price}
                   saved={product?.saved}
+                  product_id={product?.id}
                 />
               </TouchableOpacity>
             ))
