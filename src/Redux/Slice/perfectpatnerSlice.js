@@ -17,7 +17,7 @@ export const PartnerPerfect = createAsyncThunk(
           },
         },
       );
-
+      console.log('id---------------->', id);
       return response.data;
     } catch (error) {
       return rejectWithValue(error?.response?.data?.message);

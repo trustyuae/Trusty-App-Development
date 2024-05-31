@@ -15,25 +15,82 @@ import {
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {useDispatch, useSelector} from 'react-redux';
 import Button from '../Button';
+import {getUserId} from '../../Utils/localstorage';
+import {fetchProfile, updateProfile} from '../../Redux/Slice/profileSlice';
+
 const ModalComponent = ({visible, onClose}) => {
   const dispatch = useDispatch();
 
   const {data, loading, error} = useSelector(state => state.profile);
-  const [name, setName] = useState(data?.first_name);
-  const [email, setEmail] = useState(data?.email);
+  const [name, setName] = useState(data?.billing?.first_name);
+  const [lastname, setlastname] = useState(data?.billing?.last_name);
+  const [email, setEmail] = useState(data?.billing?.email);
   const [phone, setPhone] = useState(data?.billing?.phone);
-  const [address, setAddress] = useState(data?.shipping?.address_1);
+  const [address, setAddress] = useState(data?.billing?.address_1);
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1,
   );
-  const [shippingCity, setShippingCity] = useState(data?.shipping?.city);
+  const [postcode, setPostcode] = useState(data?.billing?.postcode);
+  const [shippingCity, setShippingCity] = useState(data?.billing?.city);
   const [shippingCountry, setShippingCountry] = useState(
     data?.shipping?.country,
   );
 
-  console.log('phone----------->', data.phone);
+  const handleUpdate = async () => {
+    // let billingData = {
+    //   address_1: address,
+    //   city: shippingCity,
+    //   country: shippingCountry,
+    // };
 
-  const handleConfirmpay = () => {};
+    // const updatedData = {
+    //   first_name: name,
+    //   email,
+
+    //   shipping: {
+    //     address_1: shippingAddress,
+    //     city: shippingCity,
+    //     country: shippingCountry,
+    //   },
+    //   meta_data: [
+    //     ...data.meta_data.slice(0, 2), // Keep the first two items unchanged
+    //     {...data.meta_data[2], value: phone}, // Update the phone number
+    //     ...data.meta_data.slice(3), // Keep the remaining items unchanged
+    //   ],
+    // };
+
+    const updatedData = {
+      ...data,
+      billing: {
+        first_name: name,
+        last_name: lastname,
+        address_1: address,
+        city: shippingCity,
+        postcode: postcode,
+        country: shippingCountry,
+        phone: phone,
+      },
+    };
+
+    console.log('customer_id');
+
+    const customer_id = await getUserId();
+    try {
+      dispatch(updateProfile({customer_id, newData: updatedData}));
+      // setName('');
+      // setlastname('');
+      // setPhone('');
+      // setAddress('');
+      // setPostcode('');
+      // setShippingCity('');
+      // setShippingCountry('');
+      // setPhone('');
+
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +104,7 @@ const ModalComponent = ({visible, onClose}) => {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
   return (
     <Modal
       visible={visible}
@@ -72,18 +129,34 @@ const ModalComponent = ({visible, onClose}) => {
           </View>
 
           <View style={{marginVertical: 5}}>
+            <Text>Last Name</Text>
+            <TextInput
+              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
+              value={lastname}
+              onChangeText={text => setlastname(text)}></TextInput>
+          </View>
+
+          {/* <View style={{marginVertical: 5}}>
             <Text>Email</Text>
             <TextInput
               style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
               value={email}
               onChangeText={text => setEmail(text)}></TextInput>
-          </View>
+          </View> */}
           <View style={{marginVertical: 5}}>
             <Text>Address</Text>
             <TextInput
               style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
               value={address}
-              onChangeText={text => setEmail(text)}></TextInput>
+              onChangeText={text => setAddress(text)}></TextInput>
+          </View>
+
+          <View style={{marginVertical: 5}}>
+            <Text>Post Code</Text>
+            <TextInput
+              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
+              value={postcode}
+              onChangeText={text => setPostcode(text)}></TextInput>
           </View>
 
           <View style={{marginVertical: 5}}>
@@ -115,7 +188,7 @@ const ModalComponent = ({visible, onClose}) => {
           stylesofbtn={styles.custcheckoutbtn}
           styleoffont={styles.custfontstyle}
           name={'update'}
-          handlepress={handleConfirmpay}
+          handlepress={handleUpdate}
         />
         <TouchableOpacity onPress={onClose}>
           <Text>Close</Text>

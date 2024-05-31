@@ -33,6 +33,21 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [currency, setCurrency] = useState('');
+  const [isoCode, setIsoCode] = useState('');
+  const [editable, setEditable] = useState(false);
+  const [name, setName] = useState(data?.first_name);
+  const [email, setEmail] = useState(data?.email);
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value);
+  const [address, setAddress] = useState(data?.shipping?.address_1);
+  const [shippingAddress, setShippingAddress] = useState(
+    data?.shipping?.address_1,
+  );
+  const [shippingCity, setShippingCity] = useState(data?.shipping?.city);
+  const [shippingCountry, setShippingCountry] = useState(
+    data?.shipping?.country,
+  );
   const {data, loading, error} = useSelector(state => state.profile);
   useEffect(() => {
     const fetchData = async () => {
@@ -58,26 +73,19 @@ const Profile = () => {
   }, [data]);
 
   // data
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [currency, setCurrency] = useState('');
-  const [isoCode, setIsoCode] = useState('');
-  const [editable, setEditable] = useState(false);
-  const [name, setName] = useState(data?.first_name);
-  const [email, setEmail] = useState(data?.email);
-  const [phone, setPhone] = useState(data?.meta_data[2]?.value);
-  const [address, setAddress] = useState(data?.shipping?.address_1);
-  const [shippingAddress, setShippingAddress] = useState(
-    data?.shipping?.address_1,
-  );
-  const [shippingCity, setShippingCity] = useState(data?.shipping?.city);
-  const [shippingCountry, setShippingCountry] = useState(
-    data?.shipping?.country,
-  );
 
   const handleEdit = () => {
     setEditable(true);
   };
   const handleSave = async () => {
+    if (!/^\d{10}$/.test(phone)) {
+      Alert.alert(
+        'Invalid phone number',
+        'Please enter a valid 10-digit phone number.',
+      );
+      return;
+    }
+
     let billingData = {
       address_1: address,
       city: shippingCity,
@@ -158,6 +166,11 @@ const Profile = () => {
                   style={styles.textInput}
                   value={name}
                   onChangeText={setName}
+                  onKeyPress={({nativeEvent}) => {
+                    if (!/[a-zA-Z]/.test(nativeEvent.key)) {
+                      nativeEvent.preventDefault();
+                    }
+                  }}
                 />
               ) : (
                 <Text style={styles.textHeadingValue}>{data?.first_name}</Text>
@@ -201,6 +214,7 @@ const Profile = () => {
                   style={styles.textInput}
                   value={phone}
                   onChangeText={setPhone}
+                  keyboardType="numeric"
                 />
               ) : (
                 <Text style={styles.textHeadingValue}>
@@ -231,6 +245,7 @@ const Profile = () => {
                   style={styles.SubtextHeading}
                   value={shippingCountry}
                   onChangeText={setShippingCountry}
+                  placeholder="shippingCountry"
                 />
               ) : (
                 <Text style={styles.textHeading}>
@@ -242,6 +257,7 @@ const Profile = () => {
                   style={styles.mainText}
                   value={shippingAddress}
                   onChangeText={setShippingAddress}
+                  placeholder="shippingAddress"
                 />
               ) : (
                 <Text style={styles.SubtextHeading}>
@@ -254,6 +270,7 @@ const Profile = () => {
                   style={styles.mainText}
                   value={shippingCity}
                   onChangeText={setShippingCity}
+                  placeholder="shippingCity"
                 />
               ) : (
                 <Text style={styles.textHeading}>{data?.shipping?.city}</Text>

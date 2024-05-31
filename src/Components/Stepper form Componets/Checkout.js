@@ -1,5 +1,11 @@
 import {Image, Text, View, Pressable} from 'react-native';
-import {CartImg, EditICon, Groupicon, PlusIcon} from '../../Constants/Icons';
+import {
+  CartImg,
+  EditICon,
+  Groupicon,
+  PlusIcon,
+  ProductIMG,
+} from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StyleSheet} from 'react-native';
 import Button from '../Button';
@@ -14,6 +20,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {OrderDetail} from '../../Redux/Slice/car_slice/orderdeatails';
 import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
 import {Alert} from 'react-native';
+import {Product} from '../../Constants/Images';
+import {useFocusEffect} from '@react-navigation/native';
+import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
 
 const Checkout = ({count, setCount, orderdetail}) => {
   const [expanded, setExpanded] = useState(true);
@@ -22,17 +31,79 @@ const Checkout = ({count, setCount, orderdetail}) => {
   const {data, loading, error} = useSelector(state => state.profile);
   const [cartData, setCartData] = useState(orderdetail);
   const {deteltedData} = useSelector(state => state?.DeleteToCart);
+  const [customerid, setCustomerID] = useState();
+  const [billingdata, setBillingdata] = useState({});
 
-  useEffect(() => {
+  useFocusEffect(() => {
     const fetchData = async () => {
       const customer_id = await getUserId();
+      setCustomerID(customer_id);
       dispatch(fetchProfile(customer_id));
     };
     fetchData();
-  }, []);
+  });
 
+  useEffect(() => {
+    setBillingdata(data?.billing);
+  }, [data]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const customer_id = await getUserId();
+  //     dispatch(fetchProfile(customer_id));
+  //   };
+  //   fetchData();
+  // }, []);
+
+  const product = cartData.map(item => ({
+    product_id: item.product_id,
+    quantity: item.quantity,
+  }));
   const handleConfirmpay = () => {
-    setCount(pre => (count >= 2 ? 0 : pre + 1));
+    let convertPrice = JSON.stringify(totalSum);
+    const obj = {
+      payment_method: 'COD',
+      payment_method_title: 'Cash On Delivery',
+      set_paid: false,
+      customer_id: customerid,
+      billing: {
+        first_name: data?.billing?.first_name,
+        last_name: data?.billing?.last_name,
+        company: data?.billing?.company,
+        address_1: data?.billing?.address_1,
+        address_2: data?.billing?.address_2,
+        city: data?.billing?.city,
+        state: data?.billing?.state,
+        postcode: data?.billing?.postcode,
+        country: data?.billing?.country,
+        email: data?.billing?.email,
+        phone: data?.billing?.phone,
+      },
+      shipping: {
+        first_name: data?.shipping?.first_name,
+        last_name: data?.shipping?.last_name,
+        address_1: data?.shipping?.address_1,
+        address_2: data?.shipping?.address_2,
+        city: data?.shipping?.city,
+        state: data?.shipping?.state,
+        postcode: data?.shipping?.postcode,
+        country: data?.shipping?.country,
+      },
+      line_items: product,
+      shipping_lines: [
+        {
+          method_id: 'flat_rate',
+          method_title: 'Flat Rate',
+          total: convertPrice,
+        },
+      ],
+    };
+
+    dispatch(orderToCart(obj)).then(action => {
+      if (orderToCart.fulfilled.match(action)) {
+        setCount(pre => (count >= 2 ? 0 : pre + 1));
+      }
+    });
   };
 
   const handleEditClick = () => {
@@ -101,6 +172,7 @@ const Checkout = ({count, setCount, orderdetail}) => {
       },
     ]);
   };
+
   return (
     <View>
       <View style={styles.container}>
@@ -123,20 +195,20 @@ const Checkout = ({count, setCount, orderdetail}) => {
               <Image source={Groupicon} />
             </View>
 
-            <View>
-              <Pressable onPress={handleEditClick}>
-                <Image source={EditICon} height={20} width={20} />
-              </Pressable>
-            </View>
+            <Pressable
+              onPress={handleEditClick}
+              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+              <Image source={EditICon} height={20} width={20} />
+            </Pressable>
           </View>
 
           <View style={{marginLeft: 30, marginTop: -20, marginVertical: 10}}>
             <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-              Mr. {data?.billing?.first_name} {data?.billing?.last_name}
+              Mr. {billingdata?.first_name} {billingdata?.last_name}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
-              {data?.billing?.postcode},Madinath {data?.billing?.country},
-              {data?.billing?.state}
+              {billingdata?.address_1} {billingdata?.country},
+              {billingdata?.city}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular'}}>
               +{data?.billing?.phone}
@@ -262,11 +334,15 @@ const Checkout = ({count, setCount, orderdetail}) => {
                   </View>
                 </View>
                 <View>
-                  <Image
-                    source={{uri: item.product_image}}
-                    height={100}
-                    width={90}
-                  />
+                  {item.product_image ? (
+                    <Image
+                      source={{uri: item?.product_image}}
+                      height={100}
+                      width={90}
+                    />
+                  ) : (
+                    <Image source={Product} height={100} width={90} />
+                  )}
                 </View>
                 <View>
                   <Text

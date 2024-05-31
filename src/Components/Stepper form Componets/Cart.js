@@ -7,7 +7,13 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import {CartImg, Plus, minus} from '../../Constants/Icons';
+import {
+  CartImg,
+  Dummyproduct1,
+  Dummyproduct2,
+  Plus,
+  minus,
+} from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {StyleSheet} from 'react-native';
 import Button from '../Button';
@@ -22,8 +28,16 @@ import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
 import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
 import {getUserId} from '../../Utils/localstorage';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
+import {Product} from '../../Constants/Images';
 
-const Cart = ({count, setCount, number, setNumber,setOrderDetail,setTotal}) => {
+const Cart = ({
+  count,
+  setCount,
+  number,
+  setNumber,
+  setOrderDetail,
+  setTotal,
+}) => {
   const handlepress = () => {};
   const dispatch = useDispatch();
   const {erros, loading, viewcartdata} = useSelector(
@@ -113,52 +127,8 @@ const Cart = ({count, setCount, number, setNumber,setOrderDetail,setTotal}) => {
   }));
 
   const handleCheckout = () => {
-    // let convertPrice = JSON.stringify(totalSum);
-    // const obj = {
-    //   payment_method: 'COD',
-    //   payment_method_title: 'Cash On Delivery',
-    //   set_paid: false,
-    //   customer_id: customerid,
-    //   billing: {
-    //     first_name: data?.billing?.first_name,
-    //     last_name: data?.billing?.last_name,
-    //     company: data?.billing?.company,
-    //     address_1: data?.billing?.address_1,
-    //     address_2: data?.billing?.address_2,
-    //     city: data?.billing?.city,
-    //     state: data?.billing?.state,
-    //     postcode: data?.billing?.postcode,
-    //     country: data?.billing?.country,
-    //     email: data?.billing?.email,
-    //     phone: data?.billing?.phone,
-    //   },
-    //   shipping: {
-    //     first_name: data?.shipping?.first_name,
-    //     last_name: data?.shipping?.last_name,
-    //     address_1: data?.shipping?.address_1,
-    //     address_2: data?.shipping?.address_2,
-    //     city: data?.shipping?.city,
-    //     state: data?.shipping?.state,
-    //     postcode: data?.shipping?.postcode,
-    //     country: data?.shipping?.country,
-    //   },
-    //   line_items: product,
-    //   shipping_lines: [
-    //     {
-    //       method_id: 'flat_rate',
-    //       method_title: 'Flat Rate',
-    //       total: convertPrice,
-    //     },
-    //   ],
-    // };
-
-    // dispatch(orderToCart(obj)).then(action => {
-    //   if (orderToCart.fulfilled.match(action)) {
-       
-    //   }
-    // });
-    setOrderDetail(cartData)
-    setTotal(totalSum)
+    setOrderDetail(cartData);
+    setTotal(totalSum);
     setCount(count + 1);
   };
 
@@ -236,12 +206,17 @@ const Cart = ({count, setCount, number, setNumber,setOrderDetail,setTotal}) => {
                     </View>
                   </View>
                 </View>
+
                 <View>
-                  <Image
-                    source={{uri: Item?.product_image}}
-                    height={100}
-                    width={90}
-                  />
+                  {Item.product_image ? (
+                    <Image
+                      source={{uri: Item?.product_image}}
+                      height={100}
+                      width={90}
+                    />
+                  ) : (
+                    <Image source={Product} height={110} width={90} />
+                  )}
                 </View>
                 <View>
                   <Text

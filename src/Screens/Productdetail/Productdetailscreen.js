@@ -80,7 +80,6 @@ export default function Productdetailscreen({route, navigation}) {
 
   const handleproduct = id => {
     scrollViewRef.current.scrollTo({y: 0, animated: true});
-    navigation.navigate('ProductDetail', {userId: id});
     setId(id);
   };
 
