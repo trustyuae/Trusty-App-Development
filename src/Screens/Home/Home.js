@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -38,53 +39,34 @@ const Home = () => {
   const {products, status, error} = useSelector(state => state.product);
   const {items} = useSelector(state => state.wishlist);
   const [tokenData, setTokenData] = useState(null);
-  //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
+  const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
     const itemIdList = items?.Wishlist?.map(item => ({id: item}));
 
-    // const newArray = products.map(product => ({
-    //   ...product,
-    //   isWatchList: itemIdList?.some(
-    //     wishlistItem => wishlistItem.id == product.id,
-    //   ),
-    // }));
-
-    // const result = products?.map(watchItem => {
-    //   const productMatch = items?.Wishlist?.find(
-    //     item => console.log('Mtachs product', item),
-    //     // productItem => productItem?.id?.toString() === watchItem?.id,
-    //   );
-
-    //   return {
-    //     ...watchItem,
-    //     isWatchList: !!productMatch,
-    //   };
-    // });
-
-    const productIds = new Set(itemIdList?.map(item => Number(item.id)));
+    const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
     const result = products.map(productItem => ({
       ...productItem,
-      isWatchList: productIds.has(productItem.id),
+      isWatchList: productIds.has(productItem?.id),
     }));
-  }, [items]);
+    if (result) {
+      setWishlist(result);
+    }
+    // console.log('roductIdss', JSON.stringify(result));
+  }, [items, products, getToken, dispatch]);
 
-  // useEffect(() => {
-  //   const newArray = products.map(product => ({
-  //     ...product,
-  //     isWatchList: newWitchList?.some(
-  //       wishlistItem => wishlistItem.id === product.id,
-  //     ),
-  //   }));
-  // }, [items]);
-
+  // console.log(
+  //   '------======',
+  //   wishlist?.map(data => console.log(data.isWatchList)),
+  // );
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        console.log('inside home---->', token);
+
         if (token) {
           setTokenData(token);
+          dispatch(fetchWishlist(token));
         }
       } catch (error) {
         console.log('Error retrieving data:', error);
@@ -92,11 +74,11 @@ const Home = () => {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch, tokenData]);
 
-  useEffect(() => {
-    dispatch(fetchWishlist(tokenData));
-  }, [tokenData]);
+  // useEffect(() => {
+  //   dispatch(fetchWishlist(tokenData));
+  // }, [tokenData, products, categories]);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -201,7 +183,7 @@ const Home = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <HeadingImage />
         <Text style={styles.heading}>Our Cave of Wonders</Text>
@@ -226,7 +208,7 @@ const Home = () => {
         <PreviewImage style={{height: hp('10%')}} uri={Images.preview1} />
         <View style={{flexDirection: 'column'}}>
           <View style={styles.productContainer}>
-            {products.slice(startIndex, startIndex + 4).map(product => (
+            {wishlist.slice(startIndex, startIndex + 4).map(product => (
               <Pressable
                 onPress={() =>
                   navigation.navigate('ProductDetail', {userId: product.id})
@@ -238,6 +220,7 @@ const Home = () => {
                   price={product?.price}
                   saved={product?.saved}
                   product_id={product?.id}
+                  isWatchList={product?.isWatchList}
                 />
               </Pressable>
             ))}
@@ -286,7 +269,7 @@ const Home = () => {
           </View>
 
           <View style={styles.productContainer}>
-            {products.slice(startIndex + 2, startIndex + 4).map(product => (
+            {wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
               <Pressable
                 onPress={() =>
                   navigation.navigate('ProductDetail', {userId: product.id})
@@ -297,13 +280,14 @@ const Home = () => {
                   name={product?.name}
                   price={product?.price}
                   saved={product?.saved}
-                  product_id={product?.id}></Product>
+                  product_id={product?.id}
+                  isWatchList={product?.isWatchList}></Product>
               </Pressable>
             ))}
           </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

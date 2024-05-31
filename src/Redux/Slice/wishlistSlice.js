@@ -82,18 +82,10 @@ const wishlistSlice = createSlice({
       .addCase(fetchWishlist.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        Toast.show({
-          type: 'success',
-          text1: 'Wishlist loaded',
-        });
       })
       .addCase(fetchWishlist.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Error fetching wishlist';
-        Toast.show({
-          type: 'error',
-          text1: 'Error fetching wishlist',
-        });
       })
       .addCase(addToWishlist.pending, state => {
         state.loading = true;
@@ -102,19 +94,10 @@ const wishlistSlice = createSlice({
       .addCase(addToWishlist.fulfilled, (state, action) => {
         state.loading = false;
         state.items.push(action.payload);
-        Toast.show({
-          type: 'success',
-          text1: 'Added to Wishlist',
-        });
       })
       .addCase(addToWishlist.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Error adding to wishlist';
-        console.log(state.error);
-        Toast.show({
-          type: 'error',
-          text1: 'Error adding to wishlist',
-        });
       })
       .addCase(removeFromWishlist.pending, state => {
         state.loading = true;
@@ -123,18 +106,10 @@ const wishlistSlice = createSlice({
       .addCase(removeFromWishlist.fulfilled, (state, action) => {
         state.loading = false;
         state.items = state.items.filter(item => item.id !== action.payload.id);
-        Toast.show({
-          type: 'success',
-          text1: 'Removed from Wishlist',
-        });
       })
       .addCase(removeFromWishlist.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Error removing from wishlist';
-        Toast.show({
-          type: 'error',
-          text1: 'Error removing from wishlist',
-        });
       });
   },
 });
