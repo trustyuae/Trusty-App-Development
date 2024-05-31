@@ -7,6 +7,7 @@ import {
   Pressable,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {NotSaveICon, SaveICon} from '../../Constants/Icons';
 import {
@@ -39,16 +40,7 @@ export default function Productdetailscreen({route, navigation}) {
   const [id, setId] = useState(userId);
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
-
-  useEffect(() => {
-    const fetchtoken = async () => {
-      try {
-        const username = await getUsername();
-        console.log(username);
-      } catch (error) {}
-    };
-    fetchtoken();
-  }, []);
+ 
 
   useEffect(() => {
     dispatch(fetchById(id));
@@ -69,13 +61,20 @@ export default function Productdetailscreen({route, navigation}) {
       product_id: id,
       quantity: 1,
     };
+    
 
-    dispatch(addToCart(data)).then(action => {
-      if (addToCart.fulfilled.match(action)) {
-        setLoding(false);
-        navigation.navigate('Cart');
-      }
-    });
+
+  dispatch(addToCart(data)).then(action => {
+    if (addToCart.fulfilled.match(action)) {
+      setLoding(false);
+      navigation.navigate('Cart');
+    }
+  });
+
+ 
+
+   
+
   };
 
   const handleproduct = id => {

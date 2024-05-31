@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {
@@ -8,13 +8,35 @@ import {
 import {Images} from '../../Constants/index';
 import Button from '../Button';
 import {useNavigation} from '@react-navigation/native';
+import {getOdrerdetail} from '../../Utils/localstorage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Confirmation = ({setCount}) => {
   const navigation = useNavigation();
+  const today = new Date();
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const formattedDate = today.toLocaleDateString('en-US', options);
+
   const handlepress = () => {
-    setCount(0)
+    setCount(0);
+    AsyncStorage.removeItem('orderdata');
     navigation.navigate('DrawerHome');
   };
+
+  const [orderdata, setOrderData] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const orderDetailData = await getOdrerdetail();
+      setOrderData(orderDetailData);
+    };
+    fetchData();
+  }, []);
 
   return (
     <View>
@@ -51,7 +73,7 @@ const Confirmation = ({setCount}) => {
                   <Text style={styles.label}>Date:</Text>
                 </View>
                 <View style={styles.cell}>
-                  <Text style={styles.value}>May 9, 2024</Text>
+                  <Text style={styles.value}>{formattedDate}</Text>
                 </View>
               </View>
               <View style={styles.row}>
@@ -59,7 +81,9 @@ const Confirmation = ({setCount}) => {
                   <Text style={styles.label}>Total:</Text>
                 </View>
                 <View style={styles.cell}>
-                  <Text style={styles.value}>200.00 AED</Text>
+                  <Text style={styles.value}>
+                    {orderdata?.shipping_lines[0]?.total} AED
+                  </Text>
                 </View>
               </View>
               <View style={styles.row}>
@@ -67,7 +91,9 @@ const Confirmation = ({setCount}) => {
                   <Text style={styles.label}>Payment method:</Text>
                 </View>
                 <View style={styles.cell}>
-                  <Text style={styles.value}>Cash on delivery</Text>
+                  <Text style={styles.value}>
+                    {orderdata?.payment_method_title}
+                  </Text>
                 </View>
               </View>
             </View>

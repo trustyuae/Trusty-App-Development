@@ -24,14 +24,12 @@ export const addToCart = createAsyncThunk(
 
       let useremail = await getUsername();
 
-      console.log("useremail--------------->",useremail);
 
       const response = await axios.post(
         `${baseURL}/ade-woocart/v1/cart?username=${useremail}`,
         data,
         config,
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Network Error:', error);

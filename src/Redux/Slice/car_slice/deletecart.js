@@ -32,7 +32,6 @@ export const deleteToCart = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.error('Network Error:', error);
       return rejectWithValue(error.response?.data || 'An error occurred');
     }
   },

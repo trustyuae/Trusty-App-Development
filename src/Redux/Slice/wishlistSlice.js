@@ -9,7 +9,6 @@ export const fetchWishlist = createAsyncThunk(
   'wishlist/fetchWishlist',
   async (tokenData, {rejectWithValue}) => {
     try {
-      console.log(tokenData);
       const response = await axios.get(`${baseURL}/custom/v1/wish/list`, {
         headers: {
           Authorization: `Bearer ${tokenData}`,

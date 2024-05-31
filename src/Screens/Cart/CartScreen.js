@@ -14,8 +14,9 @@ const labels = ['Cart', 'Checkout', 'confirmation'];
 const CartScreen = () => {
   const [count, setCount] = useState(0);
   const [number, setNumber] = useState(1);
-  const [orderdetail,setOrderDetail]=useState([]);
-  const [total,setTotal]=useState(0)
+  const [orderdetail, setOrderDetail] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [getorderdetail, setGetorderDetail] = useState();
 
   // const openModal = () => {
   //   setIsModalVisible(true);
@@ -26,10 +27,24 @@ const CartScreen = () => {
   };
 
   const renderCartItems = () => (
-    <Cart count={count} setCount={setCount} number={number}  setOrderDetail={setOrderDetail} setTotal={setTotal}/>
+    <Cart
+      count={count}
+      setCount={setCount}
+      number={number}
+      setOrderDetail={setOrderDetail}
+      setTotal={setTotal}
+    />
   );
 
-  const renderDelivery = () => <Checkout count={count} setCount={setCount} orderdetail={orderdetail} total={total}/>;
+  const renderDelivery = () => (
+    <Checkout
+      count={count}
+      setCount={setCount}
+      orderdetail={orderdetail}
+      total={total}
+      setGetorderDetail={setGetorderDetail}
+    />
+  );
 
   const renderConfirmation = () => (
     <Confirmation count={count} setCount={setCount} />

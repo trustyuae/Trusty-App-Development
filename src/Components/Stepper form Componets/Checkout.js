@@ -23,39 +23,37 @@ import {Alert} from 'react-native';
 import {Product} from '../../Constants/Images';
 import {useFocusEffect} from '@react-navigation/native';
 import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
+import {getUserId} from '../../Utils/localstorage';
 
-const Checkout = ({count, setCount, orderdetail}) => {
+const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [expanded, setExpanded] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const {data, loading, error} = useSelector(state => state.profile);
+  const {data, loading, error} = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState(orderdetail);
   const {deteltedData} = useSelector(state => state?.DeleteToCart);
+  const {orderData, iserror, isloading} = useSelector(
+    state => state?.OrderToCart,
+  );
   const [customerid, setCustomerID] = useState();
   const [billingdata, setBillingdata] = useState({});
+  const [stateUpdate, setStateUpdate] = useState(false);
 
-  useFocusEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const customer_id = await getUserId();
+      console.log('customer_id----------------------->', customer_id);
       setCustomerID(customer_id);
       dispatch(fetchProfile(customer_id));
     };
     fetchData();
+  }, []);
+
+  useFocusEffect(() => {
+    setBillingdata(data?.billing);
   });
 
-  useEffect(() => {
-    setBillingdata(data?.billing);
-  }, [data]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const customer_id = await getUserId();
-  //     dispatch(fetchProfile(customer_id));
-  //   };
-  //   fetchData();
-  // }, []);
-
-  const product = cartData.map(item => ({
+  const product = cartData?.map(item => ({
     product_id: item.product_id,
     quantity: item.quantity,
   }));
@@ -64,7 +62,7 @@ const Checkout = ({count, setCount, orderdetail}) => {
     const obj = {
       payment_method: 'COD',
       payment_method_title: 'Cash On Delivery',
-      set_paid: false,
+      set_paid: 'false',
       customer_id: customerid,
       billing: {
         first_name: data?.billing?.first_name,
@@ -99,8 +97,10 @@ const Checkout = ({count, setCount, orderdetail}) => {
       ],
     };
 
+    console.log('obj-------------------->', obj);
     dispatch(orderToCart(obj)).then(action => {
       if (orderToCart.fulfilled.match(action)) {
+        setGetorderDetail();
         setCount(pre => (count >= 2 ? 0 : pre + 1));
       }
     });
@@ -429,9 +429,15 @@ const Checkout = ({count, setCount, orderdetail}) => {
           styleoffont={styles.custfontstyle}
           name={'Confirm And Pay'}
           handlepress={handleConfirmpay}
+          loading={isloading}
         />
       </View>
-      <ModalComponent visible={isModalVisible} onClose={closeModal} />
+      <ModalComponent
+        visible={isModalVisible}
+        onClose={closeModal}
+        stateUpdate={stateUpdate}
+        setStateUpdate={setStateUpdate}
+      />
     </View>
   );
 };

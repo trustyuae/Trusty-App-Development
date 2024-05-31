@@ -39,7 +39,6 @@ const Home = () => {
   const {items} = useSelector(state => state.wishlist);
   const [tokenData, setTokenData] = useState(null);
   //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
-  console.log('inside home---->', newWitchList);
 
   useEffect(() => {
     const itemIdList = items?.Wishlist?.map(item => ({id: item}));
@@ -68,7 +67,6 @@ const Home = () => {
       ...productItem,
       isWatchList: productIds.has(productItem.id),
     }));
-    console.log('roductIds', result);
   }, [items]);
 
   // useEffect(() => {
@@ -99,7 +97,6 @@ const Home = () => {
   useEffect(() => {
     dispatch(fetchWishlist(tokenData));
   }, [tokenData]);
-  console.log('**********888888888888', products);
 
   useEffect(() => {
     dispatch(fetchCategories());
