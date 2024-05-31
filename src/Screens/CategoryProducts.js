@@ -14,115 +14,59 @@ import {
 } from 'react-native-responsive-screen';
 import {globalColors} from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
-import {Images} from '../Constants';
 import {ScrollView} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchCategoryProducts} from '../Redux/Slice/productSlice';
+import {fetchWishlist} from '../Redux/Slice/wishlistSlice';
+import {getToken} from '../Utils/localstorage';
 
 const CategoryProducts = ({navigation}) => {
-  const ProductList = [
-    {
-      id: 1,
-      uri: Images.product,
-      name: 'Dummy Product 1',
-      price: 'AED 100',
-      saved: false,
-    },
-    {
-      id: 2,
-      uri: Images.product,
-      name: 'Dummy Product 2',
-      price: 'AED 200',
-      saved: true,
-    },
-    {
-      id: 3,
-      uri: Images.product,
-      name: 'Dummy Product 3',
-      price: 'AED 300',
-      saved: false,
-    },
-    {
-      id: 4,
-      uri: Images.product,
-      name: 'Dummy Product 4',
-      price: 'AED 400',
-      saved: true,
-    },
-
-    {
-      id: 5,
-      uri: Images.product,
-      name: 'Dummy Product 5',
-      price: 'AED 500',
-      saved: false,
-    },
-
-    {
-      id: 6,
-      uri: Images.product,
-      name: 'Dummy Product 6',
-      price: 'AED 600',
-      saved: false,
-    },
-
-    {
-      id: 7,
-      uri: Images.product,
-      name: 'Dummy Product 7',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 8,
-      uri: Images.product,
-      name: 'Dummy Product 8',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 9,
-      uri: Images.product,
-      name: 'Dummy Product 9',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 10,
-      uri: Images.product,
-      name: 'Dummy Product 10',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 11,
-      uri: Images.product,
-      name: 'Dummy Product 11',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 12,
-      uri: Images.product,
-      name: 'Dummy Product 12',
-      price: 'AED 600',
-      saved: false,
-    },
-  ];
   const route = useRoute();
   const {category} = route.params;
-  const [productss, setProducts] = useState([]);
+  // const [productss, setProducts] = useState([]);
   const dispatch = useDispatch();
+  const [wishlist, setWishlist] = useState([]);
+
+  const [tokenData, setTokenData] = useState(null);
   const {categoryProducts, status, error} = useSelector(state => state.product);
-  const [proudctid, setProductID] = useState();
+  const {items} = useSelector(state => state.wishlist);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getToken();
+
+        if (token) {
+          setTokenData(token);
+          dispatch(fetchWishlist(token));
+        }
+      } catch (error) {
+        console.log('Error retrieving data:', error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch, tokenData]);
+
+  useEffect(() => {
+    const itemIdList = items?.Wishlist?.map(item => ({id: item}));
+
+    const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
+    const result = categoryProducts.map(productItem => ({
+      ...productItem,
+      isWatchList: productIds.has(productItem?.id),
+    }));
+    if (result) {
+      setWishlist(result);
+    }
+    // console.log('roductIdss', JSON.stringify(result));
+  }, [items, categoryProducts, getToken]);
 
   useEffect(() => {
     dispatch(fetchCategoryProducts({categoryId: category.id}));
-  }, [category.id, dispatch]);
+  }, [dispatch]);
 
   const count = categoryProducts?.length;
 
@@ -253,7 +197,7 @@ const CategoryProducts = ({navigation}) => {
           ) : categoryProducts.length === 0 ? (
             <Text style={styles.noProductsText}>No products available</Text>
           ) : (
-            categoryProducts.map(product => (
+            wishlist.map(product => (
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('ProductDetail', {userId: product.id})
@@ -265,6 +209,7 @@ const CategoryProducts = ({navigation}) => {
                   price={product?.price}
                   saved={product?.saved}
                   product_id={product?.id}
+                  isWatchList={product?.isWatchList}
                 />
               </TouchableOpacity>
             ))
