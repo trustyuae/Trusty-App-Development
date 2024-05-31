@@ -18,7 +18,7 @@ import Button from '../Button';
 import {getUserId} from '../../Utils/localstorage';
 import {fetchProfile, updateProfile} from '../../Redux/Slice/profileSlice';
 
-const ModalComponent = ({visible, onClose}) => {
+const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
   const dispatch = useDispatch();
 
   const {data, loading, error} = useSelector(state => state.profile);
@@ -72,8 +72,6 @@ const ModalComponent = ({visible, onClose}) => {
       },
     };
 
-    console.log('customer_id');
-
     const customer_id = await getUserId();
     try {
       dispatch(updateProfile({customer_id, newData: updatedData}));
@@ -87,6 +85,7 @@ const ModalComponent = ({visible, onClose}) => {
       // setPhone('');
 
       onClose();
+      setStateUpdate(!stateUpdate);
     } catch (error) {
       console.log(error);
     }

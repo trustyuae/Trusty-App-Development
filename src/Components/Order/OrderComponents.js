@@ -16,7 +16,6 @@ const OrderComponents = ({
   status,
   currency,
 }) => {
-  console.log('line Items-->', line_items);
   return (
     <View>
       <View style={styles.line} />

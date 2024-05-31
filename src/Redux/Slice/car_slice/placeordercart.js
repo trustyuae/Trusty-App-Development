@@ -8,6 +8,7 @@ import {
   dummyurl,
 } from '../../../Utils/API';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const orderToCart = createAsyncThunk(
   ORDER_TO_CART,
@@ -24,6 +25,10 @@ export const orderToCart = createAsyncThunk(
         `${baseURL}/wc/v3/orders/`,
         data,
         config,
+      );
+      await AsyncStorage.setItem(
+        'orderdata',
+        JSON.stringify(response?.data),
       );
       return response.data;
     } catch (error) {

@@ -21,15 +21,12 @@ const Order = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {data, loading, error} = useSelector(state => state.order);
-  console.log('order Data-->', data);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userId = await getUserId();
         const token = await getToken();
-        console.log('User ID:', userId);
-        console.log('Token:', token);
         if (userId) {
           dispatch(fetchOrder(userId));
         }

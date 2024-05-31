@@ -26,9 +26,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
 import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
 import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
-import {getUserId} from '../../Utils/localstorage';
+import {getToken, getUserId} from '../../Utils/localstorage';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
 import {Product} from '../../Constants/Images';
+import {useNavigation} from '@react-navigation/native';
 
 const Cart = ({
   count,
@@ -48,10 +49,18 @@ const Cart = ({
   const {data} = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState([]);
   const [customerid, setCustomerID] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetch = async () => {
       let userid = await getUserId();
+      const token = await getToken();
+      if (token) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
       dispatch(fetchProfile(userid));
       setCustomerID(userid);
     };
@@ -70,7 +79,6 @@ const Cart = ({
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
       {
         text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       {
@@ -127,10 +135,24 @@ const Cart = ({
   }));
 
   const handleCheckout = () => {
-    setOrderDetail(cartData);
-    setTotal(totalSum);
-    setCount(count + 1);
+    if (isLoggedIn) {
+      setOrderDetail(cartData);
+      setTotal(totalSum);
+      setCount(count + 1);
+    } else {
+      Alert.alert('', 'please login and try again ', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('Login'),
+        },
+      ]);
+    }
   };
+  
 
   return (
     <View>

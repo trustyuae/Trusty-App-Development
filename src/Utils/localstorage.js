@@ -41,3 +41,18 @@ export const getUsername = async () => {
     return null;
   }
 };
+
+export const getOdrerdetail = async () => {
+  try {
+    const Orderdetail = await AsyncStorage.getItem('orderdata');
+    if (Orderdetail !== null) {
+      const token = JSON.parse(Orderdetail);
+      return token;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.log('Error retrieving token: ', error);
+    return null;
+  }
+};

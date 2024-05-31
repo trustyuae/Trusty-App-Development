@@ -43,7 +43,7 @@ const Profile = () => {
     const fetchData = async () => {
       try {
         const customer_id = await getUserId();
-        console.log('%%%%%', customer_id);
+
         if (customer_id) {
           await dispatch(fetchProfile(customer_id));
         }
