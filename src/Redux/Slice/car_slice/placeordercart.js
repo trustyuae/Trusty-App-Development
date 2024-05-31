@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {ADD_TO_CART} from '../../../Constants/UserConstants';
+import {ORDER_TO_CART} from '../../../Constants/UserConstants';
 import {
   Consumer_key,
   Consumer_secret,
@@ -8,11 +8,9 @@ import {
   dummyurl,
 } from '../../../Utils/API';
 import Toast from 'react-native-toast-message';
-import {getUsername} from '../../../Utils/localstorage';
 
-
-export const addToCart = createAsyncThunk(
-  ADD_TO_CART,
+export const orderToCart = createAsyncThunk(
+  ORDER_TO_CART,
   async (data, {rejectWithValue}) => {
     try {
       const config = {
@@ -22,16 +20,11 @@ export const addToCart = createAsyncThunk(
         },
       };
 
-      let useremail = await getUsername();
-
-      console.log("useremail--------------->",useremail);
-
       const response = await axios.post(
-        `${baseURL}/ade-woocart/v1/cart?username=${useremail}`,
+        `${baseURL}/wc/v3/orders/`,
         data,
         config,
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Network Error:', error);
@@ -41,38 +34,38 @@ export const addToCart = createAsyncThunk(
 );
 
 const initialState = {
-  loa: false,
-  err: null,
-  cartdata: null,
+  isloading: false,
+  iserror: null,
+  orderData: null,
 };
 
-const AddToCartSlice = createSlice({
-  name: 'AddToCart',
+const OrderToCartSlice = createSlice({
+  name: 'OrderToCart',
   initialState,
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(addToCart.pending, state => {
-        state.loa = true;
-        state.err = null;
+      .addCase(orderToCart.pending, state => {
+        state.isloading = true;
+        state.iserror = null;
       })
 
-      .addCase(addToCart.fulfilled, (state, action) => {
-        state.loa = false;
+      .addCase(orderToCart.fulfilled, (state, action) => {
+        state.isloading = false;
         state.cartdata = action.payload;
         Toast.show({
           type: 'success',
-          text1: state.cartdata.message,
+          text1: 'your order is placed',
           position: 'bottom',
           visibilityTime: 1500,
         });
       })
 
-      .addCase(addToCart.rejected, (state, action) => {
-        state.loa = false;
-        state.err = action.error.message || 'An error occurred';
+      .addCase(orderToCart.rejected, (state, action) => {
+        state.isloading = false;
+        state.iserror = action.error.message || 'An error occurred';
       });
   },
 });
 
-export default AddToCartSlice.reducer;
+export default OrderToCartSlice.reducer;

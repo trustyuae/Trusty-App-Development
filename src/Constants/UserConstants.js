@@ -16,4 +16,9 @@ export const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST';
 // ***************************Add to cart **************************
 
 export const ADD_TO_CART="ADD_TO_CART"
+
 export const VIEW_TO_CART="VIEW_TO_CART"
+
+export const ORDER_TO_CART="ORDER_TO_CART"
+
+export const ORDER_DETAIL="ORDER_DETAIL"
