@@ -28,41 +28,45 @@ import {
 } from '../../Redux/Slice/profileSlice';
 import {ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PasswordModal from '../../Components/Model/PasswordModal.js';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [currency, setCurrency] = useState('');
-  const [isoCode, setIsoCode] = useState('');
   const [editable, setEditable] = useState(false);
-  const [name, setName] = useState(data?.first_name);
-  const [email, setEmail] = useState(data?.email);
-  const [phone, setPhone] = useState(data?.meta_data[2]?.value);
-  const [address, setAddress] = useState(data?.shipping?.address_1);
-  const [shippingAddress, setShippingAddress] = useState(
-    data?.shipping?.address_1,
-  );
-  const [shippingCity, setShippingCity] = useState(data?.shipping?.city);
-  const [shippingCountry, setShippingCountry] = useState(
-    data?.shipping?.country,
-  );
+  const [modalVisible, setModalVisible] = useState(false);
+
   const {data, loading, error} = useSelector(state => state.profile);
+
+  console.log('data$$$$-->', data);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const customer_id = await getUserId();
+        console.log('%%%%%', customer_id);
         if (customer_id) {
-          dispatch(fetchProfile(customer_id));
+          await dispatch(fetchProfile(customer_id));
         }
       } catch (error) {
         console.log('Error retrieving data:', error);
       }
     };
     fetchData();
-  }, [dispatch]);
-
+  }, [editable]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [currency, setCurrency] = useState('');
+  const [isoCode, setIsoCode] = useState('');
+  const [name, setName] = useState(data?.first_name || ''); // Set initial value to data?.first_name
+  const [email, setEmail] = useState(data?.email || ''); // Set initial value to data?.email
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value || ''); // Set initial value to data?.meta_data[2]?.value
+  const [address, setAddress] = useState(data?.shipping?.address_1 || ''); // Set initial value to data?.shipping?.address_1
+  const [shippingAddress, setShippingAddress] = useState(
+    data?.shipping?.address_1 || '',
+  );
+  const [shippingCity, setShippingCity] = useState(data?.shipping?.city || '');
+  const [shippingCountry, setShippingCountry] = useState(
+    data?.shipping?.country || '',
+  );
   useEffect(() => {
     const phoneNumberMetadata = data?.meta_data.find(
       item => item.key === 'phone',
@@ -75,6 +79,12 @@ const Profile = () => {
   // data
 
   const handleEdit = () => {
+    setName(data.first_name || '');
+    setEmail(data?.email);
+    setShippingCountry(data?.shipping?.country);
+    setShippingAddress(data?.shipping?.address_1);
+    setShippingCity(data?.shipping?.city);
+    setAddress(data?.shipping?.address_1);
     setEditable(true);
   };
   const handleSave = async () => {
@@ -102,9 +112,9 @@ const Profile = () => {
         country: shippingCountry,
       },
       meta_data: [
-        ...data.meta_data.slice(0, 2), // Keep the first two items unchanged
-        {...data.meta_data[2], value: phone}, // Update the phone number
-        ...data.meta_data.slice(3), // Keep the remaining items unchanged
+        ...data.meta_data.slice(0, 2),
+        {...data.meta_data[2], value: phone},
+        ...data.meta_data.slice(3),
       ],
     };
     console.log('updatedData', updatedData);
@@ -188,9 +198,22 @@ const Profile = () => {
                 <Text style={styles.textHeadingValue}>{data?.email}</Text>
               )}
             </View>
-            <View style={styles.subContantContainer}>
-              <Text style={styles.textHeading}>Password</Text>
-              <Text style={styles.textHeadingValue}>********</Text>
+            <View style={styles.subPasswordContainer}>
+              <View>
+                <Text style={styles.textHeading}>Password</Text>
+                <Text style={styles.textHeadingValue}>********</Text>
+              </View>
+              <View style={{marginLeft: 'auto', marginRight: 5}}>
+                <Text
+                  style={{textDecorationLine: 'underline'}}
+                  onPress={() => setModalVisible(true)}>
+                  Change
+                </Text>
+                <PasswordModal
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
+                />
+              </View>
             </View>
             <View style={styles.subContantContainer}>
               <Text style={styles.textHeading}>Currency</Text>
@@ -241,24 +264,31 @@ const Profile = () => {
             <Text style={styles.mainText}>Shipping Address</Text>
             <View style={styles.contantContainer}>
               {editable ? (
-                <TextInput
-                  style={styles.SubtextHeading}
-                  value={shippingCountry}
-                  onChangeText={setShippingCountry}
-                  placeholder="shippingCountry"
-                />
+                <View>
+                  <Text style={styles.textHeading}>shippingCountry</Text>
+                  <TextInput
+                    style={styles.textInputShipping}
+                    value={shippingCountry}
+                    onChangeText={setShippingCountry}
+                    placeholder="shippingCountry"
+                  />
+                </View>
               ) : (
                 <Text style={styles.textHeading}>
                   {data?.shipping?.country}
                 </Text>
               )}
               {editable ? (
-                <TextInput
-                  style={styles.mainText}
-                  value={shippingAddress}
-                  onChangeText={setShippingAddress}
-                  placeholder="shippingAddress"
-                />
+                <View>
+                  <Text style={styles.textHeading}>shipping Address</Text>
+
+                  <TextInput
+                    style={styles.textInputShipping}
+                    value={shippingAddress}
+                    onChangeText={setShippingAddress}
+                    placeholder="shippingAddress"
+                  />
+                </View>
               ) : (
                 <Text style={styles.SubtextHeading}>
                   {data?.shipping?.address_1}
@@ -266,12 +296,16 @@ const Profile = () => {
               )}
               {/* <Text style={styles.textHeading}>Johnathan doe</Text> */}
               {editable ? (
-                <TextInput
-                  style={styles.mainText}
-                  value={shippingCity}
-                  onChangeText={setShippingCity}
-                  placeholder="shippingCity"
-                />
+                <View>
+                  <Text style={styles.textHeading}>shipping City</Text>
+
+                  <TextInput
+                    style={styles.textInputShipping}
+                    value={shippingCity}
+                    onChangeText={setShippingCity}
+                    placeholder="shippingCity"
+                  />
+                </View>
               ) : (
                 <Text style={styles.textHeading}>{data?.shipping?.city}</Text>
               )}
@@ -335,6 +369,11 @@ const styles = StyleSheet.create({
     marginBottom: wp('2%'),
     marginTop: wp('1%'),
   },
+  subPasswordContainer: {
+    marginBottom: wp('2%'),
+    flexDirection: 'row',
+    marginTop: wp('1%'),
+  },
   subContantContainerAddress: {
     marginBottom: wp('3%'),
     marginTop: wp('4%'),
@@ -344,6 +383,23 @@ const styles = StyleSheet.create({
     marginTop: hp('1%'),
     fontSize: 16,
     fontFamily: 'Intrepid Regular',
+  },
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 40,
+    marginRight: 20,
+    borderColor: globalColors.black,
+  },
+
+  textInputShipping: {
+    borderWidth: 1,
+    borderRadius: 5,
+    height: 40,
+    marginRight: 20,
+    borderColor: globalColors.black,
+    marginBottom: 10,
+    marginTop: 10,
   },
 });
 export default Profile;

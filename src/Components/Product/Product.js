@@ -19,14 +19,17 @@ import {
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
 import {getToken} from '../../Utils/localstorage';
+import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
-const Product = ({uri, name, price, product_id}) => {
+const Product = ({uri, name, price, product_id, isWatchList}) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   // const wishlist = useSelector(state => state.wishlist.items);
 
   // const initialSaved = false;
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(isWatchList);
   const [tokenData, setTokenData] = useState(null);
 
   useEffect(() => {
@@ -42,7 +45,7 @@ const Product = ({uri, name, price, product_id}) => {
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   // useEffect(() => {
   //   if (wishlist && wishlist.length > 0) {
@@ -59,13 +62,29 @@ const Product = ({uri, name, price, product_id}) => {
   const toggleSaved = async () => {
     if (tokenData) {
       if (saved) {
-        dispatch(removeFromWishlist({product_id, tokenData}));
-        setSaved(false);
+        try {
+          dispatch(removeFromWishlist({product_id, tokenData}));
+          setSaved(false);
+        } catch (error) {
+          console.log(error);
+        }
       } else {
-        dispatch(addToWishlist({product_id, tokenData}));
-        setSaved(true);
+        try {
+          dispatch(addToWishlist({product_id, tokenData}));
+          setSaved(true);
+        } catch (error) {
+          console.log(error);
+        }
       }
     } else {
+      navigation.navigate('LoginCustomeNavigation');
+      Toast.show({
+        type: 'info',
+        text1: 'Please login',
+        text2: 'You need to login to save items to your wishlist',
+        visibilityTime: 2000,
+        autoHide: true,
+      });
       console.log('No token available');
     }
   };
