@@ -10,8 +10,11 @@ import Button from '../Button';
 import {useNavigation} from '@react-navigation/native';
 import {getOdrerdetail} from '../../Utils/localstorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { clearToCart } from '../../Redux/Slice/car_slice/clearcart';
+import { useDispatch } from 'react-redux';
 
 const Confirmation = ({setCount}) => {
+  const dispatch=useDispatch()
   const navigation = useNavigation();
   const today = new Date();
   const options = {
@@ -34,6 +37,7 @@ const Confirmation = ({setCount}) => {
     const fetchData = async () => {
       const orderDetailData = await getOdrerdetail();
       setOrderData(orderDetailData);
+      // dispatch(clearToCart());
     };
     fetchData();
   }, []);

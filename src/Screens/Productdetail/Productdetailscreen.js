@@ -40,7 +40,8 @@ export default function Productdetailscreen({route, navigation}) {
   const [id, setId] = useState(userId);
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
- 
+
+
 
   useEffect(() => {
     dispatch(fetchById(id));
@@ -61,20 +62,13 @@ export default function Productdetailscreen({route, navigation}) {
       product_id: id,
       quantity: 1,
     };
-    
 
-
-  dispatch(addToCart(data)).then(action => {
-    if (addToCart.fulfilled.match(action)) {
-      setLoding(false);
-      navigation.navigate('Cart');
-    }
-  });
-
- 
-
-   
-
+    dispatch(addToCart(data)).then(action => {
+      if (addToCart.fulfilled.match(action)) {
+        setLoding(false);
+        navigation.navigate('Cart');
+      }
+    });
   };
 
   const handleproduct = id => {
@@ -110,7 +104,7 @@ export default function Productdetailscreen({route, navigation}) {
                   <View>
                     <Text
                       style={{
-                        color: '#444444',
+                        color:'#444444',
                         fontWeight: '500',
                         marginBottom: 2,
                       }}>

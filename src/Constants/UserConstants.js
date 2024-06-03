@@ -19,6 +19,12 @@ export const ADD_TO_CART="ADD_TO_CART"
 
 export const VIEW_TO_CART="VIEW_TO_CART"
 
+export const CLEAR_TO_CART="CLEAR_TO_CART"
+
+// *************************** Order  **************************
+
+
 export const ORDER_TO_CART="ORDER_TO_CART"
 
 export const ORDER_DETAIL="ORDER_DETAIL"
+

@@ -38,7 +38,6 @@ const Profile = () => {
 
   const {data, loading, error} = useSelector(state => state.profile);
 
-  console.log('data$$$$-->', data);
   useEffect(() => {
     const fetchData = async () => {
       try {
