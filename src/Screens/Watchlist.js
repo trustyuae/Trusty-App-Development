@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import Cart from './Cart';
-import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const Watchlist = () => {
   const navigation = useNavigation();
@@ -18,9 +18,9 @@ const Watchlist = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleProfileNavigation}>
-        <Text>profile</Text>
-      </TouchableOpacity>
+      <Text style={{ fontSize: 22, fontFamily: 'Intrepid Regular' }}>
+        Comming Soon
+      </Text>
     </View>
   );
 };

@@ -1,13 +1,14 @@
-import {View, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { View, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
 import StepperComponet from '../../Components/Stepper/StepperComponet';
 import Cart from '../../Components/Stepper form Componets/Cart';
 import Checkout from '../../Components/Stepper form Componets/Checkout';
 import Confirmation from '../../Components/Stepper form Componets/Confirmation';
 import ModalComponent from '../../Components/Model/Modalcomopnet';
-import {useDispatch, useSelector} from 'react-redux';
-import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
+import { useDispatch, useSelector } from 'react-redux';
+import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
+import { SafeAreaView } from 'react-native';
 
 const labels = ['Cart', 'Checkout', 'confirmation'];
 
@@ -64,16 +65,19 @@ const CartScreen = () => {
   };
 
   return (
-    <ScrollView>
-      <View>
-        {count == 2 ? null : (
-          <View style={{marginTop: 90}}>
-            <StepperComponet labels={labels} count={count} stepCount={3} />
-          </View>
-        )}
-        {renderContent()}
-      </View>
-    </ScrollView>
+    <SafeAreaView>
+      <ScrollView >
+        <View>
+          {count == 2 ? null : (
+            <View style={{ marginTop: 90 }}>
+              <StepperComponet labels={labels} count={count} stepCount={3} />
+            </View>
+          )}
+          {renderContent()}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+
   );
 };
 

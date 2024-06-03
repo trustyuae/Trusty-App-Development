@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,21 +12,21 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Image} from 'react-native';
-import {Images} from '../../Constants';
-import {logoutUser} from '../../Redux/Slice/loginslice';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import {getToken, getUserId} from '../../Utils/localstorage';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Image } from 'react-native';
+import { Images } from '../../Constants';
+import { logoutUser } from '../../Redux/Slice/loginslice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { getToken, getUserId } from '../../Utils/localstorage';
 import RNPickerSelect from 'react-native-picker-select';
-import {currencies} from '../../Assets/Currency.js';
+import { currencies } from '../../Assets/Currency.js';
 import {
   fetchProfile,
   resetProfile,
   updateProfile,
 } from '../../Redux/Slice/profileSlice';
-import {ActivityIndicator} from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PasswordModal from '../../Components/Model/PasswordModal.js';
 
@@ -36,7 +36,7 @@ const Profile = () => {
   const [editable, setEditable] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const {data, loading, error} = useSelector(state => state.profile);
+  const { data, loading, error } = useSelector(state => state.profile);
 
   console.log('data$$$$-->', data);
   useEffect(() => {
@@ -113,14 +113,14 @@ const Profile = () => {
       },
       meta_data: [
         ...data.meta_data.slice(0, 2),
-        {...data.meta_data[2], value: phone},
+        { ...data.meta_data[2], value: phone },
         ...data.meta_data.slice(3),
       ],
     };
     console.log('updatedData', updatedData);
     const customer_id = await getUserId();
     try {
-      dispatch(updateProfile({customer_id, newData: updatedData}));
+      dispatch(updateProfile({ customer_id, newData: updatedData }));
     } catch (error) {
       console.log(error);
     }
@@ -152,17 +152,18 @@ const Profile = () => {
     }
   };
   return (
-    <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+
+    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
       {loading ? (
         <ActivityIndicator
-          style={{marginTop: 400}}
+          style={{ marginTop: 400 }}
           size="large"
           color={globalColors.black}
         />
       ) : data ? (
         <View style={styles.container}>
           <TouchableOpacity onPress={editable ? handleSave : handleEdit}>
-            <Text style={{marginLeft: 'auto'}}>
+            <Text style={{ marginLeft: 'auto' }}>
               {editable ? 'Save' : 'Edit'}
             </Text>
           </TouchableOpacity>
@@ -176,7 +177,7 @@ const Profile = () => {
                   style={styles.textInput}
                   value={name}
                   onChangeText={setName}
-                  onKeyPress={({nativeEvent}) => {
+                  onKeyPress={({ nativeEvent }) => {
                     if (!/[a-zA-Z]/.test(nativeEvent.key)) {
                       nativeEvent.preventDefault();
                     }
@@ -203,9 +204,9 @@ const Profile = () => {
                 <Text style={styles.textHeading}>Password</Text>
                 <Text style={styles.textHeadingValue}>********</Text>
               </View>
-              <View style={{marginLeft: 'auto', marginRight: 5}}>
+              <View style={{ marginLeft: 'auto', marginRight: 5 }}>
                 <Text
-                  style={{textDecorationLine: 'underline'}}
+                  style={{ textDecorationLine: 'underline' }}
                   onPress={() => setModalVisible(true)}>
                   Change
                 </Text>
@@ -312,7 +313,7 @@ const Profile = () => {
             </View>
           </View>
           <TouchableOpacity onPress={handleLogout}>
-            <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
+            <View style={{ flexDirection: 'row', marginTop: hp('2%') }}>
               <Image style={{}} source={Images.Logout}></Image>
               <Text
                 style={{
@@ -334,7 +335,7 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: hp('28%'),
+    marginTop: hp('20%'),
     padding: 20,
   },
   mainText: {

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Pressable,
@@ -11,18 +11,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants/index';
-import {useDispatch, useSelector} from 'react-redux';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants/index';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addToWishlist,
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
-import {getToken} from '../../Utils/localstorage';
-import {useNavigation} from '@react-navigation/native';
+import { getToken } from '../../Utils/localstorage';
+import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
-const Product = ({uri, name, price, product_id, isWatchList}) => {
+const Product = ({ uri, name, price, product_id, isWatchList }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -63,14 +63,14 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
     if (tokenData) {
       if (saved) {
         try {
-          dispatch(removeFromWishlist({product_id, tokenData}));
+          dispatch(removeFromWishlist({ product_id, tokenData }));
           setSaved(false);
         } catch (error) {
           console.log(error);
         }
       } else {
         try {
-          dispatch(addToWishlist({product_id, tokenData}));
+          dispatch(addToWishlist({ product_id, tokenData }));
           setSaved(true);
         } catch (error) {
           console.log(error);
@@ -92,11 +92,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {/* {uri ? ( */}
 
-        {/* ) : (
-          <Text style={styles.errorText}>Image not available</Text>
-        )} */}
 
         <Image
           style={styles.image}

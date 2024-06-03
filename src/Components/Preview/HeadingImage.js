@@ -1,15 +1,15 @@
 import React from 'react';
-import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
-import {Images} from '../../Constants/index';
+import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Images } from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
 const HeadingImage = () => {
   return (
-    <View style={{width: wp('100%'), alignSelf: 'center'}}>
+    <View style={{ width: wp('100%'), alignSelf: 'center' }}>
       <ImageBackground style={styles.container} source={Images.HeadingImage}>
         <Image
           style={styles.container}

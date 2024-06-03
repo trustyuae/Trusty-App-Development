@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,19 +11,19 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Picker} from '@react-native-picker/picker';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { Picker } from '@react-native-picker/picker';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import MobileNo from '../../Components/MobileNo';
 import Button from '../../Components/Button';
-import {useDispatch, useSelector} from 'react-redux';
-import {signupUser} from '../../Redux/Slice/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { signupUser } from '../../Redux/Slice/authSlice';
 
 const SignupPage = () => {
   const navigation = useNavigation();
@@ -71,7 +71,7 @@ const SignupPage = () => {
     const phoneRegex = /^[0-9]{10}$/;
     return phoneRegex.test(phoneNumber);
   };
-  const {loading, error, user} = useSelector(state => state.auth);
+  const { loading, error, user } = useSelector(state => state.auth);
 
   const validateForm = () => {
     const newErrors = {};
@@ -113,7 +113,7 @@ const SignupPage = () => {
   };
 
   const validateField = (key, value) => {
-    const newErrors = {...errors};
+    const newErrors = { ...errors };
 
     switch (key) {
       case 'email':
@@ -178,7 +178,7 @@ const SignupPage = () => {
     if (key === 'phone' && value.length > 10) {
       return;
     }
-    setFormData(prevState => ({...prevState, [key]: value}));
+    setFormData(prevState => ({ ...prevState, [key]: value }));
     validateField(key, value);
   };
   useEffect(() => {
@@ -199,16 +199,14 @@ const SignupPage = () => {
   const handleSignup = () => {
     if (!validateForm()) return;
 
-    const address1 = `${formData.shippingAddress}${
-      formData.shippingAddressContinued
-        ? ', ' + formData.shippingAddressContinued
-        : ''
-    }`;
-    const address2 = `${formData.billingAddress}${
-      formData.billingAddressContinued
-        ? ', ' + formData.shippingAddressContinued
-        : ''
-    }`;
+    const address1 = `${formData.shippingAddress}${formData.shippingAddressContinued
+      ? ', ' + formData.shippingAddressContinued
+      : ''
+      }`;
+    const address2 = `${formData.billingAddress}${formData.billingAddressContinued
+      ? ', ' + formData.shippingAddressContinued
+      : ''
+      }`;
 
     const billingAddress = {
       address_1: address2,
@@ -266,7 +264,7 @@ const SignupPage = () => {
     setIsCheckbox(prevState => {
       const newCheckboxState = !prevState;
       if (newCheckboxState) {
-        const newErrors = {...errors};
+        const newErrors = { ...errors };
         delete newErrors.isCheckbox;
         setErrors(newErrors);
       } else {
@@ -279,7 +277,7 @@ const SignupPage = () => {
     });
   };
 
-  const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
+  const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.formContainer}>
@@ -287,12 +285,12 @@ const SignupPage = () => {
           <Text style={styles.title}>Create An Account</Text>
           <Text style={styles.description}>
             By creating an account, Yoy agree to accept the
-            <Text style={{color: globalColors.backgroundLight}}>
+            <Text style={{ color: globalColors.backgroundLight }}>
               {' '}
               General Terms And Conditions
             </Text>{' '}
             of Use and that your data will be processed in complines with the
-            <Text style={{color: globalColors.backgroundLight}}>
+            <Text style={{ color: globalColors.backgroundLight }}>
               {' '}
               privacy Policy
             </Text>{' '}
@@ -342,7 +340,7 @@ const SignupPage = () => {
               <SelectDropdown
                 data={emojisWithIcons}
                 onSelect={(selectedItem, index) => {
-                  setFormData({...formData, selectedTitle: selectedItem.title});
+                  setFormData({ ...formData, selectedTitle: selectedItem.title });
                 }}
                 renderButton={(selectedItem, isOpen) => {
                   return (
@@ -367,7 +365,7 @@ const SignupPage = () => {
                     <View
                       style={{
                         ...styles.dropdownItemStyle,
-                        ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                        ...(isSelected && { backgroundColor: '#D2D9DF' }),
                       }}>
                       <Text style={styles.dropdownItemTxtStyle}>
                         {item.title}
@@ -414,22 +412,21 @@ const SignupPage = () => {
                 <Picker
                   selectedValue={formData.selectedCountry}
                   onValueChange={(itemValue, itemIndex) =>
-                    setFormData({...formData, selectedCountry: itemValue})
-                  }>
+                    setFormData({ ...formData, selectedCountry: itemValue })
+                  }
+                // style={{ height: 50, width: '100%' }} // Adjust the height and width as needed
+                >
                   {countries.map((country, index) => (
                     <Picker.Item
                       key={index}
                       label={country.label}
                       value={country.value}
-                      style={{
-                        fontFamily: 'Intrepid Regular',
-                        fontSize: 14,
-                        color: globalColors.buttonBackground,
-                      }}
+                      style={{ fontFamily: 'Intrepid Regular', fontSize: 14 }} // Adjust the font styles
                     />
                   ))}
                 </Picker>
               </View>
+
               <TextInput
                 style={styles.input}
                 placeholder="Address"
@@ -444,7 +441,7 @@ const SignupPage = () => {
                 placeholder="Address Continued"
                 value={formData.billingAddressContinued}
                 onChangeText={text =>
-                  setFormData({...formData, billingAddressContinued: text})
+                  setFormData({ ...formData, billingAddressContinued: text })
                 }
               />
               <TextInput
@@ -463,7 +460,7 @@ const SignupPage = () => {
                 <Picker
                   selectedValue={formData.selectedCountry}
                   onValueChange={(itemValue, itemIndex) =>
-                    setFormData({...formData, selectedCountry: itemValue})
+                    setFormData({ ...formData, selectedCountry: itemValue })
                   }>
                   {countries.map((country, index) => (
                     <Picker.Item
@@ -493,7 +490,7 @@ const SignupPage = () => {
                 placeholder="Address Continued"
                 value={formData.shippingAddressContinued}
                 onChangeText={text =>
-                  setFormData({...formData, shippingAddressContinued: text})
+                  setFormData({ ...formData, shippingAddressContinued: text })
                 }
               />
               <TextInput
@@ -507,7 +504,7 @@ const SignupPage = () => {
               )}
             </View>
             <Pressable onPress={handleCheckboxPress}>
-              <View style={{flexDirection: 'row', marginBottom: hp('1.5%')}}>
+              <View style={{ flexDirection: 'row', marginBottom: hp('1.5%') }}>
                 <View style={styles.CheckBoxContainer}>
                   {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
                 </View>
@@ -611,7 +608,7 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     fontSize: 22,
     marginBottom: 20,
-    marginTop: hp('10%'),
+    // marginTop: hp('10%'),
 
     textAlign: 'left',
     fontFamily: 'Intrepid Regular',
