@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   ActivityIndicator,
+  FlatList,
+  RefreshControl,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -21,51 +22,80 @@ const Order = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {data, loading, error} = useSelector(state => state.order);
+  const [refreshing, setRefreshing] = useState(false);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const userId = await getUserId();
+      const token = await getToken();
+      if (userId) {
+        dispatch(fetchOrder(userId));
+      }
+    } catch (error) {
+      console.log('Error retrieving data:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userId = await getUserId();
-        const token = await getToken();
-        if (userId) {
-          dispatch(fetchOrder(userId));
-        }
-      } catch (error) {
-        console.log('Error retrieving data:', error);
-      }
-    };
-
     fetchData();
   }, [dispatch]);
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchData();
+    setRefreshing(false);
+  };
+
+  const handleLoadMore = async () => {
+    if (!isFetchingMore) {
+      setIsFetchingMore(true);
+      await fetchData();
+      setIsFetchingMore(false);
+    }
+  };
+
+  const renderItem = ({item}) => (
+    <OrderComponents
+      key={item.id}
+      currency={item.currency}
+      OrderDate={item.date_created}
+      TotalAmount={item.total}
+      status={item.status}
+      line_items={item?.line_items[1]?.image?.src}
+    />
+  );
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.subContainer}>
-          <Text style={styles.headingText}>Order page</Text>
-          {loading ? (
-            <ActivityIndicator
-              style={styles.loader}
-              size="large"
-              color={globalColors.black}
-            />
-          ) : data && data.length > 0 ? (
-            data.map(order => (
-              <OrderComponents
-                key={order.id}
-                currency={order.currency}
-                OrderDate={order.date_created}
-                TotalAmount={order.total}
-                status={order.status}
-                line_items={order?.line_items[0]?.image?.src}
-              />
-            ))
-          ) : (
-            <Text style={styles.noOrdersText}>No orders available</Text>
-          )}
-        </View>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <Text style={styles.headingText}>Order page</Text>
+      {loading && !refreshing ? (
+        <ActivityIndicator
+          style={styles.loader}
+          size="large"
+          color={globalColors.black}
+        />
+      ) : data && data.length > 0 ? (
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
+          // onEndReached={handleLoadMore}
+          // onEndReachedThreshold={0.1}
+          ListFooterComponent={
+            isFetchingMore ? (
+              <ActivityIndicator size="large" color={globalColors.black} />
+            ) : null
+          }
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <Text style={styles.noOrdersText}>No orders available</Text>
+      )}
+    </View>
   );
 };
 
@@ -73,11 +103,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginTop: 120,
-  },
-  subContainer: {
-    padding: wp('4%'),
-    width: '100%',
-    alignItems: 'center',
+    flex: 1,
+    // width: '100%',
   },
   headingText: {
     color: globalColors.black,

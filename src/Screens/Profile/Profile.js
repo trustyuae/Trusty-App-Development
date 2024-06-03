@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import ProfileNavigations from '../../Navigation/ProfileNavigations';
 import {
@@ -85,6 +86,7 @@ const Profile = () => {
     setShippingAddress(data?.shipping?.address_1);
     setShippingCity(data?.shipping?.city);
     setAddress(data?.shipping?.address_1);
+    setPhone(data?.meta_data[2]?.value);
     setEditable(true);
   };
   const handleSave = async () => {
