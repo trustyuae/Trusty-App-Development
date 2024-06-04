@@ -37,7 +37,7 @@ const Confirmation = ({setCount}) => {
     const fetchData = async () => {
       const orderDetailData = await getOdrerdetail();
       setOrderData(orderDetailData);
-      // dispatch(clearToCart());
+       dispatch(clearToCart());
     };
     fetchData();
   }, []);

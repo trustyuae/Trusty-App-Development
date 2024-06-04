@@ -276,7 +276,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
               fontFamily: 'Intrepid Regular',
             }}
             onPress={() => setExpanded(!expanded)}>
-            {cartData.map(item => (
+            {cartData?.map(item => (
               <View
                 style={{
                   marginVertical: 15,

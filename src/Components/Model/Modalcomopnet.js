@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  SafeAreaView,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -16,6 +17,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import Button from '../Button';
 import {getUserId} from '../../Utils/localstorage';
 import {fetchProfile, updateProfile} from '../../Redux/Slice/profileSlice';
+import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { updatechekout } from '../../Redux/Slice/car_slice/updatecheckout';
+
 
 const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
   const dispatch = useDispatch();
@@ -103,7 +108,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       };
 
       try {
-        dispatch(updateProfile(updatedData));
+        dispatch(updatechekout(updatedData));
         onClose();
         setStateUpdate(!stateUpdate);
       } catch (error) {
@@ -142,110 +147,126 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       animationType="slide"
       transparent={true}
       onRequestClose={onClose}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          backgroundColor: '#ffffff',
-        }}>
-        <View style={{marginTop: 50}}>
-          <View style={{marginVertical: 5}}>
-            <Text>Name</Text>
-            <TextInput
-              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
-              value={name}
-              onChangeText={text => setName(text)}></TextInput>
-            {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
-          </View>
+      <GestureHandlerRootView>
+        <ScrollView>
+          <SafeAreaView>
+          <View
+            style={{
+              margin: 10,
+              paddingHorizontal: 20,
+              backgroundColor: '#F6F1EB',
+            }}>
+               <Icon
+                  name={'close'}
+                  size={20}
+                  color="black"
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                  }}
+                  onPress={onClose}></Icon>
 
-          <View style={{marginVertical: 5}}>
-            <Text>Last Name</Text>
-            <TextInput
-              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
-              value={lastname}
-              onChangeText={text => setLastname(text)}></TextInput>
-            {errors.lastname && (
-              <Text style={styles.errorText}>{errors.lastname}</Text>
-            )}
-          </View>
+            <View style={{marginTop: 50}}>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Name</Text>
+                <TextInput
+                  style={styles.inputfield}
+                  value={name}
+                  onChangeText={text => setName(text)}></TextInput>
+                {errors.name && (
+                  <Text style={styles.errorText}>{errors.name}</Text>
+                )}
+              </View>
 
-          <View style={{marginVertical: 5}}>
-            <Text>Email</Text>
-            <TextInput
-              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
-              value={email}
-              onChangeText={text => setEmail(text)}></TextInput>
-            {errors.email && (
-              <Text style={styles.errorText}>{errors.email}</Text>
-            )}
-          </View>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Last Name</Text>
+                <TextInput
+                  style={styles.inputfield}
+                  value={lastname}
+                  onChangeText={text => setLastname(text)}></TextInput>
+                {errors.lastname && (
+                  <Text style={styles.errorText}>{errors.lastname}</Text>
+                )}
+              </View>
 
-          <View style={{marginVertical: 5}}>
-            <Text>Address</Text>
-            <TextInput
-              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
-              value={address}
-              onChangeText={text => setAddress(text)}></TextInput>
-            {errors.address && (
-              <Text style={styles.errorText}>{errors.address}</Text>
-            )}
-          </View>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Email</Text>
+                <TextInput
+                  style={styles.inputfield}
+                  value={email}
+                  onChangeText={text => setEmail(text)}></TextInput>
+                {errors.email && (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                )}
+              </View>
 
-          <View style={{marginVertical: 5}}>
-            <Text>Post Code</Text>
-            <TextInput
-              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
-              value={postcode}
-              onChangeText={text => setPostcode(text)}></TextInput>
-            {errors.postcode && (
-              <Text style={styles.errorText}>{errors.postcode}</Text>
-            )}
-          </View>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Address</Text>
+                <TextInput
+                  style={styles.inputfield}
+                  value={address}
+                  onChangeText={text => setAddress(text)}></TextInput>
+                {errors.address && (
+                  <Text style={styles.errorText}>{errors.address}</Text>
+                )}
+              </View>
 
-          <View style={{marginVertical: 5}}>
-            <Text>Country</Text>
-            <TextInput
-              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
-              value={shippingCountry}
-              onChangeText={text => setShippingCountry(text)}></TextInput>
-            {errors.shippingCountry && (
-              <Text style={styles.errorText}>{errors.shippingCountry}</Text>
-            )}
-          </View>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Post Code</Text>
+                <TextInput
+                  style={styles.inputfield}
+                  value={postcode}
+                  onChangeText={text => setPostcode(text)}></TextInput>
+                {errors.postcode && (
+                  <Text style={styles.errorText}>{errors.postcode}</Text>
+                )}
+              </View>
 
-          <View style={{marginVertical: 5}}>
-            <Text>City</Text>
-            <TextInput
-              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
-              value={shippingCity}
-              onChangeText={text => setShippingCity(text)}></TextInput>
-            {errors.shippingCity && (
-              <Text style={styles.errorText}>{errors.shippingCity}</Text>
-            )}
-          </View>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Country</Text>
+                <TextInput
+                  style={styles.inputfield}
+                  value={shippingCountry}
+                  onChangeText={text => setShippingCountry(text)}></TextInput>
+                {errors.shippingCountry && (
+                  <Text style={styles.errorText}>{errors.shippingCountry}</Text>
+                )}
+              </View>
 
-          <View style={{marginVertical: 5}}>
-            <Text>Phone</Text>
-            <TextInput
-              style={{borderWidth: 1, width: 200, padding: -2, paddingLeft: 10}}
-              value={phone}
-              onChangeText={text => setPhone(text)}></TextInput>
-            {errors.phone && (
-              <Text style={styles.errorText}>{errors.phone}</Text>
-            )}
-          </View>
-        </View>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>City</Text>
+                <TextInput
+                  style={styles.inputfield}
+                  value={shippingCity}
+                  onChangeText={text => setShippingCity(text)}></TextInput>
+                {errors.shippingCity && (
+                  <Text style={styles.errorText}>{errors.shippingCity}</Text>
+                )}
+              </View>
 
-        <Button
-          stylesofbtn={styles.custcheckoutbtn}
-          styleoffont={styles.custfontstyle}
-          name={'update'}
-          handlepress={handleUpdate}
-        />
-        <TouchableOpacity onPress={onClose}>
-          <Text>Close</Text>
-        </TouchableOpacity>
-      </View>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
+                <TextInput
+                  style={styles.inputfield}
+                  value={phone}
+                  onChangeText={text => setPhone(text)}></TextInput>
+                {errors.phone && (
+                  <Text style={styles.errorText}>{errors.phone}</Text>
+                )}
+              </View>
+            </View>
+
+            <Button
+              stylesofbtn={styles.custcheckoutbtn}
+              styleoffont={styles.custfontstyle}
+              name={'update'}
+              handlepress={handleUpdate}
+            />
+           
+          </View>
+          </SafeAreaView>
+        </ScrollView>
+      </GestureHandlerRootView>
     </Modal>
   );
 };
@@ -264,6 +285,17 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
+  },
+  inputfield: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    marginBottom: hp('2%'),
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
+    borderColor: '#dbccc1',
+    paddingHorizontal: wp('5%'),
+    borderRadius: 1,
+    padding: 8,
   },
 });
 

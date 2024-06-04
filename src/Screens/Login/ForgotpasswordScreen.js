@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import {StyleSheet, Text, View, TextInput, SafeAreaView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   widthPercentageToDP as wp,
@@ -62,9 +62,10 @@ const ForgotpasswordScreen = ({navigation}) => {
   };
 
   return (
+    <SafeAreaView>
     <View>
       <View style={styles.logincontainer}>
-        <Text style={styles.headingtext}>Forgot Your Password?</Text>
+        <Text style={styles.headingtext}>Forgot Your Password ?</Text>
 
         <View style={styles.custContainer}>
           <Text
@@ -72,6 +73,7 @@ const ForgotpasswordScreen = ({navigation}) => {
               fontWeight: '600',
               fontFamily: 'Intrepid Regular',
               fontSize: 14,
+              color:"black"
             }}>
             Enter the email address associated with account and we will send you
             a link to reset your password
@@ -95,6 +97,7 @@ const ForgotpasswordScreen = ({navigation}) => {
         </View>
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 
@@ -102,14 +105,14 @@ export default ForgotpasswordScreen;
 
 const styles = StyleSheet.create({
   logincontainer: {
-    margin: hp('2%'),
+    margin: hp('1%'),
     marginTop: hp('8%'),
   },
   headingtext: {
     fontSize: 20,
     padding: 20,
     fontFamily: 'Intrepid Regular',
-
+     color:"black",    
     fontSize: 22,
   },
   inputfield: {
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: hp('3%'),
     paddingHorizontal: wp('5%'),
     borderColor: '#dbccc1',
-    borderRadius: 1,
+    borderRadius: 5,
     padding: 8,
   },
   custContainer: {

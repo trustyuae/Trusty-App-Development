@@ -136,11 +136,11 @@ const Cart = ({
 
   const handleCheckout = () => {
     if (isLoggedIn) {
-      if (cartData?.length > 0) {
+       if (cartData?.length > 0) {
         setOrderDetail(cartData);
         setTotal(totalSum);
         setCount(count + 1);
-      }
+       }
     } else {
       Alert.alert('','please login and try again ', [
         {

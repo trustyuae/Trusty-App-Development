@@ -2,6 +2,7 @@ import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {useState} from 'react';
 import {List} from 'react-native-paper';
 import {Dummyproduct1} from '../Constants/Icons';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Accordion = ({Size, Description, Color, changeColor, setChange,changeSize,setChangeSize}) => {
   const [expandedSize, setExpandedSize] = useState(true);
@@ -29,6 +30,7 @@ const Accordion = ({Size, Description, Color, changeColor, setChange,changeSize,
         onPress={() => setExpandedSize(!expandedSize)}>
         {expandedSize && (
           <>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> 
             <View style={styles.custView}>
               {Size?.map((item, key) => (
                 <Pressable onPress={()=>setChangeSize(item)}>
@@ -39,6 +41,7 @@ const Accordion = ({Size, Description, Color, changeColor, setChange,changeSize,
                 
               ))}
             </View>
+            </ScrollView>
             <View style={styles.custBorder} />
           </>
         )}
@@ -57,6 +60,7 @@ const Accordion = ({Size, Description, Color, changeColor, setChange,changeSize,
         onPress={() => setExpandedimg(!expandedimg)}>
         {expandedimg && (
           <>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> 
             <View style={styles.custView}>
               {Color?.map((item, key) => (
                 <View key={key}>
@@ -66,6 +70,7 @@ const Accordion = ({Size, Description, Color, changeColor, setChange,changeSize,
                 </View>
               ))}
             </View>
+            </ScrollView>
             <View style={styles.custBorder} />
           </>
         )}

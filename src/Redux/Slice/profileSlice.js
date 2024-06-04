@@ -30,11 +30,11 @@ export const fetchProfile = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
   'profile/updateProfile',
-  async (data, thunkAPI) => {
+  async ({customer_id, newData}, thunkAPI) => {
     try {
-      const response = await axios.post(
-        `${baseURL}/custom-woo-api/v1/update`,
-        data,
+      const response = await axios.put(
+        `${baseURL}/wc/v3/customers/${customer_id}`,
+        newData,
         {
           auth: {
             username: 'ck_604dffdbe6cb804616978b0b6a04bae3de51db57',
@@ -43,11 +43,8 @@ export const updateProfile = createAsyncThunk(
         },
       );
 
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log("newData---------------------->",newData)
-      console.log("error----------------->",error)
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },

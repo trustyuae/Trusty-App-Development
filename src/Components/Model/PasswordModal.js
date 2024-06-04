@@ -35,7 +35,6 @@ const PasswordModal = ({modalVisible, setModalVisible}) => {
           },
         },
       );
-      console.log('Password changed successfully:', response.data);
       // You might want to show a success message or navigate the user to another screen
       setModalVisible(false); // Close the modal after successful password change
     } catch (error) {

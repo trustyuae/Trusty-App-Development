@@ -77,7 +77,6 @@ const Home = () => {
     }
   }, [items, products, categories, tokenData]);
 
-  console.log('*********', wishlist);
   // console.log(
   //   '------======',
   //   wishlist?.map(data => console.log(data.isWatchList)),
@@ -88,7 +87,7 @@ const Home = () => {
   // }, [tokenData, products, categories]);
 
   const navigateToCategoryProducts = category => {
-     navigation.navigate('CategoryProducts', {category, products});
+    navigation.navigate('CategoryProducts', {category, products});
 
     // console.log("products",category);
   };

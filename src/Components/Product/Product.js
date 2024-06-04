@@ -47,7 +47,6 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
 
     fetchData();
   }, [dispatch, saved]);
-  console.log('&&&');
   // useEffect(() => {
   //   if (wishlist && wishlist.length > 0) {
   //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
