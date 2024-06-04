@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Image} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants/index';
+import React, { useEffect } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants/index';
 const SplashScreen = () => {
   const navigation = useNavigation();
 

@@ -12,7 +12,7 @@ const Points = () => {
   const [count, setCount] = useState(3);
 
   return (
-    <SafeAreaView><ScrollView>
+    <SafeAreaView ><ScrollView showsVerticalScrollIndicator={false}>
       <View>
         <View style={styles.conatiner}>
           <View style={{ flexDirection: 'row', gap: 10, position: 'relative' }}>

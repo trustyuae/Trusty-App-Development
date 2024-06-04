@@ -1,16 +1,16 @@
-import {StyleSheet, Text, View, TextInput} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View, TextInput, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Button from '../../Components/Button';
-import {useDispatch, useSelector} from 'react-redux';
-import {postApi} from '../../Redux/Slice/postApiSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { postApi } from '../../Redux/Slice/postApiSlice';
 
-const ForgotpasswordScreen = ({navigation}) => {
+const ForgotpasswordScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {loading, error, postData} = useSelector(state => state.post);
+  const { loading, error, postData } = useSelector(state => state.post);
 
   useEffect(() => {
     if (!error) {
@@ -30,7 +30,7 @@ const ForgotpasswordScreen = ({navigation}) => {
   });
 
   const handlechange = (key, value) => {
-    setValues(pre => ({...pre, [key]: value}));
+    setValues(pre => ({ ...pre, [key]: value }));
   };
 
   const validateEmail = email => {
@@ -40,13 +40,13 @@ const ForgotpasswordScreen = ({navigation}) => {
 
   const validation = () => {
     if (!value.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'email is required' }));
       return;
     } else if (!validateEmail(value.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid email' }));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
     }
     return true;
   };
@@ -62,7 +62,7 @@ const ForgotpasswordScreen = ({navigation}) => {
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <View style={styles.logincontainer}>
         <Text style={styles.headingtext}>Forgot Your Password?</Text>
 
@@ -94,7 +94,7 @@ const ForgotpasswordScreen = ({navigation}) => {
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -103,7 +103,7 @@ export default ForgotpasswordScreen;
 const styles = StyleSheet.create({
   logincontainer: {
     margin: hp('2%'),
-    marginTop: hp('8%'),
+    marginTop: Platform.OS === 'ios' ? 0 : hp('8%'),
   },
   headingtext: {
     fontSize: 20,

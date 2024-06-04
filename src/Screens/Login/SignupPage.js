@@ -230,12 +230,13 @@ const SignupPage = () => {
       billing: billingAddress,
       shipping: shippingAddress,
     };
-    dispatch(signupUser(userData)).then(action => {
-      if (signupUser.fulfilled.match(action)) {
-        clearForm();
-        navigation.navigate('Login');
-      }
-    });
+    console.log(userData)
+    // dispatch(signupUser(userData)).then(action => {
+    //   if (signupUser.fulfilled.match(action)) {
+    //     clearForm();
+    //     navigation.navigate('Login');
+    //   }
+    // });
   };
 
   const clearForm = () => {
@@ -408,23 +409,62 @@ const SignupPage = () => {
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Billing Information</Text>
 
-              <View style={styles.inputPicker}>
+              {/* <View style={styles.inputPicker}>
                 <Picker
                   selectedValue={formData.selectedCountry}
                   onValueChange={(itemValue, itemIndex) =>
                     setFormData({ ...formData, selectedCountry: itemValue })
                   }
-                // style={{ height: 50, width: '100%' }} // Adjust the height and width as needed
-                >
+                  style={{
+                    fontFamily: 'Intrepid Regular',
+                    fontSize: 14,
+                    color: globalColors.buttonBackground,
+                  }}>
                   {countries.map((country, index) => (
                     <Picker.Item
                       key={index}
                       label={country.label}
                       value={country.value}
-                      style={{ fontFamily: 'Intrepid Regular', fontSize: 14 }} // Adjust the font styles
                     />
                   ))}
                 </Picker>
+              </View> */}
+              <View style={styles.inputPicker}>
+                <SelectDropdown
+                  data={countries}
+                  onSelect={(selectedItem, index) => {
+                    setFormData({ ...formData, selectedCountry: selectedItem.label });
+                  }}
+                  renderButton={(selectedItem, isOpen) => {
+                    return (
+                      <View style={styles.dropdownButtonStyle}>
+                        <Text
+                          style={{
+                            fontFamily: 'Intrepid Regular',
+                            fontSize: 14,
+                            color: globalColors.buttonBackground,
+                          }}>
+                          {selectedItem?.label || 'Select Country'}
+                        </Text>
+                        <Icon
+                          name={isOpen ? 'chevron-up' : 'chevron-down'}
+                          style={styles.dropdownButtonArrowStyle}
+                        />
+                      </View>
+                    );
+                  }}
+                  renderItem={(item, index, isSelected) => {
+                    return (
+                      <View
+                        style={{
+                          ...styles.dropdownItemStyle,
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                        }}>
+                        <Text style={styles.dropdownItemTxtStyle}>{item.label}</Text>
+                      </View>
+                    );
+                  }}
+                />
               </View>
 
               <TextInput
@@ -457,24 +497,41 @@ const SignupPage = () => {
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Shipping Information</Text>
               <View style={styles.inputPicker}>
-                <Picker
-                  selectedValue={formData.selectedCountry}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setFormData({ ...formData, selectedCountry: itemValue })
-                  }>
-                  {countries.map((country, index) => (
-                    <Picker.Item
-                      key={index}
-                      label={country.label}
-                      value={country.value}
-                      style={{
-                        fontFamily: 'Intrepid Regular',
-                        fontSize: 14,
-                        color: globalColors.buttonBackground,
-                      }}
-                    />
-                  ))}
-                </Picker>
+                <SelectDropdown
+                  data={countries}
+                  onSelect={(selectedItem, index) => {
+                    setFormData({ ...formData, selectedCountry: selectedItem.label });
+                  }}
+                  renderButton={(selectedItem, isOpen) => {
+                    return (
+                      <View style={styles.dropdownButtonStyle}>
+                        <Text
+                          style={{
+                            fontFamily: 'Intrepid Regular',
+                            fontSize: 14,
+                            color: globalColors.buttonBackground,
+                          }}>
+                          {selectedItem?.label || 'Select Country'}
+                        </Text>
+                        <Icon
+                          name={isOpen ? 'chevron-up' : 'chevron-down'}
+                          style={styles.dropdownButtonArrowStyle}
+                        />
+                      </View>
+                    );
+                  }}
+                  renderItem={(item, index, isSelected) => {
+                    return (
+                      <View
+                        style={{
+                          ...styles.dropdownItemStyle,
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                        }}>
+                        <Text style={styles.dropdownItemTxtStyle}>{item.label}</Text>
+                      </View>
+                    );
+                  }}
+                />
               </View>
               <TextInput
                 style={styles.input}
@@ -608,8 +665,7 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     fontSize: 22,
     marginBottom: 20,
-    // marginTop: hp('10%'),
-
+    marginTop: Platform.OS === 'ios' ? hp('1') : hp('10%'),
     textAlign: 'left',
     fontFamily: 'Intrepid Regular',
   },
@@ -654,16 +710,16 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.white,
   },
   inputPicker: {
-    borderWidth: 1,
-    height: hp('5.5%'),
-    justifyContent: 'center',
-    borderColor: globalColors.inputBorder,
-    borderRadius: 4,
-    fontFamily: 'Intrepid Regular',
-    fontSize: 14,
-    marginBottom: hp('1.5%'),
-    fontSize: wp('3.1%'),
-    backgroundColor: globalColors.white,
+    // borderWidth: 1,
+    // height: hp('5.5%'),
+    // justifyContent: 'center',
+    // borderColor: globalColors.inputBorder,
+    // borderRadius: 4,
+    // fontFamily: 'Intrepid Regular',
+    // fontSize: 14,
+    // marginBottom: hp('1.5%'),
+    // fontSize: wp('3.1%'),
+    // backgroundColor: globalColors.white,
   },
 
   custfontstyle: {

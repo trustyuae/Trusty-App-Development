@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import React, { useEffect, useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Images} from '../../Constants/index';
+import { Images } from '../../Constants/index';
 import Button from '../Button';
-import {useNavigation} from '@react-navigation/native';
-import {getOdrerdetail} from '../../Utils/localstorage';
+import { useNavigation } from '@react-navigation/native';
+import { getOdrerdetail } from '../../Utils/localstorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Confirmation = ({setCount}) => {
+const Confirmation = ({ setCount }) => {
   const navigation = useNavigation();
   const today = new Date();
   const options = {
@@ -39,10 +39,10 @@ const Confirmation = ({setCount}) => {
   }, []);
 
   return (
-    <View>
+    <SafeAreaView>
       <View style={styles.container}>
         <ScrollView
-          style={{padding: wp('10%')}}
+          style={{ padding: wp('10%') }}
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
@@ -109,7 +109,7 @@ const Confirmation = ({setCount}) => {
           />
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -165,6 +165,8 @@ const styles = StyleSheet.create({
   subHeading: {
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
+    color: globalColors.buttonBackground,
+
   },
   table: {
     borderWidth: 1,

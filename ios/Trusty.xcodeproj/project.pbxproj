@@ -12,7 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		497CE77197EF46F8A8FEE563 /* Intrepid Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 435A921E783A4AD9B671E900 /* Intrepid Regular.ttf */; };
+		6C18E4238C604B1A8CF6D227 /* Intrepid Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E0D98E031AA4D00BC66D973 /* Intrepid Regular.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-Trusty-TrustyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Trusty-TrustyTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		85C0B6172C09E1A200B2BFC7 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 85C0B6162C09E1A200B2BFC7 /* Fonts */; };
@@ -42,7 +42,6 @@
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = Trusty/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Trusty-TrustyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Trusty-TrustyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-Trusty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trusty.debug.xcconfig"; path = "Target Support Files/Pods-Trusty/Pods-Trusty.debug.xcconfig"; sourceTree = "<group>"; };
-		435A921E783A4AD9B671E900 /* Intrepid Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Intrepid Regular.ttf"; path = "../src/Assets/Fonts/Intrepid Regular.ttf"; sourceTree = "<group>"; };
 		447A09D9852100894F858EA9 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Trusty/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Trusty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trusty.release.xcconfig"; path = "Target Support Files/Pods-Trusty/Pods-Trusty.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Trusty-TrustyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trusty-TrustyTests.debug.xcconfig"; path = "Target Support Files/Pods-Trusty-TrustyTests/Pods-Trusty-TrustyTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Trusty/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85C0B6162C09E1A200B2BFC7 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Trusty-TrustyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Trusty-TrustyTests.release.xcconfig"; path = "Target Support Files/Pods-Trusty-TrustyTests/Pods-Trusty-TrustyTests.release.xcconfig"; sourceTree = "<group>"; };
+		9E0D98E031AA4D00BC66D973 /* Intrepid Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Intrepid Regular.ttf"; path = "../assets/fonts/Intrepid Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -162,7 +162,7 @@
 		BDE7F18F0ED540B787ECD4D1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				435A921E783A4AD9B671E900 /* Intrepid Regular.ttf */,
+				9E0D98E031AA4D00BC66D973 /* Intrepid Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -263,8 +263,8 @@
 				85C0B6172C09E1A200B2BFC7 /* Fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				497CE77197EF46F8A8FEE563 /* Intrepid Regular.ttf in Resources */,
 				87EEC04A1DD4D8B72D84942F /* PrivacyInfo.xcprivacy in Resources */,
+				6C18E4238C604B1A8CF6D227 /* Intrepid Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -210,7 +210,7 @@ const Home = () => {
 
   return (
     <SafeAreaView>
-      {/* <StatusBar hidden /> */}
+      <StatusBar backgroundColor={globalColors.headingBackground} />
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <HeadingImage />
@@ -237,6 +237,7 @@ const Home = () => {
           <View style={{ flexDirection: 'column' }}>
             <View style={styles.productContainer}>
               {products.slice(startIndex, startIndex + 4).map(product => (
+                console.log("###", product),
                 <Pressable
                   onPress={() =>
                     navigation.navigate('ProductDetail', { userId: product.id })

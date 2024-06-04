@@ -174,6 +174,8 @@ const styles = StyleSheet.create({
   inputfield: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
+    height: hp('5.5%'),
+
     marginBottom: hp('2%'),
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
@@ -189,12 +191,14 @@ const styles = StyleSheet.create({
   custbtn: {
     backgroundColor: 'black',
     padding: wp('3%'),
+
     borderRadius: 5,
     fontFamily: 'Intrepid Regular',
 
   },
   custfontstyle: {
     color: 'white',
+
     textAlign: 'center',
     fontFamily: 'Intrepid Regular',
 
@@ -204,7 +208,7 @@ const styles = StyleSheet.create({
     marginTop: hp('-0.5%'),
     marginBottom: hp('4%'),
     fontFamily: 'Intrepid Regular',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '600',
   },
   custposition: {
@@ -229,6 +233,8 @@ const styles = StyleSheet.create({
   createAccountText: {
     textAlign: 'center',
     marginVertical: 15,
+    fontSize: 16,
+
     fontFamily: 'Intrepid Regular',
   },
   errorText: {

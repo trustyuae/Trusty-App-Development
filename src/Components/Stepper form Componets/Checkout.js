@@ -1,4 +1,4 @@
-import {Image, Text, View, Pressable} from 'react-native';
+import { Image, Text, View, Pressable, SafeAreaView } from 'react-native';
 import {
   CartImg,
   EditICon,
@@ -7,32 +7,32 @@ import {
   ProductIMG,
 } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {List} from 'react-native-paper';
-import {useEffect, useState} from 'react';
+import { List } from 'react-native-paper';
+import { useEffect, useState } from 'react';
 import ModalComponent from '../Model/Modalcomopnet';
-import {useDispatch, useSelector} from 'react-redux';
-import {OrderDetail} from '../../Redux/Slice/car_slice/orderdeatails';
-import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
-import {Alert} from 'react-native';
-import {Product} from '../../Constants/Images';
-import {useFocusEffect} from '@react-navigation/native';
-import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
-import {getUserId} from '../../Utils/localstorage';
+import { useDispatch, useSelector } from 'react-redux';
+import { OrderDetail } from '../../Redux/Slice/car_slice/orderdeatails';
+import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
+import { Alert } from 'react-native';
+import { Product } from '../../Constants/Images';
+import { useFocusEffect } from '@react-navigation/native';
+import { orderToCart } from '../../Redux/Slice/car_slice/placeordercart';
+import { getUserId } from '../../Utils/localstorage';
 
-const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
+const Checkout = ({ count, setCount, orderdetail, setGetorderDetail }) => {
   const [expanded, setExpanded] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const {data, loading, error} = useSelector(state => state?.profile);
+  const { data, loading, error } = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState(orderdetail);
-  const {deteltedData} = useSelector(state => state?.DeleteToCart);
-  const {orderData, iserror, isloading} = useSelector(
+  const { deteltedData } = useSelector(state => state?.DeleteToCart);
+  const { orderData, iserror, isloading } = useSelector(
     state => state?.OrderToCart,
   );
   const [customerid, setCustomerID] = useState();
@@ -174,13 +174,13 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <View style={styles.container}>
         <Text style={styles.custText}>DELIVERY</Text>
 
         <View style={styles.custborder} />
 
-        <View style={{marginVertical: 10}}>
+        <View style={{ marginVertical: 10 }}>
           <Text style={styles.custText}>SHIPPING ADDRESS</Text>
         </View>
 
@@ -190,27 +190,27 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
           style={{
             marginTop: 10,
           }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <View>
               <Image source={Groupicon} />
             </View>
 
             <Pressable
               onPress={handleEditClick}
-              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
               <Image source={EditICon} height={20} width={20} />
             </Pressable>
           </View>
 
-          <View style={{marginLeft: 30, marginTop: -20, marginVertical: 10}}>
-            <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+          <View style={{ marginLeft: 30, marginTop: -20, marginVertical: 10 }}>
+            <Text style={{ color: 'black', fontFamily: 'Intrepid Regular' }}>
               Mr. {billingdata?.first_name} {billingdata?.last_name}
             </Text>
-            <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
+            <Text style={{ fontFamily: 'Intrepid Regular', marginVertical: 2 }}>
               {billingdata?.address_1} {billingdata?.country},
               {billingdata?.city}
             </Text>
-            <Text style={{fontFamily: 'Intrepid Regular'}}>
+            <Text style={{ fontFamily: 'Intrepid Regular' }}>
               +{data?.billing?.phone}
             </Text>
           </View>
@@ -223,7 +223,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
             alignItems: 'center',
             marginVertical: 5,
           }}>
-          <Image source={PlusIcon} style={{marginHorizontal: 10}}></Image>
+          <Image source={PlusIcon} style={{ marginHorizontal: 10 }}></Image>
           <Text
             onPress={handleEditClick}
             style={{
@@ -262,7 +262,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         <List.Section>
           <List.Accordion
             title="MY ORDERS"
-            titleStyle={{color: '#444444'}}
+            titleStyle={{ color: '#444444' }}
             expanded={expanded}
             style={{
               backgroundColor: '#f6f1eb',
@@ -308,7 +308,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
 
                     <View>
                       <Text
-                        style={{fontSize: 20, color: '#444444', marginLeft: 7}}
+                        style={{ fontSize: 20, color: '#444444', marginLeft: 7 }}
                         onPress={() => handleDecrease(item.key)}>
                         -
                       </Text>
@@ -326,7 +326,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                     </View>
                     <View>
                       <Text
-                        style={{fontSize: 20, color: '#444444', marginRight: 7}}
+                        style={{ fontSize: 20, color: '#444444', marginRight: 7 }}
                         onPress={() => handleIncrease(item.key)}>
                         +
                       </Text>
@@ -336,7 +336,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                 <View>
                   {item.product_image ? (
                     <Image
-                      source={{uri: item?.product_image}}
+                      source={{ uri: item?.product_image }}
                       height={100}
                       width={90}
                     />
@@ -346,7 +346,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                 </View>
                 <View>
                   <Text
-                    style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                    style={{ color: 'black', fontFamily: 'Intrepid Regular' }}>
                     {item.product_name}
                   </Text>
                   <Text
@@ -363,10 +363,10 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       color: 'black',
                       fontFamily: 'Intrepid Regular',
                     }}>
-                    Color : <Text style={{color: '#676766'}}>red</Text>{' '}
+                    Color : <Text style={{ color: '#676766' }}>red</Text>{' '}
                   </Text>
                   <Text
-                    style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                    style={{ color: 'black', fontFamily: 'Intrepid Regular' }}>
                     Size
                   </Text>
                 </View>
@@ -438,7 +438,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         stateUpdate={stateUpdate}
         setStateUpdate={setStateUpdate}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

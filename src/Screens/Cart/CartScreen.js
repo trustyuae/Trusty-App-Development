@@ -65,8 +65,8 @@ const CartScreen = () => {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView >
+    <SafeAreaView style={Platform.OS === 'ios' && { marginTop: -25 }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           {count == 2 ? null : (
             <View style={{ marginTop: 90 }}>

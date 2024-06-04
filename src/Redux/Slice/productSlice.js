@@ -1,10 +1,10 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const API_URL =
-  'https://ghostwhite-guanaco-836757.hostingersite.com/wp-json/wc/v3';
-const CONSUMER_KEY = 'ck_74025587053512828ec315f206d134bc313d97cb';
-const CONSUMER_SECRET = 'cs_72ca42854e72b72e3143a14d79fd0a91c649fbeb';
+  'https://wordpress.trustysystem.com/wp-json/wc/v3';
+const CONSUMER_KEY = 'ck_604dffdbe6cb804616978b0b6a04bae3de51db57';
+const CONSUMER_SECRET = 'cs_a508308d959ceb307994082b20b01cf9fedc2fef';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -24,7 +24,7 @@ export const fetchProducts = createAsyncThunk('product', async () => {
 
 export const fetchCategoryProducts = createAsyncThunk(
   'product/fetchCategoryProducts',
-  async ({categoryId}, {rejectWithValue}) => {
+  async ({ categoryId }, { rejectWithValue }) => {
     try {
       const response = await api.get(`/products?category=${categoryId}`);
       return response.data;

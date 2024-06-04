@@ -1,13 +1,13 @@
 import React from 'react';
-import {Image, Text} from 'react-native';
-import {StyleSheet, View} from 'react-native';
+import { Image, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Button from '../Button';
-import {Images} from '../../Constants/index';
+import { Images } from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
 const OrderComponents = ({
   line_items,
@@ -17,12 +17,12 @@ const OrderComponents = ({
   currency,
 }) => {
   return (
-    <View>
+    <SafeAreaView>
       <View style={styles.line} />
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Image
-          style={{width: wp('30%'), height: hp('20%')}}
-          source={{uri: line_items}}></Image>
+          style={{ width: wp('30%'), height: hp('20%') }}
+          source={{ uri: line_items }}></Image>
         <View style={styles.orderProducts}>
           <View
             style={{
@@ -31,12 +31,17 @@ const OrderComponents = ({
               // justifyContent: 'space-between', // Add this line
               gap: 50,
             }}>
-            <View style={{flexDirection: 'column'}}>
+            <View style={{ flexDirection: 'column' }}>
               <Text style={styles.headingTextOrder}>Order On</Text>
               <Text>{OrderDate}</Text>
 
               <Text style={styles.headingText}>Total Amount</Text>
-              <Text>
+              <Text style={{
+                fontFamily: 'Intrepid Regular',
+              }}
+
+
+              >
                 {TotalAmount} {currency}
               </Text>
             </View>
@@ -47,7 +52,7 @@ const OrderComponents = ({
                 marginHorizontal: 'auto',
                 marginRight: 'auto',
               }}>
-              <Text style={{color: globalColors.black}}>{status}</Text>
+              <Text style={{ color: globalColors.black }}>{status}</Text>
               <Button
                 name={'Details'}
                 stylesofbtn={styles.stylesofbtn}
@@ -57,12 +62,12 @@ const OrderComponents = ({
         </View>
       </View>
       <View style={styles.line} />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {marginTop: 120},
+  container: { marginTop: 120 },
   orderProducts: {
     flexDirection: 'row',
     // right: 'auto',
@@ -71,10 +76,12 @@ const styles = StyleSheet.create({
   headingText: {
     color: globalColors.black,
     marginTop: 'auto',
+    fontFamily: 'Intrepid Regular',
     fontSize: 16,
   },
   headingTextOrder: {
     fontSize: 16,
+    fontFamily: 'Intrepid Regular',
     color: globalColors.black,
   },
   stylesofbtn: {

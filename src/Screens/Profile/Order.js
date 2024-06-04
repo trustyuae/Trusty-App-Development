@@ -41,7 +41,7 @@ const Order = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.subContainer}>
             {/* <Text style={styles.headingText}>Order page</Text> */}
