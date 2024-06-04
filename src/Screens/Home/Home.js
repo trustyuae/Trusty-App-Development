@@ -42,23 +42,10 @@ const Home = () => {
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    const itemIdList = items?.Wishlist?.map(item => ({id: item}));
+    dispatch(fetchCategories());
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
-    const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
-    const result = products.map(productItem => ({
-      ...productItem,
-      isWatchList: productIds.has(productItem?.id),
-    }));
-    if (result) {
-      setWishlist(result);
-    }
-    // console.log('roductIdss', JSON.stringify(result));
-  }, [items, products, getToken, dispatch]);
-
-  // console.log(
-  //   '------======',
-  //   wishlist?.map(data => console.log(data.isWatchList)),
-  // );
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -76,14 +63,29 @@ const Home = () => {
     fetchData();
   }, [dispatch, tokenData]);
 
+  useEffect(() => {
+    if (products.length && items.Wishlist) {
+      const itemIdList = items?.Wishlist?.map(item => ({id: item}));
+      const productIds = new Set(itemIdList.map(item => Number(item.id)));
+      const result = products.map(productItem => ({
+        ...productItem,
+        isWatchList: productIds.has(productItem.id),
+      }));
+      setWishlist(result);
+    } else if (wishlist) {
+      setWishlist(products);
+    }
+  }, [items, products, categories, tokenData]);
+
+  console.log('*********', wishlist);
+  // console.log(
+  //   '------======',
+  //   wishlist?.map(data => console.log(data.isWatchList)),
+  // );
+
   // useEffect(() => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
-
-  useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(fetchProducts());
-  }, [dispatch]);
 
   const navigateToCategoryProducts = category => {
      navigation.navigate('CategoryProducts', {category, products});
@@ -216,7 +218,7 @@ const Home = () => {
                   navigation.navigate('ProductDetail', {userId: product.id})
                 }>
                 <Product
-                  key={product.id}
+                  key={product?.id}
                   uri={product?.images[0]?.src}
                   name={product?.name}
                   price={product?.price}
@@ -277,7 +279,7 @@ const Home = () => {
                   navigation.navigate('ProductDetail', {userId: product.id})
                 }>
                 <Product
-                  key={product.id}
+                  key={product?.id}
                   uri={product?.images[0]?.src}
                   name={product?.name}
                   price={product?.price}

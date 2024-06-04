@@ -200,7 +200,10 @@ const CategoryProducts = ({navigation}) => {
             wishlist.map(product => (
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('ProductDetail', {userId: product.id})
+                  navigation.navigate('ProductDetail', {
+                    userId: product.id,
+                    isWatchList: product?.isWatchList,
+                  })
                 }>
                 <Product
                   key={product.id}
@@ -234,7 +237,8 @@ const styles = StyleSheet.create({
   },
   TextHeading: {
     fontSize: 10,
-    marginTop: hp('5%'),
+    fontSize: 14,
+    marginTop: hp('7%'),
     marginLeft: wp('2%'),
   },
   CategoryText: {
