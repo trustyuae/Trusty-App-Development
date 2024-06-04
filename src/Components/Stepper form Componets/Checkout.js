@@ -24,6 +24,8 @@ import {Product} from '../../Constants/Images';
 import {useFocusEffect} from '@react-navigation/native';
 import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
 import {getUserId} from '../../Utils/localstorage';
+import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
+import { fetchProfile } from '../../Redux/Slice/profileSlice';
 
 const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [expanded, setExpanded] = useState(true);
@@ -42,21 +44,22 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   useEffect(() => {
     const fetchData = async () => {
       const customer_id = await getUserId();
-      console.log('customer_id----------------------->', customer_id);
       setCustomerID(customer_id);
       dispatch(fetchProfile(customer_id));
     };
     fetchData();
-  }, []);
+  }, [stateUpdate]);
 
   useFocusEffect(() => {
     setBillingdata(data?.billing);
   });
 
+
   const product = cartData?.map(item => ({
     product_id: item.product_id,
     quantity: item.quantity,
   }));
+
   const handleConfirmpay = () => {
     let convertPrice = JSON.stringify(totalSum);
     const obj = {
@@ -74,7 +77,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         state: data?.billing?.state,
         postcode: data?.billing?.postcode,
         country: data?.billing?.country,
-        email: data?.billing?.email,
+        email: data?.email,
         phone: data?.billing?.phone,
       },
       shipping: {
@@ -85,7 +88,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         city: data?.shipping?.city,
         state: data?.shipping?.state,
         postcode: data?.shipping?.postcode,
-        country: data?.shipping?.country,
+        country: data?.billing?.country,
       },
       line_items: product,
       shipping_lines: [
@@ -97,7 +100,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       ],
     };
 
-    console.log('obj-------------------->', obj);
+
     dispatch(orderToCart(obj)).then(action => {
       if (orderToCart.fulfilled.match(action)) {
         setGetorderDetail();
@@ -113,6 +116,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const closeModal = () => {
     setIsModalVisible(false);
   };
+
 
   const update = cartData?.map(item => ({
     ...item,

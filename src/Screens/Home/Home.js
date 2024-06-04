@@ -88,7 +88,9 @@ const Home = () => {
   // }, [tokenData, products, categories]);
 
   const navigateToCategoryProducts = category => {
-    navigation.navigate('CategoryProducts', {category, products});
+     navigation.navigate('CategoryProducts', {category, products});
+
+    // console.log("products",category);
   };
 
   const previewimages = {

@@ -15,6 +15,7 @@ import wishlistSlice from '../Slice/wishlistSlice';
 import DeleteToCartSlice from '../Slice/car_slice/deletecart';
 import OrderToCartSlice from '../Slice/car_slice/placeordercart';
 import OrderDetailCartSlice from '../Slice/car_slice/orderdeatails';
+import ClearToCartSlice from '../Slice/car_slice/clearcart';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   wishlist: wishlistSlice,
   OrderToCart: OrderToCartSlice,
   OrderDetailCart: OrderDetailCartSlice,
+  ClearToCarted:ClearToCartSlice
 });
 
 export default rootReducer;

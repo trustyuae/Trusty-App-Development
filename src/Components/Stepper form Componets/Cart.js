@@ -136,11 +136,13 @@ const Cart = ({
 
   const handleCheckout = () => {
     if (isLoggedIn) {
-      setOrderDetail(cartData);
-      setTotal(totalSum);
-      setCount(count + 1);
+      if (cartData?.length > 0) {
+        setOrderDetail(cartData);
+        setTotal(totalSum);
+        setCount(count + 1);
+      }
     } else {
-      Alert.alert('', 'please login and try again ', [
+      Alert.alert('','please login and try again ', [
         {
           text: 'Cancel',
           style: 'cancel',
@@ -152,7 +154,6 @@ const Cart = ({
       ]);
     }
   };
-  
 
   return (
     <View>

@@ -41,6 +41,8 @@ export default function Productdetailscreen({route, navigation}) {
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
 
+
+
   useEffect(() => {
     dispatch(fetchById(id));
     setChange('');
@@ -103,7 +105,7 @@ export default function Productdetailscreen({route, navigation}) {
                   <View>
                     <Text
                       style={{
-                        color: '#444444',
+                        color:'#444444',
                         fontWeight: '500',
                         marginBottom: 2,
                       }}>
