@@ -11,6 +11,7 @@ import { loginUser } from '../../Redux/Slice/loginslice';
 import { getToken, getUserId } from '../../Utils/localstorage';
 import Profile from '../Profile/Profile';
 import CustomTabBar from '../../Components/CustomeTabBar/CustomeTabBar';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
 const Loginscreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -175,13 +176,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderWidth: 1,
     height: hp('5.5%'),
+    borderRadius: 4,
 
     marginBottom: hp('2%'),
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
     borderColor: '#dbccc1',
     paddingHorizontal: wp('5%'),
-    borderRadius: 1,
     padding: 8,
   },
   custContainer: {
@@ -217,6 +218,7 @@ const styles = StyleSheet.create({
   cust_icon: {
     position: 'absolute',
     right: 14,
+    color: globalColors.buttonBackground,
     top: 15,
   },
   custbtn: {
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 15,
     fontSize: 16,
-
+    color: globalColors.backgroundLight,
     fontFamily: 'Intrepid Regular',
   },
   errorText: {

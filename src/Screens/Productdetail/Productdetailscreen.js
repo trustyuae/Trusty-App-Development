@@ -234,9 +234,10 @@ const styles = StyleSheet.create({
   productContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'center',
     gap: -2,
     paddingVertical: wp('1%'),
-    paddingHorizontal: wp('2%'),
+    // paddingHorizontal: wp('1.5%'),
     marginTop: hp('1%'),
     marginBottom: hp('7%'),
   },

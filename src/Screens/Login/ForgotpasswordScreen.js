@@ -115,12 +115,13 @@ const styles = StyleSheet.create({
   inputfield: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
+    height: hp('5.5%'),
     marginTop: hp('3%'),
     fontFamily: 'Intrepid Regular',
     marginBottom: hp('3%'),
     paddingHorizontal: wp('5%'),
     borderColor: '#dbccc1',
-    borderRadius: 1,
+    borderRadius: 4,
     padding: 8,
   },
   custContainer: {

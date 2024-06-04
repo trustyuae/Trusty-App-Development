@@ -189,7 +189,17 @@ const CategoryProducts = ({ navigation }) => {
             }}
           />
         </View>
-
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginRight: 10,
+            marginLeft: 10,
+            paddingRight: 20,
+            borderBottomColor: '#ccc',
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        />
         <View style={styles.productContainer}>
           {status === 'loading' ? (
             <ActivityIndicator size="large" color="#0000ff" />
