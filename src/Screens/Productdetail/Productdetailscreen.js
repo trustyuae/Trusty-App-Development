@@ -30,17 +30,16 @@ import {getToken, getUsername} from '../../Utils/localstorage';
 
 export default function Productdetailscreen({route, navigation}) {
   const scrollViewRef = useRef();
-  const {userId} = route?.params;
+  const {userId, isWatchList} = route?.params;
   const dispatch = useDispatch();
   const {loading, error, responseData} = useSelector(state => state?.getById);
   const {errormessage, partner} = useSelector(state => state?.PatnerGet);
   const {loa, err, cartdata} = useSelector(state => state);
   const [changeColor, setChange] = useState('');
-  const [saved, setSaved] = useState(true);
+  const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
- 
 
   useEffect(() => {
     dispatch(fetchById(id));
@@ -48,6 +47,7 @@ export default function Productdetailscreen({route, navigation}) {
     setChangeSize('');
   }, [id]);
 
+  console.log('$$$$$productDetails', isWatchList);
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
       dispatch(PartnerPerfect(responseData?.categories[0]?.id));
@@ -61,20 +61,13 @@ export default function Productdetailscreen({route, navigation}) {
       product_id: id,
       quantity: 1,
     };
-    
 
-
-  dispatch(addToCart(data)).then(action => {
-    if (addToCart.fulfilled.match(action)) {
-      setLoding(false);
-      navigation.navigate('Cart');
-    }
-  });
-
- 
-
-   
-
+    dispatch(addToCart(data)).then(action => {
+      if (addToCart.fulfilled.match(action)) {
+        setLoding(false);
+        navigation.navigate('Cart');
+      }
+    });
   };
 
   const handleproduct = id => {

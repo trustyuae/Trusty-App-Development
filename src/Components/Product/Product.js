@@ -16,6 +16,7 @@ import {Images} from '../../Constants/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addToWishlist,
+  fetchWishlist,
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
 import {getToken} from '../../Utils/localstorage';
@@ -45,8 +46,8 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
     };
 
     fetchData();
-  }, [dispatch]);
-
+  }, [dispatch, saved]);
+  console.log('&&&');
   // useEffect(() => {
   //   if (wishlist && wishlist.length > 0) {
   //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
@@ -65,6 +66,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
         try {
           dispatch(removeFromWishlist({product_id, tokenData}));
           setSaved(false);
+          await dispatch(fetchWishlist(tokenData));
         } catch (error) {
           console.log(error);
         }
@@ -72,6 +74,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
         try {
           dispatch(addToWishlist({product_id, tokenData}));
           setSaved(true);
+          await dispatch(fetchWishlist(tokenData));
         } catch (error) {
           console.log(error);
         }
