@@ -25,7 +25,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
 import {getUserId} from '../../Utils/localstorage';
 import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
-import { fetchProfile } from '../../Redux/Slice/profileSlice';
+import {fetchProfile} from '../../Redux/Slice/profileSlice';
 
 const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [expanded, setExpanded] = useState(true);
@@ -53,7 +53,6 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   useFocusEffect(() => {
     setBillingdata(data?.billing);
   });
-
 
   const product = cartData?.map(item => ({
     product_id: item.product_id,
@@ -100,7 +99,6 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       ],
     };
 
-
     dispatch(orderToCart(obj)).then(action => {
       if (orderToCart.fulfilled.match(action)) {
         setGetorderDetail();
@@ -116,7 +114,6 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const closeModal = () => {
     setIsModalVisible(false);
   };
-
 
   const update = cartData?.map(item => ({
     ...item,
@@ -229,7 +226,6 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
           }}>
           <Image source={PlusIcon} style={{marginHorizontal: 10}}></Image>
           <Text
-            onPress={handleEditClick}
             style={{
               textDecorationLine: 'underline',
               color: 'black',
