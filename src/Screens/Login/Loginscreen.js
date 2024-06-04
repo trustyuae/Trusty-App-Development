@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     marginTop: hp('7%'),
   },
   headingtext: {
+    color:"black",
     fontSize: wp('5%'),
     padding: wp('5%'),
     fontWeight: '600',
@@ -178,8 +179,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderColor: '#dbccc1',
     paddingHorizontal: wp('5%'),
-    borderRadius: 1,
-    padding: 8,
+    borderRadius: 5,
+    padding: 10,
   },
   custContainer: {
     padding: wp('5%'),
@@ -201,6 +202,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
     fontSize: 12,
     fontWeight: '600',
+    color:"black"
   },
   custposition: {
     position: 'relative',
@@ -224,6 +226,7 @@ const styles = StyleSheet.create({
   createAccountText: {
     textAlign: 'center',
     marginVertical: 15,
+    color:"#684934"
   },
   errorText: {
     color: 'red',

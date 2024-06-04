@@ -18,7 +18,7 @@ import {ScrollView} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchCategoryProducts} from '../Redux/Slice/productSlice';
+import {fetchCategoryProducts, fetchProducts} from '../Redux/Slice/productSlice';
 import {fetchWishlist} from '../Redux/Slice/wishlistSlice';
 import {getToken} from '../Utils/localstorage';
 
@@ -65,7 +65,8 @@ const CategoryProducts = ({navigation}) => {
   }, [items, categoryProducts, getToken]);
 
   useEffect(() => {
-    dispatch(fetchCategoryProducts({categoryId: category.id}));
+     dispatch(fetchCategoryProducts({categoryId: category.id}));
+    
   }, [dispatch]);
 
   const count = categoryProducts?.length;

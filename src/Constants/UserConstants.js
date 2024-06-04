@@ -21,6 +21,8 @@ export const VIEW_TO_CART="VIEW_TO_CART"
 
 export const CLEAR_TO_CART="CLEAR_TO_CART"
 
+export const UPDATE_CHECKOUT="UPDATE_CHECKOUT"
+
 // *************************** Order  **************************
 
 

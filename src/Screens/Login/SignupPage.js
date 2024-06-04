@@ -612,6 +612,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 20,
     marginTop: hp('10%'),
+    color:"black",
 
     textAlign: 'left',
     fontFamily: 'Intrepid Regular',

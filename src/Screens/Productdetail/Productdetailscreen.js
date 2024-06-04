@@ -49,7 +49,6 @@ export default function Productdetailscreen({route, navigation}) {
     setChangeSize('');
   }, [id]);
 
-  console.log('$$$$$productDetails', isWatchList);
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
       dispatch(PartnerPerfect(responseData?.categories[0]?.id));
