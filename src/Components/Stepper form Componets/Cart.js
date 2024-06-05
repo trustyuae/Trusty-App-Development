@@ -6,6 +6,7 @@ import {
   Pressable,
   Alert,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 import {
   CartImg,
@@ -136,13 +137,13 @@ const Cart = ({
 
   const handleCheckout = () => {
     if (isLoggedIn) {
-       if (cartData?.length > 0) {
+      if (cartData?.length > 0) {
         setOrderDetail(cartData);
         setTotal(totalSum);
         setCount(count + 1);
-       }
+      }
     } else {
-      Alert.alert('','please login and try again ', [
+      Alert.alert('', 'please login and try again ', [
         {
           text: 'Cancel',
           style: 'cancel',
@@ -156,7 +157,7 @@ const Cart = ({
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <View style={styles.container}>
         <Text style={styles.custText}>
           You have {viewcartdata?.cart_count} items in your cart
@@ -337,7 +338,7 @@ const Cart = ({
           loading={isloading}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

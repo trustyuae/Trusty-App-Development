@@ -1,7 +1,7 @@
-import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
-import {Image} from 'react-native-elements';
-import {Bronze, Gold, Platinum, Sliver} from '../../Constants/Icons';
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image } from 'react-native-elements';
+import { Bronze, Gold, Platinum, Sliver } from '../../Constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -12,11 +12,11 @@ const Points = () => {
   const [count, setCount] = useState(3);
 
   return (
-    <ScrollView>
+    <SafeAreaView ><ScrollView showsVerticalScrollIndicator={false}>
       <View>
         <View style={styles.conatiner}>
-          <View style={{flexDirection: 'row', gap: 10, position: 'relative'}}>
-            <Image source={Gold} style={{height: 70, width: 70}} />
+          <View style={{ flexDirection: 'row', gap: 10, position: 'relative' }}>
+            <Image source={Gold} style={{ height: 70, width: 70 }} />
             <View>
               <Text
                 style={{
@@ -34,7 +34,7 @@ const Points = () => {
                 }}>
                 Earn 401 points more to reach Platinum
               </Text>
-              <View style={{marginVertical: 5}}>
+              <View style={{ marginVertical: 5 }}>
                 <ProgressBar
                   progress={0.4}
                   borderWidth={0}
@@ -59,10 +59,10 @@ const Points = () => {
           </View>
 
           <View
-            style={{borderWidth: 1, borderColor: '#DBCCC1', marginVertical: 10}}
+            style={{ borderWidth: 1, borderColor: '#DBCCC1', marginVertical: 10 }}
           />
 
-          <View style={{flexDirection: 'row', gap: 17, flexWrap: 'wrap'}}>
+          <View style={{ flexDirection: 'row', gap: 17, flexWrap: 'wrap' }}>
             <Pressable onPress={() => setCount(1)}>
               <View
                 style={
@@ -79,7 +79,7 @@ const Points = () => {
                     alignItems: 'center',
                   }}></Image>
                 <Text style={styles.custboxText}>Bronze</Text>
-                <Text style={{textAlign: 'center', color: '#92908E'}}>
+                <Text style={{ textAlign: 'center', color: '#92908E' }}>
                   Opts
                 </Text>
               </View>
@@ -100,7 +100,7 @@ const Points = () => {
                     alignItems: 'center',
                   }}></Image>
                 <Text style={styles.custboxText}>Sliver</Text>
-                <Text style={{textAlign: 'center', color: '#92908E'}}>
+                <Text style={{ textAlign: 'center', color: '#92908E' }}>
                   200pts
                 </Text>
               </View>
@@ -121,7 +121,7 @@ const Points = () => {
                     alignItems: 'center',
                   }}></Image>
                 <Text style={styles.custboxText}>Gold</Text>
-                <Text style={{textAlign: 'center', color: '#92908E'}}>
+                <Text style={{ textAlign: 'center', color: '#92908E' }}>
                   1000pts
                 </Text>
               </View>
@@ -142,7 +142,7 @@ const Points = () => {
                     alignItems: 'center',
                   }}></Image>
                 <Text style={styles.custboxText}>Platinum</Text>
-                <Text style={{textAlign: 'center', color: '#92908E'}}>
+                <Text style={{ textAlign: 'center', color: '#92908E' }}>
                   5000pts
                 </Text>
               </View>
@@ -150,7 +150,7 @@ const Points = () => {
           </View>
 
           <View
-            style={{borderWidth: 1, borderColor: '#DBCCC1', marginVertical: 10}}
+            style={{ borderWidth: 1, borderColor: '#DBCCC1', marginVertical: 10 }}
           />
 
           <View>
@@ -185,7 +185,7 @@ const Points = () => {
               backgroundColor: 'white',
               padding: 20,
             }}>
-            <Image source={Gold} style={{height: 70, width: 70}} />
+            <Image source={Gold} style={{ height: 70, width: 70 }} />
             <View>
               <Text
                 style={{
@@ -203,7 +203,7 @@ const Points = () => {
                 }}>
                 Earn 401 points more to reach Platinum
               </Text>
-              <View style={{marginVertical: 5}}>
+              <View style={{ marginVertical: 5 }}>
                 <ProgressBar
                   progress={0.4}
                   borderWidth={0}
@@ -228,7 +228,8 @@ const Points = () => {
           </View>
         </View>
       </View>
-    </ScrollView>
+    </ScrollView></SafeAreaView>
+
   );
 };
 

@@ -1,4 +1,4 @@
-import {Image, Text, View, Pressable} from 'react-native';
+import {Image, Text, View, Pressable, SafeAreaView} from 'react-native';
 import {
   CartImg,
   EditICon,
@@ -175,7 +175,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <View style={styles.container}>
         <Text style={styles.custText}>DELIVERY</Text>
 
@@ -438,7 +438,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         stateUpdate={stateUpdate}
         setStateUpdate={setStateUpdate}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

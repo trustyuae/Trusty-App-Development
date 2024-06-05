@@ -1,15 +1,15 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {Images} from '../Constants/index';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { Images } from '../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../Assets/Theme/globalColors';
-const Category = ({uri, name}) => {
+import { globalColors } from '../Assets/Theme/globalColors';
+const Category = ({ uri, name }) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{uri: uri}}></Image>
+      <Image style={styles.image} source={{ uri: uri }}></Image>
       <Text style={styles.name}>{name}</Text>
     </View>
   );

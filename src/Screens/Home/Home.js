@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -26,6 +26,7 @@ import {fetchProducts} from '../../Redux/Slice/productSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
 import {getToken} from '../../Utils/localstorage';
+import {SafeAreaView} from 'react-native';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -41,6 +42,9 @@ const Home = () => {
   const [tokenData, setTokenData] = useState(null);
   const [wishlist, setWishlist] = useState([]);
 
+  //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
+  console.log('inside home---->', newWitchList);
+
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchProducts());
@@ -50,10 +54,9 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-
+        console.log('inside home---->', token);
         if (token) {
           setTokenData(token);
-          dispatch(fetchWishlist(token));
         }
       } catch (error) {
         console.log('Error retrieving data:', error);

@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {
   widthPercentageToDP as wp,
@@ -10,11 +17,11 @@ import Button from '../Button';
 import {useNavigation} from '@react-navigation/native';
 import {getOdrerdetail} from '../../Utils/localstorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { clearToCart } from '../../Redux/Slice/car_slice/clearcart';
-import { useDispatch } from 'react-redux';
+import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
+import {useDispatch} from 'react-redux';
 
 const Confirmation = ({setCount}) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const today = new Date();
   const options = {
@@ -37,16 +44,18 @@ const Confirmation = ({setCount}) => {
     const fetchData = async () => {
       const orderDetailData = await getOdrerdetail();
       setOrderData(orderDetailData);
-       dispatch(clearToCart());
+      dispatch(clearToCart());
     };
     fetchData();
   }, []);
 
   return (
-    <View>
+    <SafeAreaView>
       <View style={styles.container}>
         <ScrollView
-          style={{padding: wp('10%')}}
+          style={{
+            padding: wp('10%'),
+          }}
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}>
@@ -113,7 +122,7 @@ const Confirmation = ({setCount}) => {
           />
         </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -145,7 +154,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
     marginTop: hp('4%'),
-    marginBottom: hp('2%'),
+    // marginBottom: hp('2%'),
   },
   imageContainer1: {
     marginTop: hp('5%'),
@@ -169,6 +178,7 @@ const styles = StyleSheet.create({
   subHeading: {
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
+    color: globalColors.buttonBackground,
   },
   table: {
     borderWidth: 1,
