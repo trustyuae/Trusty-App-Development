@@ -43,7 +43,7 @@ const Home = () => {
   const [wishlist, setWishlist] = useState([]);
 
   //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
-  console.log('inside home---->', products);
+  // console.log('inside home---->', products);
 
   useEffect(() => {
     dispatch(fetchCategories());

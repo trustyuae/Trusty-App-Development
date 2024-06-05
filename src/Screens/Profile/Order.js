@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: Platform.OS === 'ios' ? hp('18%') : 170,
     marginBottom: hp('3%'),
+    padding: 10,
     //ios =120
     flex: 1,
     // width: '100%',

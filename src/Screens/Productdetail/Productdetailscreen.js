@@ -33,19 +33,25 @@ export default function Productdetailscreen({ route, navigation }) {
   const { userId, isWatchList } = route?.params;
   const dispatch = useDispatch();
   const { loading, error, responseData } = useSelector(state => state?.getById);
+
   const { errormessage, partner } = useSelector(state => state?.PatnerGet);
+  const { items } = useSelector(state => state.wishlist);
+
   const { loa, err, cartdata } = useSelector(state => state);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
+  const [wishlistrelated, setWishlistRelated] = useState([]);
 
   useEffect(() => {
     dispatch(fetchById(id));
     setChange('');
     setChangeSize('');
   }, [id]);
+
+
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
@@ -74,6 +80,22 @@ export default function Productdetailscreen({ route, navigation }) {
     setId(id);
   };
 
+  console.log("partner JSON-->", JSON.stringify(partner));
+
+
+  useEffect(() => {
+    if (items.Wishlist) {
+      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+      const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
+      const result = partner?.map(productItem => ({
+        ...productItem,
+        isWatchList: itemIdListids.has(productItem.id),
+      }));
+
+      setWishlistRelated(result)
+
+    }
+  }, [partner])
   return (
     <SafeAreaView style={{ marginTop: hp('-7%') }}>
       <View>
@@ -161,7 +183,7 @@ export default function Productdetailscreen({ route, navigation }) {
                     The Perfect Partner
                   </Text>
                   <View style={styles.productContainer}>
-                    {partner
+                    {wishlistrelated
                       ?.map((product, key) => (
                         <View key={key}>
                           <TouchableOpacity
@@ -172,6 +194,8 @@ export default function Productdetailscreen({ route, navigation }) {
                               name={product?.name}
                               price={product?.price}
                               saved={product?.saved}
+                              product_id={product?.id}
+                              isWatchList={product?.isWatchList}
                             />
                           </TouchableOpacity>
                         </View>
@@ -254,3 +278,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+
+
+
+
+
+
+
+
+
+
