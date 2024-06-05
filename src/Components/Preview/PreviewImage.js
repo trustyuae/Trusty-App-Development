@@ -1,12 +1,12 @@
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
-const PreviewImage = ({uri}) => {
+const PreviewImage = ({ uri }) => {
   return (
     <View style={styles.container}>
       <Image style={styles.container} source={uri} />

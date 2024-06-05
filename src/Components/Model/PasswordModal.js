@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal,
   View,
@@ -6,11 +6,12 @@ import {
   Button,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {getToken} from '../../Utils/localstorage';
+import { getToken } from '../../Utils/localstorage';
 import axios from 'axios';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import Toast from 'react-native-toast-message';
 
-const PasswordModal = ({modalVisible, setModalVisible}) => {
+const PasswordModal = ({ modalVisible, setModalVisible }) => {
   const [newPassword, setNewPassword] = useState('');
   const [tokenData, setTokenData] = useState(null);
 
@@ -35,6 +36,14 @@ const PasswordModal = ({modalVisible, setModalVisible}) => {
           },
         },
       );
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: 'Password changed successfully!',
+        position: 'Top',
+        visibilityTime: 3000,
+        autoHide: true,
+      });
       // You might want to show a success message or navigate the user to another screen
       setModalVisible(false); // Close the modal after successful password change
     } catch (error) {

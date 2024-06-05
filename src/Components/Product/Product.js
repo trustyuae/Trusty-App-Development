@@ -173,8 +173,8 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // marginLeft: wp('15%'),
     width: 11,
-    padding: 4,
-    height: 12,
+    padding: 8,
+    height: 13,
   },
   image: {
     width: wp('46%'),
