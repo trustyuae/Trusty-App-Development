@@ -1,11 +1,11 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {GET_SINGLE_PRODUCT} from '../../Constants/UserConstants';
-import {Consumer_key, Consumer_secret, baseURL} from '../../Utils/API';
+import { GET_SINGLE_PRODUCT } from '../../Constants/UserConstants';
+import { Consumer_key, Consumer_secret, baseURL } from '../../Utils/API';
 
 export const fetchById = createAsyncThunk(
   GET_SINGLE_PRODUCT,
-  async (id, {rejectWithValue}) => {
+  async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${baseURL}/wc/v3/products/${id}`, {
         auth: {

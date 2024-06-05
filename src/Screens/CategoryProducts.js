@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Pressable,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -18,7 +19,10 @@ import {ScrollView} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchCategoryProducts, fetchProducts} from '../Redux/Slice/productSlice';
+import {
+  fetchCategoryProducts,
+  fetchProducts,
+} from '../Redux/Slice/productSlice';
 import {fetchWishlist} from '../Redux/Slice/wishlistSlice';
 import {getToken} from '../Utils/localstorage';
 
@@ -65,8 +69,7 @@ const CategoryProducts = ({navigation}) => {
   }, [items, categoryProducts, getToken]);
 
   useEffect(() => {
-     dispatch(fetchCategoryProducts({categoryId: category.id}));
-    
+    dispatch(fetchCategoryProducts({categoryId: category.id}));
   }, [dispatch]);
 
   const count = categoryProducts?.length;
@@ -75,7 +78,7 @@ const CategoryProducts = ({navigation}) => {
   const data = ['One', 'Two', 'Three'];
   const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.TextHeading}>Women</Text>
 
@@ -189,7 +192,17 @@ const CategoryProducts = ({navigation}) => {
             }}
           />
         </View>
-
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginRight: 10,
+            marginLeft: 10,
+            paddingRight: 20,
+            borderBottomColor: '#ccc',
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        />
         <View style={styles.productContainer}>
           {status === 'loading' ? (
             <ActivityIndicator size="large" color="#0000ff" />
@@ -220,7 +233,7 @@ const CategoryProducts = ({navigation}) => {
           )}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -255,7 +268,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: globalColors.inputBorder,
     justifyContent: 'center',
-    width: 100,
+    // width: 100,
     height: 40,
     color: globalColors.black,
   },

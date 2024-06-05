@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -9,7 +9,7 @@ import Points from '../Screens/Profile/Points';
 import Order from '../Screens/Profile/Order';
 import Gifts from '../Screens/Profile/Gifts';
 import CustomTabBar from '../Components/CustomeTabBar/CustomeTabBar';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const ProfileNavigations = () => {
   const Tab = createBottomTabNavigator();

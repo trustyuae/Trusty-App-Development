@@ -17,10 +17,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import Button from '../Button';
 import {getUserId} from '../../Utils/localstorage';
 import {fetchProfile, updateProfile} from '../../Redux/Slice/profileSlice';
-import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
+// import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { updatechekout } from '../../Redux/Slice/car_slice/updatecheckout';
-
+import {updatechekout} from '../../Redux/Slice/car_slice/updatecheckout';
+import {ScrollView} from 'react-native';
 
 const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
   const dispatch = useDispatch();
@@ -147,24 +147,24 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       animationType="slide"
       transparent={true}
       onRequestClose={onClose}>
-      <GestureHandlerRootView>
-        <ScrollView>
-          <SafeAreaView>
+      {/* <GestureHandlerRootView> */}
+      <ScrollView>
+        <SafeAreaView>
           <View
             style={{
               margin: 10,
               paddingHorizontal: 20,
               backgroundColor: '#F6F1EB',
             }}>
-               <Icon
-                  name={'close'}
-                  size={20}
-                  color="black"
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                  }}
-                  onPress={onClose}></Icon>
+            <Icon
+              name={'close'}
+              size={20}
+              color="black"
+              style={{
+                position: 'absolute',
+                right: 0,
+              }}
+              onPress={onClose}></Icon>
 
             <View style={{marginTop: 50}}>
               <View style={{marginVertical: 5}}>
@@ -262,11 +262,9 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
               name={'update'}
               handlepress={handleUpdate}
             />
-           
           </View>
-          </SafeAreaView>
-        </ScrollView>
-      </GestureHandlerRootView>
+        </SafeAreaView>
+      </ScrollView>
     </Modal>
   );
 };

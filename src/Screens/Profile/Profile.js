@@ -39,6 +39,7 @@ const Profile = () => {
 
   const {data, loading, error} = useSelector(state => state.profile);
 
+  console.log('data$$$$-->', data);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,14 +54,12 @@ const Profile = () => {
     };
     fetchData();
   }, [editable]);
-
   const [selectedCountry, setSelectedCountry] = useState('');
   const [currency, setCurrency] = useState('');
   const [isoCode, setIsoCode] = useState('');
   const [name, setName] = useState(data?.first_name || ''); // Set initial value to data?.first_name
-  const [lastname, setLastname] = useState(data?.last_name || ''); // Set initial value to data?.first_name
-  const [email, setEmail] = useState(data?.billing.email || ''); // Set initial value to data?.email
-  const [phone, setPhone] = useState(data?.phone|| ''); // Set initial value to data?.meta_data[2]?.value
+  const [email, setEmail] = useState(data?.email || ''); // Set initial value to data?.email
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value || ''); // Set initial value to data?.meta_data[2]?.value
   const [address, setAddress] = useState(data?.shipping?.address_1 || ''); // Set initial value to data?.shipping?.address_1
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
@@ -69,8 +68,6 @@ const Profile = () => {
   const [shippingCountry, setShippingCountry] = useState(
     data?.shipping?.country || '',
   );
-
-
   useEffect(() => {
     const phoneNumberMetadata = data?.meta_data.find(
       item => item.key === 'phone',
@@ -81,7 +78,6 @@ const Profile = () => {
   }, [data]);
 
   // data
-
 
   const handleEdit = () => {
     setName(data.first_name || '');
@@ -102,51 +98,41 @@ const Profile = () => {
       return;
     }
 
-    // let billingData = {
-    //   address_1: address,
-    //   city: shippingCity,
-    //   country: shippingCountry,
-    // };
-    const customer_id = await getUserId();
+    let billingData = {
+      address_1: address,
+      city: shippingCity,
+      country: shippingCountry,
+    };
 
     const updatedData = {
-      user_id:customer_id,
       first_name: name,
-      last_name:lastname,
-      title:"Mr",
-      phone:phone,
-      billing:{
-        first_name:data.billing.first_name,
-        last_name:data.billing.last_name,
-        email:email,
-        address_1:data.billing.address_1,
-        state:data.billing.state,
-        country:shippingCountry,
-        postcode:data.billing.postcode,    
-      },
+      email,
 
       shipping: {
-        first_name:data.shipping.first_name,
-        last_name:data.shipping.last_name,
         address_1: shippingAddress,
         city: shippingCity,
         country: shippingCountry,
-        state:data.billing.postcode
       },
-    
+      meta_data: [
+        ...data.meta_data.slice(0, 2),
+        {...data.meta_data[2], value: phone},
+        ...data.meta_data.slice(3),
+      ],
     };
-    
-   console.log("updatedData------------------>",updatedData);
-
+    console.log('updatedData', updatedData);
+    const customer_id = await getUserId();
     try {
-       dispatch(updateProfile(updatedData))
+      dispatch(updateProfile({customer_id, newData: updatedData}));
     } catch (error) {
-      console.log("error------------------->",error);
+      console.log(error);
     }
     setEditable(false);
   };
 
-
+  console.log(
+    'data****************',
+    JSON.stringify(data?.shipping?.address_1),
+  );
 
   const handleLogout = async () => {
     // await AsyncStorage.removeItem('token');

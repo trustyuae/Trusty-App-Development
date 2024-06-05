@@ -11,6 +11,7 @@ import {loginUser} from '../../Redux/Slice/loginslice';
 import {getToken, getUserId} from '../../Utils/localstorage';
 import Profile from '../Profile/Profile';
 import CustomTabBar from '../../Components/CustomeTabBar/CustomeTabBar';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
 const Loginscreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -162,9 +163,10 @@ const styles = StyleSheet.create({
   logincontainer: {
     margin: wp('3%'),
     marginTop: hp('7%'),
+    fontFamily: 'Intrepid Regular',
   },
   headingtext: {
-    color:"black",
+    color: 'black',
     fontSize: wp('5%'),
     padding: wp('5%'),
     fontWeight: '600',
@@ -174,6 +176,9 @@ const styles = StyleSheet.create({
   inputfield: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
+    height: hp('5.5%'),
+    borderRadius: 4,
+
     marginBottom: hp('2%'),
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
@@ -189,20 +194,24 @@ const styles = StyleSheet.create({
   custbtn: {
     backgroundColor: 'black',
     padding: wp('3%'),
+
     borderRadius: 5,
+    fontFamily: 'Intrepid Regular',
   },
   custfontstyle: {
     color: 'white',
+
     textAlign: 'center',
+    fontFamily: 'Intrepid Regular',
   },
   custforgotpasstext: {
     textAlign: 'right',
     marginTop: hp('-0.5%'),
     marginBottom: hp('4%'),
     fontFamily: 'Intrepid Regular',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '600',
-    color:"black"
+    color: 'black',
   },
   custposition: {
     position: 'relative',
@@ -210,6 +219,7 @@ const styles = StyleSheet.create({
   cust_icon: {
     position: 'absolute',
     right: 14,
+    color: globalColors.buttonBackground,
     top: 15,
   },
   custbtn: {
@@ -226,7 +236,9 @@ const styles = StyleSheet.create({
   createAccountText: {
     textAlign: 'center',
     marginVertical: 15,
-    color:"#684934"
+    fontSize: 16,
+    color: globalColors.backgroundLight,
+    fontFamily: 'Intrepid Regular',
   },
   errorText: {
     color: 'red',

@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
+  ScrollView,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -17,6 +18,7 @@ import {fetchOrder} from '../../Redux/Slice/orderSlice';
 import {getToken, getUserId} from '../../Utils/localstorage';
 import OrderComponents from '../../Components/Order/OrderComponents';
 import {globalColors} from '../../Assets/Theme/globalColors';
+import {SafeAreaView} from 'react-native';
 
 const Order = () => {
   const navigation = useNavigation();
@@ -67,42 +69,84 @@ const Order = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headingText}>Order page</Text>
-      {loading && !refreshing ? (
-        <ActivityIndicator
-          style={styles.loader}
-          size="large"
-          color={globalColors.black}
-        />
-      ) : data && data.length > 0 ? (
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-          }
-          // onEndReached={handleLoadMore}
-          // onEndReachedThreshold={0.1}
-          ListFooterComponent={
-            isFetchingMore ? (
-              <ActivityIndicator size="large" color={globalColors.black} />
-            ) : null
-          }
-          showsVerticalScrollIndicator={false}
-        />
-      ) : (
-        <Text style={styles.noOrdersText}>No orders available</Text>
-      )}
-    </View>
+    // <View style={styles.container}>
+    //   <Text style={styles.headingText}>Order page</Text>
+    //   {loading && !refreshing ? (
+    //     <ActivityIndicator
+    //       style={styles.loader}
+    //       size="large"
+    //       color={globalColors.black}
+    //     />
+    //   ) : data && data.length > 0 ? (
+    //     <FlatList
+    //       data={data}
+    //       renderItem={renderItem}
+    //       keyExtractor={item => item.id.toString()}
+    //       refreshControl={
+    //         <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+    //       }
+    //       // onEndReached={handleLoadMore}
+    //       // onEndReachedThreshold={0.1}
+    //       ListFooterComponent={
+    //         isFetchingMore ? (
+    //           <ActivityIndicator size="large" color={globalColors.black} />
+    //         ) : null
+    //       }
+    //       showsVerticalScrollIndicator={false}
+    //     />
+    //   ) : (
+    //     <Text style={styles.noOrdersText}>No orders available</Text>
+    //   )}
+    // </View>
+    <SafeAreaView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <View style={styles.subContainer}>
+            {/* <Text style={styles.headingText}>Order page</Text> */}
+            {loading && !refreshing ? (
+              <ActivityIndicator
+                style={styles.loader}
+                size="large"
+                color={globalColors.black}
+              />
+            ) : data && data.length > 0 ? (
+              <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={item => item.id.toString()}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={handleRefresh}
+                  />
+                }
+                // onEndReached={handleLoadMore}
+                // onEndReachedThreshold={0.1}
+                ListFooterComponent={
+                  isFetchingMore ? (
+                    <ActivityIndicator
+                      size="large"
+                      color={globalColors.black}
+                    />
+                  ) : null
+                }
+                showsVerticalScrollIndicator={false}
+              />
+            ) : (
+              <Text style={styles.noOrdersText}>No orders available</Text>
+            )}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: 120,
+    marginTop: 160,
+    //ios =120
     flex: 1,
     // width: '100%',
   },
@@ -110,6 +154,7 @@ const styles = StyleSheet.create({
     color: globalColors.black,
     fontSize: 16,
     marginBottom: 10,
+    marginTop: 10,
   },
   noOrdersText: {
     marginTop: 50,
