@@ -89,10 +89,12 @@ const styles = StyleSheet.create({
   stylesofbtn: {
     backgroundColor: globalColors.black,
     marginTop: 'auto',
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 10,
-    paddingTop: 10,
+    // paddingLeft: 15,
+    alignItems: 'center',
+    padding: 5,
+    // paddingRight: 15,
+    // paddingBottom: 10,
+    // paddingTop: 10,
     borderRadius: 4
   },
   styleoffont: {

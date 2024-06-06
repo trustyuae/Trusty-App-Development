@@ -10,7 +10,7 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import { NotSaveICon, SaveICon } from '../../Constants/Icons';
+// import { NotSaveICon, SaveICon } from '../../Constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -142,10 +142,10 @@ export default function Productdetailscreen({ route, navigation }) {
                       {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
                       <TouchableOpacity onPress={() => setSaved(!saved)}>
                         {saved ? (
-                          <Image source={SaveICon} />
+                          <Image source={Images.saveIconFill} />
                         ) : (
                           <Image
-                            source={NotSaveICon}
+                            source={Images.saveIconUnFill}
                             style={styles.iconContainer}
                           />
                         )}

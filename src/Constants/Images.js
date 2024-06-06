@@ -18,7 +18,8 @@ const confirmationTick = require('../Assets/Images/confirmationTick.png');
 const arrowBack = require('../Assets/Images/ArrowleftDirection.png');
 const cart_img = require('../Assets/Images/cart_img.png');
 const Logout = require('../Assets/Images/Logout.png');
-const ProfileIcon=require('../Assets/Images/ProfileIcon.png')
+const ProfileIcon = require('../Assets/Images/ProfileIcon.png')
+const whishlistIcon = require('../Assets/Images/wishlistIcon.png')
 export default {
   icons,
   bag,
@@ -41,4 +42,5 @@ export default {
   cart_img,
   Logout,
   ProfileIcon,
+  whishlistIcon
 };
