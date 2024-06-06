@@ -20,6 +20,7 @@ import {getToken} from '../Utils/localstorage';
 import ProfileNavigations from './ProfileNavigations';
 import {useFocusEffect} from '@react-navigation/native';
 import CartScreen from '../Screens/Cart/CartScreen';
+import SearchScreen from '../Screens/search/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +60,7 @@ const BottomTabNavigation = () => {
       />
       <Tab.Screen
         name="Search"
-        component={Search}
+        component={SearchScreen}
         options={{
           tabBarIcon: () => (
             <Image
