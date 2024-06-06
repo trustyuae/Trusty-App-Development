@@ -26,6 +26,7 @@ import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
 import {getUserId} from '../../Utils/localstorage';
 import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
+import Toast from 'react-native-toast-message';
 
 const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [expanded, setExpanded] = useState(true);
@@ -65,7 +66,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       payment_method: 'COD',
       payment_method_title: 'Cash On Delivery',
       set_paid: 'false',
-      customer_id: customerid,
+      customer_id:customerid,
       billing: {
         first_name: data?.billing?.first_name,
         last_name: data?.billing?.last_name,
@@ -98,13 +99,23 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         },
       ],
     };
-
-    dispatch(orderToCart(obj)).then(action => {
-      if (orderToCart.fulfilled.match(action)) {
-        setGetorderDetail();
-        setCount(pre => (count >= 2 ? 0 : pre + 1));
-      }
-    });
+            
+    if(cartData.length>0){
+      dispatch(orderToCart(obj)).then(action => {
+        if (orderToCart.fulfilled.match(action)) {
+          setGetorderDetail();
+          setCount(pre => (count >= 2 ? 0 : pre + 1));
+        }
+      });
+    }else{
+      Toast.show({
+        type: 'info',
+        text1: 'Please add product',
+        position: 'bottom',
+        visibilityTime: 1000,
+      });
+    }
+   
   };
 
   const handleEditClick = () => {
@@ -341,7 +352,8 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       width={90}
                     />
                   ) : (
-                    <Image source={Product} height={100} width={90} />
+                    <View style={{height:100,width:90,backgroundColor:"#f4f4f4"}}>
+                    </View>
                   )}
                 </View>
                 <View>
@@ -363,11 +375,11 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       color: 'black',
                       fontFamily: 'Intrepid Regular',
                     }}>
-                    Color : <Text style={{color: '#676766'}}>red</Text>{' '}
+                    Color : <Text style={{color: '#676766'}}> </Text>{' '}
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                    Size
+                    Size : <Text style={{color: '#676766'}}> </Text>{' '}
                   </Text>
                 </View>
                 <View></View>
@@ -397,7 +409,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
             marginVertical: 5,
           }}>
           <Text style={styles.custText}>SHIPPING</Text>
-          <Text>30 AED</Text>
+          <Text>0 AED</Text>
         </View>
 
         <View style={styles.custborder} />
@@ -409,7 +421,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
             marginVertical: 5,
           }}>
           <Text style={styles.custText}>TAXES</Text>
-          <Text>10 AED</Text>
+          <Text>0 AED</Text>
         </View>
 
         <View style={styles.custborder} />
@@ -421,7 +433,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
             marginVertical: 5,
           }}>
           <Text style={styles.custText}>TOTAL</Text>
-          <Text>10 AED</Text>
+          <Text>{totalSum} AED</Text>
         </View>
 
         <Button

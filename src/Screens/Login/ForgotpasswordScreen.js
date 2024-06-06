@@ -64,7 +64,7 @@ const ForgotpasswordScreen = ({navigation}) => {
   return (
     <SafeAreaView>
       <View style={styles.logincontainer}>
-        <Text style={styles.headingtext}>Forgot Your Password ?</Text>
+        <Text style={styles.headingtext}>Forget Your Password <Text style={{fontFamily:"San Francisco"}}>?</Text> </Text>
 
         <View style={styles.custContainer}>
           <Text
