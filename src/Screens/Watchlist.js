@@ -18,8 +18,8 @@ const Watchlist = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 22, fontFamily: 'Intrepid Regular' }}>
-        Comming Soon
+      <Text style={{ fontSize: 22, color: 'black', fontFamily: 'Intrepid Regular' }}>
+        Menu Comming Soon !!!
       </Text>
     </View>
   );

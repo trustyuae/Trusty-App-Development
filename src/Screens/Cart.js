@@ -4,14 +4,14 @@ import React, { useEffect } from 'react'
 import { getToken } from '../Utils/localstorage';
 
 const Cart = () => {
-  useEffect(()=>{
-   let data= getToken()
-  },[])
+  useEffect(() => {
+    let data = getToken()
+  }, [])
 
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
-        Comming Soon 
+      <Text style={{ fontSize: 22, fontFamily: 'Intrepid Regular' }}>
+        Search Comming Soon !!!
       </Text>
     </View>
   );

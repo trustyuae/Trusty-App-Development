@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -7,35 +7,35 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {View} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import { View } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../Assets/Theme/globalColors';
+import { globalColors } from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
-import {ScrollView} from 'react-native';
+import { ScrollView } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchCategoryProducts,
   fetchProducts,
 } from '../Redux/Slice/productSlice';
-import {fetchWishlist} from '../Redux/Slice/wishlistSlice';
-import {getToken} from '../Utils/localstorage';
+import { fetchWishlist } from '../Redux/Slice/wishlistSlice';
+import { getToken } from '../Utils/localstorage';
 
-const CategoryProducts = ({navigation}) => {
+const CategoryProducts = ({ navigation }) => {
   const route = useRoute();
-  const {category} = route.params;
+  const { category } = route.params;
   // const [productss, setProducts] = useState([]);
   const dispatch = useDispatch();
   const [wishlist, setWishlist] = useState([]);
 
   const [tokenData, setTokenData] = useState(null);
-  const {categoryProducts, status, error} = useSelector(state => state.product);
-  const {items} = useSelector(state => state.wishlist);
+  const { categoryProducts, status, error } = useSelector(state => state.product);
+  const { items } = useSelector(state => state.wishlist);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +55,7 @@ const CategoryProducts = ({navigation}) => {
   }, [dispatch, tokenData]);
 
   useEffect(() => {
-    const itemIdList = items?.Wishlist?.map(item => ({id: item}));
+    const itemIdList = items?.Wishlist?.map(item => ({ id: item }));
 
     const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
     const result = categoryProducts.map(productItem => ({
@@ -69,7 +69,7 @@ const CategoryProducts = ({navigation}) => {
   }, [items, categoryProducts, getToken]);
 
   useEffect(() => {
-    dispatch(fetchCategoryProducts({categoryId: category.id}));
+    dispatch(fetchCategoryProducts({ categoryId: category.id }));
   }, [dispatch]);
 
   const count = categoryProducts?.length;
@@ -83,7 +83,7 @@ const CategoryProducts = ({navigation}) => {
         <Text style={styles.TextHeading}>Women</Text>
 
         <View
-          style={{flexDirection: 'row', alignItems: 'baseline', fontSize: 12}}>
+          style={{ flexDirection: 'row', alignItems: 'baseline', fontSize: 12 }}>
           <Text style={styles.CategoryText}>{category.name}</Text>
           <Text>({count})</Text>
         </View>
@@ -109,7 +109,7 @@ const CategoryProducts = ({navigation}) => {
           }}>
           <SelectDropdown
             data={emojisWithIcons}
-            onSelect={(selectedItem, index) => {}}
+            onSelect={(selectedItem, index) => { }}
             // style={{marginLeft: 0}}
             renderButton={(selectedItem, isOpen) => {
               return (
@@ -134,7 +134,7 @@ const CategoryProducts = ({navigation}) => {
                 <View
                   style={{
                     ...styles.dropdownItemStyle,
-                    ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
                   }}>
                   <Text
                     style={{
@@ -151,7 +151,7 @@ const CategoryProducts = ({navigation}) => {
           />
           <SelectDropdown
             data={emojisWithIcons}
-            onSelect={(selectedItem, index) => {}}
+            onSelect={(selectedItem, index) => { }}
             // style={{marginLeft: 0}}
             renderButton={(selectedItem, isOpen) => {
               return (
@@ -176,7 +176,7 @@ const CategoryProducts = ({navigation}) => {
                 <View
                   style={{
                     ...styles.dropdownItemStyle,
-                    ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
                   }}>
                   <Text
                     style={{
@@ -205,7 +205,8 @@ const CategoryProducts = ({navigation}) => {
         />
         <View style={styles.productContainer}>
           {status === 'loading' ? (
-            <ActivityIndicator size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color={globalColors.black}
+            />
           ) : status === 'failed' ? (
             <Text style={styles.errorText}>Error: {error}</Text>
           ) : categoryProducts.length === 0 ? (
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
   TextHeading: {
     fontSize: 10,
     fontSize: 14,
-    marginTop: hp('7%'),
+    // marginTop: hp('7%'),
     marginLeft: wp('2%'),
   },
   CategoryText: {

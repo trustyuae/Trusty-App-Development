@@ -16,12 +16,13 @@ const OrderComponents = ({
   status,
   currency,
 }) => {
-  return (
+  const date = new Date(OrderDate);
+  const formattedDate = date.toISOString().split('T')[0]; return (
     <SafeAreaView>
       <View style={styles.line} />
       <View style={{ flexDirection: 'row' }}>
         <Image
-          style={{ width: wp('30%'), height: hp('20%') }}
+          style={{ width: wp('40%'), height: hp('18%') }}
           source={{ uri: line_items }}></Image>
         <View style={styles.orderProducts}>
           <View
@@ -33,11 +34,12 @@ const OrderComponents = ({
             }}>
             <View style={{ flexDirection: 'column' }}>
               <Text style={styles.headingTextOrder}>Order On</Text>
-              <Text>{OrderDate}</Text>
+              <Text style={{ color: globalColors.buttonBackground }}>{formattedDate}</Text>
 
               <Text style={styles.headingText}>Total Amount</Text>
               <Text style={{
                 fontFamily: 'Intrepid Regular',
+                color: globalColors.buttonBackground
               }}
 
 
@@ -52,7 +54,7 @@ const OrderComponents = ({
                 marginHorizontal: 'auto',
                 marginRight: 'auto',
               }}>
-              <Text style={{ color: globalColors.black }}>{status}</Text>
+              <Text style={{ color: globalColors.black, fontSize: 16, textTransform: 'capitalize' }}>{status}</Text>
               <Button
                 name={'Details'}
                 stylesofbtn={styles.stylesofbtn}
@@ -62,7 +64,7 @@ const OrderComponents = ({
         </View>
       </View>
       <View style={styles.line} />
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
@@ -87,10 +89,16 @@ const styles = StyleSheet.create({
   stylesofbtn: {
     backgroundColor: globalColors.black,
     marginTop: 'auto',
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 10,
+    paddingTop: 10,
+    borderRadius: 4
   },
   styleoffont: {
     color: globalColors.white,
     textAlign: 'center',
+    fontSize: 16,
     fontFamily: 'Intrepid Regular',
   },
   line: {

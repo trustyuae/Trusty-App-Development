@@ -164,17 +164,17 @@ const styles = StyleSheet.create({
     marginTop: wp('3%'),
     // backgroundColor: 'red',
     marginLeft: wp('32%'),
-
-    width: 12,
-    height: 14,
+    // width: 25,
+    padding: 12,
+    // height: 25,
     left: 19,
   },
   saveImage: {
     // position: 'absolute',
     // marginLeft: wp('15%'),
     width: 11,
-    padding: 4,
-    height: 12,
+    padding: 8,
+    height: 13,
   },
   image: {
     width: wp('46%'),

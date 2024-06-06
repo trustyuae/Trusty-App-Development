@@ -7,31 +7,39 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useSelector} from 'react-redux';
-const CustomTabBar = ({state, descriptors, navigation}) => {
-  const {data} = useSelector(state => state.profile);
+import { useSelector } from 'react-redux';
+const CustomTabBar = ({ state, descriptors, navigation }) => {
+  const { data } = useSelector(state => state.profile);
+  let count = 3
   return (
     <View style={styles.tabBarContainer}>
       <ScrollView>
-        <View style={{alignItems: 'center', paddingBottom: 2}}>
-          <Image source={Images.ProfileIcon}></Image>
-          <Text>{data?.first_name}</Text>
+        <View style={styles.container}>
+          <Image style={styles.image} source={Images.saveIconUnFill} />
+          {/* {count > 0 && <View style={styles.notificationCount}><Text style={{
+            color: 'white', textAlign: 'center',
+          }}>{count}</Text></View>} */}
+
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ alignItems: 'center', paddingBottom: 2, marginTop: wp('5%') }}>
+          <Image source={Images.ProfileIcon}></Image>
+          <Text style={{ marginBottom: hp('1%') }}>{data?.first_name}</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
           {state.routes.map((route, index) => {
-            const {options} = descriptors[route.key];
+            const { options } = descriptors[route.key];
             const label =
               options.tabBarLabel !== undefined
                 ? options.tabBarLabel
                 : options.title !== undefined
-                ? options.title
-                : route.name;
+                  ? options.title
+                  : route.name;
 
             const isFocused = state.index === index;
 
@@ -57,7 +65,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
             return (
               <TouchableOpacity
                 accessibilityRole="button"
-                accessibilityState={isFocused ? {selected: true} : {}}
+                accessibilityState={isFocused ? { selected: true } : {}}
                 accessibilityLabel={options.tabBarAccessibilityLabel}
                 testID={options.tabBarTestID}
                 onPress={onPress}
@@ -92,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // width: '50%',
     // height: '30%',
-    paddingTop: hp('10%'),
+    paddingTop: hp('5%'),
     borderBottomWidth: 1,
     borderColor: globalColors.white,
     position: 'absolute',
@@ -100,6 +108,29 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: globalColors.headingBackground, // Ensure background color to cover content below
   },
+  image: {
+    padding: 10, marginRight: wp('7%'), marginTop: 10,
+    // width: 50,
+    // height: 50,
+    resizeMode: 'contain',
+  },
+  container: {
+    alignItems: 'flex-end',
+    position: 'relative',
+    height: 40, // Add a fixed height to the parent container
+  },
+
+
+
+  notificationCount: {
+    marginRight: wp('7%'),
+    position: 'absolute',
+    right: -7,
+    backgroundColor: globalColors.black,
+    borderRadius: 50,
+    width: 20,
+  },
+
   tabItem: {
     flex: 1,
     justifyContent: 'center',
