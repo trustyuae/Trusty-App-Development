@@ -45,19 +45,16 @@ const Accordion = ({
         onPress={() => setExpandedSize(!expandedSize)}>
         {expandedSize && (
           <>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              <View style={styles.custView}>
-                {Size?.map((item, key) => (
-                  <Pressable onPress={() => setChangeSize(item)}>
-                    <View key={key} style={[styles.custcontainer]}>
-                      <Text style={styles.custboldtext}>{item}</Text>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
-            </ScrollView>
+            <View style={styles.custView}>
+              {Size?.map((item, key) => (
+                <Pressable onPress={() => setChangeSize(item)}>
+                  <View key={key} style={[styles.custcontainer]}>
+                    <Text style={styles.custboldtext}>{item}</Text>
+                  </View>
+                </Pressable>
+              ))}
+            </View>
+
             <View style={styles.custBorder} />
           </>
         )}
@@ -151,9 +148,10 @@ const styles = StyleSheet.create({
   },
   custView: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 20,
     marginTop: -6,
     fontFamily: 'Intrepid Regular',
+    flexWrap: 'wrap',
   },
   custBorder: {
     marginTop: 13,

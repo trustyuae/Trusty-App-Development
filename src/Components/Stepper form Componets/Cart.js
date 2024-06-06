@@ -12,6 +12,7 @@ import {
   CartImg,
   Dummyproduct1,
   Dummyproduct2,
+  NoProductImage,
   Plus,
   minus,
 } from '../../Constants/Icons';
@@ -30,7 +31,8 @@ import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
 import {getToken, getUserId} from '../../Utils/localstorage';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
 import {Product} from '../../Constants/Images';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const Cart = ({
   count,
@@ -66,7 +68,7 @@ const Cart = ({
       setCustomerID(userid);
     };
     fetch();
-  }, []);
+  }, [])
 
   useEffect(() => {
     setCartData(viewcartdata?.cart_items);
@@ -118,6 +120,8 @@ const Cart = ({
     setCartData(updatedCart);
   };
 
+  console.log(cartData);
+
   const update = cartData?.map(item => ({
     ...item,
     total: item.product_price * item.quantity,
@@ -141,8 +145,16 @@ const Cart = ({
         setOrderDetail(cartData);
         setTotal(totalSum);
         setCount(count + 1);
+      }else{
+        Toast.show({
+          type: 'info',
+          text1: 'Please add product',
+          position: 'bottom',
+          visibilityTime: 1000,
+        });
       }
-    } else {
+    } 
+    else {
       Alert.alert('', 'please login and try again ', [
         {
           text: 'Cancel',
@@ -150,7 +162,7 @@ const Cart = ({
         },
         {
           text: 'OK',
-          onPress: () => navigation.navigate('Login'),
+          onPress: () => navigation.navigate('LoginCustomeNavigation'),
         },
       ]);
     }
@@ -239,7 +251,12 @@ const Cart = ({
                       width={90}
                     />
                   ) : (
-                    <Image source={Product} height={110} width={90} />
+                    <View
+                      style={{
+                        height: 100,
+                        width: 90,
+                        backgroundColor: '#f4f4f4',
+                      }}></View>
                   )}
                 </View>
                 <View>
@@ -262,11 +279,11 @@ const Cart = ({
                       fontFamily: 'Intrepid Regular',
                     }}>
                     Color :{' '}
-                    <Text style={{color: '#676766'}}>{Item?.color}</Text>{' '}
+                    <Text style={{color: '#676766'}}>{Item?.variation_attr?.attribute_pa_color}</Text>{' '}
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                    Size : <Text style={{color: '#676766'}}>{Item?.size}</Text>{' '}
+                    Size : <Text style={{color: '#676766'}}>{Item?.variation_attr?.attribute_pa_size}</Text>{' '}
                   </Text>
                 </View>
                 <View></View>
@@ -308,7 +325,7 @@ const Cart = ({
             marginTop: 10,
           }}>
           <Text style={styles.custText}>TOTAL </Text>
-          <Text>200,00 AED</Text>
+          <Text>{totalSum} AED</Text>
         </View>
 
         <View style={styles.custborder} />

@@ -26,7 +26,9 @@ import { fetchById } from '../../Redux/Slice/SingleProductslice';
 import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
 import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
-import { getToken, getUsername } from '../../Utils/localstorage';
+import {getToken, getUsername} from '../../Utils/localstorage';
+import {color} from 'react-native-elements/dist/helpers';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Productdetailscreen({ route, navigation }) {
   const scrollViewRef = useRef();
@@ -44,6 +46,10 @@ export default function Productdetailscreen({ route, navigation }) {
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
   const [wishlistrelated, setWishlistRelated] = useState([]);
+  const [isLoggedIn,setIsLoggedIn]=useState()
+
+
+ 
 
   useEffect(() => {
     dispatch(fetchById(id));
@@ -54,6 +60,18 @@ export default function Productdetailscreen({ route, navigation }) {
 
 
   useEffect(() => {
+    const fetch = async () => {
+      const token = await getToken();
+      if (token) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    fetch();
+  },[])
+
+  useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
       dispatch(PartnerPerfect(responseData?.categories[0]?.id));
     }
@@ -61,18 +79,46 @@ export default function Productdetailscreen({ route, navigation }) {
 
   const handlepress = async () => {
     setLoding(true);
+    const attributes = {};
+
+    // Conditionally add slugSize if it exists
+    if (responseData?.attributes[0]?.slug) {
+      attributes[responseData.attributes[0].slug] = changeSize;
+    }
+
+    // Conditionally add color if it exists
+    if (responseData?.attributes[1]?.slug) {
+      attributes[responseData.attributes[1].slug] = changeColor;
+    }
 
     const data = {
       product_id: id,
       quantity: 1,
+      attributes: attributes,
     };
-
-    dispatch(addToCart(data)).then(action => {
-      if (addToCart.fulfilled.match(action)) {
-        setLoding(false);
-        navigation.navigate('Cart');
-      }
-    });
+    
+    if(isLoggedIn){
+      dispatch(addToCart(data)).then(action => {
+        if (addToCart.fulfilled.match(action)) {
+          setLoding(false);
+          navigation.navigate('Cart');
+        }
+      });
+    }
+    else {
+      setLoding(false);
+      Alert.alert('', 'please login and try again ', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('LoginCustomeNavigation'),
+        },
+      ]);
+    }
+  
   };
 
   const handleproduct = id => {
@@ -103,7 +149,7 @@ export default function Productdetailscreen({ route, navigation }) {
           <View style={styles.container}>
             <ActivityIndicator
               size="large"
-              color="blue"
+              color="black"
               style={styles.loader}
             />
           </View>
@@ -160,7 +206,8 @@ export default function Productdetailscreen({ route, navigation }) {
                       {responseData?.stock_status}
                     </Text>
                   </View>
-                  <Accordion
+
+            { responseData?.type !=="simple"? ( <Accordion
                     Size={responseData?.attributes[0]?.options}
                     Color={responseData?.attributes[1]?.options}
                     Description={responseData?.description}
@@ -168,7 +215,15 @@ export default function Productdetailscreen({ route, navigation }) {
                     changeColor={changeColor}
                     changeSize={changeSize}
                     setChangeSize={setChangeSize}
-                  />
+                  />): ( <Accordion
+                    Size={[]}
+                    Color={[]}
+                    Description={responseData?.description}
+                    setChange={setChange}
+                    changeColor={changeColor}
+                    changeSize={changeSize}
+                    setChangeSize={setChangeSize}
+                  />)}
                   {/* <DummyAccordion attributes={responseData?.attributes}/> */}
                 </View>
                 <View style={{ borderTopWidth: 1, borderColor: '#DBCCC1' }}>
@@ -273,6 +328,7 @@ const styles = StyleSheet.create({
     marginTop: hp('25%'),
   },
   container: {
+    marginTop: '50%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

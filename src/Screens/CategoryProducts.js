@@ -206,7 +206,8 @@ const CategoryProducts = ({ navigation }) => {
         <View style={styles.productContainer}>
           {status === 'loading' ? (
             <ActivityIndicator size="large" color={globalColors.black}
-            />
+            style={{marginTop:"50%"}}/>
+            
           ) : status === 'failed' ? (
             <Text style={styles.errorText}>Error: {error}</Text>
           ) : categoryProducts.length === 0 ? (

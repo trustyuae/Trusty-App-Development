@@ -615,7 +615,7 @@ const SignupPage = () => {
 
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>
-              Already have an account?
+              Already have an account<Text style={{fontFamily:"San Francisco"}}> ?</Text>
               <Text
                 style={styles.footerLink}
                 onPress={() => navigation.navigate('Login')}>
@@ -673,6 +673,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: wp('5%'),
     // fontWeight: 'bold',
+    color:"black",
     fontSize: 22,
     marginBottom: 20,
     marginTop: Platform.OS === 'ios' ? hp('1') : hp('10%'),
