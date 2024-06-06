@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -12,18 +12,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { fetchOrder } from '../../Redux/Slice/orderSlice';
-import { getToken, getUserId } from '../../Utils/localstorage';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {fetchOrder} from '../../Redux/Slice/orderSlice';
+import {getToken, getUserId} from '../../Utils/localstorage';
 import OrderComponents from '../../Components/Order/OrderComponents';
-import { globalColors } from '../../Assets/Theme/globalColors';
-import { SafeAreaView } from 'react-native';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import {SafeAreaView} from 'react-native';
 
 const Order = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector(state => state.order);
+  const {data, loading, error} = useSelector(state => state.order);
   const [refreshing, setRefreshing] = useState(false);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
 
@@ -57,7 +57,7 @@ const Order = () => {
     }
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <OrderComponents
       key={item.id}
       currency={item.currency}
@@ -145,7 +145,7 @@ const Order = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: Platform.OS === 'ios' ? hp('22%') : 170,
+    marginTop: Platform.OS === 'ios' ? hp('22%') : hp('23%'),
     marginBottom: hp('3%'),
     // padding: 10,
     //ios =120

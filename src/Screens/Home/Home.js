@@ -27,12 +27,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { getToken } from '../../Utils/localstorage';
 import { SafeAreaView } from 'react-native';
-
 const Home = () => {
   const navigation = useNavigation();
   const [startIndex, setStartIndex] = useState(0);
   const [newWitchList, setNewWitchList] = useState([]);
-
   const dispatch = useDispatch();
   const { categories, categoryStatus, categoryError } = useSelector(
     state => state.category,
@@ -41,15 +39,12 @@ const Home = () => {
   const { items } = useSelector(state => state.wishlist);
   const [tokenData, setTokenData] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-
   //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
   // console.log('inside home---->', products);
-
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchProducts());
   }, [dispatch]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -63,10 +58,8 @@ const Home = () => {
         console.log('Error retrieving data:', error);
       }
     };
-
     fetchData();
   }, [dispatch, getToken]);
-
   useEffect(() => {
     if (items.Wishlist) {
       const itemIdList = items.Wishlist?.map(item => ({ id: item }));
@@ -80,7 +73,6 @@ const Home = () => {
       setWishlist(products);
     }
   }, [items, products, categories, tokenData]);
-
   // console.log(
   //   '------======',
   //   wishlist?.map(data => console.log(data.isWatchList)),
@@ -89,24 +81,19 @@ const Home = () => {
   // useEffect(() => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
-
   const navigateToCategoryProducts = category => {
     navigation.navigate('CategoryProducts', { category, products });
-
     // console.log("products",category);
   };
-
   const previewimages = {
     previewImages: Images.preview,
   };
   const onNextPress = () => {
     setStartIndex(startIndex => startIndex + 4);
   };
-
   const onBackPress = () => {
     setStartIndex(startIndex => Math.max(0, startIndex - 4));
   };
-
   const ProductList = [
     {
       id: 1,
@@ -136,7 +123,6 @@ const Home = () => {
       price: 'AED 400',
       saved: true,
     },
-
     {
       id: 5,
       uri: Images.product,
@@ -144,7 +130,6 @@ const Home = () => {
       price: 'AED 500',
       saved: false,
     },
-
     {
       id: 6,
       uri: Images.product,
@@ -188,7 +173,6 @@ const Home = () => {
       saved: false,
     },
   ];
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={globalColors.headingBackground}></StatusBar>
@@ -234,7 +218,6 @@ const Home = () => {
             ))}
           </View>
           {/* </ScrollView> */}
-
           <View
             style={{
               flexDirection: 'row',
@@ -259,7 +242,6 @@ const Home = () => {
                 />
               </View>
             </TouchableOpacity>
-
             <TouchableOpacity
               onPress={onNextPress}
               disabled={startIndex + 4 >= ProductList.length}
@@ -277,7 +259,6 @@ const Home = () => {
               </View>
             </TouchableOpacity>
           </View>
-
           <View style={styles.productContainer}>
             {wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
               <Pressable
@@ -300,7 +281,6 @@ const Home = () => {
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: globalColors.headingBackground,
@@ -336,7 +316,6 @@ const styles = StyleSheet.create({
     marginBottom: hp('2%'),
     color: globalColors.black,
   },
-
   onBackPress: {
     alignItems: 'flex-start',
     // backgroundColor: 'black',
@@ -358,8 +337,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.black,
   },
   disabledButton: {
-    backgroundColor: '#B9B9B9',
+    backgroundColor:'#B9B9B9',
   },
 });
-
 export default Home;

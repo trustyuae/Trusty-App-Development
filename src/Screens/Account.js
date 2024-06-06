@@ -11,7 +11,7 @@ const Account = () => {
    
       <View style={styles.container}>
         <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
-          Comming Soon abc
+          Comming Soon 
         </Text> 
       </View>
     
