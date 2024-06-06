@@ -242,7 +242,7 @@ const CategoryProducts = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
-
+     marginTop:hp("6%"),
     backgroundColor: globalColors.headingBackground,
   },
   productContainer: {

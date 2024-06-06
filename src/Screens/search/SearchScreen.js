@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator} from 'react-native-paper';
@@ -12,6 +13,7 @@ import Product from '../../Components/Product/Product';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchProducts} from '../../Redux/Slice/productSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
 const SearchScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const SearchScreen = ({navigation}) => {
   );
 
   return (
+    <SafeAreaView>
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <View style={styles.custposition}>
@@ -45,36 +48,42 @@ const SearchScreen = ({navigation}) => {
           <Icon name={'search'} size={20} style={styles.cust_icon} />
         </View>
       </View>
-
-      <ScrollView>
-        {updated.length > 0 ? (
-          <View style={styles.productContainer}>
-            {updated?.map(product => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ProductDetail', {
-                    userId: product.id,
-                  })
-                }>
-                <Product
-                  key={product.id}
-                  uri={product?.images?.[0]?.src}
-                  name={product?.name}
-                  price={product?.price}
-                  saved={product?.saved}
-                  product_id={product?.id}
-                />
-              </TouchableOpacity>
-            ))}
-          </View>
-        ) : (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>No Record Found</Text>
-          </View>
-        )}
-      </ScrollView>
+{status=="loading"?     <ActivityIndicator size="large" color={globalColors.black}
+            style={{marginTop:"50%"}}/>:
+ <ScrollView>
+ {updated.length > 0 ? (
+   <View style={styles.productContainer}>
+     {updated?.map(product => (
+       <TouchableOpacity
+         onPress={() =>
+           navigation.navigate('ProductDetail', {
+             userId: product.id,
+           })
+         }>
+         <Product
+           key={product.id}
+           uri={product?.images?.[0]?.src}
+           name={product?.name}
+           price={product?.price}
+           saved={product?.saved}
+           product_id={product?.id}
+         />
+       </TouchableOpacity>
+     ))}
+   </View>
+ ) : (
+   <View
+     style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+     <Text style={{fontFamily: 'Intrepid Regular'}}>
+       No Record Found
+     </Text>
+   </View>
+ )}
+</ScrollView>
+}
+     
     </View>
+    </SafeAreaView>
   );
 };
 
