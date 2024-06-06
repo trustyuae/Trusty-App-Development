@@ -21,7 +21,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
     <View style={styles.tabBarContainer}>
       <ScrollView>
         <View style={styles.container}>
-          <Image style={styles.image} source={Images.saveIconUnFill} />
+          <Image style={styles.image} source={Images.whishlistIcon} />
           {/* {count > 0 && <View style={styles.notificationCount}><Text style={{
             color: 'white', textAlign: 'center',
           }}>{count}</Text></View>} */}
@@ -29,7 +29,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
         </View>
         <View style={{ alignItems: 'center', paddingBottom: 2, marginTop: wp('5%') }}>
           <Image source={Images.ProfileIcon}></Image>
-          <Text style={{ marginBottom: hp('1%') }}>{data?.first_name}</Text>
+          <Text style={{ marginBottom: hp('2.5%') }}>{data?.first_name}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           {state.routes.map((route, index) => {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.headingBackground, // Ensure background color to cover content below
   },
   image: {
-    padding: 10, marginRight: wp('7%'), marginTop: 10,
+    marginRight: wp('7%'), marginTop: 10,
     // width: 50,
     // height: 50,
     resizeMode: 'contain',

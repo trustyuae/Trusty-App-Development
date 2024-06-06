@@ -161,9 +161,9 @@ const styles = StyleSheet.create({
   },
   saveImagea: {
     position: 'absolute',
-    marginTop: wp('3%'),
+    marginTop: wp('2%'),
     // backgroundColor: 'red',
-    marginLeft: wp('32%'),
+    marginLeft: wp('30%'),
     // width: 25,
     padding: 12,
     // height: 25,
@@ -173,6 +173,8 @@ const styles = StyleSheet.create({
     // position: 'absolute',
     // marginLeft: wp('15%'),
     width: 11,
+    resizeMode: 'contain',
+
     padding: 8,
     height: 13,
   },
