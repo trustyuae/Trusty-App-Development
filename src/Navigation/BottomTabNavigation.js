@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {Image} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Account, Cart, SignupPage, Watchlist} from '../Screens';
+import React, { useEffect, useState } from 'react';
+import { Image } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Account, Cart, SignupPage, Watchlist } from '../Screens';
 import Home from '../Screens/Home/Home';
 import {
   ProfileIcon,
@@ -16,14 +16,16 @@ import Loginscreen from '../Screens/Login/Loginscreen';
 import HomeCustomeNavigation from './HomeCustomeNavigation';
 import LoginCustomeNavigation from './LoginCustomeNavigation';
 import Profile from '../Screens/Profile/Profile';
-import {getToken} from '../Utils/localstorage';
+import { getToken } from '../Utils/localstorage';
 import ProfileNavigations from './ProfileNavigations';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import CartScreen from '../Screens/Cart/CartScreen';
+import SearchScreen from '../Screens/search/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabNavigation = () => {
+const BottomTabNavigation = ({ navigation }) => {
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useFocusEffect(() => {
     const checkLoginStatus = async () => {
@@ -39,9 +41,9 @@ const BottomTabNavigation = () => {
 
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
+      screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarStyle: {backgroundColor: '#101010'},
+        tabBarStyle: { backgroundColor: '#101010' },
       })}>
       <Tab.Screen
         name="HomeCustomeNavigation"
@@ -50,7 +52,7 @@ const BottomTabNavigation = () => {
           tabBarIcon: () => (
             <Image
               source={HomeIcon}
-              style={{width: 20, height: 20}}
+              style={{ width: 20, height: 20 }}
               resizeMode="contain"
             />
           ),
@@ -59,12 +61,12 @@ const BottomTabNavigation = () => {
       />
       <Tab.Screen
         name="Search"
-        component={Search}
+        component={Cart}
         options={{
           tabBarIcon: () => (
             <Image
               source={SearchIcon}
-              style={{width: 15, height: 15}}
+              style={{ width: 15, height: 15 }}
               resizeMode="contain"
             />
           ),
@@ -78,7 +80,7 @@ const BottomTabNavigation = () => {
           tabBarIcon: () => (
             <Image
               source={MenuIcon}
-              style={{width: 40, height: 20}}
+              style={{ width: 40, height: 20 }}
               resizeMode="contain"
             />
           ),
@@ -92,7 +94,7 @@ const BottomTabNavigation = () => {
           tabBarIcon: () => (
             <Image
               source={BagIcon}
-              style={{width: 15, height: 15}}
+              style={{ width: 15, height: 15 }}
               resizeMode="contain"
             />
           ),
@@ -113,7 +115,7 @@ const BottomTabNavigation = () => {
             tabBarIcon: () => (
               <Image
                 source={ProfileIcon}
-                style={{width: 15, height: 15}}
+                style={{ width: 15, height: 15 }}
                 resizeMode="contain"
               />
             ),
@@ -124,7 +126,7 @@ const BottomTabNavigation = () => {
                 name="arrow-back"
                 size={25}
                 color="#333" // Customize the color as needed
-                style={{marginLeft: -8}}
+                style={{ marginLeft: -8 }}
                 onPress={() => navigation.goBack()}
               />
             ),
@@ -138,7 +140,7 @@ const BottomTabNavigation = () => {
             tabBarIcon: () => (
               <Image
                 source={ProfileIcon}
-                style={{width: 15, height: 15}}
+                style={{ width: 15, height: 15 }}
                 resizeMode="contain"
               />
             ),

@@ -24,10 +24,9 @@ const styles = StyleSheet.create({
   image: {
     width: wp('46%'),
     height: hp('25%'),
-    marginBottom: wp('2.5%'),
   },
   name: {
-    marginBottom: wp('2.5%'),
+    marginBottom: wp('5%'),
     fontFamily: 'Intrepid Regular',
     fontSize: 18,
     color: globalColors.black,

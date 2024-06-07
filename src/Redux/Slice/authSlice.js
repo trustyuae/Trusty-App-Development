@@ -1,12 +1,12 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {baseURL} from '../../Utils/API';
-import {USER_SIGNUP_REQUEST} from '../../Constants/UserConstants';
+import { baseURL } from '../../Utils/API';
+import { USER_SIGNUP_REQUEST } from '../../Constants/UserConstants';
 import Toast from 'react-native-toast-message';
 
 export const signupUser = createAsyncThunk(
   USER_SIGNUP_REQUEST,
-  async (userData, {rejectWithValue}) => {
+  async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${baseURL}/custom-woo-api/v1/register`,
@@ -55,6 +55,7 @@ const authSlice = createSlice({
         state.error = action.payload || 'An error occurred';
         Toast.show({
           type: 'error',
+          position: 'bottom',
           text1: action.payload || 'An error occurred',
           visibilityTime: 4000,
         });

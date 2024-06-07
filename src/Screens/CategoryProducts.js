@@ -77,6 +77,8 @@ const CategoryProducts = ({ navigation }) => {
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
   const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
+  const emojisWithIcons1 = ['Name', 'Price', 'Color'];
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -108,7 +110,7 @@ const CategoryProducts = ({ navigation }) => {
             justifyContent: 'space-between',
           }}>
           <SelectDropdown
-            data={emojisWithIcons}
+            data={emojisWithIcons1}
             onSelect={(selectedItem, index) => { }}
             // style={{marginLeft: 0}}
             renderButton={(selectedItem, isOpen) => {
@@ -141,6 +143,7 @@ const CategoryProducts = ({ navigation }) => {
                       fontSize: 14,
                       fontFamily: 'Intrepid Regular',
                       marginLeft: 4,
+                      textAlign: 'center',
                       marginRight: 4,
                     }}>
                     {item}
@@ -173,7 +176,7 @@ const CategoryProducts = ({ navigation }) => {
             }}
             renderItem={(item, index, isSelected) => {
               return (
-                <View
+                <SafeAreaView
                   style={{
                     ...styles.dropdownItemStyle,
                     ...(isSelected && { backgroundColor: '#D2D9DF' }),
@@ -183,11 +186,11 @@ const CategoryProducts = ({ navigation }) => {
                       fontSize: 14,
                       fontFamily: 'Intrepid Regular',
                       marginLeft: 4,
-                      marginRight: 4,
+                      marginRight: 1,
                     }}>
                     {item}
                   </Text>
-                </View>
+                </SafeAreaView>
               );
             }}
           />
@@ -206,8 +209,8 @@ const CategoryProducts = ({ navigation }) => {
         <View style={styles.productContainer}>
           {status === 'loading' ? (
             <ActivityIndicator size="large" color={globalColors.black}
-            style={{marginTop:"50%"}}/>
-            
+              style={{ marginTop: "50%" }} />
+
           ) : status === 'failed' ? (
             <Text style={styles.errorText}>Error: {error}</Text>
           ) : categoryProducts.length === 0 ? (

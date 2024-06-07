@@ -3,12 +3,21 @@ import React from 'react'
 
 const SearchScreen = () => {
   return (
-    <View>
-      <Text>SearchScreen</Text>
+    <View style={styles.container}>
+      <Text style={{ fontSize: 22, color: 'black', fontFamily: 'Intrepid Regular' }}>
+        Menu Comming Soon !!!
+      </Text>
     </View>
   )
 }
 
 export default SearchScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6F1EB',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})

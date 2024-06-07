@@ -26,8 +26,8 @@ import { fetchById } from '../../Redux/Slice/SingleProductslice';
 import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
 import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
-import {getToken, getUsername} from '../../Utils/localstorage';
-import {color} from 'react-native-elements/dist/helpers';
+import { getToken, getUsername } from '../../Utils/localstorage';
+import { color } from 'react-native-elements/dist/helpers';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function Productdetailscreen({ route, navigation }) {
@@ -46,10 +46,10 @@ export default function Productdetailscreen({ route, navigation }) {
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
   const [wishlistrelated, setWishlistRelated] = useState([]);
-  const [isLoggedIn,setIsLoggedIn]=useState()
+  const [isLoggedIn, setIsLoggedIn] = useState()
 
 
- 
+  console.log("isWatchList", isWatchList)
 
   useEffect(() => {
     dispatch(fetchById(id));
@@ -57,7 +57,9 @@ export default function Productdetailscreen({ route, navigation }) {
     setChangeSize('');
   }, [id]);
 
-
+  useEffect(() => {
+    setSaved(isWatchList);
+  }, [isWatchList]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -69,7 +71,7 @@ export default function Productdetailscreen({ route, navigation }) {
       }
     };
     fetch();
-  },[])
+  }, [])
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
@@ -96,8 +98,8 @@ export default function Productdetailscreen({ route, navigation }) {
       quantity: 1,
       attributes: attributes,
     };
-    
-    if(isLoggedIn){
+
+    if (isLoggedIn) {
       dispatch(addToCart(data)).then(action => {
         if (addToCart.fulfilled.match(action)) {
           setLoding(false);
@@ -118,7 +120,7 @@ export default function Productdetailscreen({ route, navigation }) {
         },
       ]);
     }
-  
+
   };
 
   const handleproduct = id => {
@@ -126,7 +128,7 @@ export default function Productdetailscreen({ route, navigation }) {
     setId(id);
   };
 
-  console.log("partner JSON-->", JSON.stringify(partner));
+  // console.log("partner JSON-->", JSON.stringify(partner));
 
 
   useEffect(() => {
@@ -186,15 +188,11 @@ export default function Productdetailscreen({ route, navigation }) {
                     </View>
                     <View>
                       {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
-                      <TouchableOpacity onPress={() => setSaved(!saved)}>
-                        {saved ? (
-                          <Image source={Images.saveIconFill} />
-                        ) : (
-                          <Image
-                            source={Images.saveIconUnFill}
-                            style={styles.iconContainer}
-                          />
-                        )}
+                      <TouchableOpacity >
+                        <Image
+                          style={styles.saveImage}
+                          source={saved ? Images.saveIconFill : Images.saveIconUnFill}
+                        />
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -207,7 +205,7 @@ export default function Productdetailscreen({ route, navigation }) {
                     </Text>
                   </View>
 
-            { responseData?.type !=="simple"? ( <Accordion
+                  {responseData?.type !== "simple" ? (<Accordion
                     Size={responseData?.attributes[0]?.options}
                     Color={responseData?.attributes[1]?.options}
                     Description={responseData?.description}
@@ -215,7 +213,7 @@ export default function Productdetailscreen({ route, navigation }) {
                     changeColor={changeColor}
                     changeSize={changeSize}
                     setChangeSize={setChangeSize}
-                  />): ( <Accordion
+                  />) : (<Accordion
                     Size={[]}
                     Color={[]}
                     Description={responseData?.description}

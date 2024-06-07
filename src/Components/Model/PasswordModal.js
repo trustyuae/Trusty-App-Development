@@ -5,15 +5,18 @@ import {
   TextInput,
   Button,
   TouchableWithoutFeedback,
+  StyleSheet,
 } from 'react-native';
 import { getToken } from '../../Utils/localstorage';
 import axios from 'axios';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import Toast from 'react-native-toast-message';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const PasswordModal = ({ modalVisible, setModalVisible }) => {
   const [newPassword, setNewPassword] = useState('');
   const [tokenData, setTokenData] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +43,7 @@ const PasswordModal = ({ modalVisible, setModalVisible }) => {
         type: 'success',
         text1: 'Success',
         text2: 'Password changed successfully!',
-        position: 'Top',
+        position: 'bottom',
         visibilityTime: 3000,
         autoHide: true,
       });
@@ -74,27 +77,26 @@ const PasswordModal = ({ modalVisible, setModalVisible }) => {
                 borderRadius: 10,
                 width: '80%',
               }}>
-              <TextInput
-                placeholder="Enter new password"
-                onChangeText={text => setNewPassword(text)}
-                value={newPassword}
-                secureTextEntry={true}
-                style={{
-                  marginBottom: 10,
-                  borderBottomWidth: 1,
-                  borderBottomColor: 'black',
-                }}
-              />
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.inputfield}
+                  placeholder="Enter new password"
+                  value={newPassword}
+                  onChangeText={text => setNewPassword(text)}
+                  secureTextEntry={!showPassword}
+                />
+                <Icon
+                  name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                  size={20}
+                  style={styles.icon}
+                  onPress={() => setShowPassword(prevShow => !prevShow)}
+                />
+              </View>
               <Button
                 title="Submit"
                 color={globalColors.buttonBackground}
                 onPress={handleChangePassword}
               />
-              {/* <Button
-                title="Close"
-                onPress={() => setModalVisible(false)}
-                color={globalColors.buttonBackground}
-              /> */}
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -102,5 +104,20 @@ const PasswordModal = ({ modalVisible, setModalVisible }) => {
     </Modal>
   );
 };
-
+const styles = StyleSheet.create({
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  inputfield: {
+    flex: 1,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+  },
+  icon: {
+    marginLeft: 10,
+  },
+});
 export default PasswordModal;

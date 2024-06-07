@@ -11,6 +11,7 @@ import Order from '../Screens/Profile/Order';
 import ProfileNavigations from './ProfileNavigations';
 import Points from '../Screens/Profile/Points';
 import Icon from 'react-native-vector-icons/Ionicons'; // Assuming you're using Ionicons for the back button icon
+import wishlist from '../Screens/wishlist/wishlist';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = ({ navigation }) => {
@@ -53,17 +54,25 @@ const AppNavigations = ({ navigation }) => {
           })}
         />
         <Stack.Screen
-          name="ThankYou"
-          component={ThankYouScreen}
-          options={{
-            headerTransparent: false,
+          name="wishlist"
+          component={wishlist}
+          options={({ navigation }) => ({ // Pass navigation prop here
+            headerTransparent: true,
             title: null,
-            headerShown: false,
-
-            // headerStyle: {
-            //   backgroundColor: '#f6f1eb',
-            // },
-          }}
+            headerStyle: {
+              backgroundColor: '#f6f1eb',
+            },
+            headerBackTitleVisible: false,
+            headerLeft: () => (
+              <Icon
+                name="arrow-back"
+                size={25}
+                color="#333"
+                style={{ marginLeft: 1 }}
+                onPress={() => navigation.goBack()}
+              />
+            ),
+          })}
         />
 
 
