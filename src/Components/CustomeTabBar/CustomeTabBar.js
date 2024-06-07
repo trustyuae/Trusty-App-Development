@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Pressable,
 } from 'react-native';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import { Images } from '../../Constants';
@@ -16,19 +17,33 @@ import {
 import { useSelector } from 'react-redux';
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const { data } = useSelector(state => state.profile);
-  let count = 3
+  let count = 5
+
+  const handleClick = () => {
+    navigation.navigate('wishlist')
+  }
+
   return (
     <View style={styles.tabBarContainer}>
-      <ScrollView>
-        <View style={styles.container}>
-          <Image style={styles.image} source={Images.whishlistIcon} />
-          {/* {count > 0 && <View style={styles.notificationCount}><Text style={{
-            color: 'white', textAlign: 'center',
-          }}>{count}</Text></View>} */}
+      <ScrollView >
 
+
+        <View style={styles.container}>
+          <Pressable style={{ marginRight: 10 }} onPress={handleClick}>
+            <Image style={styles.image} source={Images.whishlistIcon} />
+            {count > 0 && <View style={styles.notificationCount}><Text style={{
+              color: 'white', textAlign: 'center',
+            }}>{count}</Text></View>}
+          </Pressable>
         </View>
+
+        {/* <Pressable onPress={handleClick}><Text>sdfsd</Text></Pressable> */}
         <View style={{ alignItems: 'center', paddingBottom: 2, marginTop: wp('5%') }}>
+
+
           <Image source={Images.ProfileIcon}></Image>
+
+
           <Text style={{ marginBottom: hp('2.5%') }}>{data?.first_name}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
@@ -110,8 +125,8 @@ const styles = StyleSheet.create({
   },
   image: {
     marginRight: wp('7%'), marginTop: 10,
-    // width: 50,
-    // height: 50,
+    width: 30,
+    height: 30,
     resizeMode: 'contain',
   },
   container: {
@@ -123,7 +138,7 @@ const styles = StyleSheet.create({
 
 
   notificationCount: {
-    marginRight: wp('7%'),
+    marginRight: wp('7.5%'),
     position: 'absolute',
     right: -7,
     backgroundColor: globalColors.black,

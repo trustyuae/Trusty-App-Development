@@ -1,12 +1,12 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {PARTNER_PERFECT} from '../../Constants/UserConstants';
-import {Consumer_key, Consumer_secret, baseURL} from '../../Utils/API';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PARTNER_PERFECT } from '../../Constants/UserConstants';
+import { Consumer_key, Consumer_secret, baseURL } from '../../Utils/API';
 import Toast from 'react-native-toast-message';
 import axios from 'axios';
 
 export const PartnerPerfect = createAsyncThunk(
   PARTNER_PERFECT,
-  async (id, {rejectWithValue}) => {
+  async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `${baseURL}/wc/v3/products?category=${id}`,
@@ -49,6 +49,7 @@ const PerfectPatnerSlice = createSlice({
         state.errormessage = action.error.message;
         Toast.show({
           type: 'error',
+          position: 'bottom',
           text1: action.error.message,
           visibilityTime: 2000,
         });

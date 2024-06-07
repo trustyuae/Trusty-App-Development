@@ -79,6 +79,7 @@ const userSlice = createSlice({
         state.error = 'Invalid credentials' || action.error.message;
         Toast.show({
           type: 'error',
+          position: 'bottom',
           text1: 'Invalid credentials',
           visibilityTime: 2000,
         });
@@ -103,6 +104,7 @@ const userSlice = createSlice({
         state.error = 'An error occurred during logout' || action.error.message;
         Toast.show({
           type: 'error',
+          position: 'bottom',
           text1: action.error.message,
           visibilityTime: 2000,
         });

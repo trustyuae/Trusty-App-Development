@@ -1,12 +1,12 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {POST_API} from '../../Constants/UserConstants';
-import {baseURL} from '../../Utils/API';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { POST_API } from '../../Constants/UserConstants';
+import { baseURL } from '../../Utils/API';
 import Toast from 'react-native-toast-message';
 import axios from 'axios';
 
 export const postApi = createAsyncThunk(
   POST_API,
-  async (data, {rejectWithValue}) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${baseURL}/custom-woo-api/v1/forgot-password`,
@@ -52,6 +52,7 @@ const postApiSlice = createSlice({
         state.error = action.payload;
         Toast.show({
           type: 'error',
+          position: 'bottom',
           text1: 'Invalid Credentials' || state.error,
           visibilityTime: 2000,
         });

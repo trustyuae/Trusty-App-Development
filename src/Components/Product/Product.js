@@ -46,7 +46,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
     };
 
     fetchData();
-  }, [dispatch, saved]);
+  }, [dispatch]);
   // useEffect(() => {
   //   if (wishlist && wishlist.length > 0) {
   //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
@@ -83,6 +83,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
       Toast.show({
         type: 'info',
         text1: 'Please login',
+        position: 'bottom',
         text2: 'You need to login to save items to your wishlist',
         visibilityTime: 2000,
         autoHide: true,

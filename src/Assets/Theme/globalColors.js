@@ -12,6 +12,7 @@ export const globalColors = {
   productTextColor: '#262525',
   productPriceText: '#858483',
   homeScreenBackground: '#441B00',
+  statusBar: '#977D68'
 };
 
 

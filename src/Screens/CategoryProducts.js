@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -7,35 +7,35 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { View } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import {View} from 'react-native';
+import {useRoute} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { globalColors } from '../Assets/Theme/globalColors';
+import {globalColors} from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   fetchCategoryProducts,
   fetchProducts,
 } from '../Redux/Slice/productSlice';
-import { fetchWishlist } from '../Redux/Slice/wishlistSlice';
-import { getToken } from '../Utils/localstorage';
+import {fetchWishlist} from '../Redux/Slice/wishlistSlice';
+import {getToken} from '../Utils/localstorage';
 
-const CategoryProducts = ({ navigation }) => {
+const CategoryProducts = ({navigation}) => {
   const route = useRoute();
-  const { category } = route.params;
+  const {category} = route.params;
   // const [productss, setProducts] = useState([]);
   const dispatch = useDispatch();
   const [wishlist, setWishlist] = useState([]);
 
   const [tokenData, setTokenData] = useState(null);
-  const { categoryProducts, status, error } = useSelector(state => state.product);
-  const { items } = useSelector(state => state.wishlist);
+  const {categoryProducts, status, error} = useSelector(state => state.product);
+  const {items} = useSelector(state => state.wishlist);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +55,7 @@ const CategoryProducts = ({ navigation }) => {
   }, [dispatch, tokenData]);
 
   useEffect(() => {
-    const itemIdList = items?.Wishlist?.map(item => ({ id: item }));
+    const itemIdList = items?.Wishlist?.map(item => ({id: item}));
 
     const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
     const result = categoryProducts.map(productItem => ({
@@ -69,7 +69,7 @@ const CategoryProducts = ({ navigation }) => {
   }, [items, categoryProducts, getToken]);
 
   useEffect(() => {
-    dispatch(fetchCategoryProducts({ categoryId: category.id }));
+    dispatch(fetchCategoryProducts({categoryId: category.id}));
   }, [dispatch]);
 
   const count = categoryProducts?.length;
@@ -77,164 +77,175 @@ const CategoryProducts = ({ navigation }) => {
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
   const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
+  const emojisWithIcons1 = ['Name', 'Price', 'Color'];
+
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.TextHeading}>Women</Text>
+    <SafeAreaView>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={styles.TextHeading}>Women</Text>
 
-        <View
-          style={{ flexDirection: 'row', alignItems: 'baseline', fontSize: 12 }}>
-          <Text style={styles.CategoryText}>{category.name}</Text>
-          <Text>({count})</Text>
-        </View>
-        <View
-          style={{
-            borderBottomWidth: 1,
-            marginRight: 10,
-            marginLeft: 10,
-            paddingRight: 20,
-            borderBottomColor: '#ccc',
-            marginBottom: 10,
-            marginTop: 10,
-          }}
-        />
-
-        <View
-          style={{
-            flexDirection: 'row',
-            // gap: wp('48%'),
-            paddingLeft: 20,
-            paddingRight: 10,
-            justifyContent: 'space-between',
-          }}>
-          <SelectDropdown
-            data={emojisWithIcons}
-            onSelect={(selectedItem, index) => { }}
-            // style={{marginLeft: 0}}
-            renderButton={(selectedItem, isOpen) => {
-              return (
-                <View style={styles.dropdownButtonStyle}>
-                  <Text
-                    style={{
-                      fontFamily: 'Intrepid Regular',
-                      fontSize: 15,
-                      color: globalColors.buttonBackground,
-                    }}>
-                    {(selectedItem && selectedItem.title) || 'filter'}
-                  </Text>
-                  <Icon
-                    name={isOpen ? 'chevron-up' : 'chevron-down'}
-                    style={styles.dropdownButtonArrowStyle}
-                  />
-                </View>
-              );
-            }}
-            renderItem={(item, index, isSelected) => {
-              return (
-                <View
-                  style={{
-                    ...styles.dropdownItemStyle,
-                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontFamily: 'Intrepid Regular',
-                      marginLeft: 4,
-                      marginRight: 4,
-                    }}>
-                    {item}
-                  </Text>
-                </View>
-              );
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'baseline',
+              fontSize: 12,
+            }}>
+            <Text style={styles.CategoryText}>{category.name}</Text>
+            <Text>({count})</Text>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              marginRight: 10,
+              marginLeft: 10,
+              paddingRight: 20,
+              borderBottomColor: '#ccc',
+              marginBottom: 10,
+              marginTop: 10,
             }}
           />
-          <SelectDropdown
-            data={emojisWithIcons}
-            onSelect={(selectedItem, index) => { }}
-            // style={{marginLeft: 0}}
-            renderButton={(selectedItem, isOpen) => {
-              return (
-                <View style={styles.dropdownButtonStyle}>
-                  <Text
+
+          <View
+            style={{
+              flexDirection: 'row',
+              // gap: wp('48%'),
+              paddingLeft: 20,
+              paddingRight: 10,
+              justifyContent: 'space-between',
+            }}>
+            <SelectDropdown
+              data={emojisWithIcons1}
+              onSelect={(selectedItem, index) => {}}
+              // style={{marginLeft: 0}}
+              renderButton={(selectedItem, isOpen) => {
+                return (
+                  <View style={styles.dropdownButtonStyle}>
+                    <Text
+                      style={{
+                        fontFamily: 'Intrepid Regular',
+                        fontSize: 15,
+                        color: globalColors.buttonBackground,
+                      }}>
+                      {(selectedItem && selectedItem.title) || 'filter'}
+                    </Text>
+                    <Icon
+                      name={isOpen ? 'chevron-up' : 'chevron-down'}
+                      style={styles.dropdownButtonArrowStyle}
+                    />
+                  </View>
+                );
+              }}
+              renderItem={(item, index, isSelected) => {
+                return (
+                  <View
                     style={{
-                      fontFamily: 'Intrepid Regular',
-                      fontSize: 15,
-                      color: globalColors.buttonBackground,
+                      ...styles.dropdownItemStyle,
+                      ...(isSelected && {backgroundColor: '#D2D9DF'}),
                     }}>
-                    {(selectedItem && selectedItem.title) || 'Sort By'}
-                  </Text>
-                  <Icon
-                    name={isOpen ? 'chevron-up' : 'chevron-down'}
-                    style={styles.dropdownButtonArrowStyle}
-                  />
-                </View>
-              );
-            }}
-            renderItem={(item, index, isSelected) => {
-              return (
-                <View
-                  style={{
-                    ...styles.dropdownItemStyle,
-                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
-                  }}>
-                  <Text
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontFamily: 'Intrepid Regular',
+                        marginLeft: 4,
+                        textAlign: 'center',
+                        marginRight: 4,
+                      }}>
+                      {item}
+                    </Text>
+                  </View>
+                );
+              }}
+            />
+            <SelectDropdown
+              data={emojisWithIcons}
+              onSelect={(selectedItem, index) => {}}
+              // style={{marginLeft: 0}}
+              renderButton={(selectedItem, isOpen) => {
+                return (
+                  <View style={styles.dropdownButtonStyle}>
+                    <Text
+                      style={{
+                        fontFamily: 'Intrepid Regular',
+                        fontSize: 15,
+                        color: globalColors.buttonBackground,
+                      }}>
+                      {(selectedItem && selectedItem.title) || 'Sort By'}
+                    </Text>
+                    <Icon
+                      name={isOpen ? 'chevron-up' : 'chevron-down'}
+                      style={styles.dropdownButtonArrowStyle}
+                    />
+                  </View>
+                );
+              }}
+              renderItem={(item, index, isSelected) => {
+                return (
+                  <SafeAreaView
                     style={{
-                      fontSize: 14,
-                      fontFamily: 'Intrepid Regular',
-                      marginLeft: 4,
-                      marginRight: 4,
+                      ...styles.dropdownItemStyle,
+                      ...(isSelected && {backgroundColor: '#D2D9DF'}),
                     }}>
-                    {item}
-                  </Text>
-                </View>
-              );
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontFamily: 'Intrepid Regular',
+                        marginLeft: 4,
+                        marginRight: 1,
+                      }}>
+                      {item}
+                    </Text>
+                  </SafeAreaView>
+                );
+              }}
+            />
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              marginRight: 10,
+              marginLeft: 10,
+              paddingRight: 20,
+              borderBottomColor: '#ccc',
+              marginBottom: 10,
+              marginTop: 10,
             }}
           />
-        </View>
-        <View
-          style={{
-            borderBottomWidth: 1,
-            marginRight: 10,
-            marginLeft: 10,
-            paddingRight: 20,
-            borderBottomColor: '#ccc',
-            marginBottom: 10,
-            marginTop: 10,
-          }}
-        />
-        <View style={styles.productContainer}>
-          {status === 'loading' ? (
-            <ActivityIndicator size="large" color={globalColors.black}
-            style={{marginTop:"50%"}}/>
-            
-          ) : status === 'failed' ? (
-            <Text style={styles.errorText}>Error: {error}</Text>
-          ) : categoryProducts.length === 0 ? (
-            <Text style={styles.noProductsText}>No products available</Text>
-          ) : (
-            wishlist.map(product => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('ProductDetail', {
-                    userId: product.id,
-                    isWatchList: product?.isWatchList,
-                  })
-                }>
-                <Product
-                  key={product.id}
-                  uri={product?.images?.[0]?.src}
-                  name={product?.name}
-                  price={product?.price}
-                  saved={product?.saved}
-                  product_id={product?.id}
-                  isWatchList={product?.isWatchList}
-                />
-              </TouchableOpacity>
-            ))
-          )}
-        </View>
-      </ScrollView>
+          <View style={styles.productContainer}>
+            {status === 'loading' ? (
+              <ActivityIndicator
+                size="large"
+                color={globalColors.black}
+                style={{marginTop: '50%'}}
+              />
+            ) : status === 'failed' ? (
+              <Text style={styles.errorText}>Error: {error}</Text>
+            ) : categoryProducts.length === 0 ? (
+              <Text style={styles.noProductsText}>No products available</Text>
+            ) : (
+              wishlist.map(product => (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('ProductDetail', {
+                      userId: product.id,
+                      isWatchList: product?.isWatchList,
+                    })
+                  }>
+                  <Product
+                    key={product.id}
+                    uri={product?.images?.[0]?.src}
+                    name={product?.name}
+                    price={product?.price}
+                    saved={product?.saved}
+                    product_id={product?.id}
+                    isWatchList={product?.isWatchList}
+                  />
+                </TouchableOpacity>
+              ))
+            )}
+          </View>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -242,7 +253,7 @@ const CategoryProducts = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
-     marginTop:hp("6%"),
+    marginTop: Platform.OS === 'ios' ? 0 : hp('7%'),
     backgroundColor: globalColors.headingBackground,
   },
   productContainer: {

@@ -175,7 +175,7 @@ const Home = () => {
   ];
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={globalColors.headingBackground}></StatusBar>
+      <StatusBar backgroundColor={globalColors.statusBar} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <HeadingImage />
         <Text style={styles.heading}>Our cave of wonders</Text>
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.black,
   },
   disabledButton: {
-    backgroundColor:'#B9B9B9',
+    backgroundColor: '#B9B9B9',
   },
 });
 export default Home;

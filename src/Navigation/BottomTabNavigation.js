@@ -18,13 +18,13 @@ import LoginCustomeNavigation from './LoginCustomeNavigation';
 import Profile from '../Screens/Profile/Profile';
 import {getToken} from '../Utils/localstorage';
 import ProfileNavigations from './ProfileNavigations';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import CartScreen from '../Screens/Cart/CartScreen';
 import SearchScreen from '../Screens/search/SearchScreen';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabNavigation = () => {
+const BottomTabNavigation = ({navigation}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useFocusEffect(() => {
     const checkLoginStatus = async () => {
