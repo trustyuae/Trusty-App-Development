@@ -29,6 +29,7 @@ import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
 import { getToken, getUsername } from '../../Utils/localstorage';
 import { color } from 'react-native-elements/dist/helpers';
 import { useFocusEffect } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function Productdetailscreen({ route, navigation }) {
   const scrollViewRef = useRef();
@@ -57,9 +58,7 @@ export default function Productdetailscreen({ route, navigation }) {
     setChangeSize('');
   }, [id]);
 
-  useEffect(() => {
-    setSaved(isWatchList);
-  }, [isWatchList]);
+
 
   useEffect(() => {
     const fetch = async () => {
@@ -145,130 +144,136 @@ export default function Productdetailscreen({ route, navigation }) {
     }
   }, [partner])
   return (
-    <SafeAreaView style={{ marginTop: hp('-7%') }}>
-      <View>
-        {loading ? (
-          <View style={styles.container}>
-            <ActivityIndicator
-              size="large"
-              color="black"
-              style={styles.loader}
-            />
-          </View>
-        ) : (
-          <>
-            <View>
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                ref={scrollViewRef}>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <MyCarousel views={responseData?.images} />
-                </View>
-
-                <View style={styles.custcontainer}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <View>
-                      <Text
-                        style={{
-                          color: '#444444',
-                          fontWeight: '500',
-                          marginBottom: 2,
-                        }}>
-                        {responseData?.name}
-                      </Text>
-                    </View>
-                    <View>
-                      {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
-                      <TouchableOpacity >
-                        <Image
-                          style={styles.saveImage}
-                          source={saved ? Images.saveIconFill : Images.saveIconUnFill}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                  <Text style={styles.custAEDtext}>
-                    AED {responseData?.price}
-                  </Text>
-                  <View style={{ borderBottomWidth: 1, borderColor: '#D8D8D8' }}>
-                    <Text style={{ color: '#86D973', marginBottom: '10' }}>
-                      {responseData?.stock_status}
-                    </Text>
-                  </View>
-
-                  {responseData?.type !== "simple" ? (<Accordion
-                    Size={responseData?.attributes[0]?.options}
-                    Color={responseData?.attributes[1]?.options}
-                    Description={responseData?.description}
-                    setChange={setChange}
-                    changeColor={changeColor}
-                    changeSize={changeSize}
-                    setChangeSize={setChangeSize}
-                  />) : (<Accordion
-                    Size={[]}
-                    Color={[]}
-                    Description={responseData?.description}
-                    setChange={setChange}
-                    changeColor={changeColor}
-                    changeSize={changeSize}
-                    setChangeSize={setChangeSize}
-                  />)}
-                  {/* <DummyAccordion attributes={responseData?.attributes}/> */}
-                </View>
-                <View style={{ borderTopWidth: 1, borderColor: '#DBCCC1' }}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      marginTop: 20,
-                      fontSize: 20,
-                      color: '#4B4746',
-                      fontFamily: 'Intrepid Regular',
-                    }}>
-                    The Perfect Partner
-                  </Text>
-                  <View style={styles.productContainer}>
-                    {wishlistrelated
-                      ?.map((product, key) => (
-                        <View key={key}>
-                          <TouchableOpacity
-                            onPress={() => handleproduct(product?.id)}>
-                            <Product
-                              key={product?.id}
-                              uri={product?.images[0]?.src}
-                              name={product?.name}
-                              price={product?.price}
-                              saved={product?.saved}
-                              product_id={product?.id}
-                              isWatchList={product?.isWatchList}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      ))
-                      .slice(0, 4)}
-                  </View>
-                </View>
-              </ScrollView>
-              <Button
-                stylesofbtn={styles.custbtn}
-                styleoffont={styles.custfontstyle}
-                handlepress={handlepress}
-                name={'Add To Carts'}
-                loading={load}
+    <GestureHandlerRootView>
+      <SafeAreaView style={{ marginTop: hp('-7%') }}>
+        <View>
+          {loading ? (
+            <View style={styles.container}>
+              <ActivityIndicator
+                size="large"
+                color="black"
+                style={styles.loader}
               />
             </View>
-          </>
-        )}
-      </View>
-    </SafeAreaView>
+          ) : (
+            <>
+              <View>
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  ref={scrollViewRef}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <MyCarousel views={responseData?.images} />
+                  </View>
+
+                  <View style={styles.custcontainer}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      }}>
+                      <View>
+                        <Text
+                          style={{
+                            color: '#444444',
+                            fontWeight: '500',
+                            marginBottom: 2,
+                          }}>
+                          {responseData?.name}
+                        </Text>
+                      </View>
+                      <View>
+                        {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
+                        <TouchableOpacity onPress={() => setSaved(!saved)}>
+                          {saved ? (
+                            <Image source={Images.saveIconFill} />
+                          ) : (
+                            <Image
+                              source={Images.saveIconUnFill}
+                              style={styles.iconContainer}
+                            />
+                          )}
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    <Text style={styles.custAEDtext}>
+                      AED {responseData?.price}
+                    </Text>
+                    <View style={{ borderBottomWidth: 1, borderColor: '#D8D8D8' }}>
+                      <Text style={{ color: '#86D973', marginBottom: '10' }}>
+                        {responseData?.stock_status}
+                      </Text>
+                    </View>
+
+                    {responseData?.type !== "simple" ? (<Accordion
+                      Size={responseData?.attributes[0]?.options}
+                      Color={responseData?.attributes[1]?.options}
+                      Description={responseData?.description}
+                      setChange={setChange}
+                      changeColor={changeColor}
+                      changeSize={changeSize}
+                      setChangeSize={setChangeSize}
+                    />) : (<Accordion
+                      Size={[]}
+                      Color={[]}
+                      Description={responseData?.description}
+                      setChange={setChange}
+                      changeColor={changeColor}
+                      changeSize={changeSize}
+                      setChangeSize={setChangeSize}
+                    />)}
+                    {/* <DummyAccordion attributes={responseData?.attributes}/> */}
+                  </View>
+                  <View style={{ borderTopWidth: 1, borderColor: '#DBCCC1' }}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        marginTop: 20,
+                        fontSize: 20,
+                        color: '#4B4746',
+                        fontFamily: 'Intrepid Regular',
+                      }}>
+                      The Perfect Partner
+                    </Text>
+                    <View style={styles.productContainer}>
+                      {wishlistrelated
+                        ?.map((product, key) => (
+                          <View key={key}>
+                            <TouchableOpacity
+                              onPress={() => handleproduct(product?.id)}>
+                              <Product
+                                key={product?.id}
+                                uri={product?.images[0]?.src}
+                                name={product?.name}
+                                price={product?.price}
+                                saved={product?.saved}
+                                product_id={product?.id}
+                                isWatchList={product?.isWatchList}
+                              />
+                            </TouchableOpacity>
+                          </View>
+                        ))
+                        .slice(0, 4)}
+                    </View>
+                  </View>
+                </ScrollView>
+                <Button
+                  stylesofbtn={styles.custbtn}
+                  styleoffont={styles.custfontstyle}
+                  handlepress={handlepress}
+                  name={'Add To Carts'}
+                  loading={load}
+                />
+              </View>
+            </>
+          )}
+        </View>
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
 const styles = StyleSheet.create({
