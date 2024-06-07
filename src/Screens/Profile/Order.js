@@ -145,7 +145,7 @@ const Order = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: Platform.OS === 'ios' ? hp('22%') : hp('23%'),
+    marginTop: Platform.OS === 'ios' ? hp('22%') : hp('27%'),
     marginBottom: hp('3%'),
     // padding: 10,
     //ios =120

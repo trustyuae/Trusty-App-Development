@@ -21,6 +21,8 @@ import {fetchProfile, updateProfile} from '../../Redux/Slice/profileSlice';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {updatechekout} from '../../Redux/Slice/car_slice/updatecheckout';
 import {ScrollView} from 'react-native';
+import MobileNo from '../MobileNo';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
   const dispatch = useDispatch();
@@ -41,6 +43,17 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
   );
 
   const [errors, setErrors] = useState({});
+  const [country,setCountry]=useState([])
+
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const handleCountryChange = value => {
+    setSelectedCountry(value);
+  };
+
+  const [formData, setFormData] = useState({
+    selected: '+91',
+    phone: data?.billing?.phone,
+  });
 
   const handleUpdate = async () => {
     const newErrors = {};
@@ -57,7 +70,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       newErrors.email = 'A valid email is required.';
     }
 
-    if (!phone.trim() || !validatePhone(phone)) {
+    if (!formData.phone.trim() || !validatePhone(formData.phone)) {
       newErrors.phone = 'A valid phone number is required.';
     }
 
@@ -94,7 +107,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
           city: shippingCity,
           postcode: postcode,
           country: shippingCountry,
-          phone: phone,
+          phone: formData?.phone,
           email: email,
         },
         shipping: {
@@ -128,6 +141,22 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
   };
 
   useEffect(() => {
+    fetch(
+      'https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code',
+    )
+      .then(response => response.json())
+      .then(data => {
+        setCountries(data.countries);
+        setFormData(prevState => ({
+          ...prevState,
+          selectedCountry: data.userSelectValue,
+        }));
+      })
+      .catch(error => console.error('Error fetching countries:', error));
+  }, []);
+
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const customer_id = await getUserId();
@@ -140,6 +169,16 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
     };
     fetchData();
   }, []);
+
+  const handleChange = (key, value) => {
+    if (key == 'phone') {
+      validatePhone(key, value);
+    }
+    if (key === 'phone' && value.length > 10) {
+      return;
+    }
+    setFormData(prevState => ({...prevState, [key]: value}));
+  };
 
   return (
     <Modal
@@ -233,7 +272,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 )}
               </View>
 
-              <View style={{marginVertical: 5}}>
+               <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>City</Text>
                 <TextInput
                   style={styles.inputfield}
@@ -242,9 +281,9 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 {errors.shippingCity && (
                   <Text style={styles.errorText}>{errors.shippingCity}</Text>
                 )}
-              </View>
+              </View> 
 
-              <View style={{marginVertical: 5}}>
+              {/* <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
                 <TextInput
                   style={styles.inputfield}
@@ -253,6 +292,64 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 {errors.phone && (
                   <Text style={styles.errorText}>{errors.phone}</Text>
                 )}
+              </View> */}
+                  
+                  {/* <View style={styles.inputPicker}>
+                <SelectDropdown
+                  data={countries}
+                  onSelect={(selectedItem, index) => {
+                    setFormData({
+                      ...formData,
+                      selectedCountry: selectedItem.label,
+                    });
+                  }}
+                  renderButton={(selectedItem, isOpen) => {
+                    return (
+                      <View style={styles.dropdownButtonStyle}>
+                        <Text
+                          style={{
+                            fontFamily: 'Intrepid Regular',
+                            fontSize: 14,
+                            color: globalColors.buttonBackground,
+                          }}>
+                          {selectedItem?.label || 'Select Country'}
+                        </Text>
+                        <Icon
+                          name={isOpen ? 'chevron-up' : 'chevron-down'}
+                          style={styles.dropdownButtonArrowStyle}
+                        />
+                      </View>
+                    );
+                  }}
+                  renderItem={(item, index, isSelected) => {
+                    return (
+                      <View
+                        style={{
+                          ...styles.dropdownItemStyle,
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                        }}>
+                        <Text style={styles.dropdownItemTxtStyle}>
+                          {item.label}
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
+              </View> */}
+
+
+<View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
+              <MobileNo
+                selected={formData.selected}
+                setSelected={value => handleChange('selected', value)}
+                setCountry={handleCountryChange}
+                phone={formData.phone}
+                setPhone={text => handleChange('phone', text)}></MobileNo>
+    
+              {errors.phone && (
+                <Text style={styles.errorText}>{errors.phone}</Text>
+              )}
               </View>
             </View>
 
