@@ -1,21 +1,22 @@
-import {StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../Components/Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
-import {loginUser} from '../../Redux/Slice/loginslice';
-import {getToken, getUserId} from '../../Utils/localstorage';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../Redux/Slice/loginslice';
+import { getToken, getUserId } from '../../Utils/localstorage';
 import Profile from '../Profile/Profile';
 import CustomTabBar from '../../Components/CustomeTabBar/CustomeTabBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 
-const Loginscreen = ({navigation}) => {
+const Loginscreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {loading, error, userData} = useSelector(state => state?.user);
+  const { loading, error, userData } = useSelector(state => state?.user);
   const [showPassword, setShowPassword] = useState(true);
   const [errors, setErrors] = useState({
     email: '',
@@ -49,13 +50,13 @@ const Loginscreen = ({navigation}) => {
 
   const validation = () => {
     if (!values.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'email is required' }));
       return;
     } else if (!validateEmail(values.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid email' }));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
     }
 
     if (!values.password) {
@@ -71,13 +72,13 @@ const Loginscreen = ({navigation}) => {
       }));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, password: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, password: '' }));
     }
     return true;
   };
 
   const handlePress = () => {
-    const {email, password} = values;
+    const { email, password } = values;
     const ChangeKey = {
       username: email,
       password: password,
@@ -89,6 +90,8 @@ const Loginscreen = ({navigation}) => {
 
   return (
     <ScrollView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View>
         <View style={styles.logincontainer}>
           <Text style={styles.headingtext}>Sign In</Text>
@@ -99,11 +102,11 @@ const Loginscreen = ({navigation}) => {
               placeholder="E-mail"
               value={values.email}
               onChangeText={text =>
-                setValues(prevValues => ({...prevValues, email: text}))
+                setValues(prevValues => ({ ...prevValues, email: text }))
               }
             />
             {errors.email !== '' && (
-              <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+              <Text style={{ marginTop: -10, color: 'red', marginBottom: 10 }}>
                 {errors.email}
               </Text>
             )}
@@ -114,11 +117,11 @@ const Loginscreen = ({navigation}) => {
                 value={values.password}
                 secureTextEntry={showPassword}
                 onChangeText={text =>
-                  setValues(prevValues => ({...prevValues, password: text}))
+                  setValues(prevValues => ({ ...prevValues, password: text }))
                 }
               />
               {errors.password !== '' && (
-                <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+                <Text style={{ marginTop: -10, color: 'red', marginBottom: 10 }}>
                   {errors.password}
                 </Text>
               )}

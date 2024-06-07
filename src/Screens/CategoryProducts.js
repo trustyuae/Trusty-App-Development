@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -7,35 +7,36 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {View} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import { View } from 'react-native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../Assets/Theme/globalColors';
+import { globalColors } from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
-import {ScrollView} from 'react-native';
+import { ScrollView } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchCategoryProducts,
   fetchProducts,
 } from '../Redux/Slice/productSlice';
-import {fetchWishlist} from '../Redux/Slice/wishlistSlice';
-import {getToken} from '../Utils/localstorage';
+import { fetchWishlist } from '../Redux/Slice/wishlistSlice';
+import { getToken } from '../Utils/localstorage';
+import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
 
-const CategoryProducts = ({navigation}) => {
+const CategoryProducts = ({ navigation }) => {
   const route = useRoute();
-  const {category} = route.params;
+  const { category } = route.params;
   // const [productss, setProducts] = useState([]);
   const dispatch = useDispatch();
   const [wishlist, setWishlist] = useState([]);
 
   const [tokenData, setTokenData] = useState(null);
-  const {categoryProducts, status, error} = useSelector(state => state.product);
-  const {items} = useSelector(state => state.wishlist);
+  const { categoryProducts, status, error } = useSelector(state => state.product);
+  const { items } = useSelector(state => state.wishlist);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +45,7 @@ const CategoryProducts = ({navigation}) => {
 
         if (token) {
           setTokenData(token);
-          dispatch(fetchWishlist(token));
+          await dispatch(fetchWishlist(token));
         }
       } catch (error) {
         console.log('Error retrieving data:', error);
@@ -55,7 +56,7 @@ const CategoryProducts = ({navigation}) => {
   }, [dispatch, tokenData]);
 
   useEffect(() => {
-    const itemIdList = items?.Wishlist?.map(item => ({id: item}));
+    const itemIdList = items?.Wishlist?.map(item => ({ id: item }));
 
     const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
     const result = categoryProducts.map(productItem => ({
@@ -68,9 +69,11 @@ const CategoryProducts = ({navigation}) => {
     // console.log('roductIdss', JSON.stringify(result));
   }, [items, categoryProducts, getToken]);
 
-  useEffect(() => {
-    dispatch(fetchCategoryProducts({categoryId: category.id}));
-  }, [dispatch]);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(fetchCategoryProducts({ categoryId: category.id }));
+    }, [dispatch, category.id])
+  );
 
   const count = categoryProducts?.length;
 
@@ -81,6 +84,8 @@ const CategoryProducts = ({navigation}) => {
 
   return (
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.TextHeading}>Women</Text>
@@ -116,7 +121,7 @@ const CategoryProducts = ({navigation}) => {
             }}>
             <SelectDropdown
               data={emojisWithIcons1}
-              onSelect={(selectedItem, index) => {}}
+              onSelect={(selectedItem, index) => { }}
               // style={{marginLeft: 0}}
               renderButton={(selectedItem, isOpen) => {
                 return (
@@ -141,7 +146,7 @@ const CategoryProducts = ({navigation}) => {
                   <View
                     style={{
                       ...styles.dropdownItemStyle,
-                      ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
                     }}>
                     <Text
                       style={{
@@ -159,7 +164,7 @@ const CategoryProducts = ({navigation}) => {
             />
             <SelectDropdown
               data={emojisWithIcons}
-              onSelect={(selectedItem, index) => {}}
+              onSelect={(selectedItem, index) => { }}
               // style={{marginLeft: 0}}
               renderButton={(selectedItem, isOpen) => {
                 return (
@@ -184,7 +189,7 @@ const CategoryProducts = ({navigation}) => {
                   <SafeAreaView
                     style={{
                       ...styles.dropdownItemStyle,
-                      ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
                     }}>
                     <Text
                       style={{
@@ -216,7 +221,7 @@ const CategoryProducts = ({navigation}) => {
               <ActivityIndicator
                 size="large"
                 color={globalColors.black}
-                style={{marginTop: '50%'}}
+                style={{ marginTop: '50%' }}
               />
             ) : status === 'failed' ? (
               <Text style={styles.errorText}>Error: {error}</Text>

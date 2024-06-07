@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { getToken } from '../../Utils/localstorage';
 import { SafeAreaView } from 'react-native';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 const Home = () => {
   const navigation = useNavigation();
   const [startIndex, setStartIndex] = useState(0);
@@ -174,110 +175,113 @@ const Home = () => {
     },
   ];
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={globalColors.statusBar} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <HeadingImage />
-        <Text style={styles.heading}>Our cave of wonders</Text>
-        <PreviewImage uri={previewimages.previewImages} />
-        <Text style={styles.heading}>Ready To Go</Text>
-        <View style={styles.categoryContainer}>
-          {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
-          {categories.map(category => (
-            <Pressable
-              key={category.id}
-              onPress={() => navigateToCategoryProducts(category)}>
-              <Category
+    <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
+      <View style={styles.container}>
+        <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <HeadingImage />
+          <Text style={styles.heading}>Our cave of wonders</Text>
+          <PreviewImage uri={previewimages.previewImages} />
+          <Text style={styles.heading}>Ready To Go</Text>
+          <View style={styles.categoryContainer}>
+            {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
+            {categories.map(category => (
+              <Pressable
                 key={category.id}
-                uri={category?.image?.src}
-                name={category.name}
-              />
-            </Pressable>
-          ))}
-          {/* </ScrollView> */}
-        </View>
-        <Text style={styles.heading}>Signature Selections</Text>
-        <PreviewImage style={{ height: hp('10%') }} uri={Images.preview1} />
-        <View style={{ flexDirection: 'column', marginTop: 15 }}>
-          <View style={styles.productContainer}>
-            {wishlist.slice(startIndex, startIndex + 4).map(product => (
-              <Pressable
-                onPress={() =>
-                  navigation.navigate('ProductDetail', { userId: product.id })
-                }>
-                <Product
-                  key={product?.id}
-                  uri={product?.images[0]?.src}
-                  name={product?.name}
-                  price={product?.price}
-                  saved={product?.saved}
-                  product_id={product?.id}
-                  isWatchList={product?.isWatchList}
+                onPress={() => navigateToCategoryProducts(category)}>
+                <Category
+                  key={category.id}
+                  uri={category?.image?.src}
+                  name={category.name}
                 />
               </Pressable>
             ))}
+            {/* </ScrollView> */}
           </View>
-          {/* </ScrollView> */}
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingLeft: 10,
-              paddingRight: 10,
-              marginTop: 20,
-              marginBottom: 20
-            }}>
-            <TouchableOpacity
-              onPress={onBackPress}
-              disabled={startIndex === 0}
+          <Text style={styles.heading}>Signature Selections</Text>
+          <PreviewImage style={{ height: hp('10%') }} uri={Images.preview1} />
+          <View style={{ flexDirection: 'column', marginTop: 15 }}>
+            <View style={styles.productContainer}>
+              {wishlist.slice(startIndex, startIndex + 4).map(product => (
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate('ProductDetail', { userId: product.id, isWatchList: product?.isWatchList, })
+
+                  }>
+                  <Product
+                    key={product?.id}
+                    uri={product?.images[0]?.src}
+                    name={product?.name}
+                    price={product?.price}
+                    saved={product?.saved}
+                    product_id={product?.id}
+                    isWatchList={product?.isWatchList}
+                  />
+                </Pressable>
+              ))}
+            </View>
+            {/* </ScrollView> */}
+            <View
               style={{
-                backgroundColor: startIndex === 0 ? '#B9B9B9' : 'black',
-                borderRadius: wp('50%'),
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingLeft: 10,
+                paddingRight: 10,
+                marginTop: 20,
+                marginBottom: 20
               }}>
-              <View>
-                <Icon
-                  name="keyboard-arrow-left"
-                  size={20}
-                  color={globalColors.white}
-                />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={onNextPress}
-              disabled={startIndex + 4 >= ProductList.length}
-              style={{
-                backgroundColor:
-                  startIndex + 4 >= ProductList.length ? '#B9B9B9' : 'black',
-                borderRadius: wp('50%'),
-              }}>
-              <View>
-                <Icon
-                  name="keyboard-arrow-right"
-                  size={20}
-                  color={globalColors.white}
-                />
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={onBackPress}
+                disabled={startIndex === 0}
+                style={{
+                  backgroundColor: startIndex === 0 ? '#B9B9B9' : 'black',
+                  borderRadius: wp('50%'),
+                }}>
+                <View>
+                  <Icon
+                    name="keyboard-arrow-left"
+                    size={20}
+                    color={globalColors.white}
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={onNextPress}
+                disabled={startIndex + 4 >= ProductList.length}
+                style={{
+                  backgroundColor:
+                    startIndex + 4 >= ProductList.length ? '#B9B9B9' : 'black',
+                  borderRadius: wp('50%'),
+                }}>
+                <View>
+                  <Icon
+                    name="keyboard-arrow-right"
+                    size={20}
+                    color={globalColors.white}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.productContainer}>
+              {wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate('ProductDetail', { userId: product.id })
+                  }>
+                  <Product
+                    key={product?.id}
+                    uri={product?.images[0]?.src}
+                    name={product?.name}
+                    price={product?.price}
+                    saved={product?.saved}
+                    product_id={product?.id}
+                    isWatchList={product?.isWatchList}></Product>
+                </Pressable>
+              ))}
+            </View>
           </View>
-          <View style={styles.productContainer}>
-            {wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
-              <Pressable
-                onPress={() =>
-                  navigation.navigate('ProductDetail', { userId: product.id })
-                }>
-                <Product
-                  key={product?.id}
-                  uri={product?.images[0]?.src}
-                  name={product?.name}
-                  price={product?.price}
-                  saved={product?.saved}
-                  product_id={product?.id}
-                  isWatchList={product?.isWatchList}></Product>
-              </Pressable>
-            ))}
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

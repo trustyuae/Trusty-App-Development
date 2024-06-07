@@ -9,6 +9,8 @@ import ModalComponent from '../../Components/Model/Modalcomopnet';
 import { useDispatch, useSelector } from 'react-redux';
 import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
 import { SafeAreaView } from 'react-native';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
 const labels = ['Cart', 'Checkout', 'confirmation'];
 
@@ -66,6 +68,8 @@ const CartScreen = () => {
 
   return (
     <SafeAreaView style={Platform.OS === 'ios' && { marginTop: -25 }}>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           {count == 2 ? null : (

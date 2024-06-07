@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -15,25 +15,30 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { useSelector } from 'react-redux';
+import CustomStatusBar from '../StatusBar/CustomSatusBar';
+import { getToken } from '../../Utils/localstorage';
+
+
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const { data } = useSelector(state => state.profile);
-  let count = 5
-
+  const { items } = useSelector(state => state.wishlist);
+  console.log(items)
   const handleClick = () => {
     navigation.navigate('wishlist')
   }
 
   return (
     <View style={styles.tabBarContainer}>
-      <ScrollView >
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
+      <ScrollView >
 
         <View style={styles.container}>
           <Pressable style={{ marginRight: 10 }} onPress={handleClick}>
-            <Image style={styles.image} source={Images.whishlistIcon} />
-            {count > 0 && <View style={styles.notificationCount}><Text style={{
+            <Image style={styles.image} source={Images.saveIconUnFill3x} />
+            {items?.Wishlist?.length > 0 && <View style={styles.notificationCount}><Text style={{
               color: 'white', textAlign: 'center',
-            }}>{count}</Text></View>}
+            }}>{items?.Wishlist?.length}</Text></View>}
           </Pressable>
         </View>
 
@@ -125,9 +130,9 @@ const styles = StyleSheet.create({
   },
   image: {
     marginRight: wp('7%'), marginTop: 10,
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',
+    // width: 30,
+    // height: 30,
+    // resizeMode: 'contain',
   },
   container: {
     alignItems: 'flex-end',

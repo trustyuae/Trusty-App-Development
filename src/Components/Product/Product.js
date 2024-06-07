@@ -30,7 +30,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
   // const wishlist = useSelector(state => state.wishlist.items);
 
   // const initialSaved = false;
-  const [saved, setSaved] = useState(isWatchList);
+  const [saved, setSaved] = useState(isWatchList === true);
   const [tokenData, setTokenData] = useState(null);
 
   useEffect(() => {
@@ -63,6 +63,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
     if (tokenData) {
       if (saved) {
         try {
+          dispatch(fetchWishlist(tokenData));
           dispatch(removeFromWishlist({ product_id, tokenData }));
           setSaved(false);
           await dispatch(fetchWishlist(tokenData));
@@ -71,6 +72,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
         }
       } else {
         try {
+          dispatch(fetchWishlist(tokenData));
           dispatch(addToWishlist({ product_id, tokenData }));
           setSaved(true);
           await dispatch(fetchWishlist(tokenData));
