@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Cart from './Cart';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
+import {globalColors} from '../Assets/Theme/globalColors';
 
 const Watchlist = () => {
   const navigation = useNavigation();
@@ -18,7 +20,10 @@ const Watchlist = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 22, color: 'black', fontFamily: 'Intrepid Regular' }}>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
+      <Text
+        style={{fontSize: 22, color: 'black', fontFamily: 'Intrepid Regular'}}>
         Menu Comming Soon !!!
       </Text>
     </View>

@@ -19,46 +19,45 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import { Images } from '../../Constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
-import { fetchById } from '../../Redux/Slice/SingleProductslice';
-import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
+import {Images} from '../../Constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect, useRef, useState} from 'react';
+import {fetchById} from '../../Redux/Slice/SingleProductslice';
+import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
-import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
-import { getToken, getUsername } from '../../Utils/localstorage';
-import { color } from 'react-native-elements/dist/helpers';
-import { useFocusEffect } from '@react-navigation/native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
+import {getToken, getUsername} from '../../Utils/localstorage';
+import {color} from 'react-native-elements/dist/helpers';
+import {useFocusEffect} from '@react-navigation/native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
-export default function Productdetailscreen({ route, navigation }) {
+export default function Productdetailscreen({route, navigation}) {
   const scrollViewRef = useRef();
-  const { userId, isWatchList } = route?.params;
+  const {userId, isWatchList} = route?.params;
   const dispatch = useDispatch();
-  const { loading, error, responseData } = useSelector(state => state?.getById);
+  const {loading, error, responseData} = useSelector(state => state?.getById);
 
-  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
-  const { items } = useSelector(state => state.wishlist);
+  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
+  const {items} = useSelector(state => state.wishlist);
 
-  const { loa, err, cartdata } = useSelector(state => state);
+  const {loa, err, cartdata} = useSelector(state => state);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
   const [wishlistrelated, setWishlistRelated] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState()
+  const [isLoggedIn, setIsLoggedIn] = useState();
 
-
-  console.log("isWatchList", isWatchList)
+  console.log('isWatchList', isWatchList);
 
   useEffect(() => {
     dispatch(fetchById(id));
     setChange('');
     setChangeSize('');
   }, [id]);
-
-
 
   useEffect(() => {
     const fetch = async () => {
@@ -70,7 +69,7 @@ export default function Productdetailscreen({ route, navigation }) {
       }
     };
     fetch();
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
@@ -105,8 +104,7 @@ export default function Productdetailscreen({ route, navigation }) {
           navigation.navigate('Cart');
         }
       });
-    }
-    else {
+    } else {
       setLoding(false);
       Alert.alert('', 'please login and try again ', [
         {
@@ -119,33 +117,32 @@ export default function Productdetailscreen({ route, navigation }) {
         },
       ]);
     }
-
   };
 
   const handleproduct = id => {
-    scrollViewRef.current.scrollTo({ y: 0, animated: true });
+    scrollViewRef.current.scrollTo({y: 0, animated: true});
     setId(id);
   };
 
   // console.log("partner JSON-->", JSON.stringify(partner));
 
-
   useEffect(() => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+      const itemIdList = items.Wishlist?.map(item => ({id: item}));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
       const result = partner?.map(productItem => ({
         ...productItem,
         isWatchList: itemIdListids.has(productItem.id),
       }));
 
-      setWishlistRelated(result)
-
+      setWishlistRelated(result);
     }
-  }, [partner])
+  }, [partner]);
   return (
     <GestureHandlerRootView>
-      <SafeAreaView style={{ marginTop: hp('-7%') }}>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
+      <SafeAreaView style={{marginTop: hp('-7%')}}>
         <View>
           {loading ? (
             <View style={styles.container}>
@@ -203,32 +200,37 @@ export default function Productdetailscreen({ route, navigation }) {
                     <Text style={styles.custAEDtext}>
                       AED {responseData?.price}
                     </Text>
-                    <View style={{ borderBottomWidth: 1, borderColor: '#D8D8D8' }}>
-                      <Text style={{ color: '#86D973', marginBottom: '10' }}>
+                    <View
+                      style={{borderBottomWidth: 1, borderColor: '#D8D8D8'}}>
+                      <Text style={{color: '#86D973', marginBottom: '10'}}>
                         {responseData?.stock_status}
                       </Text>
                     </View>
 
-                    {responseData?.type !== "simple" ? (<Accordion
-                      Size={responseData?.attributes[0]?.options}
-                      Color={responseData?.attributes[1]?.options}
-                      Description={responseData?.description}
-                      setChange={setChange}
-                      changeColor={changeColor}
-                      changeSize={changeSize}
-                      setChangeSize={setChangeSize}
-                    />) : (<Accordion
-                      Size={[]}
-                      Color={[]}
-                      Description={responseData?.description}
-                      setChange={setChange}
-                      changeColor={changeColor}
-                      changeSize={changeSize}
-                      setChangeSize={setChangeSize}
-                    />)}
+                    {responseData?.type !== 'simple' ? (
+                      <Accordion
+                        Size={responseData?.attributes[0]?.options}
+                        Color={responseData?.attributes[1]?.options}
+                        Description={responseData?.description}
+                        setChange={setChange}
+                        changeColor={changeColor}
+                        changeSize={changeSize}
+                        setChangeSize={setChangeSize}
+                      />
+                    ) : (
+                      <Accordion
+                        Size={[]}
+                        Color={[]}
+                        Description={responseData?.description}
+                        setChange={setChange}
+                        changeColor={changeColor}
+                        changeSize={changeSize}
+                        setChangeSize={setChangeSize}
+                      />
+                    )}
                     {/* <DummyAccordion attributes={responseData?.attributes}/> */}
                   </View>
-                  <View style={{ borderTopWidth: 1, borderColor: '#DBCCC1' }}>
+                  <View style={{borderTopWidth: 1, borderColor: '#DBCCC1'}}>
                     <Text
                       style={{
                         textAlign: 'center',
@@ -337,14 +339,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-
-
-
-
-
-
-
-
-
-

@@ -30,7 +30,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
     <View style={styles.tabBarContainer}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-
+  
       <ScrollView >
 
         <View style={styles.container}>

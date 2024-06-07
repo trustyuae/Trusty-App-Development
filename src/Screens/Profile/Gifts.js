@@ -1,16 +1,20 @@
 import React from 'react';
-import { Image, SafeAreaView, Text, View } from 'react-native';
+import {Image, SafeAreaView, Text, View} from 'react-native';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { StyleSheet } from 'react-native';
-import { Gift } from '../../Constants/Icons';
+import {StyleSheet} from 'react-native';
+import {Gift} from '../../Constants/Icons';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
 const Gifts = () => {
   return (
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.container}>
         <Text style={styles.mainText}>Gift comming soon !!!</Text>
         <Image source={Gift} style={styles.imgconatine}></Image>

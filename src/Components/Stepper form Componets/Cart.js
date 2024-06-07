@@ -33,6 +33,8 @@ import { fetchProfile } from '../../Redux/Slice/profileSlice';
 import { Product } from '../../Constants/Images';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import CustomStatusBar from '../StatusBar/CustomSatusBar';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
 const Cart = ({
   count,
@@ -42,14 +44,14 @@ const Cart = ({
   setOrderDetail,
   setTotal,
 }) => {
-  const handlepress = () => { };
+  const handlepress = () => {};
   const dispatch = useDispatch();
-  const { erros, loading, viewcartdata } = useSelector(
+  const {erros, loading, viewcartdata} = useSelector(
     state => state?.ViewToCart,
   );
-  const { deteltedData } = useSelector(state => state?.DeleteToCart);
-  const { isloading } = useSelector(state => state?.OrderToCart);
-  const { data } = useSelector(state => state?.profile);
+  const {deteltedData} = useSelector(state => state?.DeleteToCart);
+  const {isloading} = useSelector(state => state?.OrderToCart);
+  const {data} = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState([]);
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -68,7 +70,7 @@ const Cart = ({
       setCustomerID(userid);
     };
     fetch();
-  }, [])
+  }, []);
 
   useEffect(() => {
     setCartData(viewcartdata?.cart_items);
@@ -153,8 +155,7 @@ const Cart = ({
           visibilityTime: 1000,
         });
       }
-    }
-    else {
+    } else {
       Alert.alert('', 'please login and try again ', [
         {
           text: 'Cancel',
@@ -170,6 +171,8 @@ const Cart = ({
 
   return (
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.container}>
         <Text style={styles.custText}>
           You have {viewcartdata?.cart_count} items in your cart
@@ -217,7 +220,7 @@ const Cart = ({
 
                     <View>
                       <Text
-                        style={{ fontSize: 20, color: '#444444', marginLeft: 7 }}
+                        style={{fontSize: 20, color: '#444444', marginLeft: 7}}
                         onPress={() => handleDecrease(Item.key)}>
                         -
                       </Text>
@@ -235,7 +238,7 @@ const Cart = ({
                     </View>
                     <View>
                       <Text
-                        style={{ fontSize: 20, color: '#444444', marginRight: 7 }}
+                        style={{fontSize: 20, color: '#444444', marginRight: 7}}
                         onPress={() => handleIncrease(Item.key)}>
                         +
                       </Text>
@@ -246,7 +249,7 @@ const Cart = ({
                 <View>
                   {Item.product_image ? (
                     <Image
-                      source={{ uri: Item?.product_image }}
+                      source={{uri: Item?.product_image}}
                       height={100}
                       width={90}
                     />
@@ -261,7 +264,7 @@ const Cart = ({
                 </View>
                 <View>
                   <Text
-                    style={{ color: 'black', fontFamily: 'Intrepid Regular' }}>
+                    style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
                     {Item.product_name}
                   </Text>
                   <Text
@@ -279,11 +282,16 @@ const Cart = ({
                       fontFamily: 'Intrepid Regular',
                     }}>
                     Color :{' '}
-                    <Text style={{ color: '#676766' }}>{Item?.variation_attr?.attribute_pa_color}</Text>{' '}
+                    <Text style={{color: '#676766'}}>
+                      {Item?.variation_attr?.attribute_pa_color}
+                    </Text>{' '}
                   </Text>
                   <Text
-                    style={{ color: 'black', fontFamily: 'Intrepid Regular' }}>
-                    Size : <Text style={{ color: '#676766' }}>{Item?.variation_attr?.attribute_pa_size}</Text>{' '}
+                    style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                    Size :{' '}
+                    <Text style={{color: '#676766'}}>
+                      {Item?.variation_attr?.attribute_pa_size}
+                    </Text>{' '}
                   </Text>
                 </View>
                 <View></View>
@@ -306,12 +314,12 @@ const Cart = ({
 
         <View style={styles.custborder} />
 
-        <View style={{ marginVertical: 10 }}>
+        <View style={{marginVertical: 10}}>
           <Text style={styles.custText}>SHIPPING</Text>
-          <Text style={{ marginTop: 5 }}>
+          <Text style={{marginTop: 5}}>
             Delivery fees Cash on Arrival 30 AED
           </Text>
-          <Text style={{ marginTop: 5 }}>
+          <Text style={{marginTop: 5}}>
             Shipping options will be updated during Checkout
           </Text>
         </View>
@@ -330,7 +338,7 @@ const Cart = ({
 
         <View style={styles.custborder} />
 
-        <View style={{ marginVertical: 10 }}>
+        <View style={{marginVertical: 10}}>
           <Text style={[styles.custText, styles.custmargin]}>
             DISCOUNT CODE
           </Text>
