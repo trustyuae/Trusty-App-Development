@@ -39,7 +39,6 @@ const Profile = () => {
 
   const { data, loading, error } = useSelector(state => state.profile);
 
-  console.log('data$$$$-->', data);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -119,7 +118,6 @@ const Profile = () => {
         ...data.meta_data.slice(3),
       ],
     };
-    console.log('updatedData', updatedData);
     const customer_id = await getUserId();
     try {
       dispatch(updateProfile({ customer_id, newData: updatedData }));
@@ -129,10 +127,7 @@ const Profile = () => {
     setEditable(false);
   };
 
-  console.log(
-    'data****************',
-    JSON.stringify(data?.shipping?.address_1),
-  );
+
 
   const handleLogout = async () => {
     // await AsyncStorage.removeItem('token');

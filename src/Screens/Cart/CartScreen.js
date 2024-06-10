@@ -1,5 +1,5 @@
 import { View, ScrollView } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import StepperComponet from '../../Components/Stepper/StepperComponet';
 import Cart from '../../Components/Stepper form Componets/Cart';
@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native';
 const labels = ['Cart', 'Checkout', 'confirmation'];
 
 const CartScreen = () => {
+  const scrollViewRef=useRef()
   const [count, setCount] = useState(0);
   const [number, setNumber] = useState(1);
   const [orderdetail, setOrderDetail] = useState([]);
@@ -34,6 +35,7 @@ const CartScreen = () => {
       number={number}
       setOrderDetail={setOrderDetail}
       setTotal={setTotal}
+      scrollViewRef={scrollViewRef}
     />
   );
 
@@ -44,6 +46,7 @@ const CartScreen = () => {
       orderdetail={orderdetail}
       total={total}
       setGetorderDetail={setGetorderDetail}
+    
     />
   );
 
@@ -66,7 +69,7 @@ const CartScreen = () => {
 
   return (
     <SafeAreaView style={Platform.OS === 'ios' && { marginTop: -25 }}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}  ref={scrollViewRef}>
         <View>
           {count == 2 ? null : (
             <View style={{ marginTop: 90 }}>

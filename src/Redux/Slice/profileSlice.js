@@ -1,8 +1,8 @@
 // profileSlice.js
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import { baseURL } from '../../Utils/API';
+import {baseURL} from '../../Utils/API';
 import Toast from 'react-native-toast-message';
 // Async thunk to fetch profile data
 export const fetchProfile = createAsyncThunk(
@@ -30,7 +30,7 @@ export const fetchProfile = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
   'profile/updateProfile',
-  async ({ customer_id, newData }, thunkAPI) => {
+  async ({customer_id, newData}, thunkAPI) => {
     try {
       const response = await axios.put(
         `${baseURL}/wc/v3/customers/${customer_id}`,
@@ -43,10 +43,9 @@ export const updateProfile = createAsyncThunk(
         },
       );
       Toast.show({
-        type: 'success',
-        text1: 'Success',
-        text2: 'Profile updated successfully!',
-        position: 'bottom',
+        type:'success',
+        text1:'updated successfully!',
+        position:'bottom',
         visibilityTime: 3000,
         autoHide: true,
       });
@@ -103,6 +102,6 @@ const profileSlice = createSlice({
   },
 });
 
-export const { resetProfile } = profileSlice.actions;
+export const {resetProfile} = profileSlice.actions;
 
 export default profileSlice.reducer;

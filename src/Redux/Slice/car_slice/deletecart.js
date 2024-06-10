@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {ADD_TO_CART} from '../../../Constants/UserConstants';
+import {DELETE_TO_CART} from '../../../Constants/UserConstants';
 import {
   Consumer_key,
   Consumer_secret,
@@ -8,30 +8,27 @@ import {
   dummyurl,
 } from '../../../Utils/API';
 import Toast from 'react-native-toast-message';
-import {getUsername} from '../../../Utils/localstorage';
+import {getToken} from '../../../Utils/localstorage';
 import {useEffect} from 'react';
 
 export const deleteToCart = createAsyncThunk(
-  ADD_TO_CART,
-  async (id, {rejectWithValue}) => {
+  DELETE_TO_CART,
+  async (data, {rejectWithValue}) => {
     try {
-      const config = {
-        auth: {
-          username: Consumer_key,
-          password: Consumer_secret,
+      let token = await getToken();
+      const response = await axios.delete(
+        `${baseURL}/custom-woo-api/v1/cart`,
+        {
+          headers: {
+            'Authorization':`Bearer ${token}`,
+          },
         },
-      };
-
-      let useremail = await getUsername();
-
-      const response = await axios.post(
-        `${baseURL}/ade-woocart/v1/cart/delete?username=${useremail}`,
-        id,
-        config,
+        data
       );
-
+    
       return response.data;
-    } catch (error) {
+    }catch (error) {
+      console.log('error-------------------------------->', error);
       return rejectWithValue(error.response?.data || 'An error occurred');
     }
   },
@@ -59,7 +56,7 @@ const DeleteToCartSlice = createSlice({
         state.deteltedData = action.payload;
         Toast.show({
           type: 'success',
-          text1: state.deteltedData.message,
+          text1: 'Remove successfully',
           position: 'bottom',
           visibilityTime: 1500,
         });

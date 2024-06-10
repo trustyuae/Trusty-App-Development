@@ -49,10 +49,10 @@ const Loginscreen = ({navigation}) => {
 
   const validation = () => {
     if (!values.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
+      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
       return;
     } else if (!validateEmail(values.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
+      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
       return;
     } else {
       setErrors(prevErrors => ({...prevErrors, email: ''}));
@@ -61,7 +61,7 @@ const Loginscreen = ({navigation}) => {
     if (!values.password) {
       setErrors(prevErrors => ({
         ...prevErrors,
-        password: 'password is required',
+        password: 'Password Is Required',
       }));
       return;
     } else if (values.password.length < 4) {
@@ -218,9 +218,9 @@ const styles = StyleSheet.create({
   },
   cust_icon: {
     position: 'absolute',
-    right: 14,
+    right: wp("2.5%"),
     color: globalColors.buttonBackground,
-    top: 15,
+    top: hp("1.5%"),
   },
   custbtn: {
     backgroundColor: 'black',

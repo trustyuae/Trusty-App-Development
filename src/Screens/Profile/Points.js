@@ -41,7 +41,7 @@ const Points = () => {
                   fillColor="#684934"
                   unfilledColor="#E2E2E2"
                   height={8}
-                  width={310}
+                  width={260}
                   borderColor="#E2E2E2"
                   duration={100}
                 />
@@ -210,7 +210,7 @@ const Points = () => {
                   fillColor="#684934"
                   unfilledColor="#E2E2E2"
                   height={8}
-                  width={290}
+                  width={230}
                   borderColor="#E2E2E2"
                   duration={100}
                 />
@@ -237,7 +237,7 @@ export default Points;
 
 const styles = StyleSheet.create({
   conatiner: {
-    marginTop: hp('28%'),
+    marginTop: hp('35%'),
     margin: 10,
   },
   cust_text: {

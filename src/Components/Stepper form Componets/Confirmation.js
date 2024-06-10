@@ -40,6 +40,7 @@ const Confirmation = ({setCount}) => {
 
   const [orderdata, setOrderData] = useState();
 
+
   useEffect(() => {
     const fetchData = async () => {
       const orderDetailData = await getOdrerdetail();

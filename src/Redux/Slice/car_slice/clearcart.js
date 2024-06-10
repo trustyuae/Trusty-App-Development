@@ -2,22 +2,21 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {CLEAR_TO_CART} from '../../../Constants/UserConstants';
 import {Consumer_key, Consumer_secret, baseURL} from '../../../Utils/API';
-import {getUsername} from '../../../Utils/localstorage';
+import {getToken, getUsername} from '../../../Utils/localstorage';
 
 export const clearToCart = createAsyncThunk(
   CLEAR_TO_CART,
   async (data, {rejectWithValue}) => {
     try {
-      let useremail = await getUsername();
+      let token=getToken()
 
       const response = await axios.post(
-        `${baseURL}/ade-woocart/v1/cart/delete/all?username=${useremail}`,
+        `${baseURL}/custom-woo-api/v1/cart/clear`,
         data,
         {
-          auth: {
-            username: Consumer_key,
-            password: Consumer_secret,
-          },
+          headers:{
+            'Authorization':`Bearer ${token}`
+          }
         },
       );
       return response.data;

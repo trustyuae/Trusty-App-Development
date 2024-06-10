@@ -40,10 +40,10 @@ const ForgotpasswordScreen = ({navigation}) => {
 
   const validation = () => {
     if (!value.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'email is required'}));
+      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
       return;
     } else if (!validateEmail(value.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid email'}));
+      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
       return;
     } else {
       setErrors(prevErrors => ({...prevErrors, email: ''}));

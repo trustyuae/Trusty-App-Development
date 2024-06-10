@@ -19,6 +19,8 @@ export const ADD_TO_CART="ADD_TO_CART"
 
 export const VIEW_TO_CART="VIEW_TO_CART"
 
+export const DELETE_TO_CART="DELETE_TO_CART"
+
 export const CLEAR_TO_CART="CLEAR_TO_CART"
 
 export const UPDATE_CHECKOUT="UPDATE_CHECKOUT"

@@ -41,6 +41,15 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [customerid, setCustomerID] = useState();
   const [billingdata, setBillingdata] = useState({});
   const [stateUpdate, setStateUpdate] = useState(false);
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '')
+  const [shippingCountry, setShippingCountry] = useState(
+    data?.shipping?.country || '',
+  );
+  const [shippingCity, setShippingCity] = useState(data?.shipping?.city || '');
+  const [shippingAddress, setShippingAddress] = useState(
+    data?.shipping?.address_1 || '',
+  );
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +61,16 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   }, [stateUpdate]);
 
   useFocusEffect(() => {
-    setBillingdata(data?.billing);
+    setBillingdata(data);
+    setPhone(data?.meta_data[2]?.value || '')
+    setShippingCountry(
+      data?.shipping?.country || '',
+    );
+    setShippingCity(data?.shipping?.city || '');
+    setShippingAddress(
+      data?.shipping?.address_1 || '',
+    );
+  
   });
 
   const product = cartData?.map(item => ({
@@ -185,6 +203,8 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     ]);
   };
 
+
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -219,11 +239,11 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
               Mr. {billingdata?.first_name} {billingdata?.last_name}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
-              {billingdata?.address_1} {billingdata?.country},
-              {billingdata?.city}
+              {shippingAddress} {shippingCountry},
+              {shippingCity}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular'}}>
-              +{data?.billing?.phone}
+              +{phone}
             </Text>
           </View>
         </View>

@@ -49,7 +49,6 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        console.log('inside home---->', token);
         if (token) {
           setTokenData(token);
           dispatch(fetchWishlist(token))
@@ -77,7 +76,6 @@ const Home = () => {
   //   '------======',
   //   wishlist?.map(data => console.log(data.isWatchList)),
   // );
-  console.log("****************")
   // useEffect(() => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);

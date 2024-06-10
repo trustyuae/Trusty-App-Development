@@ -41,6 +41,7 @@ const Cart = ({
   setNumber,
   setOrderDetail,
   setTotal,
+scrollViewRef
 }) => {
   const handlepress = () => {};
   const dispatch = useDispatch();
@@ -68,16 +69,18 @@ const Cart = ({
       setCustomerID(userid);
     };
     fetch();
-  }, [])
+  }, []);
 
   useEffect(() => {
     setCartData(viewcartdata?.cart_items);
   }, [viewcartdata, deteltedData]);
 
-  const handleRemove = id => {
+  const handleRemove = item => {
     const data = {
-      product_id: id,
+      product_id: item.product_id,
+      variation_id: item.variation_id,
     };
+
 
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
       {
@@ -86,7 +89,7 @@ const Cart = ({
       },
       {
         text: 'OK',
-        onPress: () => {
+        onPress: async () => {
           dispatch(deleteToCart(data));
           setCartData(viewcartdata?.cart_items);
         },
@@ -120,8 +123,6 @@ const Cart = ({
     setCartData(updatedCart);
   };
 
-  console.log(cartData);
-
   const update = cartData?.map(item => ({
     ...item,
     total: item.product_price * item.quantity,
@@ -144,8 +145,9 @@ const Cart = ({
       if (cartData?.length > 0) {
         setOrderDetail(cartData);
         setTotal(totalSum);
+        scrollViewRef.current.scrollTo({y: 0, animated: true});
         setCount(count + 1);
-      }else{
+      } else {
         Toast.show({
           type: 'info',
           text1: 'Please add product',
@@ -153,9 +155,8 @@ const Cart = ({
           visibilityTime: 1000,
         });
       }
-    } 
-    else {
-      Alert.alert('', 'please login and try again ', [
+    } else {
+      Alert.alert('','please login and try again ', [
         {
           text: 'Cancel',
           style: 'cancel',
@@ -197,7 +198,7 @@ const Cart = ({
                     position: 'absolute',
                     right: 0,
                   }}
-                  onPress={() => handleRemove(Item.product_id)}></Icon>
+                  onPress={() => handleRemove(Item)}></Icon>
 
                 <View
                   style={{
@@ -279,11 +280,16 @@ const Cart = ({
                       fontFamily: 'Intrepid Regular',
                     }}>
                     Color :{' '}
-                    <Text style={{color: '#676766'}}>{Item?.variation_attr?.attribute_pa_color}</Text>{' '}
+                    <Text style={{color: '#676766'}}>
+                      {Item?.variation_attr?.attribute_pa_color}
+                    </Text>{' '}
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                    Size : <Text style={{color: '#676766'}}>{Item?.variation_attr?.attribute_pa_size}</Text>{' '}
+                    Size :{' '}
+                    <Text style={{color: '#676766'}}>
+                      {Item?.variation_attr?.attribute_pa_size}
+                    </Text>{' '}
                   </Text>
                 </View>
                 <View></View>
@@ -320,8 +326,8 @@ const Cart = ({
 
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection:'row',
+            justifyContent:'space-between',
             marginTop: 10,
           }}>
           <Text style={styles.custText}>TOTAL </Text>
