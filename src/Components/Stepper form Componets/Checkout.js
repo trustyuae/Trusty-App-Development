@@ -179,11 +179,11 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     setCartData(updatedCart);
   };
 
-  const handleRemove = id => {
+  const handleRemove = item => {
     const data = {
-      product_id: id,
+      product_id: item.product_id,
+      variation_id: item.variation_id,
     };
-
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
       {
         text: 'Cancel',
@@ -195,7 +195,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         onPress: () => {
           dispatch(deleteToCart(data));
           const filterdata = cartData.filter(
-            item => item.product_id !== data.product_id,
+            item => item.variation_id !== data.variation_id,
           );
           setCartData(filterdata);
         },
@@ -319,7 +319,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                     position: 'absolute',
                     right: 0,
                   }}
-                  onPress={() => handleRemove(item.product_id)}></Icon>
+                  onPress={() => handleRemove(item)}></Icon>
 
                 <View
                   style={{
@@ -395,11 +395,11 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       color: 'black',
                       fontFamily: 'Intrepid Regular',
                     }}>
-                    Color : <Text style={{color: '#676766'}}> </Text>{' '}
+                    Color : <Text style={{color: '#676766'}}> {item?.mod_attributes?.color} </Text>{' '}
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                    Size : <Text style={{color: '#676766'}}> </Text>{' '}
+                    Size : <Text style={{color: '#676766'}}> {item?.mod_attributes?.size}</Text>{' '}
                   </Text>
                 </View>
                 <View></View>

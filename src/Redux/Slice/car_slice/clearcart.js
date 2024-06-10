@@ -8,20 +8,17 @@ export const clearToCart = createAsyncThunk(
   CLEAR_TO_CART,
   async (data, {rejectWithValue}) => {
     try {
-      let token=getToken()
-
-      const response = await axios.post(
-        `${baseURL}/custom-woo-api/v1/cart/clear`,
-        data,
-        {
-          headers:{
-            'Authorization':`Bearer ${token}`
-          }
+      let token = await getToken();
+      const response = await axios.delete(`${baseURL}/custom-woo-api/v1/cart/clear`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
         },
-      );
+        data: data,
+      });
+
       return response.data;
     } catch (error) {
-      console.error('Network Error:', error);
+      console.log('error-------------------------------->', error);
       return rejectWithValue(error.response?.data || 'An error occurred');
     }
   },

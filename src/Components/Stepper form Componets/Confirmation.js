@@ -20,7 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {useDispatch} from 'react-redux';
 
-const Confirmation = ({setCount}) => {
+const Confirmation = ({setCount,total}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const today = new Date();
@@ -39,6 +39,9 @@ const Confirmation = ({setCount}) => {
   };
 
   const [orderdata, setOrderData] = useState();
+
+
+  console.log(orderdata);
 
 
   useEffect(() => {
@@ -96,7 +99,8 @@ const Confirmation = ({setCount}) => {
                 </View>
                 <View style={styles.cell}>
                   <Text style={styles.value}>
-                    {orderdata?.shipping_lines[0]?.total} AED
+                    {/* {orderdata?.shipping_lines[0]?.total} AED */}
+                    {total} AED
                   </Text>
                 </View>
               </View>
@@ -106,7 +110,8 @@ const Confirmation = ({setCount}) => {
                 </View>
                 <View style={styles.cell}>
                   <Text style={styles.value}>
-                    {orderdata?.payment_method_title}
+                    cash on delivery
+                    {console.log(orderdata)}
                   </Text>
                 </View>
               </View>

@@ -60,7 +60,15 @@ export default function Productdetailscreen({route, navigation}) {
   useEffect(() => {
     responseData?.attributes?.forEach(attribute => {
       if (attribute.name.toLowerCase() === 'size') {
-        setSize(attribute?.options);
+        setSize(
+          attribute.options.map(option => {
+            if (!isNaN(parseFloat(option)) && isFinite(option)) {
+              return parseFloat(option);
+            } else {
+              return option;
+            }
+          }),
+        );
       }
       if (attribute.name.toLowerCase() === 'color') {
         setColor(attribute?.options);
@@ -78,70 +86,75 @@ export default function Productdetailscreen({route, navigation}) {
       }
     };
     fetch();
-  }, []);
+  },[]);
+
+  const attributes = {};
+
+  useEffect(() => {
+    responseData?.attributes?.forEach(attribute => {
+      if (attribute.name.toLowerCase() === 'size') {
+        if (typeof changeSize === 'string') {
+          attributes[attribute.slug] = changeSize.toLowerCase();
+        } else {
+          attributes[attribute.slug] = changeSize;
+        }
+      }
+      if (attribute.name.toLowerCase() === 'color') {
+        attributes[attribute.slug] = changeColor.toLowerCase();
+      }
+    });
+  }, [responseData, changeSize, changeColor]);
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
       dispatch(PartnerPerfect(responseData?.categories[0]?.id));
-      setWishlistRelated(partner)
+      setWishlistRelated(partner);
     }
   }, [responseData]);
 
   const handlepress = async () => {
     setLoding(true);
-    const attributes = {};
-
-    // Conditionally add slugSize if it exists
-    if (responseData?.attributes[0]?.slug) {
-      attributes[responseData.attributes[0].slug] = changeSize.toLowerCase();
-    }
-
-    // Conditionally add color if it exists
-    if (responseData?.attributes[1]?.slug) {
-      attributes[responseData.attributes[1].slug] = changeColor.toLowerCase();
-    }
 
     const data = {
       product_id: id,
       quantity: 1,
       attributes: attributes,
     };
- 
-        
-  
-    // if (isLoggedIn) {
-    //   dispatch(addToCart(data)).then(action => {
-    //     if (addToCart.fulfilled.match(action)) {
-    //       setLoding(false);
-    //       navigation.navigate('Cart');
-    //     }
-    //   });
-    // } else {
-    //   setLoding(false);
-    //   Alert.alert('', 'please login and try again ', [
-    //     {
-    //       text: 'Cancel',
-    //       style: 'cancel',
-    //     },
-    //     {
-    //       text: 'OK',
-    //       onPress: () => navigation.navigate('LoginCustomeNavigation'),
-    //     },
-    //   ]);
-    // }
 
-    dispatch(addToCart(data)).then(action => {
-      if (addToCart.fulfilled.match(action)) {
-        setLoding(false);
-        navigation.navigate('Cart');
-      }
-    });
+
+    if (isLoggedIn) {
+      dispatch(addToCart(data)).then(action => {
+        if (addToCart.fulfilled.match(action)) {
+          setLoding(false);
+          navigation.navigate('Cart');
+        }
+      });
+    } else {
+      setLoding(false);
+      Alert.alert('', 'please login and try again ', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('LoginCustomeNavigation'),
+        },
+      ]);
+    }
+
+    // dispatch(addToCart(data)).then(action => {
+    //   if (addToCart.fulfilled.match(action)) {
+    //     setLoding(false);
+    //     navigation.navigate('Cart');
+    //   }
+    // });
   };
 
   const handleproduct = id => {
     scrollViewRef.current.scrollTo({y: 0, animated: true});
     setId(id);
-    console.log("id--------------------->",id)
+    console.log('id--------------------->', id);
   };
 
   // console.log("partner JSON-->", JSON.stringify(partner));

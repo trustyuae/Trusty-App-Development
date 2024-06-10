@@ -51,7 +51,7 @@ const CartScreen = () => {
   );
 
   const renderConfirmation = () => (
-    <Confirmation count={count} setCount={setCount} />
+    <Confirmation count={count} setCount={setCount} total={total}/>
   );
 
   const renderContent = () => {

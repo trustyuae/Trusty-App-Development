@@ -41,7 +41,7 @@ const Cart = ({
   setNumber,
   setOrderDetail,
   setTotal,
-scrollViewRef
+  scrollViewRef,
 }) => {
   const handlepress = () => {};
   const dispatch = useDispatch();
@@ -80,7 +80,6 @@ scrollViewRef
       product_id: item.product_id,
       variation_id: item.variation_id,
     };
-
 
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
       {
@@ -127,6 +126,7 @@ scrollViewRef
     ...item,
     total: item.product_price * item.quantity,
   }));
+
   const totalSum = update?.reduce(
     (accumulator, currentItem) => accumulator + currentItem.total,
     0,
@@ -156,7 +156,7 @@ scrollViewRef
         });
       }
     } else {
-      Alert.alert('','please login and try again ', [
+      Alert.alert('', 'please login and try again ', [
         {
           text: 'Cancel',
           style: 'cancel',
@@ -281,14 +281,14 @@ scrollViewRef
                     }}>
                     Color :{' '}
                     <Text style={{color: '#676766'}}>
-                      {Item?.variation_attr?.attribute_pa_color}
+                      {Item?.mod_attributes?.color}
                     </Text>{' '}
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
                     Size :{' '}
                     <Text style={{color: '#676766'}}>
-                      {Item?.variation_attr?.attribute_pa_size}
+                      {Item?.mod_attributes?.size}
                     </Text>{' '}
                   </Text>
                 </View>
@@ -326,8 +326,8 @@ scrollViewRef
 
         <View
           style={{
-            flexDirection:'row',
-            justifyContent:'space-between',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
             marginTop: 10,
           }}>
           <Text style={styles.custText}>TOTAL </Text>

@@ -16,18 +16,15 @@ export const deleteToCart = createAsyncThunk(
   async (data, {rejectWithValue}) => {
     try {
       let token = await getToken();
-      const response = await axios.delete(
-        `${baseURL}/custom-woo-api/v1/cart`,
-        {
-          headers: {
-            'Authorization':`Bearer ${token}`,
-          },
+      const response = await axios.delete(`${baseURL}/custom-woo-api/v1/cart`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        data
-      );
-    
+        data: data,
+      });
+
       return response.data;
-    }catch (error) {
+    } catch (error) {
       console.log('error-------------------------------->', error);
       return rejectWithValue(error.response?.data || 'An error occurred');
     }
@@ -56,7 +53,7 @@ const DeleteToCartSlice = createSlice({
         state.deteltedData = action.payload;
         Toast.show({
           type: 'success',
-          text1: 'Remove successfully',
+          text1: state.deteltedData.message,
           position: 'bottom',
           visibilityTime: 1500,
         });
