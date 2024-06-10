@@ -19,30 +19,30 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import {Images} from '../../Constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {useEffect, useRef, useState} from 'react';
-import {fetchById} from '../../Redux/Slice/SingleProductslice';
-import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
+import { Images } from '../../Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { fetchById } from '../../Redux/Slice/SingleProductslice';
+import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
-import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
-import {getToken, getUsername} from '../../Utils/localstorage';
-import {color} from 'react-native-elements/dist/helpers';
-import {useFocusEffect} from '@react-navigation/native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
+import { getToken, getUsername } from '../../Utils/localstorage';
+import { color } from 'react-native-elements/dist/helpers';
+import { useFocusEffect } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
-export default function Productdetailscreen({route, navigation}) {
+export default function Productdetailscreen({ route, navigation }) {
   const scrollViewRef = useRef();
-  const {userId, isWatchList} = route?.params;
+  const { userId, isWatchList } = route?.params;
   const dispatch = useDispatch();
-  const {loading, error, responseData} = useSelector(state => state?.getById);
+  const { loading, error, responseData } = useSelector(state => state?.getById);
 
-  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
-  const {items} = useSelector(state => state.wishlist);
+  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
+  const { items } = useSelector(state => state.wishlist);
 
-  const {loa, err, cartdata} = useSelector(state => state);
+  const { loa, err, cartdata } = useSelector(state => state);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
@@ -51,13 +51,19 @@ export default function Productdetailscreen({route, navigation}) {
   const [wishlistrelated, setWishlistRelated] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState();
 
-  console.log('isWatchList', isWatchList);
+  console.log('userId', id);
 
   useEffect(() => {
     dispatch(fetchById(id));
     setChange('');
     setChangeSize('');
   }, [id]);
+
+  useEffect(() => {
+    dispatch(fetchById(userId));
+    setChange('');
+    setChangeSize('');
+  }, [userId]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -120,7 +126,7 @@ export default function Productdetailscreen({route, navigation}) {
   };
 
   const handleproduct = id => {
-    scrollViewRef.current.scrollTo({y: 0, animated: true});
+    scrollViewRef.current.scrollTo({ y: 0, animated: true });
     setId(id);
   };
 
@@ -128,7 +134,7 @@ export default function Productdetailscreen({route, navigation}) {
 
   useEffect(() => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({id: item}));
+      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
       const result = partner?.map(productItem => ({
         ...productItem,
@@ -137,12 +143,15 @@ export default function Productdetailscreen({route, navigation}) {
 
       setWishlistRelated(result);
     }
+    else if (partner) {
+      setWishlistRelated(partner);
+    }
   }, [partner]);
   return (
     <GestureHandlerRootView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-      <SafeAreaView style={{marginTop: hp('-7%')}}>
+      <SafeAreaView style={{ marginTop: hp('-7%') }}>
         <View>
           {loading ? (
             <View style={styles.container}>
@@ -201,8 +210,8 @@ export default function Productdetailscreen({route, navigation}) {
                       AED {responseData?.price}
                     </Text>
                     <View
-                      style={{borderBottomWidth: 1, borderColor: '#D8D8D8'}}>
-                      <Text style={{color: '#86D973', marginBottom: '10'}}>
+                      style={{ borderBottomWidth: 1, borderColor: '#D8D8D8' }}>
+                      <Text style={{ color: '#86D973', marginBottom: '10' }}>
                         {responseData?.stock_status}
                       </Text>
                     </View>
@@ -230,7 +239,7 @@ export default function Productdetailscreen({route, navigation}) {
                     )}
                     {/* <DummyAccordion attributes={responseData?.attributes}/> */}
                   </View>
-                  <View style={{borderTopWidth: 1, borderColor: '#DBCCC1'}}>
+                  <View style={{ borderTopWidth: 1, borderColor: '#DBCCC1' }}>
                     <Text
                       style={{
                         textAlign: 'center',
@@ -244,7 +253,8 @@ export default function Productdetailscreen({route, navigation}) {
                     <View style={styles.productContainer}>
                       {wishlistrelated
                         ?.map((product, key) => (
-                          <View key={key}>
+                          console.log("=====related", product),
+                          < View key={key} >
                             <TouchableOpacity
                               onPress={() => handleproduct(product?.id)}>
                               <Product
@@ -274,8 +284,8 @@ export default function Productdetailscreen({route, navigation}) {
             </>
           )}
         </View>
-      </SafeAreaView>
-    </GestureHandlerRootView>
+      </SafeAreaView >
+    </GestureHandlerRootView >
   );
 }
 const styles = StyleSheet.create({

@@ -13,6 +13,7 @@ import Profile from '../Profile/Profile';
 import CustomTabBar from '../../Components/CustomeTabBar/CustomeTabBar';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 
 const Loginscreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ const Loginscreen = ({ navigation }) => {
 
   useEffect(() => {
     if (userData) {
+      dispatch(fetchWishlist(userData.token));
+
       navigation.navigate('DrawerHome');
     }
 

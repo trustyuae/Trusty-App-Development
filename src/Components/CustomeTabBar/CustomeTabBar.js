@@ -17,6 +17,7 @@ import {
 import { useSelector } from 'react-redux';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import { getToken } from '../../Utils/localstorage';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
@@ -24,13 +25,26 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   const { items } = useSelector(state => state.wishlist);
   console.log(items)
   const handleClick = () => {
-    navigation.navigate('wishlist')
+    navigation.navigate('wishlist', {
+      items: items
+    })
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getToken();
+      if (token) {
+        fetchWishlist(token)
+      }
+    }
+    fetchData()
+
+  }, [items])
 
   return (
     <View style={styles.tabBarContainer}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-  
+
       <ScrollView >
 
         <View style={styles.container}>
