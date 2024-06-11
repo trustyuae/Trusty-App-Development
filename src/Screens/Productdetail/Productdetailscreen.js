@@ -30,6 +30,9 @@ import { getToken, getUsername } from '../../Utils/localstorage';
 import { color } from 'react-native-elements/dist/helpers';
 import { useFocusEffect } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { addToWishlist, fetchWishlist, removeFromWishlist } from '../../Redux/Slice/wishlistSlice';
 
 export default function Productdetailscreen({ route, navigation }) {
   const scrollViewRef = useRef();
@@ -47,10 +50,11 @@ export default function Productdetailscreen({ route, navigation }) {
   const [changeSize, setChangeSize] = useState('');
   const [load, setLoding] = useState(false);
   const [wishlistrelated, setWishlistRelated] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState()
+  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [wishlistId, setWishListId] = useState()
+  const [isWishlist, setIsWishlist] = useState(isWatchList)
 
-
-  console.log("isWatchList", isWatchList)
+  console.log('isWishlist', isWishlist);
 
   useEffect(() => {
     dispatch(fetchById(id));
@@ -58,7 +62,11 @@ export default function Productdetailscreen({ route, navigation }) {
     setChangeSize('');
   }, [id]);
 
-
+  useEffect(() => {
+    dispatch(fetchById(userId));
+    setChange('');
+    setChangeSize('');
+  }, [userId]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -70,7 +78,7 @@ export default function Productdetailscreen({ route, navigation }) {
       }
     };
     fetch();
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
@@ -105,8 +113,7 @@ export default function Productdetailscreen({ route, navigation }) {
           navigation.navigate('Cart');
         }
       });
-    }
-    else {
+    } else {
       setLoding(false);
       Alert.alert('', 'please login and try again ', [
         {
@@ -119,7 +126,6 @@ export default function Productdetailscreen({ route, navigation }) {
         },
       ]);
     }
-
   };
 
   const handleproduct = id => {
@@ -129,22 +135,67 @@ export default function Productdetailscreen({ route, navigation }) {
 
   // console.log("partner JSON-->", JSON.stringify(partner));
 
-
   useEffect(() => {
     if (items.Wishlist) {
       const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
+      // console.log("items---------->", itemIdListids)
+      setWishListId(itemIdListids)
       const result = partner?.map(productItem => ({
         ...productItem,
         isWatchList: itemIdListids.has(productItem.id),
       }));
 
-      setWishlistRelated(result)
-
+      setWishlistRelated(result);
     }
-  }, [partner])
+    else if (partner) {
+      setWishlistRelated(partner);
+    }
+  }, [partner, toggleSaved]);
+
+
+  const toggleSaved = async () => {
+    const tokenData = await getToken();
+    if (tokenData) {
+      try {
+        // Check if the product is in the wishlist
+        // const isProductInWishlist = wishlistId?.has(userId);
+
+        if (isWishlist) {
+          // Product is in the wishlist, so remove it
+          await dispatch(fetchWishlist(tokenData));
+          dispatch(removeFromWishlist({ product_id: userId, tokenData }));
+          setIsWishlist(false)
+        } else {
+          // Product is not in the wishlist, so add it          
+          dispatch(fetchWishlist(tokenData));
+
+          dispatch(addToWishlist({ product_id: userId, tokenData }));
+          setIsWishlist(true)
+        }
+
+        // Toggle the saved state
+        setSaved(!isProductInWishlist);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      navigation.navigate('LoginCustomeNavigation');
+      Alert.alert('Please login', 'You need to login to save items to your wishlist');
+    }
+  };
+
+  // useEffect(() => {
+  //   if (items.Wishlist) {
+  //     const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+  //     const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
+
+  //   }
+  // })
   return (
     <GestureHandlerRootView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <SafeAreaView style={{ marginTop: hp('-7%') }}>
         <View>
           {loading ? (
@@ -188,8 +239,8 @@ export default function Productdetailscreen({ route, navigation }) {
                       </View>
                       <View>
                         {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
-                        <TouchableOpacity onPress={() => setSaved(!saved)}>
-                          {saved ? (
+                        <TouchableOpacity onPress={toggleSaved}>
+                          {isWishlist ? (
                             <Image source={Images.saveIconFill} />
                           ) : (
                             <Image
@@ -203,29 +254,34 @@ export default function Productdetailscreen({ route, navigation }) {
                     <Text style={styles.custAEDtext}>
                       AED {responseData?.price}
                     </Text>
-                    <View style={{ borderBottomWidth: 1, borderColor: '#D8D8D8' }}>
+                    <View
+                      style={{ borderBottomWidth: 1, borderColor: '#D8D8D8' }}>
                       <Text style={{ color: '#86D973', marginBottom: '10' }}>
                         {responseData?.stock_status}
                       </Text>
                     </View>
 
-                    {responseData?.type !== "simple" ? (<Accordion
-                      Size={responseData?.attributes[0]?.options}
-                      Color={responseData?.attributes[1]?.options}
-                      Description={responseData?.description}
-                      setChange={setChange}
-                      changeColor={changeColor}
-                      changeSize={changeSize}
-                      setChangeSize={setChangeSize}
-                    />) : (<Accordion
-                      Size={[]}
-                      Color={[]}
-                      Description={responseData?.description}
-                      setChange={setChange}
-                      changeColor={changeColor}
-                      changeSize={changeSize}
-                      setChangeSize={setChangeSize}
-                    />)}
+                    {responseData?.type !== 'simple' ? (
+                      <Accordion
+                        Size={responseData?.attributes[0]?.options}
+                        Color={responseData?.attributes[1]?.options}
+                        Description={responseData?.description}
+                        setChange={setChange}
+                        changeColor={changeColor}
+                        changeSize={changeSize}
+                        setChangeSize={setChangeSize}
+                      />
+                    ) : (
+                      <Accordion
+                        Size={[]}
+                        Color={[]}
+                        Description={responseData?.description}
+                        setChange={setChange}
+                        changeColor={changeColor}
+                        changeSize={changeSize}
+                        setChangeSize={setChangeSize}
+                      />
+                    )}
                     {/* <DummyAccordion attributes={responseData?.attributes}/> */}
                   </View>
                   <View style={{ borderTopWidth: 1, borderColor: '#DBCCC1' }}>
@@ -242,7 +298,8 @@ export default function Productdetailscreen({ route, navigation }) {
                     <View style={styles.productContainer}>
                       {wishlistrelated
                         ?.map((product, key) => (
-                          <View key={key}>
+                          // console.log("=====related", product),
+                          < View key={key} >
                             <TouchableOpacity
                               onPress={() => handleproduct(product?.id)}>
                               <Product
@@ -272,8 +329,8 @@ export default function Productdetailscreen({ route, navigation }) {
             </>
           )}
         </View>
-      </SafeAreaView>
-    </GestureHandlerRootView>
+      </SafeAreaView >
+    </GestureHandlerRootView >
   );
 }
 const styles = StyleSheet.create({
@@ -337,14 +394,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-
-
-
-
-
-
-
-
-
-

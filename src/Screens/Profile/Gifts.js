@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, SafeAreaView, Text, View} from 'react-native';
 
 import {
   widthPercentageToDP as wp,
@@ -7,13 +7,19 @@ import {
 } from 'react-native-responsive-screen';
 import {StyleSheet} from 'react-native';
 import {Gift} from '../../Constants/Icons';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
 const Gifts = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.mainText}>Gift comming soon !!!</Text>
-      <Image source={Gift} style={styles.imgconatine}></Image>
-    </View>
+    <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
+      <View style={styles.container}>
+        <Text style={styles.mainText}>Gift comming soon !!!</Text>
+        <Image source={Gift} style={styles.imgconatine}></Image>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -25,7 +31,7 @@ const styles = StyleSheet.create({
   mainText: {
     textAlign: 'center',
     color: 'black',
-   fontFamily:'Intrepid Regular',
+    fontFamily: 'Intrepid Regular',
     marginTop: hp('20%'),
   },
   imgconatine: {

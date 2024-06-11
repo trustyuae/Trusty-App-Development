@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   MainHeading: {
     fontWeight: '500',
     textAlign: 'center',
-    fontFamily: 'Intrepid-Regular',
+    fontFamily: 'Intrepid Regular',
     fontSize: 18,
     color: globalColors.white,
   },

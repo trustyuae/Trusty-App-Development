@@ -20,6 +20,7 @@ const cart_img = require('../Assets/Images/cart_img.png');
 const Logout = require('../Assets/Images/Logout.png');
 const ProfileIcon = require('../Assets/Images/ProfileIcon.png')
 const whishlistIcon = require('../Assets/Images/wishlistIcon.png')
+const saveIconUnFill3x = require('../Assets/Images/SaveIconUnFill3x.png')
 export default {
   icons,
   bag,
@@ -42,5 +43,6 @@ export default {
   cart_img,
   Logout,
   ProfileIcon,
-  whishlistIcon
+  whishlistIcon,
+  saveIconUnFill3x
 };

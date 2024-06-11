@@ -30,7 +30,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
   // const wishlist = useSelector(state => state.wishlist.items);
 
   // const initialSaved = false;
-  const [saved, setSaved] = useState(isWatchList);
+  const [saved, setSaved] = useState(isWatchList === true);
   const [tokenData, setTokenData] = useState(null);
 
   useEffect(() => {
@@ -46,7 +46,16 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, tokenData]);
+
+  useEffect(() => {
+    const data = async () => {
+      await dispatch(fetchWishlist(tokenData));
+
+    }
+    data()
+
+  }, [saved, dispatch, isWatchList, tokenData])
   // useEffect(() => {
   //   if (wishlist && wishlist.length > 0) {
   //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
@@ -63,6 +72,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
     if (tokenData) {
       if (saved) {
         try {
+          await dispatch(fetchWishlist(tokenData));
           dispatch(removeFromWishlist({ product_id, tokenData }));
           setSaved(false);
           await dispatch(fetchWishlist(tokenData));
@@ -71,6 +81,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
         }
       } else {
         try {
+          await dispatch(fetchWishlist(tokenData));
           dispatch(addToWishlist({ product_id, tokenData }));
           setSaved(true);
           await dispatch(fetchWishlist(tokenData));

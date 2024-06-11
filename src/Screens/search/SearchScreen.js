@@ -5,23 +5,23 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  SafeAreaView,
+  SafeAreaView, ActivityIndicator
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator} from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
 import Product from '../../Components/Product/Product';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchProducts} from '../../Redux/Slice/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../../Redux/Slice/productSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 
-const SearchScreen = ({navigation}) => {
+const SearchScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {products, status, error} = useSelector(state => state.product);
+  const { products, status, error } = useSelector(state => state.product);
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
 
@@ -39,6 +39,8 @@ const SearchScreen = ({navigation}) => {
 
   return (
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.container}>
         <View style={styles.searchContainer}>
           <View style={styles.custposition}>
@@ -56,7 +58,7 @@ const SearchScreen = ({navigation}) => {
           <ActivityIndicator
             size="large"
             color={globalColors.black}
-            style={{marginTop: '50%'}}
+            style={{ marginTop: '50%' }}
           />
         ) : (
           <ScrollView>
@@ -87,7 +89,7 @@ const SearchScreen = ({navigation}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>
+                <Text style={{ fontFamily: 'Intrepid Regular' }}>
                   No Record Found
                 </Text>
               </View>
