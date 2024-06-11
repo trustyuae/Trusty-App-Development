@@ -31,7 +31,7 @@ const wishlist = ({ route }) => {
         SetToken(token)
         console.log("ss", token)
         if (token) {
-          dispatch(fetchWishlist({ tokenData: token }));
+          await dispatch(fetchWishlist({ tokenData: token }));
         }
       } catch (error) {
         console.log('Error retrieving data:', error);
@@ -39,11 +39,17 @@ const wishlist = ({ route }) => {
     };
 
     fetchData();
-  }, [dispatch, items]);
+  }, [dispatch, items, navigation]);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchWishlist({ tokenData: token }));
+    }
+  }, [token, dispatch]);
 
   const onRefresh = async () => {
     setRefreshing(true); // Set refreshing to true
-    dispatch(fetchWishlist({ tokenData: token }));; // Fetch data again
+    await dispatch(fetchWishlist({ tokenData: token }));; // Fetch data again
     setRefreshing(false); // Set refreshing to false once data is fetched
   };
 

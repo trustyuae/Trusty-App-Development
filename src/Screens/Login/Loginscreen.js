@@ -28,8 +28,11 @@ const Loginscreen = ({ navigation }) => {
 
   useEffect(() => {
     if (userData) {
-      dispatch(fetchWishlist(userData.token));
+      const data = async () => {
+        await dispatch(fetchWishlist({ tokenData: userData.jwt_token })); // Use the token from userData
 
+      }
+      data()
       navigation.navigate('DrawerHome');
     }
 

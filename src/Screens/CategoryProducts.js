@@ -26,6 +26,7 @@ import {
 import { fetchWishlist } from '../Redux/Slice/wishlistSlice';
 import { getToken } from '../Utils/localstorage';
 import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
+import { RefreshControl } from 'react-native';
 
 const CategoryProducts = ({ navigation }) => {
   const route = useRoute();
@@ -37,6 +38,8 @@ const CategoryProducts = ({ navigation }) => {
   const [tokenData, setTokenData] = useState(null);
   const { categoryProducts, status, error } = useSelector(state => state.product);
   const { items } = useSelector(state => state.wishlist);
+  const [refreshing, setRefreshing] = React.useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +48,7 @@ const CategoryProducts = ({ navigation }) => {
 
         if (token) {
           setTokenData(token);
-          await dispatch(fetchWishlist(token));
+          await dispatch(fetchWishlist({ tokenData: token }));
         }
       } catch (error) {
         console.log('Error retrieving data:', error);
@@ -55,7 +58,7 @@ const CategoryProducts = ({ navigation }) => {
     fetchData();
   }, [dispatch, tokenData]);
 
-  useEffect(() => {
+  const refreshWishlist = () => {
     const itemIdList = items?.Wishlist?.map(item => ({ id: item }));
 
     const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
@@ -66,8 +69,10 @@ const CategoryProducts = ({ navigation }) => {
     if (result) {
       setWishlist(result);
     }
-    // console.log('roductIdss', JSON.stringify(result));
-  }, [items, categoryProducts, getToken]);
+  };
+  useEffect(() => {
+    refreshWishlist();
+  }, [items, categoryProducts, getToken, dispatch]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -75,6 +80,14 @@ const CategoryProducts = ({ navigation }) => {
     }, [dispatch, category.id])
   );
 
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    await dispatch(fetchCategoryProducts({ categoryId: category.id }));
+    await dispatch(fetchWishlist(tokenData));
+    refreshWishlist();
+    setRefreshing(false);
+  }, [category.id, tokenData]);
   const count = categoryProducts?.length;
 
   const [selectedValue, setSelectedValue] = useState('One');
@@ -87,7 +100,14 @@ const CategoryProducts = ({ navigation }) => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+        >
           <Text style={styles.TextHeading}>Women</Text>
 
           <View

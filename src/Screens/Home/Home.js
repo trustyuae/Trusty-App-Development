@@ -44,6 +44,7 @@ const Home = () => {
   //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
   // console.log('inside home---->', products);
   useEffect(() => {
+    data()
     dispatch(fetchCategories());
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -54,6 +55,7 @@ const Home = () => {
     try {
       await dispatch(fetchCategories());
       await dispatch(fetchProducts());
+      data()
       const token = await getToken();
       if (token) {
         setTokenData(token);
@@ -73,7 +75,7 @@ const Home = () => {
         console.log('inside home---->', token);
         if (token) {
           setTokenData(token);
-          dispatch(fetchWishlist(token));
+          await dispatch(fetchWishlist(token));
         }
       } catch (error) {
         console.log('Error retrieving data:', error);
@@ -81,7 +83,7 @@ const Home = () => {
     };
     fetchData();
   }, [dispatch, getToken]);
-  useEffect(() => {
+  const data = () => {
     if (items.Wishlist) {
       const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const productIds = new Set(itemIdList.map(item => Number(item.id)));
@@ -93,6 +95,10 @@ const Home = () => {
     } else if (wishlist) {
       setWishlist(products);
     }
+  }
+
+  useEffect(() => {
+    data()
   }, [items, products, categories, tokenData]);
   // console.log(
   //   '------======',
@@ -291,7 +297,7 @@ const Home = () => {
               {wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
                 <Pressable
                   onPress={() =>
-                    navigation.navigate('ProductDetail', { userId: product.id })
+                    navigation.navigate('ProductDetail', { userId: product.id, isWatchList: product?.isWatchList, })
                   }>
                   <Product
                     key={product?.id}

@@ -14,33 +14,36 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import { getToken } from '../../Utils/localstorage';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
+  const dispatch = useDispatch();
+
   const { data } = useSelector(state => state.profile);
   const { items } = useSelector(state => state.wishlist);
   console.log(items)
-  const handleClick = () => {
-    navigation.navigate('wishlist', {
-      items: items
-    })
-  }
+
 
   useEffect(() => {
     const fetchData = async () => {
       const token = await getToken();
       if (token) {
-        fetchWishlist(token)
+        dispatch(fetchWishlist({ tokenData: token }));
       }
     }
-    fetchData()
+    fetchData();
+  }, [dispatch]);
 
-  }, [items])
 
+  const handleClick = () => {
+    navigation.navigate('wishlist', {
+      items: items
+    })
+  }
   return (
     <View style={styles.tabBarContainer}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
