@@ -121,6 +121,7 @@ export default function Productdetailscreen({route, navigation}) {
       attributes: attributes,
     };
 
+   
 
     if (isLoggedIn) {
       dispatch(addToCart(data)).then(action => {
@@ -154,7 +155,7 @@ export default function Productdetailscreen({route, navigation}) {
   const handleproduct = id => {
     scrollViewRef.current.scrollTo({y: 0, animated: true});
     setId(id);
-    console.log('id--------------------->', id);
+
   };
 
   // console.log("partner JSON-->", JSON.stringify(partner));

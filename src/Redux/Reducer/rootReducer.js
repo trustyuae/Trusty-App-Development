@@ -17,6 +17,7 @@ import OrderToCartSlice from '../Slice/car_slice/placeordercart';
 import OrderDetailCartSlice from '../Slice/car_slice/orderdeatails';
 import ClearToCartSlice from '../Slice/car_slice/clearcart';
 import updateChekoutslice from "../Slice/car_slice/updatecheckout"
+import UpdateToCartSlice from '../Slice/car_slice/updatecart';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
   OrderDetailCart: OrderDetailCartSlice,
   ClearToCarted:ClearToCartSlice,
   checkoutupdate:updateChekoutslice,
+  updateToCart:UpdateToCartSlice,
 });
 
 export default rootReducer;

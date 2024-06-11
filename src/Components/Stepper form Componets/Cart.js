@@ -33,6 +33,7 @@ import {fetchProfile} from '../../Redux/Slice/profileSlice';
 import {Product} from '../../Constants/Images';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
 
 const Cart = ({
   count,
@@ -106,7 +107,17 @@ const Cart = ({
       }
       return item;
     });
+
     setCartData(updatedCart);
+
+    const selectedItem = updatedCart.find(item => item.key === key);
+    dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
   };
 
   const handleDecrease = key => {
@@ -120,6 +131,14 @@ const Cart = ({
       return item;
     });
     setCartData(updatedCart);
+    const selectedItem = updatedCart.find(item => item.key === key);
+    dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
   };
 
   const update = cartData?.map(item => ({
@@ -131,6 +150,10 @@ const Cart = ({
     (accumulator, currentItem) => accumulator + currentItem.total,
     0,
   );
+
+  useEffect(() => {
+    dispatch(ViewToCart());
+  }, []);
 
   useEffect(() => {
     dispatch(ViewToCart());

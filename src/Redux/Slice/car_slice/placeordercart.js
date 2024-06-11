@@ -22,7 +22,7 @@ export const orderToCart = createAsyncThunk(
       };
 
       const response = await axios.post(
-        `${baseURL}/wc/v3/orders/`,
+        `${baseURL}/wc/v1/orders/`,
         data,
         config,
       );

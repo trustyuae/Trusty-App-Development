@@ -41,7 +41,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [customerid, setCustomerID] = useState();
   const [billingdata, setBillingdata] = useState({});
   const [stateUpdate, setStateUpdate] = useState(false);
-  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '')
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
   const [shippingCountry, setShippingCountry] = useState(
     data?.shipping?.country || '',
   );
@@ -49,7 +49,6 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
   );
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,15 +61,10 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
 
   useFocusEffect(() => {
     setBillingdata(data);
-    setPhone(data?.meta_data[2]?.value || '')
-    setShippingCountry(
-      data?.shipping?.country || '',
-    );
+    setPhone(data?.meta_data[2]?.value || '');
+    setShippingCountry(data?.shipping?.country || '');
     setShippingCity(data?.shipping?.city || '');
-    setShippingAddress(
-      data?.shipping?.address_1 || '',
-    );
-  
+    setShippingAddress(data?.shipping?.address_1 || '');
   });
 
   const product = cartData?.map(item => ({
@@ -84,7 +78,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       payment_method: 'COD',
       payment_method_title: 'Cash On Delivery',
       set_paid: 'false',
-      customer_id:customerid,
+      customer_id: customerid,
       billing: {
         first_name: data?.billing?.first_name,
         last_name: data?.billing?.last_name,
@@ -117,15 +111,15 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         },
       ],
     };
-            
-    if(cartData.length>0){
+
+    if (cartData.length > 0) {
       dispatch(orderToCart(obj)).then(action => {
         if (orderToCart.fulfilled.match(action)) {
           setGetorderDetail();
           setCount(pre => (count >= 2 ? 0 : pre + 1));
         }
       });
-    }else{
+    } else {
       Toast.show({
         type: 'info',
         text1: 'Please add product',
@@ -133,7 +127,6 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         visibilityTime: 1000,
       });
     }
-   
   };
 
   const handleEditClick = () => {
@@ -203,8 +196,6 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     ]);
   };
 
-
-
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -239,12 +230,9 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
               Mr. {billingdata?.first_name} {billingdata?.last_name}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
-              {shippingAddress} {shippingCountry},
-              {shippingCity}
+              {shippingAddress} {shippingCountry},{shippingCity}
             </Text>
-            <Text style={{fontFamily: 'Intrepid Regular'}}>
-              +{phone}
-            </Text>
+            <Text style={{fontFamily: 'Intrepid Regular'}}>+{phone}</Text>
           </View>
         </View>
         <View style={styles.custborder} />
@@ -372,8 +360,12 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       width={90}
                     />
                   ) : (
-                    <View style={{height:100,width:90,backgroundColor:"#f4f4f4"}}>
-                    </View>
+                    <View
+                      style={{
+                        height: 100,
+                        width: 90,
+                        backgroundColor: '#f4f4f4',
+                      }}></View>
                   )}
                 </View>
                 <View>
@@ -395,11 +387,19 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       color: 'black',
                       fontFamily: 'Intrepid Regular',
                     }}>
-                    Color : <Text style={{color: '#676766'}}> {item?.mod_attributes?.color} </Text>{' '}
+                    Color :{' '}
+                    <Text style={{color: '#676766'}}>
+                      {' '}
+                      {item?.mod_attributes?.color}{' '}
+                    </Text>{' '}
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                    Size : <Text style={{color: '#676766'}}> {item?.mod_attributes?.size}</Text>{' '}
+                    Size :{' '}
+                    <Text style={{color: '#676766'}}>
+                      {' '}
+                      {item?.mod_attributes?.size}
+                    </Text>{' '}
                   </Text>
                 </View>
                 <View></View>

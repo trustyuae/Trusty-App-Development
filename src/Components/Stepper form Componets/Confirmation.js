@@ -20,12 +20,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {useDispatch} from 'react-redux';
 
-const Confirmation = ({setCount,total}) => {
+const Confirmation = ({setCount, total}) => {
   const dispatch = useDispatch();
+  const [orderdata, setOrderData] = useState(null);
   const navigation = useNavigation();
   const today = new Date();
   const options = {
-    weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -37,12 +37,6 @@ const Confirmation = ({setCount,total}) => {
     AsyncStorage.removeItem('orderdata');
     navigation.navigate('DrawerHome');
   };
-
-  const [orderdata, setOrderData] = useState();
-
-
-  console.log(orderdata);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,7 +76,7 @@ const Confirmation = ({setCount,total}) => {
                   <Text style={styles.label}>Order Number:</Text>
                 </View>
                 <View style={styles.cell}>
-                  <Text style={styles.value}>3489</Text>
+                  <Text style={styles.value}>{orderdata?.number}</Text>
                 </View>
               </View>
               <View style={styles.row}>
@@ -99,8 +93,7 @@ const Confirmation = ({setCount,total}) => {
                 </View>
                 <View style={styles.cell}>
                   <Text style={styles.value}>
-                    {/* {orderdata?.shipping_lines[0]?.total} AED */}
-                    {total} AED
+                    {orderdata?.shipping_lines[0]?.total} {orderdata?.currency}
                   </Text>
                 </View>
               </View>
@@ -110,8 +103,7 @@ const Confirmation = ({setCount,total}) => {
                 </View>
                 <View style={styles.cell}>
                   <Text style={styles.value}>
-                    cash on delivery
-                    {console.log(orderdata)}
+                    {orderdata?.payment_method_title}
                   </Text>
                 </View>
               </View>
