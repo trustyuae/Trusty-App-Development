@@ -18,6 +18,8 @@ import OrderDetailCartSlice from '../Slice/car_slice/orderdeatails';
 import ClearToCartSlice from '../Slice/car_slice/clearcart';
 import updateChekoutslice from "../Slice/car_slice/updatecheckout"
 import UpdateToCartSlice from '../Slice/car_slice/updatecart';
+import ProductAddToCartSlice from '../Slice/car_slice/withoulogin/productaddtocart';
+import ProductViewToCartSlice from '../Slice/car_slice/withoulogin/ViewProdcutcart';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -41,6 +43,9 @@ const rootReducer = combineReducers({
   ClearToCarted:ClearToCartSlice,
   checkoutupdate:updateChekoutslice,
   updateToCart:UpdateToCartSlice,
+  productaddtocart:ProductAddToCartSlice,
+  ProductViewToCart:ProductViewToCartSlice
+
 });
 
 export default rootReducer;

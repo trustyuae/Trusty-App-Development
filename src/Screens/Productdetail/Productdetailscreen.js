@@ -51,6 +51,7 @@ export default function Productdetailscreen({route, navigation}) {
   const [color, setColor] = useState();
   const [size, setSize] = useState();
 
+
   useEffect(() => {
     dispatch(fetchById(id));
     setChange('');
@@ -86,7 +87,7 @@ export default function Productdetailscreen({route, navigation}) {
       }
     };
     fetch();
-  },[]);
+  }, []);
 
   const attributes = {};
 
@@ -121,8 +122,6 @@ export default function Productdetailscreen({route, navigation}) {
       attributes: attributes,
     };
 
-   
-
     if (isLoggedIn) {
       dispatch(addToCart(data)).then(action => {
         if (addToCart.fulfilled.match(action)) {
@@ -155,7 +154,6 @@ export default function Productdetailscreen({route, navigation}) {
   const handleproduct = id => {
     scrollViewRef.current.scrollTo({y: 0, animated: true});
     setId(id);
-
   };
 
   // console.log("partner JSON-->", JSON.stringify(partner));

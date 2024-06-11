@@ -27,6 +27,7 @@ import {getUserId} from '../../Utils/localstorage';
 import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
 import Toast from 'react-native-toast-message';
+import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
 
 const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [expanded, setExpanded] = useState(true);
@@ -157,6 +158,14 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       return item;
     });
     setCartData(updatedCart);
+    const selectedItem = updatedCart.find(item => item.key === key);
+    dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
   };
 
   const handleDecrease = key => {
@@ -170,6 +179,14 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       return item;
     });
     setCartData(updatedCart);
+    const selectedItem = updatedCart.find(item => item.key === key);
+    dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
   };
 
   const handleRemove = item => {

@@ -34,6 +34,7 @@ import {Product} from '../../Constants/Images';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
+import { ProductViewToCart } from '../../Redux/Slice/car_slice/withoulogin/ViewProdcutcart';
 
 const Cart = ({
   count,
@@ -49,6 +50,9 @@ const Cart = ({
   const {erros, loading, viewcartdata} = useSelector(
     state => state?.ViewToCart,
   );
+  const state = useSelector(
+    state => state.ProductView,
+  );
   const {deteltedData} = useSelector(state => state?.DeleteToCart);
   const {isloading} = useSelector(state => state?.OrderToCart);
   const {data} = useSelector(state => state?.profile);
@@ -56,6 +60,10 @@ const Cart = ({
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigation();
+
+
+ console.log("state----------------->",state);
+
 
   useEffect(() => {
     const fetch = async () => {
@@ -78,8 +86,8 @@ const Cart = ({
 
   const handleRemove = item => {
     const data = {
-      product_id: item.product_id,
-      variation_id: item.variation_id,
+      product_id:item.product_id,
+      variation_id:item.variation_id,
     };
 
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
@@ -151,13 +159,17 @@ const Cart = ({
     0,
   );
 
-  useEffect(() => {
-    dispatch(ViewToCart());
-  }, []);
 
   useEffect(() => {
     dispatch(ViewToCart());
   }, [deteltedData]);
+  
+  // useEffect(()=>{
+  //  dispatch(ProductViewToCart())
+  // },[deleteToCart])
+
+
+
   const product = cartData?.map(item => ({
     product_id: item.product_id,
     quantity: item.quantity,
@@ -191,6 +203,9 @@ const Cart = ({
       ]);
     }
   };
+
+
+  console.log("viewcartdata--------------------------->",state);
 
   return (
     <SafeAreaView>
