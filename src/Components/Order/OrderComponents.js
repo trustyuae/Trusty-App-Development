@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, SafeAreaView, Text } from 'react-native';
+import { Image, Pressable, SafeAreaView, Text } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import Button from '../Button';
 import { Images } from '../../Constants/index';
@@ -15,6 +15,7 @@ const OrderComponents = ({
   TotalAmount,
   status,
   currency,
+  onPress
 }) => {
   const date = new Date(OrderDate);
   const formattedDate = date.toISOString().split('T')[0]; return (
@@ -55,10 +56,14 @@ const OrderComponents = ({
                 marginRight: 'auto',
               }}>
               <Text style={{ color: globalColors.black, fontSize: 16, textTransform: 'capitalize' }}>{status}</Text>
+
               <Button
                 name={'Details'}
                 stylesofbtn={styles.stylesofbtn}
-                styleoffont={styles.styleoffont}></Button>
+                styleoffont={styles.styleoffont}
+                handlepress={onPress}
+              ></Button>
+
             </View>
           </View>
         </View>
