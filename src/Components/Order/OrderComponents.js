@@ -21,9 +21,9 @@ const OrderComponents = ({
     <SafeAreaView>
       <View style={styles.line} />
       <View style={{ flexDirection: 'row' }}>
-        <Image
+       { line_items?<Image
           style={{ width: wp('40%'), height: hp('18%') }}
-          source={{ uri: line_items }}></Image>
+          source={{ uri: line_items }}></Image>:<View style={{width: wp('40%'),height: hp('18%'),backgroundColor:"white"}}></View>}
         <View style={styles.orderProducts}>
           <View
             style={{

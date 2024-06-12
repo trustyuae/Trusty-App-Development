@@ -24,38 +24,54 @@ import {ScrollView} from 'react-native';
 import MobileNo from '../MobileNo';
 import SelectDropdown from 'react-native-select-dropdown';
 
-const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
+const ModalComponent = ({
+  visible,
+  onClose,
+  stateUpdate,
+  setStateUpdate,
+  data,
+}) => {
   const dispatch = useDispatch();
-  const {data, loading, error} = useSelector(state => state.profile);
-
   const [name, setName] = useState(data?.first_name || '');
   const [lastname, setLastname] = useState(data?.last_name || '');
-  const [email, setEmail] = useState(data?.billing?.email || '');
-  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
-  const [address, setAddress] = useState(data?.billing?.address_1 || '');
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
   );
-  const [postcode, setPostcode] = useState(data?.billing?.postcode || '');
-  const [shippingCity, setShippingCity] = useState(data?.billing?.city || '');
+  const [shippingCity, setShippingCity] = useState(data?.shipping?.city || '');
   const [shippingCountry, setShippingCountry] = useState(
     data?.shipping?.country || '',
   );
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
+  const [title, setTitle] = useState(data?.meta_data[1]?.value || ''); // State variable to hold the selected title
+  const [countries, setCountries] = useState([]);
 
-  const [errors, setErrors] = useState({});
-  const [country, setCountries] = useState([]);
-
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const handleCountryChange = value => {
-    setSelectedCountry(value);
-  };
-
-  const [formData, setFormData] = useState({
-    selected: '+91',
-    phone: data?.meta_data[2]?.value || '',
+  const [errors, setErrors] = useState({
+    name: '',
+    lastname: '',
+    shippingAddress: '',
+    shippingCountry: '',
+    shippingCity: '',
+    phone: '',
   });
 
+  const payload = {
+    name: name,
+    lastname: lastname,
+    shippingAddress: shippingAddress,
+    shippingCountry: shippingCountry,
+    shippingCity: shippingCity,
+    phone: phone,
+  };
+
+  const [selected, setSelectedCountry] = useState('');
+
+  const handleTitleSelect = selectedItem => {
+    setTitle(selectedItem.title);
+  };
+
   const handleUpdate = async () => {
+    console.log('payload--------------------------->', payload);
+
     const newErrors = {};
 
     if (!name.trim()) {
@@ -66,20 +82,12 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       newErrors.lastname = 'Last Name is required.';
     }
 
-    if (!email.trim() || !validateEmail(email)) {
-      newErrors.email = 'A valid email is required.';
-    }
-
-    if (!formData.phone.trim() || !validatePhone(formData.phone)) {
+    if (!phone.trim() || !validatePhone(phone)) {
       newErrors.phone = 'A valid phone number is required.';
     }
 
     if (!shippingAddress.trim()) {
       newErrors.shippingAddress = 'Address is required.';
-    }
-
-    if (!postcode.trim()) {
-      newErrors.postcode = 'Post Code is required.';
     }
 
     if (!shippingCity.trim()) {
@@ -93,45 +101,9 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // const customer_id = await getUserId();
-      // const updatedData = {
-      //   user_id: customer_id,
-      //   first_name: data?.first_name,
-      //   last_name: data?.last_name,
-      //   title: 'Mr',
-      //   phone: data?.billing?.phone,
-      //   billing: {
-      //     first_name: name,
-      //     last_name: lastname,
-      //     address_1: address,
-      //     city: shippingCity,
-      //     postcode: postcode,
-      //     country: shippingCountry,
-      //     phone: formData?.phone,
-      //     email: email,
-      //   },
-      //   shipping: {
-      //     first_name: data?.shipping?.first_name,
-      //     last_name: data?.shipping?.last_name,
-      //     address_1: data?.shipping?.address_1,
-      //     city: data?.shipping?.city,
-      //     state: data?.shipping?.state,
-      //     postcode: data?.shipping?.postcode,
-      //   },
-      // };
-
-      // try {
-      //   dispatch(updatechekout(updatedData));
-      //   onClose();
-      //   setStateUpdate(!stateUpdate);
-      // } catch (error) {
-      //   console.log(error);
-      // }
-
       const updatedData = {
-        ...data,
-        first_name:name,
-        last_name:lastname,
+        first_name: name,
+        last_name: lastname,
 
         shipping: {
           address_1: shippingAddress,
@@ -139,25 +111,27 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
           country: shippingCountry,
         },
         meta_data: [
-          ...data.meta_data.slice(0, 2),
-          {...data.meta_data[2], value:formData.phone},
+          ...data.meta_data.slice(0, 1),
+          {...data.meta_data[1], value: title},
+          {...data.meta_data[2], value: parseInt(phone)},
           ...data.meta_data.slice(3),
         ],
       };
+
+      console.log(updatedData);
+
       const customer_id = await getUserId();
+
+      console.log('customer_id----------------->', customer_id);
+
       try {
         dispatch(updateProfile({customer_id, newData: updatedData}));
-           onClose();
+        onClose();
         setStateUpdate(!stateUpdate);
       } catch (error) {
         console.log(error);
       }
     }
-  };
-
-  const validateEmail = email => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
   };
 
   const validatePhone = phone => {
@@ -172,36 +146,12 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       .then(response => response.json())
       .then(data => {
         setCountries(data.countries);
-        setFormData(prevState => ({
-          ...prevState,
-          selectedCountry: data.userSelectValue,
-        }));
       })
       .catch(error => console.error('Error fetching countries:', error));
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const customer_id = await getUserId();
-        if (customer_id) {
-          dispatch(fetchProfile(customer_id));
-        }
-      } catch (error) {
-        console.log('Error retrieving data:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const handleChange = (key, value) => {
-    if (key == 'phone') {
-      validatePhone(key, value);
-    }
-    if (key === 'phone' && value.length > 10) {
-      return;
-    }
-    setFormData(prevState => ({...prevState, [key]: value}));
+  const handleCountryChange = value => {
+    setSelectedCountry(value);
   };
 
   return (
@@ -210,13 +160,12 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       animationType="slide"
       transparent={true}
       onRequestClose={onClose}>
-      {/* <GestureHandlerRootView> */}
-      <ScrollView >
+      <ScrollView>
         <SafeAreaView>
           <View
             style={{
-              flex:1,
-              height:hp("100%"),
+              flex: 1,
+              height: hp('100%'),
               margin: 10,
               paddingHorizontal: 20,
               backgroundColor: '#F6F1EB',
@@ -232,6 +181,36 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
               onPress={onClose}></Icon>
 
             <View style={{marginTop: 50}}>
+              <View style={{marginVertical: 5}}>
+                <Text style={{fontFamily: 'Intrepid Regular'}}>Title</Text>
+                <SelectDropdown
+                  data={[{title: 'Mr'}, {title: 'Miss'}]}
+                  onSelect={selectedItem => handleTitleSelect(selectedItem)}
+                  renderButton={(selectedItem, isOpen) => (
+                    <View style={styles.dropdownButtonStyle}>
+                      <Text style={styles.dropdownButtonTextStyle}>
+                        {title || 'Select Title'}
+                      </Text>
+                      <Icon
+                        name={isOpen ? 'chevron-up' : 'chevron-down'}
+                        style={styles.dropdownButtonArrowStyle}
+                      />
+                    </View>
+                  )}
+                  renderItem={(item, index, isSelected) => (
+                    <View
+                      style={[
+                        styles.dropdownItemStyle,
+                        isSelected && {backgroundColor: '#D2D9DF'},
+                      ]}>
+                      <Text style={styles.dropdownItemTextStyle}>
+                        {item.title}
+                      </Text>
+                    </View>
+                  )}
+                />
+              </View>
+
               <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Name</Text>
                 <TextInput
@@ -254,17 +233,6 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 )}
               </View>
 
-              {/* <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>Email</Text>
-                <TextInput
-                  style={styles.inputfield}
-                  value={email}
-                  onChangeText={text => setEmail(text)}></TextInput>
-                {errors.email && (
-                  <Text style={styles.errorText}>{errors.email}</Text>
-                )}
-              </View> */}
-
               <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Address</Text>
                 <TextInput
@@ -276,23 +244,45 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 )}
               </View>
 
-              {/* <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>Post Code</Text>
-                <TextInput
-                  style={styles.inputfield}
-                  value={postcode}
-                  onChangeText={text => setPostcode(text)}></TextInput>
-                {errors.postcode && (
-                  <Text style={styles.errorText}>{errors.postcode}</Text>
-                )}
-              </View> */}
-
               <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Country</Text>
-                <TextInput
-                  style={styles.inputfield}
-                  value={shippingCountry}
-                  onChangeText={text => setShippingCountry(text)}></TextInput>
+                <SelectDropdown
+                  data={countries}
+                  onSelect={(selectedItem, index) => {
+                    setShippingCountry(selectedItem.label);
+                  }}
+                  renderButton={(selectedItem, isOpen) => {
+                    return (
+                      <View style={styles.dropdownButtonStyle}>
+                        <Text
+                          style={{
+                            fontFamily: 'Intrepid Regular',
+                            fontSize: 14,
+                            color: 'black',
+                          }}>
+                          {selectedItem?.label || shippingCountry}
+                        </Text>
+                        <Icon
+                          name={isOpen ? 'chevron-up' : 'chevron-down'}
+                          style={styles.dropdownButtonArrowStyle}
+                        />
+                      </View>
+                    );
+                  }}
+                  renderItem={(item, index, isSelected) => {
+                    return (
+                      <View
+                        style={{
+                          ...styles.dropdownItemStyle,
+                          ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                        }}>
+                        <Text style={styles.dropdownItemTxtStyle}>
+                          {item.label}
+                        </Text>
+                      </View>
+                    );
+                  }}></SelectDropdown>
+
                 {errors.shippingCountry && (
                   <Text style={styles.errorText}>{errors.shippingCountry}</Text>
                 )}
@@ -309,7 +299,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 )}
               </View>
 
-              {/* <View style={{marginVertical: 5}}>
+              <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
                 <TextInput
                   style={styles.inputfield}
@@ -318,64 +308,17 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 {errors.phone && (
                   <Text style={styles.errorText}>{errors.phone}</Text>
                 )}
-              </View> */}
-
-              {/* <View style={styles.inputPicker}>
-                <SelectDropdown
-                  data={countries}
-                  onSelect={(selectedItem, index) => {
-                    setFormData({
-                      ...formData,
-                      selectedCountry: selectedItem.label,
-                    });
-                  }}
-                  renderButton={(selectedItem, isOpen) => {
-                    return (
-                      <View style={styles.dropdownButtonStyle}>
-                        <Text
-                          style={{
-                            fontFamily: 'Intrepid Regular',
-                            fontSize: 14,
-                            color: globalColors.buttonBackground,
-                          }}>
-                          {selectedItem?.label || 'Select Country'}
-                        </Text>
-                        <Icon
-                          name={isOpen ? 'chevron-up' : 'chevron-down'}
-                          style={styles.dropdownButtonArrowStyle}
-                        />
-                      </View>
-                    );
-                  }}
-                  renderItem={(item, index, isSelected) => {
-                    return (
-                      <View
-                        style={{
-                          ...styles.dropdownItemStyle,
-                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
-                        }}>
-                        <Text style={styles.dropdownItemTxtStyle}>
-                          {item.label}
-                        </Text>
-                      </View>
-                    );
-                  }}
-                />
-              </View> */}
-
-              <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
-                <MobileNo
-                  selected={formData.selected}
-                  setSelected={value => handleChange('selected', value)}
-                  setCountry={handleCountryChange}
-                  phone={formData.phone}
-                  setPhone={text => handleChange('phone', text)}></MobileNo>
-
-                {errors.phone && (
-                  <Text style={styles.errorText}>{errors.phone}</Text>
-                )}
               </View>
+
+              {/* <MobileNo
+                selected={selected}
+                setSelected={text => setSelectedCountry(text)}
+                setCountry={handleCountryChange}
+                phone={phone}
+                setPhone={text => setPhone(text)}></MobileNo>
+              {errors.phone && (
+                <Text style={styles.errorText}>{errors.phone}</Text>
+              )} */}
             </View>
 
             <Button
@@ -383,7 +326,6 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
               styleoffont={styles.custfontstyle}
               name={'update'}
               handlepress={handleUpdate}
-              loading={loading}
             />
           </View>
         </SafeAreaView>
@@ -417,6 +359,65 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('5%'),
     borderRadius: 1,
     padding: 8,
+  },
+  dropdownButtonStyle: {
+    height: 50,
+    height: hp('5.5%'),
+    fontSize: wp('3.1%'),
+    backgroundColor: globalColors.white,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: globalColors.inputBorder,
+    marginBottom: hp('1.5%'),
+  },
+  dropdownButtonTxtStyle: {
+    flex: 1,
+    fontSize: wp('3.1%'),
+    fontWeight: '500',
+    color: 'red',
+  },
+  dropdownButtonArrowStyle: {
+    fontSize: wp('6%'),
+    marginLeft: 'auto',
+  },
+  dropdownButtonIconStyle: {
+    fontSize: wp('3.1%'),
+    marginRight: 8,
+  },
+  dropdownMenuStyle: {
+    backgroundColor: '#E9ECEF',
+    borderRadius: 8,
+  },
+  dropdownItemStyle: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+    fontFamily: 'Intrepid Regular',
+
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  dropdownItemTxtStyle: {
+    flex: 1,
+    fontFamily: 'Intrepid Regular',
+
+    fontSize: wp('3.1%'),
+    fontWeight: '500',
+    // color: '#151E26',
+  },
+  dropdownItemIconStyle: {
+    fontSize: wp('3.1%'),
+    marginRight: 8,
+  },
+  dropdownItemTextStyle: {
+    color: 'black',
+  },
+  dropdownButtonTextStyle: {
+    color: 'black',
   },
 });
 
