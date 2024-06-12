@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   View,
   Text,
@@ -7,24 +7,27 @@ import {
   FlatList,
   RefreshControl,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import {fetchOrder} from '../../Redux/Slice/orderSlice';
-import {getToken, getUserId} from '../../Utils/localstorage';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { fetchOrder } from '../../Redux/Slice/orderSlice';
+import { getToken, getUserId } from '../../Utils/localstorage';
 import OrderComponents from '../../Components/Order/OrderComponents';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {SafeAreaView} from 'react-native';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { SafeAreaView } from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 
 const Order = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {data, loading, error} = useSelector(state => state.order);
+  const isFocused = useIsFocused(); // Hook to check if the screen is focused
+
+  const { data, loading, error } = useSelector(state => state.order);
   const [refreshing, setRefreshing] = useState(false);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
 
@@ -49,6 +52,12 @@ const Order = () => {
     await fetchData();
     setRefreshing(false);
   };
+  useEffect(() => {
+    if (isFocused) {
+      fetchData();
+    }
+  }, [isFocused]);
+
 
   const handleLoadMore = async () => {
     if (!isFetchingMore) {
@@ -58,16 +67,24 @@ const Order = () => {
     }
   };
 
-  const renderItem = ({item}) => (
-    <OrderComponents
-      key={item.id}
-      currency={item.currency}
-      OrderDate={item.date_created}
-      TotalAmount={item.total}
-      status={item.status}
-      line_items={item?.line_items[0]?.image?.src}
-    />
-  );
+  const renderItem = useMemo(() => {
+    return ({ item }) => (
+      <Pressable
+      // onPress={() => navigation.navigate('OrderDetail', { orderId: item.id })}
+      >
+        <OrderComponents
+          key={item.id}
+          currency={item.currency}
+          OrderDate={item.date_created}
+          TotalAmount={item.total}
+          status={item.status}
+          line_items={item?.line_items[0]?.image?.src}
+          onPress={() => navigation.navigate('OrderDetail', { orderId: item.id })}
+
+        />
+      </Pressable>
+    );
+  }, [navigation]);
 
   return (
     // <View style={styles.container}>
@@ -102,7 +119,12 @@ const Order = () => {
     <SafeAreaView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+        />
+      }>
         <View style={styles.container}>
           <View style={styles.subContainer}>
             {/* <Text style={styles.headingText}>Order page</Text> */}
@@ -117,12 +139,7 @@ const Order = () => {
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id.toString()}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={handleRefresh}
-                  />
-                }
+
                 // onEndReached={handleLoadMore}
                 // onEndReachedThreshold={0.1}
                 ListFooterComponent={

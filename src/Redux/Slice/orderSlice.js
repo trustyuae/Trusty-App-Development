@@ -21,6 +21,26 @@ export const fetchOrder = createAsyncThunk(
     }
   },
 );
+
+export const OrderById = createAsyncThunk(
+  'order/get', async (orderId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${baseURL}/wc/v3/orders/${orderId}`,
+        {
+          auth: {
+            username: 'ck_604dffdbe6cb804616978b0b6a04bae3de51db57',
+            password: 'cs_a508308d959ceb307994082b20b01cf9fedc2fef',
+          }
+        })
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.message);
+
+    }
+  }
+
+)
+
 const orderSlice = createSlice({
   name: 'order',
   initialState: {
@@ -41,7 +61,18 @@ const orderSlice = createSlice({
       .addCase(fetchOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-      });
+      })
+      .addCase(OrderById.pending, state => {
+        state.loading = true;
+      })
+      .addCase(OrderById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(OrderById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
   },
 });
 

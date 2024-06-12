@@ -66,7 +66,6 @@ const Home = () => {
       const token = await getToken();
       if (token) {
         setTokenData(token);
-        console.log(token)
         await dispatch(fetchWishlist(token));
       }
     } catch (error) {
@@ -80,7 +79,6 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        console.log('inside home---->', token);
         if (token) {
           setTokenData(token);
           await dispatch(fetchWishlist(token));
