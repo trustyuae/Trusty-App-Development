@@ -19,6 +19,7 @@ import {getOdrerdetail} from '../../Utils/localstorage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {useDispatch} from 'react-redux';
+import CustomStatusBar from '../StatusBar/CustomSatusBar';
 
 const Confirmation = ({setCount, total}) => {
   const dispatch = useDispatch();
@@ -49,6 +50,8 @@ const Confirmation = ({setCount, total}) => {
 
   return (
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.container}>
         <ScrollView
           style={{

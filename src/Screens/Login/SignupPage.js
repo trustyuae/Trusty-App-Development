@@ -24,6 +24,7 @@ import MobileNo from '../../Components/MobileNo';
 import Button from '../../Components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { signupUser } from '../../Redux/Slice/authSlice';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 
 const SignupPage = () => {
   const navigation = useNavigation();
@@ -281,6 +282,8 @@ const SignupPage = () => {
   const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
   return (
     <SafeAreaView style={styles.container}>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.formContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}>Create An Account</Text>
@@ -615,7 +618,7 @@ const SignupPage = () => {
 
           <View style={styles.footerContainer}>
             <Text style={styles.footerText}>
-              Already have an account<Text style={{fontFamily:"San Francisco"}}> ?</Text>
+              Already have an account<Text style={{ fontFamily: "San Francisco" }}> ?</Text>
               <Text
                 style={styles.footerLink}
                 onPress={() => navigation.navigate('Login')}>
@@ -673,7 +676,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: wp('5%'),
     // fontWeight: 'bold',
-    color:"black",
+    color: "black",
     fontSize: 22,
     marginBottom: 20,
     marginTop: Platform.OS === 'ios' ? hp('1') : hp('10%'),

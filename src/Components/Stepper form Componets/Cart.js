@@ -17,24 +17,26 @@ import {
   minus,
 } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
-import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
-import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
-import {getToken, getUserId} from '../../Utils/localstorage';
-import {fetchProfile} from '../../Redux/Slice/profileSlice';
-import {Product} from '../../Constants/Images';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
+import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
+import { orderToCart } from '../../Redux/Slice/car_slice/placeordercart';
+import { getToken, getUserId } from '../../Utils/localstorage';
+import { fetchProfile } from '../../Redux/Slice/profileSlice';
+import { Product } from '../../Constants/Images';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
 import { ProductViewToCart } from '../../Redux/Slice/car_slice/withoulogin/ViewProdcutcart';
+import CustomStatusBar from '../StatusBar/CustomSatusBar';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
 const Cart = ({
   count,
@@ -209,6 +211,8 @@ const Cart = ({
 
   return (
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.container}>
         <Text style={styles.custText}>
           You have {viewcartdata?.cart_count} items in your cart

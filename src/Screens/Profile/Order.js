@@ -19,6 +19,7 @@ import {getToken, getUserId} from '../../Utils/localstorage';
 import OrderComponents from '../../Components/Order/OrderComponents';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import {SafeAreaView} from 'react-native';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 
 const Order = () => {
   const navigation = useNavigation();
@@ -99,6 +100,8 @@ const Order = () => {
     //   )}
     // </View>
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.subContainer}>

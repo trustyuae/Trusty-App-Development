@@ -1,16 +1,18 @@
-import {StyleSheet, Text, View, TextInput, SafeAreaView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View, TextInput, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Button from '../../Components/Button';
-import {useDispatch, useSelector} from 'react-redux';
-import {postApi} from '../../Redux/Slice/postApiSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { postApi } from '../../Redux/Slice/postApiSlice';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
-const ForgotpasswordScreen = ({navigation}) => {
+const ForgotpasswordScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {loading, error, postData} = useSelector(state => state.post);
+  const { loading, error, postData } = useSelector(state => state.post);
 
   useEffect(() => {
     if (!error) {
@@ -30,7 +32,7 @@ const ForgotpasswordScreen = ({navigation}) => {
   });
 
   const handlechange = (key, value) => {
-    setValues(pre => ({...pre, [key]: value}));
+    setValues(pre => ({ ...pre, [key]: value }));
   };
 
   const validateEmail = email => {
@@ -46,7 +48,7 @@ const ForgotpasswordScreen = ({navigation}) => {
       setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
     }
     return true;
   };
@@ -63,8 +65,10 @@ const ForgotpasswordScreen = ({navigation}) => {
 
   return (
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.logincontainer}>
-        <Text style={styles.headingtext}>Forget Your Password <Text style={{fontFamily:"San Francisco"}}>?</Text> </Text>
+        <Text style={styles.headingtext}>Forget Your Password <Text style={{ fontFamily: "San Francisco" }}>?</Text> </Text>
 
         <View style={styles.custContainer}>
           <Text

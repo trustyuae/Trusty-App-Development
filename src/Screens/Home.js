@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -9,24 +9,24 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from '../Components/Counter';
 import Category from '../Components/Category';
-import {Images} from '../Constants/index';
+import { Images } from '../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import PreviewImage from '../Components/Preview/PreviewImage';
-import {globalColors} from '../Assets/Theme/globalColors';
+import { globalColors } from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
 import HeadingImage from '../Components/Preview/HeadingImage';
-import {useNavigation} from '@react-navigation/native';
-import {Pressable} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Pressable } from 'react-native';
 
 const Home = () => {
   const navigation = useNavigation();
   const [startIndex, setStartIndex] = useState(0);
 
   const navigateToCategoryProducts = categoryName => {
-    navigation.navigate('CategoryProducts', {categoryName});
+    navigation.navigate('CategoryProducts', { categoryName });
   };
 
   const previewimages = {
@@ -148,8 +148,8 @@ const Home = () => {
           </ScrollView>
         </View>
         <Text style={styles.heading}>Signature Selections</Text>
-        <PreviewImage style={{height: hp('10%')}} uri={Images.preview1} />
-        <View style={{flexDirection: 'column'}}>
+        <PreviewImage style={{ height: hp('10%') }} uri={Images.preview1} />
+        <View style={{ flexDirection: 'column' }}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={styles.productContainer}>
               {ProductList.slice(startIndex, startIndex + 2).map(product => (
@@ -179,7 +179,7 @@ const Home = () => {
           <Pressable
             onPress={onNextPress}
             disabled={startIndex + 2 >= ProductList.length}
-            style={[styles.arrowButton, styles.onNextPress, {left: 10}]}>
+            style={[styles.arrowButton, styles.onNextPress, { left: 10 }]}>
             <View>
               <Icon
                 name="keyboard-arrow-right"

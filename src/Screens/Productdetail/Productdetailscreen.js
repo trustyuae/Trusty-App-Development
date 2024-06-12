@@ -25,11 +25,14 @@ import {useEffect, useRef, useState} from 'react';
 import {fetchById} from '../../Redux/Slice/SingleProductslice';
 import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
-import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
-import {getToken, getUsername} from '../../Utils/localstorage';
-import {color} from 'react-native-elements/dist/helpers';
-import {useFocusEffect} from '@react-navigation/native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
+import { getToken, getUsername } from '../../Utils/localstorage';
+import { color } from 'react-native-elements/dist/helpers';
+import { useFocusEffect } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { addToWishlist, fetchWishlist, removeFromWishlist } from '../../Redux/Slice/wishlistSlice';
 
 export default function Productdetailscreen({route, navigation}) {
   const scrollViewRef = useRef();
@@ -51,6 +54,10 @@ export default function Productdetailscreen({route, navigation}) {
   const [color, setColor] = useState();
   const [size, setSize] = useState();
 
+  const [wishlistId, setWishListId] = useState()
+  const [isWishlist, setIsWishlist] = useState(isWatchList)
+
+  console.log('isWishlist', isWishlist);
 
   useEffect(() => {
     dispatch(fetchById(id));
@@ -142,13 +149,6 @@ export default function Productdetailscreen({route, navigation}) {
         },
       ]);
     }
-
-    // dispatch(addToCart(data)).then(action => {
-    //   if (addToCart.fulfilled.match(action)) {
-    //     setLoding(false);
-    //     navigation.navigate('Cart');
-    //   }
-    // });
   };
 
   const handleproduct = id => {
@@ -162,6 +162,8 @@ export default function Productdetailscreen({route, navigation}) {
     if (items.Wishlist) {
       const itemIdList = items.Wishlist?.map(item => ({id: item}));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
+      // console.log("items---------->", itemIdListids)
+      setWishListId(itemIdListids)
       const result = partner?.map(productItem => ({
         ...productItem,
         isWatchList: itemIdListids.has(productItem.id),
@@ -169,10 +171,55 @@ export default function Productdetailscreen({route, navigation}) {
 
       setWishlistRelated(result);
     }
-  }, [partner]);
+    else if (partner) {
+      setWishlistRelated(partner);
+    }
+  }, [partner, toggleSaved]);
+
+
+  const toggleSaved = async () => {
+    const tokenData = await getToken();
+    if (tokenData) {
+      try {
+        // Check if the product is in the wishlist
+        // const isProductInWishlist = wishlistId?.has(userId);
+
+        if (isWishlist) {
+          // Product is in the wishlist, so remove it
+          await dispatch(fetchWishlist(tokenData));
+          dispatch(removeFromWishlist({ product_id: userId, tokenData }));
+          setIsWishlist(false)
+        } else {
+          // Product is not in the wishlist, so add it          
+          dispatch(fetchWishlist(tokenData));
+
+          dispatch(addToWishlist({ product_id: userId, tokenData }));
+          setIsWishlist(true)
+        }
+
+        // Toggle the saved state
+        setSaved(!isProductInWishlist);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      navigation.navigate('LoginCustomeNavigation');
+      Alert.alert('Please login', 'You need to login to save items to your wishlist');
+    }
+  };
+
+  // useEffect(() => {
+  //   if (items.Wishlist) {
+  //     const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+  //     const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
+
+  //   }
+  // })
   return (
     <GestureHandlerRootView>
-      <SafeAreaView style={{marginTop: hp('-7%')}}>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
+      <SafeAreaView style={{ marginTop: hp('-7%') }}>
         <View>
           {loading ? (
             <View style={styles.container}>
@@ -215,8 +262,8 @@ export default function Productdetailscreen({route, navigation}) {
                       </View>
                       <View>
                         {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
-                        <TouchableOpacity onPress={() => setSaved(!saved)}>
-                          {saved ? (
+                        <TouchableOpacity onPress={toggleSaved}>
+                          {isWishlist ? (
                             <Image source={Images.saveIconFill} />
                           ) : (
                             <Image
@@ -274,7 +321,8 @@ export default function Productdetailscreen({route, navigation}) {
                     <View style={styles.productContainer}>
                       {wishlistrelated
                         ?.map((product, key) => (
-                          <View key={key}>
+                          // console.log("=====related", product),
+                          < View key={key} >
                             <TouchableOpacity
                               onPress={() => handleproduct(product?.id)}>
                               <Product
@@ -304,8 +352,8 @@ export default function Productdetailscreen({route, navigation}) {
             </>
           )}
         </View>
-      </SafeAreaView>
-    </GestureHandlerRootView>
+      </SafeAreaView >
+    </GestureHandlerRootView >
   );
 }
 const styles = StyleSheet.create({

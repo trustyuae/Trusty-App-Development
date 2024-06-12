@@ -28,6 +28,8 @@ import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
 import Toast from 'react-native-toast-message';
 import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
+import CustomStatusBar from '../StatusBar/CustomSatusBar';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
 const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [expanded, setExpanded] = useState(true);
@@ -215,6 +217,8 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
 
   return (
     <SafeAreaView>
+      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+
       <View style={styles.container}>
         <Text style={styles.custText}>DELIVERY</Text>
 
