@@ -59,10 +59,10 @@ export default function Productdetailscreen({route, navigation}) {
 
   console.log('isWishlist', isWishlist);
 
+
   useEffect(() => {
     dispatch(fetchById(id));
-    setChange('');
-    setChangeSize('');
+    
   }, [id]);
 
   useEffect(() => {
@@ -133,6 +133,8 @@ export default function Productdetailscreen({route, navigation}) {
       dispatch(addToCart(data)).then(action => {
         if (addToCart.fulfilled.match(action)) {
           setLoding(false);
+          setChange('');
+          setChangeSize('');
           navigation.navigate('Cart');
         }
       });

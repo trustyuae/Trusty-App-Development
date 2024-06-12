@@ -23,7 +23,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
 import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
@@ -64,7 +64,6 @@ const Cart = ({
   const navigation = useNavigation();
 
 
- console.log("state----------------->",state);
 
 
   useEffect(() => {
@@ -161,11 +160,11 @@ const Cart = ({
     0,
   );
 
-
-  useEffect(() => {
-    dispatch(ViewToCart());
-  }, [deteltedData]);
-  
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(ViewToCart());
+    }, [deteltedData, navigation])
+  );
   // useEffect(()=>{
   //  dispatch(ProductViewToCart())
   // },[deleteToCart])
@@ -210,7 +209,17 @@ const Cart = ({
   console.log("viewcartdata--------------------------->",state);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{position:"relative"}}>
+    <Icon
+              name={'arrow-left'}
+              size={25}
+              color="black"
+              style={{
+                position: 'absolute',
+                left: 10,
+                top:-85,
+              }}
+              onPress={() =>  navigation.goBack()}></Icon>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.container}>
