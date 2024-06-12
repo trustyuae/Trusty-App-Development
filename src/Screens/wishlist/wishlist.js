@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   RefreshControl,
@@ -8,57 +8,64 @@ import {
   Text,
   View,
 } from 'react-native';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import WishListCard from '../../Components/wishListCard/wishListCard';
-import {useDispatch, useSelector} from 'react-redux';
-import {getToken} from '../../Utils/localstorage';
-import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
-import {useNavigation} from '@react-navigation/native';
-import {Pressable} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { getToken } from '../../Utils/localstorage';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Pressable } from 'react-native';
 
-const wishlist = ({route}) => {
+const wishlist = ({ route }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
   const [token, SetToken] = useState(null);
 
   // const { items } = route?.params;
-  const {items} = useSelector(state => state.wishlist);
+  const { items } = useSelector(state => state.wishlist);
+
+
+  const fetchWishlistData = async () => {
+    try {
+      const token = await getToken();
+      SetToken(token);
+      console.log('ss', token);
+      if (token) {
+        await dispatch(fetchWishlist({ tokenData: token }));
+      }
+    } catch (error) {
+      console.log('Error retrieving data:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = await getToken();
-        SetToken(token);
-        console.log('ss', token);
-        if (token) {
-          await dispatch(fetchWishlist({tokenData: token}));
-        }
-      } catch (error) {
-        console.log('Error retrieving data:', error);
-      }
-    };
-
-    fetchData();
-  }, [dispatch, items, navigation]);
+    fetchWishlistData();
+  }, [dispatch]);
 
   useEffect(() => {
     if (token) {
-      dispatch(fetchWishlist({tokenData: token}));
+      dispatch(fetchWishlist({ tokenData: token }));
     }
   }, [token, dispatch]);
 
   const onRefresh = async () => {
     setRefreshing(true); // Set refreshing to true
-    await dispatch(fetchWishlist({tokenData: token})); // Fetch data again
+    await dispatch(fetchWishlist({ tokenData: token })); // Fetch data again
     setRefreshing(false); // Set refreshing to false once data is fetched
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchWishlistData();
+    }, [dispatch, token]) // Fetch data on focus or token change
+  );
 
   return (
     <SafeAreaView>
@@ -72,9 +79,9 @@ const wishlist = ({route}) => {
           />
         }>
         <View style={styles.container}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image
-              style={{marginRight: 15}}
+              style={{ marginRight: 15 }}
               source={Images.saveIconFill}></Image>
             <Text style={styles.mainHeading}>My Wishlists</Text>
           </View>
@@ -82,7 +89,7 @@ const wishlist = ({route}) => {
           {items?.Products?.map(item => (
             <Pressable
               onPress={() => {
-                navigation.navigate('ProductDetail', {userId: item.id});
+                navigation.navigate('ProductDetail', { userId: item.id, isWatchList: true });
               }}>
               <WishListCard key={item.id} item={item} />
             </Pressable>

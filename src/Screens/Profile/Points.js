@@ -237,7 +237,7 @@ export default Points;
 
 const styles = StyleSheet.create({
   conatiner: {
-    marginTop: hp('35%'),
+    marginTop: Platform.OS === 'ios' ? hp('26%') : hp('35%'),
     margin: 10,
   },
   cust_text: {

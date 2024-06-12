@@ -20,7 +20,7 @@ import {
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
 import { getToken } from '../../Utils/localstorage';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
 const Product = ({ uri, name, price, product_id, isWatchList }) => {
@@ -48,14 +48,17 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
     fetchData();
   }, [dispatch, tokenData]);
 
-  useEffect(() => {
-    const data = async () => {
-      await dispatch(fetchWishlist(tokenData));
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        if (tokenData) {
+          await dispatch(fetchWishlist(tokenData));
+        }
+      };
 
-    }
-    data()
-
-  }, [saved, dispatch, isWatchList, tokenData])
+      fetchData();
+    }, [saved, dispatch, isWatchList, tokenData])
+  );
   // useEffect(() => {
   //   if (wishlist && wishlist.length > 0) {
   //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
