@@ -61,7 +61,7 @@ const SearchScreen = ({ navigation }) => {
             style={{ marginTop: '50%' }}
           />
         ) : (
-          <ScrollView>
+          <ScrollView   showsVerticalScrollIndicator={false}>
             {updated.length > 0 ? (
               <View style={styles.productContainer}>
                 {updated?.map(product => (
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   productContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: hp('20%'),
+    marginBottom: hp('30%'),
   },
   container: {
     padding: 5,

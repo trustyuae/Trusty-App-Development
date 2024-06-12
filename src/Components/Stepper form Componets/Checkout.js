@@ -27,6 +27,7 @@ import {getUserId} from '../../Utils/localstorage';
 import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
 import Toast from 'react-native-toast-message';
+import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import {globalColors} from '../../Assets/Theme/globalColors';
 
@@ -43,6 +44,14 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [customerid, setCustomerID] = useState();
   const [billingdata, setBillingdata] = useState({});
   const [stateUpdate, setStateUpdate] = useState(false);
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
+  const [shippingCountry, setShippingCountry] = useState(
+    data?.shipping?.country || '',
+  );
+  const [shippingCity, setShippingCity] = useState(data?.shipping?.city || '');
+  const [shippingAddress, setShippingAddress] = useState(
+    data?.shipping?.address_1 || '',
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +63,11 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   }, [stateUpdate]);
 
   useFocusEffect(() => {
-    setBillingdata(data?.billing);
+    setBillingdata(data);
+    setPhone(data?.meta_data[2]?.value || '');
+    setShippingCountry(data?.shipping?.country || '');
+    setShippingCity(data?.shipping?.city || '');
+    setShippingAddress(data?.shipping?.address_1 || '');
   });
 
   const product = cartData?.map(item => ({
@@ -147,6 +160,14 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       return item;
     });
     setCartData(updatedCart);
+    const selectedItem = updatedCart.find(item => item.key === key);
+    dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
   };
 
   const handleDecrease = key => {
@@ -160,13 +181,21 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       return item;
     });
     setCartData(updatedCart);
+    const selectedItem = updatedCart.find(item => item.key === key);
+    dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
   };
 
-  const handleRemove = id => {
+  const handleRemove = item => {
     const data = {
-      product_id: id,
+      product_id: item.product_id,
+      variation_id: item.variation_id,
     };
-
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
       {
         text: 'Cancel',
@@ -178,7 +207,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         onPress: () => {
           dispatch(deleteToCart(data));
           const filterdata = cartData.filter(
-            item => item.product_id !== data.product_id,
+            item => item.variation_id !== data.variation_id,
           );
           setCartData(filterdata);
         },
@@ -222,12 +251,9 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
               Mr. {billingdata?.first_name} {billingdata?.last_name}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
-              {billingdata?.address_1} {billingdata?.country},
-              {billingdata?.city}
+              {shippingAddress} {shippingCountry},{shippingCity}
             </Text>
-            <Text style={{fontFamily: 'Intrepid Regular'}}>
-              +{data?.billing?.phone}
-            </Text>
+            <Text style={{fontFamily: 'Intrepid Regular'}}>+{phone}</Text>
           </View>
         </View>
         <View style={styles.custborder} />
@@ -302,7 +328,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                     position: 'absolute',
                     right: 0,
                   }}
-                  onPress={() => handleRemove(item.product_id)}></Icon>
+                  onPress={() => handleRemove(item)}></Icon>
 
                 <View
                   style={{
@@ -382,11 +408,19 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       color: 'black',
                       fontFamily: 'Intrepid Regular',
                     }}>
-                    Color : <Text style={{color: '#676766'}}> </Text>{' '}
+                    Color :{' '}
+                    <Text style={{color: '#676766'}}>
+                      {' '}
+                      {item?.mod_attributes?.color}{' '}
+                    </Text>{' '}
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                    Size : <Text style={{color: '#676766'}}> </Text>{' '}
+                    Size :{' '}
+                    <Text style={{color: '#676766'}}>
+                      {' '}
+                      {item?.mod_attributes?.size}
+                    </Text>{' '}
                   </Text>
                 </View>
                 <View></View>

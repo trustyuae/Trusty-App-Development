@@ -1,24 +1,17 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import { VIEW_TO_CART } from '../../../Constants/UserConstants';
-import { Consumer_key, Consumer_secret, baseURL, dummyurl } from '../../../Utils/API';
-import Toast from 'react-native-toast-message';
-import { getToken, getUsername } from '../../../Utils/localstorage';
 
-export const ViewToCart = createAsyncThunk(
+import Toast from 'react-native-toast-message';
+import {getToken, getUsername} from '../../../Utils/localstorage';
+import { VIEW_TO_CART } from '../../../../Constants/UserConstants';
+import { baseURL } from '../../../../Utils/API';
+
+export const ProductViewToCart = createAsyncThunk(
   VIEW_TO_CART,
-  async (data, { rejectWithValue }) => {
+  async (data, {rejectWithValue}) => {
     try {
-      let token = await getToken();
-      const response = await axios.get(
-        `${baseURL}/custom-woo-api/v1/view-cart`,
-        {
-          headers: {
-            'Authorization':`Bearer ${token}`,
-          },
-        },
-      );
-    
+      const response = await axios.get(`${baseURL}/custom/v1/cart/view`);
+
       return response.data;
     } catch (error) {
       console.error('Network Error:', error);
@@ -33,25 +26,25 @@ const initialState = {
   viewcartdata: null,
 };
 
-const ViewToCartSlice = createSlice({
+const ProductViewToCartSlice = createSlice({
   name: 'ViewToCart',
   initialState,
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(ViewToCart.pending, state => {
+      .addCase(ProductViewToCart.pending, state => {
         state.loading = true;
         state.errors = null;
       })
-      .addCase(ViewToCart.fulfilled, (state, action) => {
+      .addCase(ProductViewToCart.fulfilled, (state, action) => {
         state.loading = false;
         state.viewcartdata = action.payload;
       })
-      .addCase(ViewToCart.rejected, (state, action) => {
+      .addCase(ProductViewToCart.rejected, (state, action) => {
         state.loading = false;
         state.errors = action.payload || 'An error occurred';
       });
   },
 });
 
-export default ViewToCartSlice.reducer;
+export default ProductViewToCartSlice.reducer;

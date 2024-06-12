@@ -28,10 +28,10 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
   const dispatch = useDispatch();
   const {data, loading, error} = useSelector(state => state.profile);
 
-  const [name, setName] = useState(data?.billing?.first_name || '');
-  const [lastname, setLastname] = useState(data?.billing?.last_name || '');
+  const [name, setName] = useState(data?.first_name || '');
+  const [lastname, setLastname] = useState(data?.last_name || '');
   const [email, setEmail] = useState(data?.billing?.email || '');
-  const [phone, setPhone] = useState(data?.billing?.phone || '');
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
   const [address, setAddress] = useState(data?.billing?.address_1 || '');
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
@@ -43,7 +43,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
   );
 
   const [errors, setErrors] = useState({});
-  const [country,setCountry]=useState([])
+  const [country, setCountries] = useState([]);
 
   const [selectedCountry, setSelectedCountry] = useState('');
   const handleCountryChange = value => {
@@ -52,7 +52,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
 
   const [formData, setFormData] = useState({
     selected: '+91',
-    phone: data?.billing?.phone,
+    phone: data?.meta_data[2]?.value || '',
   });
 
   const handleUpdate = async () => {
@@ -74,8 +74,8 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       newErrors.phone = 'A valid phone number is required.';
     }
 
-    if (!address.trim()) {
-      newErrors.address = 'Address is required.';
+    if (!shippingAddress.trim()) {
+      newErrors.shippingAddress = 'Address is required.';
     }
 
     if (!postcode.trim()) {
@@ -93,36 +93,61 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      const customer_id = await getUserId();
-      const updatedData = {
-        user_id: customer_id,
-        first_name: data?.first_name,
-        last_name: data?.last_name,
-        title: 'Mr',
-        phone: data?.billing?.phone,
-        billing: {
-          first_name: name,
-          last_name: lastname,
-          address_1: address,
-          city: shippingCity,
-          postcode: postcode,
-          country: shippingCountry,
-          phone: formData?.phone,
-          email: email,
-        },
-        shipping: {
-          first_name: data?.shipping?.first_name,
-          last_name: data?.shipping?.last_name,
-          address_1: data?.shipping?.address_1,
-          city: data?.shipping?.city,
-          state: data?.shipping?.state,
-          postcode: data?.shipping?.postcode,
-        },
-      };
+      // const customer_id = await getUserId();
+      // const updatedData = {
+      //   user_id: customer_id,
+      //   first_name: data?.first_name,
+      //   last_name: data?.last_name,
+      //   title: 'Mr',
+      //   phone: data?.billing?.phone,
+      //   billing: {
+      //     first_name: name,
+      //     last_name: lastname,
+      //     address_1: address,
+      //     city: shippingCity,
+      //     postcode: postcode,
+      //     country: shippingCountry,
+      //     phone: formData?.phone,
+      //     email: email,
+      //   },
+      //   shipping: {
+      //     first_name: data?.shipping?.first_name,
+      //     last_name: data?.shipping?.last_name,
+      //     address_1: data?.shipping?.address_1,
+      //     city: data?.shipping?.city,
+      //     state: data?.shipping?.state,
+      //     postcode: data?.shipping?.postcode,
+      //   },
+      // };
 
+      // try {
+      //   dispatch(updatechekout(updatedData));
+      //   onClose();
+      //   setStateUpdate(!stateUpdate);
+      // } catch (error) {
+      //   console.log(error);
+      // }
+
+      const updatedData = {
+        ...data,
+        first_name:name,
+        last_name:lastname,
+
+        shipping: {
+          address_1: shippingAddress,
+          city: shippingCity,
+          country: shippingCountry,
+        },
+        meta_data: [
+          ...data.meta_data.slice(0, 2),
+          {...data.meta_data[2], value:formData.phone},
+          ...data.meta_data.slice(3),
+        ],
+      };
+      const customer_id = await getUserId();
       try {
-        dispatch(updatechekout(updatedData));
-        onClose();
+        dispatch(updateProfile({customer_id, newData: updatedData}));
+           onClose();
         setStateUpdate(!stateUpdate);
       } catch (error) {
         console.log(error);
@@ -155,7 +180,6 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       .catch(error => console.error('Error fetching countries:', error));
   }, []);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -187,10 +211,12 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
       transparent={true}
       onRequestClose={onClose}>
       {/* <GestureHandlerRootView> */}
-      <ScrollView>
+      <ScrollView >
         <SafeAreaView>
           <View
             style={{
+              flex:1,
+              height:hp("100%"),
               margin: 10,
               paddingHorizontal: 20,
               backgroundColor: '#F6F1EB',
@@ -228,7 +254,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 )}
               </View>
 
-              <View style={{marginVertical: 5}}>
+              {/* <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Email</Text>
                 <TextInput
                   style={styles.inputfield}
@@ -237,20 +263,20 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 {errors.email && (
                   <Text style={styles.errorText}>{errors.email}</Text>
                 )}
-              </View>
+              </View> */}
 
               <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Address</Text>
                 <TextInput
                   style={styles.inputfield}
-                  value={address}
-                  onChangeText={text => setAddress(text)}></TextInput>
-                {errors.address && (
-                  <Text style={styles.errorText}>{errors.address}</Text>
+                  value={shippingAddress}
+                  onChangeText={text => setShippingAddress(text)}></TextInput>
+                {errors.shippingAddress && (
+                  <Text style={styles.errorText}>{errors.shippingAddress}</Text>
                 )}
               </View>
 
-              <View style={{marginVertical: 5}}>
+              {/* <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Post Code</Text>
                 <TextInput
                   style={styles.inputfield}
@@ -259,7 +285,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 {errors.postcode && (
                   <Text style={styles.errorText}>{errors.postcode}</Text>
                 )}
-              </View>
+              </View> */}
 
               <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Country</Text>
@@ -272,7 +298,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 )}
               </View>
 
-               <View style={{marginVertical: 5}}>
+              <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>City</Text>
                 <TextInput
                   style={styles.inputfield}
@@ -281,7 +307,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 {errors.shippingCity && (
                   <Text style={styles.errorText}>{errors.shippingCity}</Text>
                 )}
-              </View> 
+              </View>
 
               {/* <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
@@ -293,8 +319,8 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                   <Text style={styles.errorText}>{errors.phone}</Text>
                 )}
               </View> */}
-                  
-                  {/* <View style={styles.inputPicker}>
+
+              {/* <View style={styles.inputPicker}>
                 <SelectDropdown
                   data={countries}
                   onSelect={(selectedItem, index) => {
@@ -337,19 +363,18 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
                 />
               </View> */}
 
-
-<View style={{marginVertical: 5}}>
+              <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
-              <MobileNo
-                selected={formData.selected}
-                setSelected={value => handleChange('selected', value)}
-                setCountry={handleCountryChange}
-                phone={formData.phone}
-                setPhone={text => handleChange('phone', text)}></MobileNo>
-    
-              {errors.phone && (
-                <Text style={styles.errorText}>{errors.phone}</Text>
-              )}
+                <MobileNo
+                  selected={formData.selected}
+                  setSelected={value => handleChange('selected', value)}
+                  setCountry={handleCountryChange}
+                  phone={formData.phone}
+                  setPhone={text => handleChange('phone', text)}></MobileNo>
+
+                {errors.phone && (
+                  <Text style={styles.errorText}>{errors.phone}</Text>
+                )}
               </View>
             </View>
 
@@ -358,6 +383,7 @@ const ModalComponent = ({visible, onClose, stateUpdate, setStateUpdate}) => {
               styleoffont={styles.custfontstyle}
               name={'update'}
               handlepress={handleUpdate}
+              loading={loading}
             />
           </View>
         </SafeAreaView>

@@ -2,27 +2,23 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {CLEAR_TO_CART} from '../../../Constants/UserConstants';
 import {Consumer_key, Consumer_secret, baseURL} from '../../../Utils/API';
-import {getUsername} from '../../../Utils/localstorage';
+import {getToken, getUsername} from '../../../Utils/localstorage';
 
 export const clearToCart = createAsyncThunk(
   CLEAR_TO_CART,
   async (data, {rejectWithValue}) => {
     try {
-      let useremail = await getUsername();
-
-      const response = await axios.post(
-        `${baseURL}/ade-woocart/v1/cart/delete/all?username=${useremail}`,
-        data,
-        {
-          auth: {
-            username: Consumer_key,
-            password: Consumer_secret,
-          },
+      let token = await getToken();
+      const response = await axios.delete(`${baseURL}/custom-woo-api/v1/cart/clear`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
         },
-      );
+        data: data,
+      });
+
       return response.data;
     } catch (error) {
-      console.error('Network Error:', error);
+      console.log('error-------------------------------->', error);
       return rejectWithValue(error.response?.data || 'An error occurred');
     }
   },

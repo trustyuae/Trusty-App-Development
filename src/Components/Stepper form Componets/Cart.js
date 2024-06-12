@@ -33,6 +33,8 @@ import { fetchProfile } from '../../Redux/Slice/profileSlice';
 import { Product } from '../../Constants/Images';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
+import { ProductViewToCart } from '../../Redux/Slice/car_slice/withoulogin/ViewProdcutcart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import {globalColors} from '../../Assets/Theme/globalColors';
 
@@ -43,11 +45,15 @@ const Cart = ({
   setNumber,
   setOrderDetail,
   setTotal,
+  scrollViewRef,
 }) => {
   const handlepress = () => {};
   const dispatch = useDispatch();
   const {erros, loading, viewcartdata} = useSelector(
     state => state?.ViewToCart,
+  );
+  const state = useSelector(
+    state => state.ProductView,
   );
   const {deteltedData} = useSelector(state => state?.DeleteToCart);
   const {isloading} = useSelector(state => state?.OrderToCart);
@@ -56,6 +62,10 @@ const Cart = ({
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigation();
+
+
+ console.log("state----------------->",state);
+
 
   useEffect(() => {
     const fetch = async () => {
@@ -76,9 +86,10 @@ const Cart = ({
     setCartData(viewcartdata?.cart_items);
   }, [viewcartdata, deteltedData]);
 
-  const handleRemove = id => {
+  const handleRemove = item => {
     const data = {
-      product_id: id,
+      product_id:item.product_id,
+      variation_id:item.variation_id,
     };
 
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
@@ -88,7 +99,7 @@ const Cart = ({
       },
       {
         text: 'OK',
-        onPress: () => {
+        onPress: async () => {
           dispatch(deleteToCart(data));
           setCartData(viewcartdata?.cart_items);
         },
@@ -106,7 +117,17 @@ const Cart = ({
       }
       return item;
     });
+
     setCartData(updatedCart);
+
+    const selectedItem = updatedCart.find(item => item.key === key);
+    dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
   };
 
   const handleDecrease = key => {
@@ -120,22 +141,37 @@ const Cart = ({
       return item;
     });
     setCartData(updatedCart);
+    const selectedItem = updatedCart.find(item => item.key === key);
+    dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
   };
-
-  console.log(cartData);
 
   const update = cartData?.map(item => ({
     ...item,
     total: item.product_price * item.quantity,
   }));
+
   const totalSum = update?.reduce(
     (accumulator, currentItem) => accumulator + currentItem.total,
     0,
   );
 
+
   useEffect(() => {
     dispatch(ViewToCart());
   }, [deteltedData]);
+  
+  // useEffect(()=>{
+  //  dispatch(ProductViewToCart())
+  // },[deleteToCart])
+
+
+
   const product = cartData?.map(item => ({
     product_id: item.product_id,
     quantity: item.quantity,
@@ -146,6 +182,7 @@ const Cart = ({
       if (cartData?.length > 0) {
         setOrderDetail(cartData);
         setTotal(totalSum);
+        scrollViewRef.current.scrollTo({y: 0, animated: true});
         setCount(count + 1);
       } else {
         Toast.show({
@@ -168,6 +205,9 @@ const Cart = ({
       ]);
     }
   };
+
+
+  console.log("viewcartdata--------------------------->",state);
 
   return (
     <SafeAreaView>
@@ -200,7 +240,7 @@ const Cart = ({
                     position: 'absolute',
                     right: 0,
                   }}
-                  onPress={() => handleRemove(Item.product_id)}></Icon>
+                  onPress={() => handleRemove(Item)}></Icon>
 
                 <View
                   style={{
@@ -283,14 +323,14 @@ const Cart = ({
                     }}>
                     Color :{' '}
                     <Text style={{color: '#676766'}}>
-                      {Item?.variation_attr?.attribute_pa_color}
+                      {Item?.mod_attributes?.color}
                     </Text>{' '}
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
                     Size :{' '}
                     <Text style={{color: '#676766'}}>
-                      {Item?.variation_attr?.attribute_pa_size}
+                      {Item?.mod_attributes?.size}
                     </Text>{' '}
                   </Text>
                 </View>

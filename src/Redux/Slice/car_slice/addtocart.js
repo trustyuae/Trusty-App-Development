@@ -8,27 +8,22 @@ import {
   dummyurl,
 } from '../../../Utils/API';
 import Toast from 'react-native-toast-message';
-import {getUsername} from '../../../Utils/localstorage';
-
+import {getToken} from '../../../Utils/localstorage';
 
 export const addToCart = createAsyncThunk(
   ADD_TO_CART,
   async (data, {rejectWithValue}) => {
     try {
-      const config = {
-        auth: {
-          username: Consumer_key,
-          password: Consumer_secret,
-        },
-      };
 
-      let useremail = await getUsername();
-
-
+      let token=await getToken()
       const response = await axios.post(
-        `${baseURL}/ade-woocart/v1/cart?username=${useremail}`,
+        `${baseURL}/custom-woo-api/v1/add-to-cart`,
         data,
-        config,
+        {
+          headers: {
+            'Authorization':`Bearer ${token}`,
+          },
+        },
       );
       return response.data;
     } catch (error) {
@@ -60,9 +55,9 @@ const AddToCartSlice = createSlice({
         state.cartdata = action.payload;
         Toast.show({
           type: 'success',
-          text1: state.cartdata.message,
+          text1: "Item Added",
           position: 'bottom',
-          visibilityTime: 1500,
+          visibilityTime: 3000,
         });
       })
 

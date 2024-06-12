@@ -1,5 +1,5 @@
 import {View, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import StepperComponet from '../../Components/Stepper/StepperComponet';
 import Cart from '../../Components/Stepper form Componets/Cart';
@@ -15,6 +15,7 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 const labels = ['Cart', 'Checkout', 'confirmation'];
 
 const CartScreen = () => {
+  const scrollViewRef = useRef();
   const [count, setCount] = useState(0);
   const [number, setNumber] = useState(1);
   const [orderdetail, setOrderDetail] = useState([]);
@@ -36,6 +37,7 @@ const CartScreen = () => {
       number={number}
       setOrderDetail={setOrderDetail}
       setTotal={setTotal}
+      scrollViewRef={scrollViewRef}
     />
   );
 
@@ -50,7 +52,7 @@ const CartScreen = () => {
   );
 
   const renderConfirmation = () => (
-    <Confirmation count={count} setCount={setCount} />
+    <Confirmation count={count} setCount={setCount} total={total} />
   );
 
   const renderContent = () => {
@@ -70,7 +72,7 @@ const CartScreen = () => {
     <SafeAreaView style={Platform.OS === 'ios' && {marginTop: -25}}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
         <View>
           {count == 2 ? null : (
             <View style={{marginTop: 90}}>

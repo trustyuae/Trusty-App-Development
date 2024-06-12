@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StatusBar,
-  StyleSheet, RefreshControl,
+  StyleSheet,
+  RefreshControl,
   Text,
   TouchableOpacity,
   View,
@@ -10,23 +11,23 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from '../../Components/Counter';
 import Category from '../../Components/Category';
-import { Images } from '../../Constants/index';
+import {Images} from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import PreviewImage from '../../Components/Preview/PreviewImage';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import Product from '../../Components/Product/Product';
 import HeadingImage from '../../Components/Preview/HeadingImage';
-import { useNavigation } from '@react-navigation/native';
-import { Pressable } from 'react-native';
-import { fetchCategories } from '../../Redux/Slice/categorySlice';
-import { fetchProducts } from '../../Redux/Slice/productSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
-import { getToken } from '../../Utils/localstorage';
-import { SafeAreaView } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {Pressable} from 'react-native';
+import {fetchCategories} from '../../Redux/Slice/categorySlice';
+import {fetchProducts} from '../../Redux/Slice/productSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import {getToken} from '../../Utils/localstorage';
+import {SafeAreaView} from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 const Home = () => {
   const navigation = useNavigation();
@@ -34,28 +35,27 @@ const Home = () => {
   const [startIndex, setStartIndex] = useState(0);
   const [newWitchList, setNewWitchList] = useState([]);
   const dispatch = useDispatch();
-  const { categories, categoryStatus, categoryError } = useSelector(
+  const {categories, categoryStatus, categoryError} = useSelector(
     state => state.category,
   ); // Select category state from Redux store
-  const { products, status, error } = useSelector(state => state.product);
-  const { items } = useSelector(state => state.wishlist);
+  const {products, status, error} = useSelector(state => state.product);
+  const {items} = useSelector(state => state.wishlist);
   const [tokenData, setTokenData] = useState(null);
   const [wishlist, setWishlist] = useState([]);
   //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
   // console.log('inside home---->', products);
   useEffect(() => {
-    data()
+    data();
     dispatch(fetchCategories());
     dispatch(fetchProducts());
   }, [dispatch]);
-
 
   const onRefresh = async () => {
     setRefreshing(true);
     try {
       await dispatch(fetchCategories());
       await dispatch(fetchProducts());
-      data()
+      data();
       const token = await getToken();
       if (token) {
         setTokenData(token);
@@ -67,12 +67,10 @@ const Home = () => {
     setRefreshing(false);
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        console.log('inside home---->', token);
         if (token) {
           setTokenData(token);
           await dispatch(fetchWishlist(token));
@@ -85,7 +83,7 @@ const Home = () => {
   }, [dispatch, getToken]);
   const data = () => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+      const itemIdList = items.Wishlist?.map(item => ({id: item}));
       const productIds = new Set(itemIdList.map(item => Number(item.id)));
       const result = products.map(productItem => ({
         ...productItem,
@@ -95,21 +93,20 @@ const Home = () => {
     } else if (wishlist) {
       setWishlist(products);
     }
-  }
+  };
 
   useEffect(() => {
-    data()
+    data();
   }, [items, products, categories, tokenData]);
   // console.log(
   //   '------======',
   //   wishlist?.map(data => console.log(data.isWatchList)),
   // );
-  console.log('****************');
   // useEffect(() => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
-    navigation.navigate('CategoryProducts', { category, products });
+    navigation.navigate('CategoryProducts', {category, products});
     // console.log("products",category);
   };
   const previewimages = {
@@ -201,13 +198,15 @@ const Home = () => {
     },
   ];
   return (
-    <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
+    <SafeAreaView style={{backgroundColor: globalColors.statusBar}}>
       <View style={styles.container}>
         <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar>
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
-        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={globalColors.black}
-          tintColor={globalColors.black} />}
-        >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           <HeadingImage />
           <Text style={styles.heading}>Our cave of wonders</Text>
           <PreviewImage uri={previewimages.previewImages} />
@@ -228,8 +227,8 @@ const Home = () => {
             {/* </ScrollView> */}
           </View>
           <Text style={styles.heading}>Signature Selections</Text>
-          <PreviewImage style={{ height: hp('10%') }} uri={Images.preview1} />
-          <View style={{ flexDirection: 'column', marginTop: 15 }}>
+          <PreviewImage style={{height: hp('10%')}} uri={Images.preview1} />
+          <View style={{flexDirection: 'column', marginTop: 15}}>
             <View style={styles.productContainer}>
               {wishlist.slice(startIndex, startIndex + 4).map(product => (
                 <Pressable
@@ -297,7 +296,10 @@ const Home = () => {
               {wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
                 <Pressable
                   onPress={() =>
-                    navigation.navigate('ProductDetail', { userId: product.id, isWatchList: product?.isWatchList, })
+                    navigation.navigate('ProductDetail', {
+                      userId: product.id,
+                      isWatchList: product?.isWatchList,
+                    })
                   }>
                   <Product
                     key={product?.id}

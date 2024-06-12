@@ -182,6 +182,7 @@ const SignupPage = () => {
     setFormData(prevState => ({ ...prevState, [key]: value }));
     validateField(key, value);
   };
+  
   useEffect(() => {
     fetch(
       'https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code',
@@ -231,7 +232,6 @@ const SignupPage = () => {
       billing: billingAddress,
       shipping: shippingAddress,
     };
-    console.log(userData);
     dispatch(signupUser(userData)).then(action => {
       if (signupUser.fulfilled.match(action)) {
         clearForm();

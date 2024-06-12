@@ -21,12 +21,12 @@ import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {useDispatch} from 'react-redux';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 
-const Confirmation = ({setCount}) => {
+const Confirmation = ({setCount, total}) => {
   const dispatch = useDispatch();
+  const [orderdata, setOrderData] = useState(null);
   const navigation = useNavigation();
   const today = new Date();
   const options = {
-    weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -38,8 +38,6 @@ const Confirmation = ({setCount}) => {
     AsyncStorage.removeItem('orderdata');
     navigation.navigate('DrawerHome');
   };
-
-  const [orderdata, setOrderData] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,7 +79,7 @@ const Confirmation = ({setCount}) => {
                   <Text style={styles.label}>Order Number:</Text>
                 </View>
                 <View style={styles.cell}>
-                  <Text style={styles.value}>3489</Text>
+                  <Text style={styles.value}>{orderdata?.number}</Text>
                 </View>
               </View>
               <View style={styles.row}>
@@ -98,7 +96,7 @@ const Confirmation = ({setCount}) => {
                 </View>
                 <View style={styles.cell}>
                   <Text style={styles.value}>
-                    {orderdata?.shipping_lines[0]?.total} AED
+                    {orderdata?.shipping_lines[0]?.total} {orderdata?.currency}
                   </Text>
                 </View>
               </View>

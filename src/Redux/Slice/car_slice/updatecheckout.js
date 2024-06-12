@@ -22,7 +22,6 @@ export const updatechekout = createAsyncThunk(
         data,
         config,
       );
-      console.log("data------------------------------>",data)
 
       return response.data;
     } catch (error) {
