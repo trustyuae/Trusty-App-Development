@@ -307,7 +307,7 @@ const Cart = ({
                       style={{
                         height: 100,
                         width: 90,
-                        backgroundColor: '#f4f4f4',
+                        backgroundColor: 'white',
                       }}></View>
                   )}
                 </View>

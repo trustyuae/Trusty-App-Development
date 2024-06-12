@@ -1,4 +1,12 @@
-import {Image, Text, View, Pressable, SafeAreaView} from 'react-native';
+import {
+  Image,
+  Text,
+  View,
+  Pressable,
+  SafeAreaView,
+  Modal,
+  ScrollView,
+} from 'react-native';
 import {
   CartImg,
   EditICon,
@@ -52,6 +60,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
   );
+  const[title,setTitle]=useState(data?.meta_data[1]?.value || '')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +77,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     setShippingCountry(data?.shipping?.country || '');
     setShippingCity(data?.shipping?.city || '');
     setShippingAddress(data?.shipping?.address_1 || '');
+    setTitle(data?.meta_data[1]?.value || '')
   });
 
   const product = cartData?.map(item => ({
@@ -215,6 +225,8 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     ]);
   };
 
+
+ 
   return (
     <SafeAreaView style={{position: 'relative'}}>
       <Icon
@@ -258,10 +270,10 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
 
           <View style={{marginLeft: 30, marginTop: -20, marginVertical: 10}}>
             <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-              Mr. {billingdata?.first_name} {billingdata?.last_name}
+              {title}. {billingdata?.first_name} {billingdata?.last_name}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
-              {shippingAddress} {shippingCountry},{shippingCity}
+              {shippingAddress}, {shippingCountry},{shippingCity}
             </Text>
             <Text style={{fontFamily: 'Intrepid Regular'}}>+{phone}</Text>
           </View>
@@ -395,7 +407,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       style={{
                         height: 100,
                         width: 90,
-                        backgroundColor: '#f4f4f4',
+                        backgroundColor: 'white',
                       }}></View>
                   )}
                 </View>
@@ -500,6 +512,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         onClose={closeModal}
         stateUpdate={stateUpdate}
         setStateUpdate={setStateUpdate}
+        data={data}
       />
     </SafeAreaView>
   );
