@@ -27,7 +27,7 @@ import {getUserId} from '../../Utils/localstorage';
 import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
 import Toast from 'react-native-toast-message';
-import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
+import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import {globalColors} from '../../Assets/Theme/globalColors';
 
@@ -216,7 +216,17 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{position: 'relative'}}>
+      <Icon
+        name={'arrow-left'}
+        size={25}
+        color="black"
+        style={{
+          position: 'absolute',
+          left: 10,
+          top: -85,
+        }}
+        onPress={() => setCount(pre => (count >= 2 ? 0 : pre - 1))}></Icon>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.container}>

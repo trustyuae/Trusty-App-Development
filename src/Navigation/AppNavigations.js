@@ -35,23 +35,24 @@ const AppNavigations = ({ navigation }) => {
         <Stack.Screen
           name="Cart"
           component={CartScreen} // Pass the navigation prop here
-          options={({ navigation }) => ({
-            headerTransparent: true,
-            title: null,
-            headerStyle: {
-              backgroundColor: '#f6f1eb',
-            },
-            headerBackTitleVisible: false,
-            headerLeft: () => (
-              <Icon
-                name="arrow-back"
-                size={25}
-                color="#333" // Customize the color as needed
-                style={{ marginLeft: 1 }}
-                onPress={() => navigation.goBack()}
-              />
-            ),
-          })}
+          // options={({ navigation }) => ({
+          //   headerTransparent: true,
+          //   title: null,
+          //   headerStyle: {
+          //     backgroundColor: '#f6f1eb',
+          //   },
+          //   headerBackTitleVisible: false,
+          //   headerLeft: () => (
+          //     <Icon
+          //       name="arrow-back"
+          //       size={25}
+          //       color="#333" // Customize the color as needed
+          //       style={{ marginLeft: 1 }}
+          //       onPress={() => navigation.goBack()}
+          //     />
+          //   ),
+          // })}
+        options={{headerShown:false}}
         />
         <Stack.Screen
           name="wishlist"
