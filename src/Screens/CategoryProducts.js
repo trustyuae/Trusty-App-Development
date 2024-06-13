@@ -250,6 +250,7 @@ const CategoryProducts = ({ navigation }) => {
             ) : (
               wishlist.map(product => (
                 <TouchableOpacity
+                  key={product.id}
                   onPress={() =>
                     navigation.navigate('ProductDetail', {
                       userId: product.id,

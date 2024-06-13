@@ -43,10 +43,36 @@ const OrderDetails = ({ route }) => {
                             color={globalColors.black}
                             style={{ marginTop: '50%' }}
                         /></View> : <View style={styles.container}>
+
+
                         <View style={styles.headingContainer}>
                             <Icon name="information-circle" size={24} color={globalColors.black} />
                             <Text style={styles.heading}>Order Details</Text>
                         </View>
+                        <View style={styles.sectionProduct}>
+                            <Text style={styles.subHeading}>Product</Text>
+                            {data?.line_items?.map(item => (
+                                <View key={item.id} style={styles.item}>
+                                    {/* <Image source={{ uri: item.image.src }} style={styles.itemImage} /> */}
+
+                                    {
+                                        item.image.src ? <Image source={{
+                                            uri: item.image.src
+                                        }} height={120}
+                                            width={120}></Image> : <View style={{ height: 120, width: 120, backgroundColor: globalColors.buttonBackground }}></View>
+                                    }
+                                    <View style={styles.itemDetails}>
+                                        <Text style={styles.itemName}>{item.name}</Text>
+                                        <Text style={styles.text}>Quantity: {item.quantity}</Text>
+                                        <Text style={styles.text}>Price: {data.currency_symbol} {item.price}</Text>
+                                        <Text style={styles.text}>Subtotal: {data.currency_symbol} {item.subtotal}</Text>
+                                    </View>
+                                </View>
+                            ))}
+                        </View>
+
+
+
                         <View style={styles.section}>
                             <Text style={styles.subHeading}>Order Information</Text>
                             <Text style={styles.text}>Order Number: {data.number}</Text>
@@ -73,27 +99,7 @@ const OrderDetails = ({ route }) => {
                             {/* <Text style={styles.text}>Phone: {data?.shipping?.phone}</Text> */}
                         </View>
 
-                        <View style={styles.sectionProduct}>
-                            <Text style={styles.subHeading}>Product</Text>
-                            {data?.line_items?.map(item => (
-                                <View key={item.id} style={styles.item}>
-                                    {/* <Image source={{ uri: item.image.src }} style={styles.itemImage} /> */}
 
-                                    {
-                                        item.image.src ? <Image source={{
-                                            uri: item.image.src
-                                        }} height={120}
-                                            width={120}></Image> : <View style={{ height: 120, width: 120, backgroundColor: globalColors.buttonBackground }}></View>
-                                    }
-                                    <View style={styles.itemDetails}>
-                                        <Text style={styles.itemName}>{item.name}</Text>
-                                        <Text style={styles.text}>Quantity: {item.quantity}</Text>
-                                        <Text style={styles.text}>Price: {data.currency_symbol} {item.price}</Text>
-                                        <Text style={styles.text}>Subtotal: {data.currency_symbol} {item.subtotal}</Text>
-                                    </View>
-                                </View>
-                            ))}
-                        </View>
                     </View>
                 }
 

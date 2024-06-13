@@ -14,20 +14,20 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors.js';
 import { Image } from 'react-native';
-import { Images } from '../../Constants';
-import { logoutUser } from '../../Redux/Slice/loginslice';
+import { Images } from '../../Constants/index.js';
+import { logoutUser } from '../../Redux/Slice/loginslice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { getToken, getUserId } from '../../Utils/localstorage';
+import { getToken, getUserId } from '../../Utils/localstorage.js';
 import RNPickerSelect from 'react-native-picker-select';
 import { currencies } from '../../Assets/Currency.js';
 import {
   fetchProfile,
   resetProfile,
   updateProfile,
-} from '../../Redux/Slice/profileSlice';
+} from '../../Redux/Slice/profileSlice.js';
 import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PasswordModal from '../../Components/Model/PasswordModal.js';
@@ -181,7 +181,7 @@ const Profile = () => {
       ) : data ? (
         <View style={styles.container}>
           <TouchableOpacity onPress={editable ? handleSave : handleEdit}>
-            <Text style={{marginLeft: 'auto'}}>
+            <Text style={{ marginLeft: 'auto' }}>
               {editable ? 'Save' : 'Edit'}
             </Text>
           </TouchableOpacity>

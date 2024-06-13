@@ -18,19 +18,51 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import { getToken } from '../../Utils/localstorage';
 
 const SearchScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const { products, status, error } = useSelector(state => state.product);
   const [data, setData] = useState([]);
+  const { items } = useSelector(state => state.wishlist);
+
   const [search, setSearch] = useState('');
+  const [wishlist, setWishlist] = useState([]);
+  const [tokenData, setTokenData] = useState(null);
 
   useEffect(() => {
+    const token = getToken();
+    if (token) {
+      setTokenData(token);
+      dispatch(fetchWishlist(token));
+    }
+
     dispatch(fetchProducts());
-  }, []);
+    dataWishlist()
+  }, [dispatch]);
+
+
+
+  const dataWishlist = () => {
+    if (items.Wishlist) {
+      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+      const productIds = new Set(itemIdList.map(item => Number(item.id)));
+      const result = products.map(productItem => ({
+        ...productItem,
+        isWatchList: productIds.has(productItem.id),
+      }));
+      setWishlist(result);
+    } else if (wishlist) {
+      setWishlist(products);
+    }
+  }
+
+
+
 
   useEffect(() => {
-    setData(products);
+    setData(wishlist);
   }, [products]);
 
   const updated = data.filter(item =>
@@ -78,6 +110,7 @@ const SearchScreen = ({ navigation }) => {
                       price={product?.price}
                       saved={product?.saved}
                       product_id={product?.id}
+                      isWatchList={product?.isWatchList}
                     />
                   </TouchableOpacity>
                 ))}
@@ -107,10 +140,11 @@ const styles = StyleSheet.create({
   productContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'center',
     marginBottom: hp('30%'),
   },
   container: {
-    padding: 5,
+    // padding: 5,
   },
   inputfield: {
     backgroundColor: 'white',
