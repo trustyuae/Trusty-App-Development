@@ -36,7 +36,6 @@ const wishlist = ({ route }) => {
     try {
       const token = await getToken();
       SetToken(token);
-      console.log('ss', token);
       if (token) {
         await dispatch(fetchWishlist({ tokenData: token }));
       }

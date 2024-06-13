@@ -14,7 +14,6 @@ export const fetchWishlist = createAsyncThunk(
           Authorization: `Bearer ${tokenData}`,
         },
       });
-      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

@@ -41,9 +41,17 @@ const ModalComponent = ({
   const [shippingCountry, setShippingCountry] = useState(
     data?.shipping?.country || '',
   );
-  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
+  // const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
   const [title, setTitle] = useState(data?.meta_data[1]?.value || ''); // State variable to hold the selected title
   const [countries, setCountries] = useState([]);
+
+  const [formData, setFormData] = useState({
+    phone:data?.meta_data[2]?.value || '',
+    selected: '+91',
+  });
+
+
+  console.log(data);
 
   const [errors, setErrors] = useState({
     name: '',
@@ -54,24 +62,17 @@ const ModalComponent = ({
     phone: '',
   });
 
-  const payload = {
-    name: name,
-    lastname: lastname,
-    shippingAddress: shippingAddress,
-    shippingCountry: shippingCountry,
-    shippingCity: shippingCity,
-    phone: phone,
-  };
 
-  const [selected, setSelectedCountry] = useState('');
+
+  const [selected, setSelectedCountry] = useState('+91');
+
+  const [aphone, setaphone] = useState([]);
 
   const handleTitleSelect = selectedItem => {
     setTitle(selectedItem.title);
   };
 
   const handleUpdate = async () => {
-    console.log('payload--------------------------->', payload);
-
     const newErrors = {};
 
     if (!name.trim()) {
@@ -82,7 +83,7 @@ const ModalComponent = ({
       newErrors.lastname = 'Last Name is required.';
     }
 
-    if (!phone.trim() || !validatePhone(phone)) {
+    if (!formData.phone.trim() || !validatePhone(formData.phone)) {
       newErrors.phone = 'A valid phone number is required.';
     }
 
@@ -113,16 +114,12 @@ const ModalComponent = ({
         meta_data: [
           ...data.meta_data.slice(0, 1),
           {...data.meta_data[1], value: title},
-          {...data.meta_data[2], value: parseInt(phone)},
+          {...data.meta_data[2], value: formData.phone},
           ...data.meta_data.slice(3),
         ],
       };
 
-      console.log(updatedData);
-
       const customer_id = await getUserId();
-
-      console.log('customer_id----------------->', customer_id);
 
       try {
         dispatch(updateProfile({customer_id, newData: updatedData}));
@@ -141,17 +138,30 @@ const ModalComponent = ({
 
   useEffect(() => {
     fetch(
-      'https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code',
+      'https://valid.layercode.workers.dev/list/countries?format=select&value=code',
     )
       .then(response => response.json())
       .then(data => {
         setCountries(data.countries);
+        setFormData(prevState => ({
+          ...prevState,
+          selectedCountry:data.userSelectValue,
+        }));
       })
       .catch(error => console.error('Error fetching countries:', error));
   }, []);
 
   const handleCountryChange = value => {
     setSelectedCountry(value);
+  };
+
+
+
+  const handleChange = (key, value) => {
+    if (key === 'phone' && value.length > 10) {
+      return;
+    }
+    setFormData(prevState => ({...prevState, [key]: value}));
   };
 
   return (
@@ -166,7 +176,7 @@ const ModalComponent = ({
             style={{
               flex: 1,
               height: hp('100%'),
-              margin: 10,
+            
               paddingHorizontal: 20,
               backgroundColor: '#F6F1EB',
             }}>
@@ -176,7 +186,8 @@ const ModalComponent = ({
               color="black"
               style={{
                 position: 'absolute',
-                right: 0,
+                right:20,
+                top:10,
               }}
               onPress={onClose}></Icon>
 
@@ -298,7 +309,7 @@ const ModalComponent = ({
                   <Text style={styles.errorText}>{errors.shippingCity}</Text>
                 )}
               </View>
-
+{/* 
               <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
                 <TextInput
@@ -308,17 +319,17 @@ const ModalComponent = ({
                 {errors.phone && (
                   <Text style={styles.errorText}>{errors.phone}</Text>
                 )}
-              </View>
+              </View> */}
 
-              {/* <MobileNo
-                selected={selected}
-                setSelected={text => setSelectedCountry(text)}
+              <MobileNo
+                selected={formData.selected}
+                setSelected={value => handleChange('selected', value)}
                 setCountry={handleCountryChange}
-                phone={phone}
-                setPhone={text => setPhone(text)}></MobileNo>
+                phone={formData.phone}
+                setPhone={text => handleChange('phone', text)}></MobileNo>
               {errors.phone && (
                 <Text style={styles.errorText}>{errors.phone}</Text>
-              )} */}
+              )}
             </View>
 
             <Button

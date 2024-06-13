@@ -211,7 +211,7 @@ const Home = () => {
       <View style={styles.container}>
         <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar>
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
-        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={globalColors.black}
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} 
           tintColor={globalColors.black} />}
         >
           <HeadingImage />

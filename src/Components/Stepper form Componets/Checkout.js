@@ -125,6 +125,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       ],
     };
 
+    
     if (cartData.length > 0) {
       dispatch(orderToCart(obj)).then(action => {
         if (orderToCart.fulfilled.match(action)) {
@@ -255,17 +256,21 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         <View
           style={{
             marginTop: 10,
+            position:"relative"
           }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+             <Pressable
+              onPress={handleEditClick}
+              style={{position:"absolute",right:0,}}
+              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+              <Image source={EditICon} height={20} width={20}  />
+            </Pressable>
+          <View style={{ justifyContent: 'space-between'}}>
+           
+
+           
             <View>
               <Image source={Groupicon} />
             </View>
-
-            <Pressable
-              onPress={handleEditClick}
-              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
-              <Image source={EditICon} height={20} width={20} />
-            </Pressable>
           </View>
 
           <View style={{marginLeft: 30, marginTop: -20, marginVertical: 10}}>

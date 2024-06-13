@@ -42,7 +42,6 @@ const WishListCard = ({navigation, item, onPress}) => {
   //     console.log("Dispatchcalling", item.id)
   //     dispatch(removeFromWishlist({ product_id: item.id, tokenData }));
   // }
-  console.log('+++++---', item);
   return (
     <SafeAreaView>
       <View>

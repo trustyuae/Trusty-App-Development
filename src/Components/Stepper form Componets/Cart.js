@@ -206,7 +206,6 @@ const Cart = ({
   };
 
 
-  console.log("viewcartdata--------------------------->",state);
 
   return (
     <SafeAreaView style={{position:"relative"}}>

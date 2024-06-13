@@ -190,7 +190,8 @@ const SignupPage = () => {
       .then(response => response.json())
       .then(data => {
         setCountries(data.countries);
-        setFormData(prevState => ({
+        setFormData(prevState =>
+           ({
           ...prevState,
           selectedCountry: data.userSelectValue,
         }));
