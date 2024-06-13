@@ -73,7 +73,7 @@ const Order = () => {
           key={item.id}
           currency={item.currency}
           OrderDate={item.date_created}
-          TotalAmount={item.total}
+          TotalAmount={item.shipping_total}
           status={item.status}
           line_items={item?.line_items[0]?.image?.src}
           onPress={() => navigation.navigate('OrderDetail', { orderId: item.id })}

@@ -27,6 +27,8 @@ import { fetchWishlist } from '../Redux/Slice/wishlistSlice';
 import { getToken } from '../Utils/localstorage';
 import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
 import { RefreshControl } from 'react-native';
+import SkeletonLoader from '../Components/Loader/SkeletonLoader';
+import SkeletonLoaderProducts from '../Components/Loader/SkeletonLoaderProducts';
 
 const CategoryProducts = ({ navigation }) => {
   const route = useRoute();
@@ -76,7 +78,9 @@ const CategoryProducts = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      dispatch(fetchCategoryProducts({ categoryId: category.id }));
+      refreshWishlist();
+
+      // dispatch(fetchCategoryProducts({ categoryId: category.id }));
     }, [dispatch, category.id])
   );
 
@@ -238,11 +242,12 @@ const CategoryProducts = ({ navigation }) => {
           />
           <View style={styles.productContainer}>
             {status === 'loading' ? (
-              <ActivityIndicator
-                size="large"
-                color={globalColors.black}
-                style={{ marginTop: '50%' }}
-              />
+              // <ActivityIndicator
+              //   size="large"
+              //   color={globalColors.black}
+              //   style={{ marginTop: '50%' }}
+              // />
+              <SkeletonLoaderProducts />
             ) : status === 'failed' ? (
               <Text style={styles.errorText}>Error: {error}</Text>
             ) : categoryProducts.length === 0 ? (

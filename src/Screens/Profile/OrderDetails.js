@@ -79,7 +79,7 @@ const OrderDetails = ({ route }) => {
                             <Text style={styles.text}>Order Date: {data.date_created}</Text>
                             <Text style={styles.text}>Order Status: {data.status}</Text>
                             <Text style={styles.text}>Payment Method: {data.payment_method_title}</Text>
-                            <Text style={styles.text}>Total Amount: {data.currency_symbol} {data.total}</Text>
+                            <Text style={styles.text}>Total Amount: {data.currency_symbol} {data.shipping_total}</Text>
                         </View>
 
                         <View style={styles.section}>

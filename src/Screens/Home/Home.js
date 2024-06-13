@@ -28,6 +28,7 @@ import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { getToken } from '../../Utils/localstorage';
 import { SafeAreaView } from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 const Home = () => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
@@ -38,7 +39,7 @@ const Home = () => {
     state => state.category,
   ); // Select category state from Redux store
   const { products, status, error } = useSelector(state => state.product);
-  const { items } = useSelector(state => state.wishlist);
+  const { items, loading: wishlistLoading } = useSelector(state => state.wishlist);
   const [tokenData, setTokenData] = useState(null);
   const [wishlist, setWishlist] = useState([]);
   //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
@@ -158,26 +159,27 @@ const Home = () => {
           <PreviewImage style={{ height: hp('10%') }} uri={Images.preview1} />
           <View style={{ flexDirection: 'column', marginTop: 15 }}>
             <View style={styles.productContainer}>
-              {wishlist.slice(startIndex, startIndex + 4).map(product => (
-                <Pressable
-                  key={product?.id}
-                  onPress={() =>
-                    navigation.navigate('ProductDetail', {
-                      userId: product.id,
-                      isWatchList: product?.isWatchList,
-                    })
-                  }>
-                  <Product
+              {(true && wishlist.length === 0) ? (<SkeletonLoader />) :
+                (wishlist.slice(startIndex, startIndex + 4).map(product => (
+                  <Pressable
                     key={product?.id}
-                    uri={product?.images[0]?.src}
-                    name={product?.name}
-                    price={product?.price}
-                    saved={product?.saved}
-                    product_id={product?.id}
-                    isWatchList={product?.isWatchList}
-                  />
-                </Pressable>
-              ))}
+                    onPress={() =>
+                      navigation.navigate('ProductDetail', {
+                        userId: product.id,
+                        isWatchList: product?.isWatchList,
+                      })
+                    }>
+                    <Product
+                      key={product?.id}
+                      uri={product?.images[0]?.src}
+                      name={product?.name}
+                      price={product?.price}
+                      saved={product?.saved}
+                      product_id={product?.id}
+                      isWatchList={product?.isWatchList}
+                    />
+                  </Pressable>
+                )))}
             </View>
             {/* </ScrollView> */}
             <View
@@ -222,22 +224,24 @@ const Home = () => {
               </TouchableOpacity>
             </View>
             <View style={styles.productContainer}>
-              {wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
-                <Pressable
-                  key={product?.id}
-                  onPress={() =>
-                    navigation.navigate('ProductDetail', { userId: product.id, isWatchList: product?.isWatchList, })
-                  }>
-                  <Product
+              {true && wishlist.length === 0 ? (<SkeletonLoader />) :
+
+                wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
+                  <Pressable
                     key={product?.id}
-                    uri={product?.images[0]?.src}
-                    name={product?.name}
-                    price={product?.price}
-                    saved={product?.saved}
-                    product_id={product?.id}
-                    isWatchList={product?.isWatchList}></Product>
-                </Pressable>
-              ))}
+                    onPress={() =>
+                      navigation.navigate('ProductDetail', { userId: product.id, isWatchList: product?.isWatchList, })
+                    }>
+                    <Product
+                      key={product?.id}
+                      uri={product?.images[0]?.src}
+                      name={product?.name}
+                      price={product?.price}
+                      saved={product?.saved}
+                      product_id={product?.id}
+                      isWatchList={product?.isWatchList}></Product>
+                  </Pressable>
+                ))}
             </View>
           </View>
         </ScrollView>
