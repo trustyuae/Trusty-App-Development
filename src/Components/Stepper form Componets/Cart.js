@@ -17,24 +17,24 @@ import {
   minus,
 } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
-import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
-import { orderToCart } from '../../Redux/Slice/car_slice/placeordercart';
-import { getToken, getUserId } from '../../Utils/localstorage';
-import { fetchProfile } from '../../Redux/Slice/profileSlice';
-import { Product } from '../../Constants/Images';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
+import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
+import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
+import {getToken, getUserId} from '../../Utils/localstorage';
+import {fetchProfile} from '../../Redux/Slice/profileSlice';
+import {Product} from '../../Constants/Images';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
-import { ProductViewToCart } from '../../Redux/Slice/car_slice/withoulogin/ViewProdcutcart';
+import {ProductViewToCart} from '../../Redux/Slice/car_slice/withoulogin/ViewProdcutcart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import {globalColors} from '../../Assets/Theme/globalColors';
 
@@ -52,9 +52,7 @@ const Cart = ({
   const {erros, loading, viewcartdata} = useSelector(
     state => state?.ViewToCart,
   );
-  const state = useSelector(
-    state => state.ProductView,
-  );
+  const state = useSelector(state => state.ProductView);
   const {deteltedData} = useSelector(state => state?.DeleteToCart);
   const {isloading} = useSelector(state => state?.OrderToCart);
   const {data} = useSelector(state => state?.profile);
@@ -62,7 +60,6 @@ const Cart = ({
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigation();
-
 
 
 
@@ -87,8 +84,8 @@ const Cart = ({
 
   const handleRemove = item => {
     const data = {
-      product_id:item.product_id,
-      variation_id:item.variation_id,
+      product_id: item.product_id,
+      variation_id: item.variation_id,
     };
 
     Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
@@ -163,13 +160,11 @@ const Cart = ({
   useFocusEffect(
     useCallback(() => {
       dispatch(ViewToCart());
-    }, [deteltedData, navigation])
+    }, [deteltedData, navigation]),
   );
   // useEffect(()=>{
   //  dispatch(ProductViewToCart())
   // },[deleteToCart])
-
-
 
   const product = cartData?.map(item => ({
     product_id: item.product_id,
@@ -205,21 +200,18 @@ const Cart = ({
     }
   };
 
-
-  console.log("viewcartdata--------------------------->",state);
-
   return (
-    <SafeAreaView style={{position:"relative"}}>
-    <Icon
-              name={'arrow-left'}
-              size={25}
-              color="black"
-              style={{
-                position: 'absolute',
-                left: 10,
-                top:-85,
-              }}
-              onPress={() =>  navigation.goBack()}></Icon>
+    <SafeAreaView style={{position: 'relative'}}>
+      <Icon
+        name={'arrow-left'}
+        size={25}
+        color="black"
+        style={{
+          position: 'absolute',
+          left: 10,
+          top: -85,
+        }}
+        onPress={() => navigation.goBack()}></Icon>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.container}>

@@ -134,7 +134,8 @@ const Home = () => {
       <View style={styles.container}>
         <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar>
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
-        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} 
+          tintColor={globalColors.black} />}
         >
           <HeadingImage />
           <Text style={styles.heading}>Our cave of wonders</Text>

@@ -38,6 +38,10 @@ import Toast from 'react-native-toast-message';
 import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import {globalColors} from '../../Assets/Theme/globalColors';
+import {
+  GestureHandlerRootView,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 
 const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [expanded, setExpanded] = useState(true);
@@ -52,7 +56,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [customerid, setCustomerID] = useState();
   const [billingdata, setBillingdata] = useState({});
   const [stateUpdate, setStateUpdate] = useState(false);
-  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
+  const [phone, setPhone] = useState(data?.meta_data[3]?.value || '');
   const [shippingCountry, setShippingCountry] = useState(
     data?.shipping?.country || '',
   );
@@ -60,7 +64,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
   );
-  const[title,setTitle]=useState(data?.meta_data[1]?.value || '')
+  const [title, setTitle] = useState(data?.meta_data[1]?.value || '');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,7 +81,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     setShippingCountry(data?.shipping?.country || '');
     setShippingCity(data?.shipping?.city || '');
     setShippingAddress(data?.shipping?.address_1 || '');
-    setTitle(data?.meta_data[1]?.value || '')
+    setTitle(data?.meta_data[1]?.value || '');
   });
 
   const product = cartData?.map(item => ({
@@ -225,296 +229,313 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     ]);
   };
 
+  console.log('phone------------->', data);
 
- 
   return (
-    <SafeAreaView style={{position: 'relative'}}>
-      <Icon
-        name={'arrow-left'}
-        size={25}
-        color="black"
-        style={{
-          position: 'absolute',
-          left: 10,
-          top: -85,
-        }}
-        onPress={() => setCount(pre => (count >= 2 ? 0 : pre - 1))}></Icon>
-      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-
-      <View style={styles.container}>
-        <Text style={styles.custText}>DELIVERY</Text>
-
-        <View style={styles.custborder} />
-
-        <View style={{marginVertical: 10}}>
-          <Text style={styles.custText}>SHIPPING ADDRESS</Text>
-        </View>
-
-        <View style={styles.custborder} />
-
-        <View
+    <GestureHandlerRootView>
+      <SafeAreaView style={{position: 'relative'}}>
+        <Icon
+          name={'arrow-left'}
+          size={25}
+          color="black"
           style={{
-            marginTop: 10,
-          }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View>
-              <Image source={Groupicon} />
+            position: 'absolute',
+            left: 10,
+            top: -85,
+          }}
+          onPress={() => setCount(pre => (count >= 2 ? 0 : pre - 1))}></Icon>
+        <CustomStatusBar
+          color={globalColors.headingBackground}></CustomStatusBar>
+
+        <View style={styles.container}>
+          <Text style={styles.custText}>DELIVERY</Text>
+
+          <View style={styles.custborder} />
+
+          <View style={{marginVertical: 10}}>
+            <Text style={styles.custText}>SHIPPING ADDRESS</Text>
+          </View>
+
+          <View style={styles.custborder} />
+
+          <View
+            style={{
+              marginTop: 10,
+              position: 'relative',
+            }}>
+            <View
+              style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+              <View>
+                <Image source={Groupicon} />
+              </View>
+
+              <TouchableOpacity onPress={handleEditClick}>
+                <Image source={EditICon} />
+              </TouchableOpacity>
             </View>
 
-            <Pressable
-              onPress={handleEditClick}
-              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
-              <Image source={EditICon} height={20} width={20} />
-            </Pressable>
+            <View
+              style={{
+                marginLeft: 30,
+                marginTop: -20,
+                marginVertical: 10,
+                maxWidth: '80%',
+              }}>
+              <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                {title}. {billingdata?.first_name} {billingdata?.last_name}
+              </Text>
+              <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
+                {shippingAddress}, {shippingCountry},{shippingCity}
+              </Text>
+              <Text style={{fontFamily: 'Intrepid Regular'}}>+{phone}</Text>
+            </View>
           </View>
-
-          <View style={{marginLeft: 30, marginTop: -20, marginVertical: 10}}>
-            <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-              {title}. {billingdata?.first_name} {billingdata?.last_name}
-            </Text>
-            <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
-              {shippingAddress}, {shippingCountry},{shippingCity}
-            </Text>
-            <Text style={{fontFamily: 'Intrepid Regular'}}>+{phone}</Text>
-          </View>
-        </View>
-        <View style={styles.custborder} />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginVertical: 5,
-          }}>
-          <Image source={PlusIcon} style={{marginHorizontal: 10}}></Image>
-          <Text
+          <View style={styles.custborder} />
+          <View
             style={{
-              textDecorationLine: 'underline',
-              color: 'black',
-              fontFamily: 'Intrepid Regular',
-            }}>
-            Add an address
-          </Text>
-        </View>
-        <View style={styles.custborder} />
-        <View
-          style={{
-            marginTop: 10,
-          }}>
-          <Text style={styles.custText}>SHIPPING METHOD</Text>
-        </View>
-
-        <View style={styles.custborder} />
-
-        <View
-          style={{
-            marginVertical: 5,
-          }}>
-          <Text
-            style={{
-              fontFamily: 'Intrepid Regular',
-              color: 'black',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
               marginVertical: 5,
             }}>
-            Delivery fees Cash On Arrivals 30 AED
-          </Text>
-        </View>
-        <View style={styles.custborder} />
-
-        <List.Section>
-          <List.Accordion
-            title="MY ORDERS"
-            titleStyle={{color: '#444444'}}
-            expanded={expanded}
+            <Image source={PlusIcon} style={{marginHorizontal: 10}}></Image>
+            <Text
+              style={{
+                textDecorationLine: 'underline',
+                color: 'black',
+                fontFamily: 'Intrepid Regular',
+              }}>
+              Add an address
+            </Text>
+          </View>
+          <View style={styles.custborder} />
+          <View
             style={{
-              backgroundColor: '#f6f1eb',
-              paddingTop: -5,
-              borderBottomWidth: expanded ? 1 : 0,
-              borderBottomColor: '#D8CCC1',
-              fontFamily: 'Intrepid Regular',
-            }}
-            onPress={() => setExpanded(!expanded)}>
-            {cartData?.map(item => (
-              <View
-                style={{
-                  marginVertical: 15,
-                  flexDirection: 'row',
-                  gap: 10,
-                  position: 'relative',
-                }}>
-                <Icon
-                  name={'close'}
-                  size={20}
-                  color="black"
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                  }}
-                  onPress={() => handleRemove(item)}></Icon>
+              marginTop: 10,
+            }}>
+            <Text style={styles.custText}>SHIPPING METHOD</Text>
+          </View>
 
+          <View style={styles.custborder} />
+
+          <View
+            style={{
+              marginVertical: 5,
+            }}>
+            <Text
+              style={{
+                fontFamily: 'Intrepid Regular',
+                color: 'black',
+                marginVertical: 5,
+              }}>
+              Delivery fees Cash On Arrivals 30 AED
+            </Text>
+          </View>
+          <View style={styles.custborder} />
+
+          <List.Section>
+            <List.Accordion
+              title="MY ORDERS"
+              titleStyle={{color: '#444444'}}
+              expanded={expanded}
+              style={{
+                backgroundColor: '#f6f1eb',
+                paddingTop: -5,
+                borderBottomWidth: expanded ? 1 : 0,
+                borderBottomColor: '#D8CCC1',
+                fontFamily: 'Intrepid Regular',
+              }}
+              onPress={() => setExpanded(!expanded)}>
+              {cartData?.map(item => (
                 <View
                   style={{
-                    backgroundColor: '#ffffff',
-                    paddingVertical: 2,
-                    position: 'absolute',
-                    bottom: -8,
-                    right: 0,
+                    marginVertical: 15,
+                    flexDirection: 'row',
+                    gap: 10,
+                    position: 'relative',
                   }}>
+                  <Icon
+                    name={'close'}
+                    size={20}
+                    color="black"
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                    }}
+                    onPress={() => handleRemove(item)}></Icon>
+
                   <View
                     style={{
-                      flexDirection: 'row',
+                      backgroundColor: '#ffffff',
+                      paddingVertical: 2,
+                      position: 'absolute',
+                      bottom: -8,
+                      right: 0,
                     }}>
-                    {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                      }}>
+                      {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
                 <View><Text>{number}</Text></View>
                 <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
 
-                    <View>
-                      <Text
-                        style={{fontSize: 20, color: '#444444', marginLeft: 7}}
-                        onPress={() => handleDecrease(item.key)}>
-                        -
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: 20,
-                          color: '#444444',
-                          fontFamily: 'Intrepid Regular',
-                          marginHorizontal: 30,
-                        }}>
-                        {item.quantity}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{fontSize: 20, color: '#444444', marginRight: 7}}
-                        onPress={() => handleIncrease(item.key)}>
-                        +
-                      </Text>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            color: '#444444',
+                            marginLeft: 7,
+                          }}
+                          onPress={() => handleDecrease(item.key)}>
+                          -
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            color: '#444444',
+                            fontFamily: 'Intrepid Regular',
+                            marginHorizontal: 30,
+                          }}>
+                          {item.quantity}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            color: '#444444',
+                            marginRight: 7,
+                          }}
+                          onPress={() => handleIncrease(item.key)}>
+                          +
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-                <View>
-                  {item.product_image ? (
-                    <Image
-                      source={{uri: item?.product_image}}
-                      height={100}
-                      width={90}
-                    />
-                  ) : (
-                    <View
+                  <View>
+                    {item.product_image ? (
+                      <Image
+                        source={{uri: item?.product_image}}
+                        height={100}
+                        width={90}
+                      />
+                    ) : (
+                      <View
+                        style={{
+                          height: 100,
+                          width: 90,
+                          backgroundColor: 'white',
+                        }}></View>
+                    )}
+                  </View>
+                  <View>
+                    <Text
+                      style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                      {item.product_name}
+                    </Text>
+                    <Text
                       style={{
-                        height: 100,
-                        width: 90,
-                        backgroundColor: 'white',
-                      }}></View>
-                  )}
+                        marginVertical: 2,
+                        color: '#676766',
+                        fontFamily: 'Intrepid Regular',
+                      }}>
+                      {item.product_price} AED
+                    </Text>
+                    <Text
+                      style={{
+                        marginVertical: 3,
+                        color: 'black',
+                        fontFamily: 'Intrepid Regular',
+                      }}>
+                      Color :{' '}
+                      <Text style={{color: '#676766'}}>
+                        {' '}
+                        {item?.mod_attributes?.color}{' '}
+                      </Text>{' '}
+                    </Text>
+                    <Text
+                      style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                      Size :{' '}
+                      <Text style={{color: '#676766'}}>
+                        {' '}
+                        {item?.mod_attributes?.size}
+                      </Text>{' '}
+                    </Text>
+                  </View>
+                  <View></View>
                 </View>
-                <View>
-                  <Text
-                    style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                    {item.product_name}
-                  </Text>
-                  <Text
-                    style={{
-                      marginVertical: 2,
-                      color: '#676766',
-                      fontFamily: 'Intrepid Regular',
-                    }}>
-                    {item.product_price} AED
-                  </Text>
-                  <Text
-                    style={{
-                      marginVertical: 3,
-                      color: 'black',
-                      fontFamily: 'Intrepid Regular',
-                    }}>
-                    Color :{' '}
-                    <Text style={{color: '#676766'}}>
-                      {' '}
-                      {item?.mod_attributes?.color}{' '}
-                    </Text>{' '}
-                  </Text>
-                  <Text
-                    style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
-                    Size :{' '}
-                    <Text style={{color: '#676766'}}>
-                      {' '}
-                      {item?.mod_attributes?.size}
-                    </Text>{' '}
-                  </Text>
-                </View>
-                <View></View>
-              </View>
-            ))}
-          </List.Accordion>
-        </List.Section>
+              ))}
+            </List.Accordion>
+          </List.Section>
 
-        <View style={styles.custborder} />
+          <View style={styles.custborder} />
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 5,
-          }}>
-          <Text style={styles.custText}>SUBTOTAL</Text>
-          <Text>{totalSum} AED</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 5,
+            }}>
+            <Text style={styles.custText}>SUBTOTAL</Text>
+            <Text>{totalSum} AED</Text>
+          </View>
+
+          <View style={styles.custborder} />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 5,
+            }}>
+            <Text style={styles.custText}>SHIPPING</Text>
+            <Text>0 AED</Text>
+          </View>
+
+          <View style={styles.custborder} />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 5,
+            }}>
+            <Text style={styles.custText}>TAXES</Text>
+            <Text>0 AED</Text>
+          </View>
+
+          <View style={styles.custborder} />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginVertical: 5,
+            }}>
+            <Text style={styles.custText}>TOTAL</Text>
+            <Text>{totalSum} AED</Text>
+          </View>
+
+          <Button
+            stylesofbtn={styles.custcheckoutbtn}
+            styleoffont={styles.custfontstyle}
+            name={'Confirm And Pay'}
+            handlepress={handleConfirmpay}
+            loading={isloading}
+          />
         </View>
-
-        <View style={styles.custborder} />
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 5,
-          }}>
-          <Text style={styles.custText}>SHIPPING</Text>
-          <Text>0 AED</Text>
-        </View>
-
-        <View style={styles.custborder} />
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 5,
-          }}>
-          <Text style={styles.custText}>TAXES</Text>
-          <Text>0 AED</Text>
-        </View>
-
-        <View style={styles.custborder} />
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 5,
-          }}>
-          <Text style={styles.custText}>TOTAL</Text>
-          <Text>{totalSum} AED</Text>
-        </View>
-
-        <Button
-          stylesofbtn={styles.custcheckoutbtn}
-          styleoffont={styles.custfontstyle}
-          name={'Confirm And Pay'}
-          handlepress={handleConfirmpay}
-          loading={isloading}
+        <ModalComponent
+          visible={isModalVisible}
+          onClose={closeModal}
+          stateUpdate={stateUpdate}
+          setStateUpdate={setStateUpdate}
+          data={data}
         />
-      </View>
-      <ModalComponent
-        visible={isModalVisible}
-        onClose={closeModal}
-        stateUpdate={stateUpdate}
-        setStateUpdate={setStateUpdate}
-        data={data}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 };
 

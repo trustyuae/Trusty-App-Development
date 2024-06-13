@@ -57,7 +57,6 @@ export default function Productdetailscreen({route, navigation}) {
   const [wishlistId, setWishListId] = useState()
   const [isWishlist, setIsWishlist] = useState(isWatchList)
 
-  console.log('isWishlist', isWishlist);
 
 
   useEffect(() => {
@@ -128,6 +127,7 @@ export default function Productdetailscreen({route, navigation}) {
       quantity: 1,
       attributes: attributes,
     };
+
 
     if (isLoggedIn) {
       dispatch(addToCart(data)).then(action => {
@@ -292,7 +292,7 @@ export default function Productdetailscreen({route, navigation}) {
                         Color={color}
                         Description={responseData?.description}
                         setChange={setChange}
-                        changeColor={changeColor}
+                        changeColor={changeColor.toUpperCase()}
                         changeSize={changeSize}
                         setChangeSize={setChangeSize}
                       />
