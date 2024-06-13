@@ -56,7 +56,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   const [customerid, setCustomerID] = useState();
   const [billingdata, setBillingdata] = useState({});
   const [stateUpdate, setStateUpdate] = useState(false);
-  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
+  const [phone, setPhone] = useState(data?.meta_data[3]?.value || '');
   const [shippingCountry, setShippingCountry] = useState(
     data?.shipping?.country || '',
   );
@@ -228,6 +228,8 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
       },
     ]);
   };
+
+  console.log('phone------------->', data);
 
   return (
     <GestureHandlerRootView>

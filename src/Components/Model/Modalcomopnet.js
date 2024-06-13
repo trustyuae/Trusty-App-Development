@@ -46,11 +46,10 @@ const ModalComponent = ({
   const [countries, setCountries] = useState([]);
 
   const [formData, setFormData] = useState({
-    phone: data?.meta_data[2]?.value || '',
+    phone:data?.meta_data[2]?.value,
     selected: '+91',
   });
 
-  console.log(data);
 
   const [errors, setErrors] = useState({
     name: '',
@@ -61,9 +60,8 @@ const ModalComponent = ({
     phone: '',
   });
 
-  const [selected, setSelectedCountry] = useState('+91');
+  const [selected, setSelectedCountry] = useState('');
 
-  const [aphone, setaphone] = useState([]);
 
   const handleTitleSelect = selectedItem => {
     setTitle(selectedItem.title);
@@ -108,13 +106,13 @@ const ModalComponent = ({
           city: shippingCity,
           country: shippingCountry,
         },
-        meta_data: [
-          ...data.meta_data.slice(0, 1),
+        meta_data:[
+          ...data.meta_data,
           {...data.meta_data[1], value: title},
-          {...data.meta_data[2], value: formData.phone},
-          ...data.meta_data.slice(3),
+          {...data.meta_data[2], value:formData?.phone}
         ],
       };
+      
 
       const customer_id = await getUserId();
 
