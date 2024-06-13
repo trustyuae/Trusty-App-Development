@@ -11,9 +11,9 @@ import Profile from '../Screens/Profile/Profile.js';
 import ProfileNavigations from './ProfileNavigations';
 // import Points from '../Screens/ProfileScreens/Points';
 import Icon from 'react-native-vector-icons/Ionicons'; // Assuming you're using Ionicons for the back button icon
-import wishlist from '../Screens/wishlist/Wishlist';
 import OrderDetails from '../Screens/Profile/OrderDetails.js';
 import Order from '../Screens/Profile/Order.js';
+import Wishlist from '../Screens/wishlist/wishlist.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -55,11 +55,11 @@ const AppNavigations = ({ navigation }) => {
           //     />
           //   ),
           // })}
-        options={{headerShown:false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="wishlist"
-          component={wishlist}
+          component={Wishlist}
           options={({ navigation }) => ({ // Pass navigation prop here
             headerTransparent: true,
             title: null,
