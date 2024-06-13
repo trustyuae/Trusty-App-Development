@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal,
   View,
@@ -12,15 +12,15 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {useDispatch, useSelector} from 'react-redux';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../Button';
-import {getUserId} from '../../Utils/localstorage';
-import {fetchProfile, updateProfile} from '../../Redux/Slice/profileSlice';
+import { getUserId } from '../../Utils/localstorage';
+import { fetchProfile, updateProfile } from '../../Redux/Slice/profileSlice';
 // import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {updatechekout} from '../../Redux/Slice/car_slice/updatecheckout';
-import {ScrollView} from 'react-native';
+import { updatechekout } from '../../Redux/Slice/car_slice/updatecheckout';
+import { ScrollView } from 'react-native';
 import MobileNo from '../MobileNo';
 import SelectDropdown from 'react-native-select-dropdown';
 
@@ -46,7 +46,7 @@ const ModalComponent = ({
   const [countries, setCountries] = useState([]);
 
   const [formData, setFormData] = useState({
-    phone:data?.meta_data[2]?.value,
+    phone: data?.meta_data[2]?.value,
     selected: '+91',
   });
 
@@ -106,18 +106,18 @@ const ModalComponent = ({
           city: shippingCity,
           country: shippingCountry,
         },
-        meta_data:[
+        meta_data: [
           ...data.meta_data,
-          {...data.meta_data[1], value: title},
-          {...data.meta_data[2], value:formData?.phone}
+          { ...data.meta_data[1], value: title },
+          { ...data.meta_data[2], value: formData?.phone }
         ],
       };
-      
+
 
       const customer_id = await getUserId();
 
       try {
-        dispatch(updateProfile({customer_id, newData: updatedData}));
+        dispatch(updateProfile({ customer_id, newData: updatedData }));
         onClose();
         setStateUpdate(!stateUpdate);
       } catch (error) {
@@ -154,7 +154,7 @@ const ModalComponent = ({
     if (key === 'phone' && value.length > 10) {
       return;
     }
-    setFormData(prevState => ({...prevState, [key]: value}));
+    setFormData(prevState => ({ ...prevState, [key]: value }));
   };
 
   return (
@@ -163,8 +163,9 @@ const ModalComponent = ({
       animationType="slide"
       transparent={true}
       onRequestClose={onClose}>
-      <ScrollView>
-        <SafeAreaView>
+      <SafeAreaView>
+        <ScrollView>
+
           <View
             style={{
               flex: 1,
@@ -183,11 +184,11 @@ const ModalComponent = ({
               }}
               onPress={onClose}></Icon>
 
-            <View style={{marginTop: 50}}>
-              <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>Title</Text>
+            <View style={{ marginTop: 50 }}>
+              <View style={{ marginVertical: 5 }}>
+                <Text style={{ fontFamily: 'Intrepid Regular' }}>Title</Text>
                 <SelectDropdown
-                  data={[{title: 'Mr'}, {title: 'Miss'}]}
+                  data={[{ title: 'Mr' }, { title: 'Miss' }]}
                   onSelect={selectedItem => handleTitleSelect(selectedItem)}
                   renderButton={(selectedItem, isOpen) => (
                     <View style={styles.dropdownButtonStyle}>
@@ -204,7 +205,7 @@ const ModalComponent = ({
                     <View
                       style={[
                         styles.dropdownItemStyle,
-                        isSelected && {backgroundColor: '#D2D9DF'},
+                        isSelected && { backgroundColor: '#D2D9DF' },
                       ]}>
                       <Text style={styles.dropdownItemTextStyle}>
                         {item.title}
@@ -214,8 +215,8 @@ const ModalComponent = ({
                 />
               </View>
 
-              <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>Name</Text>
+              <View style={{ marginVertical: 5 }}>
+                <Text style={{ fontFamily: 'Intrepid Regular' }}>Name</Text>
                 <TextInput
                   style={styles.inputfield}
                   value={name}
@@ -225,8 +226,8 @@ const ModalComponent = ({
                 )}
               </View>
 
-              <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>Last Name</Text>
+              <View style={{ marginVertical: 5 }}>
+                <Text style={{ fontFamily: 'Intrepid Regular' }}>Last Name</Text>
                 <TextInput
                   style={styles.inputfield}
                   value={lastname}
@@ -236,8 +237,8 @@ const ModalComponent = ({
                 )}
               </View>
 
-              <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>Address</Text>
+              <View style={{ marginVertical: 5 }}>
+                <Text style={{ fontFamily: 'Intrepid Regular' }}>Address</Text>
                 <TextInput
                   style={styles.inputfield}
                   value={shippingAddress}
@@ -247,13 +248,13 @@ const ModalComponent = ({
                 )}
               </View>
 
-              <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>Country</Text>
+              <View style={{ marginVertical: 5 }}>
+                <Text style={{ fontFamily: 'Intrepid Regular' }}>Country</Text>
                 <SelectDropdown
                   data={countries}
                   search
                   searchPlaceHolder="Search Country"
-                  searchInputStyle={{fontFamily: 'Intrepid Regular'}}
+                  searchInputStyle={{ fontFamily: 'Intrepid Regular' }}
                   onSelect={(selectedItem, index) => {
                     setShippingCountry(selectedItem.label);
                   }}
@@ -280,7 +281,7 @@ const ModalComponent = ({
                       <View
                         style={{
                           ...styles.dropdownItemStyle,
-                          ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
                         }}>
                         <Text style={styles.dropdownItemTxtStyle}>
                           {item.label}
@@ -294,8 +295,8 @@ const ModalComponent = ({
                 )}
               </View>
 
-              <View style={{marginVertical: 5}}>
-                <Text style={{fontFamily: 'Intrepid Regular'}}>City</Text>
+              <View style={{ marginVertical: 5 }}>
+                <Text style={{ fontFamily: 'Intrepid Regular' }}>City</Text>
                 <TextInput
                   style={styles.inputfield}
                   value={shippingCity}
@@ -334,8 +335,9 @@ const ModalComponent = ({
               handlepress={handleUpdate}
             />
           </View>
-        </SafeAreaView>
-      </ScrollView>
+
+        </ScrollView>
+      </SafeAreaView>
     </Modal>
   );
 };
