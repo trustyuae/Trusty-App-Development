@@ -43,36 +43,12 @@ const OrderDetails = ({ route }) => {
                             color={globalColors.black}
                             style={{ marginTop: '50%' }}
                         /></View> : <View style={styles.container}>
+
+
                         <View style={styles.headingContainer}>
                             <Icon name="information-circle" size={24} color={globalColors.black} />
                             <Text style={styles.heading}>Order Details</Text>
                         </View>
-                        <View style={styles.section}>
-                            <Text style={styles.subHeading}>Order Information</Text>
-                            <Text style={styles.text}>Order Number: {data.number}</Text>
-                            <Text style={styles.text}>Order Date: {data.date_created}</Text>
-                            <Text style={styles.text}>Order Status: {data.status}</Text>
-                            <Text style={styles.text}>Payment Method: {data.payment_method_title}</Text>
-                            <Text style={styles.text}>Total Amount: {data.currency_symbol} {data.total}</Text>
-                        </View>
-
-                        <View style={styles.section}>
-                            <Text style={styles.subHeading}>Billing Information</Text>
-                            <Text style={styles.text}>{data?.billing?.first_name} {data?.billing?.last_name}</Text>
-                            <Text style={styles.text}>{data?.billing?.address_1}</Text>
-                            <Text style={styles.text}>{data?.billing?.city}, {data?.billing?.country}</Text>
-                            <Text style={styles.text}>Email: {data?.billing?.email}</Text>
-                            {/* <Text style={styles.text}>Phone: {data?.billing?.phone}</Text> */}
-                        </View>
-
-                        <View style={styles.section}>
-                            <Text style={styles.subHeading}>Shipping Information</Text>
-                            <Text style={styles.text}>{data?.shipping?.first_name} {data?.shipping?.last_name}</Text>
-                            <Text style={styles.text}>{data?.shipping?.address_1}</Text>
-                            <Text style={styles.text}>{data?.shipping?.city}, {data?.shipping?.country}</Text>
-                            {/* <Text style={styles.text}>Phone: {data?.shipping?.phone}</Text> */}
-                        </View>
-
                         <View style={styles.sectionProduct}>
                             <Text style={styles.subHeading}>Product</Text>
                             {data?.line_items?.map(item => (
@@ -94,6 +70,36 @@ const OrderDetails = ({ route }) => {
                                 </View>
                             ))}
                         </View>
+
+
+
+                        <View style={styles.section}>
+                            <Text style={styles.subHeading}>Order Information</Text>
+                            <Text style={styles.text}>Order Number: {data.number}</Text>
+                            <Text style={styles.text}>Order Date: {data.date_created}</Text>
+                            <Text style={styles.text}>Order Status: {data.status}</Text>
+                            <Text style={styles.text}>Payment Method: {data.payment_method_title}</Text>
+                            <Text style={styles.text}>Total Amount: {data.currency_symbol} {data.shipping_total}</Text>
+                        </View>
+
+                        <View style={styles.section}>
+                            <Text style={styles.subHeading}>Billing Information</Text>
+                            <Text style={styles.text}>{data?.billing?.first_name} {data?.billing?.last_name}</Text>
+                            <Text style={styles.text}>{data?.billing?.address_1}</Text>
+                            <Text style={styles.text}>{data?.billing?.city}, {data?.billing?.country}</Text>
+                            <Text style={styles.text}>Email: {data?.billing?.email}</Text>
+                            {/* <Text style={styles.text}>Phone: {data?.billing?.phone}</Text> */}
+                        </View>
+
+                        <View style={styles.section}>
+                            <Text style={styles.subHeading}>Shipping Information</Text>
+                            <Text style={styles.text}>{data?.shipping?.first_name} {data?.shipping?.last_name}</Text>
+                            <Text style={styles.text}>{data?.shipping?.address_1}</Text>
+                            <Text style={styles.text}>{data?.shipping?.city}, {data?.shipping?.country}</Text>
+                            {/* <Text style={styles.text}>Phone: {data?.shipping?.phone}</Text> */}
+                        </View>
+
+
                     </View>
                 }
 

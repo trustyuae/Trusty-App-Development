@@ -25,7 +25,6 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
   const { data } = useSelector(state => state.profile);
   const { items } = useSelector(state => state.wishlist);
-  console.log(items)
 
 
   useEffect(() => {

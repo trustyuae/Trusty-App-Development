@@ -28,6 +28,7 @@ import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { getToken } from '../../Utils/localstorage';
 import { SafeAreaView } from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 const Home = () => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
@@ -38,7 +39,7 @@ const Home = () => {
     state => state.category,
   ); // Select category state from Redux store
   const { products, status, error } = useSelector(state => state.product);
-  const { items } = useSelector(state => state.wishlist);
+  const { items, loading: wishlistLoading } = useSelector(state => state.wishlist);
   const [tokenData, setTokenData] = useState(null);
   const [wishlist, setWishlist] = useState([]);
   //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
@@ -127,92 +128,13 @@ const Home = () => {
   const onBackPress = () => {
     setStartIndex(startIndex => Math.max(0, startIndex - 4));
   };
-  const ProductList = [
-    {
-      id: 1,
-      uri: Images.product,
-      name: 'Dummy Product 1',
-      price: 'AED 100',
-      saved: false,
-    },
-    {
-      id: 2,
-      uri: Images.product,
-      name: 'Dummy Product 2',
-      price: 'AED 200',
-      saved: true,
-    },
-    {
-      id: 3,
-      uri: Images.product,
-      name: 'Dummy Product 3',
-      price: 'AED 300',
-      saved: false,
-    },
-    {
-      id: 4,
-      uri: Images.product,
-      name: 'Dummy Product 4',
-      price: 'AED 400',
-      saved: true,
-    },
-    {
-      id: 5,
-      uri: Images.product,
-      name: 'Dummy Product 5',
-      price: 'AED 500',
-      saved: false,
-    },
-    {
-      id: 6,
-      uri: Images.product,
-      name: 'Dummy Product 6',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 7,
-      uri: Images.product,
-      name: 'Dummy Product 7',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 8,
-      uri: Images.product,
-      name: 'Dummy Product 8',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 9,
-      uri: Images.product,
-      name: 'Dummy Product 9',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 10,
-      uri: Images.product,
-      name: 'Dummy Product 10',
-      price: 'AED 600',
-      saved: false,
-    },
-    {
-      id: 11,
-      uri: Images.product,
-      name: 'Dummy Product 11',
-      price: 'AED 600',
-      saved: false,
-    },
-  ];
+
   return (
     <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
       <View style={styles.container}>
         <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar>
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
-        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={globalColors.black}
-          tintColor={globalColors.black} />}
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
           <HeadingImage />
           <Text style={styles.heading}>Our cave of wonders</Text>
@@ -237,25 +159,27 @@ const Home = () => {
           <PreviewImage style={{ height: hp('10%') }} uri={Images.preview1} />
           <View style={{ flexDirection: 'column', marginTop: 15 }}>
             <View style={styles.productContainer}>
-              {wishlist.slice(startIndex, startIndex + 4).map(product => (
-                <Pressable
-                  onPress={() =>
-                    navigation.navigate('ProductDetail', {
-                      userId: product.id,
-                      isWatchList: product?.isWatchList,
-                    })
-                  }>
-                  <Product
+              {(true && wishlist.length === 0) ? (<SkeletonLoader />) :
+                (wishlist.slice(startIndex, startIndex + 4).map(product => (
+                  <Pressable
                     key={product?.id}
-                    uri={product?.images[0]?.src}
-                    name={product?.name}
-                    price={product?.price}
-                    saved={product?.saved}
-                    product_id={product?.id}
-                    isWatchList={product?.isWatchList}
-                  />
-                </Pressable>
-              ))}
+                    onPress={() =>
+                      navigation.navigate('ProductDetail', {
+                        userId: product.id,
+                        isWatchList: product?.isWatchList,
+                      })
+                    }>
+                    <Product
+                      key={product?.id}
+                      uri={product?.images[0]?.src}
+                      name={product?.name}
+                      price={product?.price}
+                      saved={product?.saved}
+                      product_id={product?.id}
+                      isWatchList={product?.isWatchList}
+                    />
+                  </Pressable>
+                )))}
             </View>
             {/* </ScrollView> */}
             <View
@@ -284,10 +208,10 @@ const Home = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={onNextPress}
-                disabled={startIndex + 4 >= ProductList.length}
+                disabled={startIndex + 4 >= products.length}
                 style={{
                   backgroundColor:
-                    startIndex + 4 >= ProductList.length ? '#B9B9B9' : 'black',
+                    startIndex + 4 >= products.length ? '#B9B9B9' : 'black',
                   borderRadius: wp('50%'),
                 }}>
                 <View>
@@ -300,21 +224,24 @@ const Home = () => {
               </TouchableOpacity>
             </View>
             <View style={styles.productContainer}>
-              {wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
-                <Pressable
-                  onPress={() =>
-                    navigation.navigate('ProductDetail', { userId: product.id, isWatchList: product?.isWatchList, })
-                  }>
-                  <Product
+              {true && wishlist.length === 0 ? (<SkeletonLoader />) :
+
+                wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
+                  <Pressable
                     key={product?.id}
-                    uri={product?.images[0]?.src}
-                    name={product?.name}
-                    price={product?.price}
-                    saved={product?.saved}
-                    product_id={product?.id}
-                    isWatchList={product?.isWatchList}></Product>
-                </Pressable>
-              ))}
+                    onPress={() =>
+                      navigation.navigate('ProductDetail', { userId: product.id, isWatchList: product?.isWatchList, })
+                    }>
+                    <Product
+                      key={product?.id}
+                      uri={product?.images[0]?.src}
+                      name={product?.name}
+                      price={product?.price}
+                      saved={product?.saved}
+                      product_id={product?.id}
+                      isWatchList={product?.isWatchList}></Product>
+                  </Pressable>
+                ))}
             </View>
           </View>
         </ScrollView>
