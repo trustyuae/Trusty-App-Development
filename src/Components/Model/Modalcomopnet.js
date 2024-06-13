@@ -171,7 +171,6 @@ const ModalComponent = ({
             style={{
               flex: 1,
               height: hp('100%'),
-
               paddingHorizontal: 20,
               backgroundColor: '#F6F1EB',
             }}>
@@ -182,7 +181,7 @@ const ModalComponent = ({
               style={{
                 position: 'absolute',
                 right: 20,
-                top: 10,
+                top: 20,
               }}
               onPress={onClose}></Icon>
 
