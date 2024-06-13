@@ -46,10 +46,9 @@ const ModalComponent = ({
   const [countries, setCountries] = useState([]);
 
   const [formData, setFormData] = useState({
-    phone:data?.meta_data[2]?.value || '',
+    phone: data?.meta_data[2]?.value || '',
     selected: '+91',
   });
-
 
   console.log(data);
 
@@ -61,8 +60,6 @@ const ModalComponent = ({
     shippingCity: '',
     phone: '',
   });
-
-
 
   const [selected, setSelectedCountry] = useState('+91');
 
@@ -145,7 +142,7 @@ const ModalComponent = ({
         setCountries(data.countries);
         setFormData(prevState => ({
           ...prevState,
-          selectedCountry:data.userSelectValue,
+          selectedCountry: data.userSelectValue,
         }));
       })
       .catch(error => console.error('Error fetching countries:', error));
@@ -154,8 +151,6 @@ const ModalComponent = ({
   const handleCountryChange = value => {
     setSelectedCountry(value);
   };
-
-
 
   const handleChange = (key, value) => {
     if (key === 'phone' && value.length > 10) {
@@ -176,7 +171,7 @@ const ModalComponent = ({
             style={{
               flex: 1,
               height: hp('100%'),
-            
+
               paddingHorizontal: 20,
               backgroundColor: '#F6F1EB',
             }}>
@@ -186,8 +181,8 @@ const ModalComponent = ({
               color="black"
               style={{
                 position: 'absolute',
-                right:20,
-                top:10,
+                right: 20,
+                top: 10,
               }}
               onPress={onClose}></Icon>
 
@@ -259,6 +254,9 @@ const ModalComponent = ({
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Country</Text>
                 <SelectDropdown
                   data={countries}
+                  search
+                  searchPlaceHolder="Search Country"
+                  searchInputStyle={{fontFamily: 'Intrepid Regular'}}
                   onSelect={(selectedItem, index) => {
                     setShippingCountry(selectedItem.label);
                   }}
@@ -309,7 +307,7 @@ const ModalComponent = ({
                   <Text style={styles.errorText}>{errors.shippingCity}</Text>
                 )}
               </View>
-{/* 
+              {/* 
               <View style={{marginVertical: 5}}>
                 <Text style={{fontFamily: 'Intrepid Regular'}}>Phone</Text>
                 <TextInput
