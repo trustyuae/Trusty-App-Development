@@ -22,7 +22,7 @@ import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Pressable } from 'react-native';
 
-const wishlist = ({ route }) => {
+const Wishlist = ({ route }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
@@ -121,4 +121,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
-export default wishlist;
+export default Wishlist;

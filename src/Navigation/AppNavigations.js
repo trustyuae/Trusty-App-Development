@@ -6,13 +6,15 @@ import CartScreen from '../Screens/Cart/CartScreen';
 import Theme from '../Assets/Theme/Theme';
 import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
 import BottomTabNavigation from './BottomTabNavigation';
-import Profile from '../Screens/Profile/Profile';
-import Order from '../Screens/Profile/Order';
+import Profile from '../Screens/Profile/Profile.js';
+// import Order from '../Screens/ProfileScreens/Order';
 import ProfileNavigations from './ProfileNavigations';
-import Points from '../Screens/Profile/Points';
+// import Points from '../Screens/ProfileScreens/Points';
 import Icon from 'react-native-vector-icons/Ionicons'; // Assuming you're using Ionicons for the back button icon
-import wishlist from '../Screens/wishlist/wishlist';
-import OrderDetails from '../Screens/Profile/OrderDetails';
+import wishlist from '../Screens/wishlist/Wishlist';
+import OrderDetails from '../Screens/Profile/OrderDetails.js';
+import Order from '../Screens/Profile/Order.js';
+
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = ({ navigation }) => {
