@@ -46,7 +46,7 @@ const OrderDetails = ({ route }) => {
             <ScrollView showsVerticalScrollIndicator={false}>
 
                 {
-                    loading ? <View style={styles.loaderContainer}>
+                    loading ? <View style={{ alignItems: 'center' }}>
                         <SkeletonLoaderOrder count={1} />
                     </View> : <View style={styles.container}>
 

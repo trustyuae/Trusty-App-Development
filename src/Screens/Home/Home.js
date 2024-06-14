@@ -145,7 +145,9 @@ const Home = () => {
             {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
             {
               categoryStatus === 'loading' ? (
-                <SkeletonLoader count={6} />) :
+                <View style={{ marginLeft: wp('2.5%'), }}>
+                  <SkeletonLoader count={6} />
+                </View>) :
                 categories.map(category => (
                   <Pressable
                     key={category.id}
@@ -163,7 +165,7 @@ const Home = () => {
           <PreviewImage style={{ height: hp('10%') }} uri={Images.preview1} />
           <View style={{ flexDirection: 'column', marginTop: 15 }}>
             <View style={styles.productContainer}>
-              {(true && wishlist.length === 0) ? (<SkeletonLoader count={2} />) :
+              {(true && wishlist.length === 0) ? (<View style={{ marginLeft: wp('-1.5%'), marginRight: wp('-2.5%') }}><SkeletonLoader count={2} /></View>) :
                 (wishlist.slice(startIndex, startIndex + 4).map(product => (
                   <Pressable
                     key={product?.id}
@@ -228,7 +230,7 @@ const Home = () => {
               </TouchableOpacity>
             </View>
             <View style={styles.productContainer}>
-              {true && wishlist.length === 0 ? (<SkeletonLoader count={2} />) :
+              {true && wishlist.length === 0 ? (<View style={{ marginLeft: wp('-1.5%'), marginRight: wp('-2.5%') }}><SkeletonLoader count={2} /></View>) :
 
                 wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
                   <Pressable

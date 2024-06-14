@@ -92,35 +92,40 @@ const Order = () => {
         <View style={{ padding: 20 }}>
           <SkeletonLoaderOrder count={6} />
         </View>
-      ) : <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-          />
-        }
-        ListHeaderComponent={
-          loading && !refreshing ? (
-            <ActivityIndicator
-              style={styles.loader}
-              size="large"
-              color={globalColors.black}
+      ) : data?.length === 0 ? (
+        <Text style={styles.noOrdersText}>No orders found.</Text>
+
+      ) :
+
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
             />
-          ) : null
-        }
-        ListFooterComponent={
-          isFetchingMore ? (
-            <ActivityIndicator
-              size="large"
-              color={globalColors.black}
-            />
-          ) : null
-        }
-        showsVerticalScrollIndicator={false}
-      />}
+          }
+          ListHeaderComponent={
+            loading && !refreshing ? (
+              <ActivityIndicator
+                style={styles.loader}
+                size="large"
+                color={globalColors.black}
+              />
+            ) : null
+          }
+          ListFooterComponent={
+            isFetchingMore ? (
+              <ActivityIndicator
+                size="large"
+                color={globalColors.black}
+              />
+            ) : null
+          }
+          showsVerticalScrollIndicator={false}
+        />}
 
 
     </SafeAreaView>
