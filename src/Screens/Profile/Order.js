@@ -20,6 +20,8 @@ import { getToken, getUserId } from '../../Utils/localstorage';
 import OrderComponents from '../../Components/Order/OrderComponents';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
+import SkeletonLoaderOrder from '../../Components/Loader/SkeletonLoaderOrder';
 
 const Order = () => {
   const navigation = useNavigation();
@@ -85,7 +87,12 @@ const Order = () => {
   return (
     <SafeAreaView style={styles.container}>
       <CustomStatusBar color={globalColors.headingBackground} />
-      <FlatList
+
+      {loading ? (
+        <View style={{ padding: 20 }}>
+          <SkeletonLoaderOrder count={6} />
+        </View>
+      ) : <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
@@ -113,7 +120,9 @@ const Order = () => {
           ) : null
         }
         showsVerticalScrollIndicator={false}
-      />
+      />}
+
+
     </SafeAreaView>
   );
 };

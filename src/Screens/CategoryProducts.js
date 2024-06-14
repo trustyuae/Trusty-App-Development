@@ -28,7 +28,6 @@ import { getToken } from '../Utils/localstorage';
 import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
 import { RefreshControl } from 'react-native';
 import SkeletonLoader from '../Components/Loader/SkeletonLoader';
-import SkeletonLoaderProducts from '../Components/Loader/SkeletonLoaderProducts';
 
 const CategoryProducts = ({ navigation }) => {
   const route = useRoute();
@@ -41,6 +40,7 @@ const CategoryProducts = ({ navigation }) => {
   const { categoryProducts, status, error } = useSelector(state => state.product);
   const { items } = useSelector(state => state.wishlist);
   const [refreshing, setRefreshing] = React.useState(false);
+
 
 
   useEffect(() => {
@@ -74,16 +74,17 @@ const CategoryProducts = ({ navigation }) => {
   };
   useEffect(() => {
     refreshWishlist();
-  }, [items, categoryProducts, getToken, dispatch]);
+  }, [items, categoryProducts]);
+
 
   useFocusEffect(
     React.useCallback(() => {
+      dispatch(fetchCategoryProducts({ categoryId: category.id }));
+
       refreshWishlist();
 
-      // dispatch(fetchCategoryProducts({ categoryId: category.id }));
     }, [dispatch, category.id])
   );
-
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
@@ -247,10 +248,12 @@ const CategoryProducts = ({ navigation }) => {
               //   color={globalColors.black}
               //   style={{ marginTop: '50%' }}
               // />
-              <SkeletonLoaderProducts />
+              <View style={{ marginLeft: 10 }}>
+                <SkeletonLoader count={6} />
+              </View>
             ) : status === 'failed' ? (
               <Text style={styles.errorText}>Error: {error}</Text>
-            ) : categoryProducts.length === 0 ? (
+            ) : wishlist.length === 0 ? (
               <Text style={styles.noProductsText}>No products available</Text>
             ) : (
               wishlist.map(product => (

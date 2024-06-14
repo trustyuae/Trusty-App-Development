@@ -12,11 +12,13 @@ import axios from 'axios';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Text } from 'react-native';
 
 const PasswordModal = ({ modalVisible, setModalVisible }) => {
   const [newPassword, setNewPassword] = useState('');
   const [tokenData, setTokenData] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +30,14 @@ const PasswordModal = ({ modalVisible, setModalVisible }) => {
 
   const handleChangePassword = async () => {
     try {
+
+      if (newPassword.trim().length === 0) {
+        setError('Password is required.');
+        return;
+      } else if (newPassword.trim().length < 4) {
+        setError('Password must be at least 4 characters long.');
+        return;
+      }
       const response = await axios.post(
         'https://wordpress.trustysystem.com/wp-json/custom-woo-api/v1/change-password',
         {
@@ -92,6 +102,8 @@ const PasswordModal = ({ modalVisible, setModalVisible }) => {
                   onPress={() => setShowPassword(prevShow => !prevShow)}
                 />
               </View>
+              {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
               <Button
                 title="Submit"
                 color={globalColors.buttonBackground}
@@ -117,6 +129,11 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
   },
   icon: {
+    marginLeft: 10,
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
     marginLeft: 10,
   },
 });

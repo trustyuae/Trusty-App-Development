@@ -1,4 +1,4 @@
-import { react, useEffect } from 'react'
+import { react, useEffect, useState } from 'react'
 import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import {
     widthPercentageToDP as wp,
@@ -11,12 +11,22 @@ import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import { ScrollView } from 'react-native';
 import { Image } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons'; // Import the Icon component
+import SkeletonLoaderOrder from '../../Components/Loader/SkeletonLoaderOrder';
 
 const OrderDetails = ({ route }) => {
     const dispatch = useDispatch();
     const { data, loading, error } = useSelector(state => state.order);
+    const [date, setDate] = useState('');
 
     const { orderId } = route?.params;
+    useEffect(() => {
+
+        if (data.date_created) {
+            const extractedDate = data.date_created.split('T')[0];
+            setDate(extractedDate);
+        }
+    }, [data.date_created])
+
 
     useEffect(() => {
         dispatch(OrderById(orderId));
@@ -37,11 +47,8 @@ const OrderDetails = ({ route }) => {
 
                 {
                     loading ? <View style={styles.loaderContainer}>
-                        <ActivityIndicator
-                            size="large"
-                            color={globalColors.black}
-                            style={{ marginTop: '50%' }}
-                        /></View> : <View style={styles.container}>
+                        <SkeletonLoaderOrder count={1} />
+                    </View> : <View style={styles.container}>
 
 
                         <View style={styles.headingContainer}>
@@ -75,7 +82,7 @@ const OrderDetails = ({ route }) => {
                         <View style={styles.section}>
                             <Text style={styles.subHeading}>Order Information</Text>
                             <Text style={styles.text}>Order Number: {data.number}</Text>
-                            <Text style={styles.text}>Order Date: {data.date_created}</Text>
+                            <Text style={styles.text}>Order Date: {date}</Text>
                             <Text style={styles.text}>Order Status: {data.status}</Text>
                             <Text style={styles.text}>Payment Method: {data.payment_method_title}</Text>
                             <Text style={styles.text}>Total Amount: {data.currency_symbol} {data.shipping_total}</Text>

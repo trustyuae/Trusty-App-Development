@@ -8,6 +8,7 @@ import {
   TextInput,
   Alert,
   RefreshControl,
+  KeyboardAvoidingView,
 } from 'react-native';
 import ProfileNavigations from '../../Navigation/ProfileNavigations';
 import {
@@ -32,6 +33,7 @@ import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PasswordModal from '../../Components/Model/PasswordModal.js';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar.js';
+import SkeletonLoaderProfile from '../../Components/Loader/SkeletonLoaderProfile.js';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -80,6 +82,15 @@ const Profile = () => {
   );
   const [refreshing, setRefreshing] = useState(false);
 
+  const [errors, setErrors] = useState({
+    name: '',
+    shippingAddress: '',
+    shippingCountry: '',
+    shippingCity: '',
+    phone: '',
+  });
+
+
   useEffect(() => {
     const phoneNumberMetadata = data?.meta_data.find(
       item => item.key === 'phone',
@@ -110,11 +121,27 @@ const Profile = () => {
       return;
     }
 
-    let billingData = {
-      address_1: address,
-      city: shippingCity,
-      country: shippingCountry,
-    };
+    const newErrors = {};
+    if (!name.trim()) {
+      newErrors.name = 'Name is required.';
+    }
+    if (!shippingAddress.trim()) {
+      newErrors.shippingAddress = 'Address is required.';
+    }
+
+    if (!shippingCity.trim()) {
+      newErrors.shippingCity = 'City is required.';
+    }
+
+    if (!shippingCountry.trim()) {
+      newErrors.shippingCountry = 'Country is required.';
+    }
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+
 
     const updatedData = {
       first_name: name,
@@ -131,13 +158,17 @@ const Profile = () => {
         ...data.meta_data.slice(3),
       ],
     };
+
+
     const customer_id = await getUserId();
     try {
       dispatch(updateProfile({ customer_id, newData: updatedData }));
+      setEditable(false);
+
     } catch (error) {
       console.log(error);
     }
-    setEditable(false);
+    // setEditable(false);
   };
 
 
@@ -162,192 +193,222 @@ const Profile = () => {
     }
   };
   return (
-    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} refreshControl={
-      <RefreshControl
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-        colors={['black']}
-      />
-    }>
-      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-
-      {loading ? (
-        <ActivityIndicator
-          style={{ marginTop: 300 }}
-          size="large"
-          color={globalColors.black}
-
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100} // Adjust this offset as needed
+    >
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={['black']}
         />
-      ) : data ? (
-        <View style={styles.container}>
-          <TouchableOpacity onPress={editable ? handleSave : handleEdit}>
-            <Text style={{ marginLeft: 'auto' }}>
-              {editable ? 'Save' : 'Edit'}
-            </Text>
-          </TouchableOpacity>
-          <Text style={styles.mainText}>Profile Information</Text>
-          <Text style={styles.contactHeading}>Contact Details</Text>
-          <View style={styles.contantContainer}>
-            <View style={styles.subContantContainer}>
-              <Text style={styles.textHeading}>Name</Text>
-              {editable ? (
-                <TextInput
-                  style={styles.textInput}
-                  value={name}
-                  onChangeText={setName}
-                  onKeyPress={({ nativeEvent }) => {
-                    if (!/[a-zA-Z]/.test(nativeEvent.key)) {
-                      nativeEvent.preventDefault();
-                    }
-                  }}
-                />
-              ) : (
-                <Text style={styles.textHeadingValue}>{data?.first_name}</Text>
-              )}
-            </View>
-            <View style={styles.subContantContainer}>
-              <Text style={styles.textHeading}>Email</Text>
-              {editable ? (
-                <TextInput
-                  style={styles.textInput}
-                  value={email}
-                  onChangeText={setEmail}
-                />
-              ) : (
-                <Text style={styles.textHeadingValue}>{data?.email}</Text>
-              )}
-            </View>
-            <View style={styles.subPasswordContainer}>
-              <View>
-                <Text style={styles.textHeading}>Password</Text>
-                <Text style={styles.textHeadingValue}>********</Text>
-              </View>
-              <View style={{ marginLeft: 'auto', marginRight: 5 }}>
-                <Text
-                  style={{ textDecorationLine: 'underline' }}
-                  onPress={() => setModalVisible(true)}>
-                  Change
-                </Text>
-                <PasswordModal
-                  modalVisible={modalVisible}
-                  setModalVisible={setModalVisible}
-                />
-              </View>
-            </View>
-            <View style={styles.subContantContainer}>
-              <Text style={styles.textHeading}>Currency</Text>
-              {editable ? (
-                <RNPickerSelect
-                  onValueChange={value => handleCountryChange(value)}
-                  items={currencies.map(item => ({
-                    label: item.name,
-                    value: item.name,
-                  }))}
-                />
-              ) : (
-                <Text style={styles.textHeadingValue}>{isoCode}</Text>
-              )}
-            </View>
-            <View style={styles.subContantContainer}>
-              <Text style={styles.textHeading}>Phone Number</Text>
+      }>
+        <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-              {editable ? (
-                <TextInput
-                  style={styles.textInput}
-                  value={phone}
-                  onChangeText={setPhone}
-                  keyboardType="numeric"
-                />
-              ) : (
-                <Text style={styles.textHeadingValue}>
-                  {data?.meta_data[2]?.value}
-                </Text>
-              )}
-            </View>
-            <View style={styles.subContantContainer}>
-              <Text style={styles.textHeading}>Address</Text>
-              {editable ? (
-                <TextInput
-                  style={styles.textInput}
-                  value={address}
-                  onChangeText={setAddress}
-                />
-              ) : (
-                <Text style={styles.textHeadingValue}>
-                  {data?.shipping?.address_1}
-                </Text>
-              )}
-            </View>
-          </View>
-          <View style={styles.subContantContainerAddress}>
-            <Text style={styles.mainText}>Shipping Address</Text>
-            <View style={styles.contantContainer}>
-              {editable ? (
-                <View>
-                  <Text style={styles.textHeading}>shippingCountry</Text>
-                  <TextInput
-                    style={styles.textInputShipping}
-                    value={shippingCountry}
-                    onChangeText={setShippingCountry}
-                    placeholder="shippingCountry"
-                  />
-                </View>
-              ) : (
-                <Text style={styles.textHeading}>
-                  {data?.shipping?.country}
-                </Text>
-              )}
-              {editable ? (
-                <View>
-                  <Text style={styles.textHeading}>shipping Address</Text>
+        {loading ? (
+          // <ActivityIndicator
+          //   style={{ marginTop: 300 }}
+          //   size="large"
+          //   color={globalColors.black}
 
-                  <TextInput
-                    style={styles.textInputShipping}
-                    value={shippingAddress}
-                    onChangeText={setShippingAddress}
-                    placeholder="shippingAddress"
-                  />
-                </View>
-              ) : (
-                <Text style={styles.SubtextHeading}>
-                  {data?.shipping?.address_1}
-                </Text>
-              )}
-              {/* <Text style={styles.textHeading}>Johnathan doe</Text> */}
-              {editable ? (
-                <View>
-                  <Text style={styles.textHeading}>shipping City</Text>
-
-                  <TextInput
-                    style={styles.textInputShipping}
-                    value={shippingCity}
-                    onChangeText={setShippingCity}
-                    placeholder="shippingCity"
-                  />
-                </View>
-              ) : (
-                <Text style={styles.textHeading}>{data?.shipping?.city}</Text>
-              )}
-            </View>
-          </View>
-          <TouchableOpacity onPress={handleLogout}>
-            <View style={{ flexDirection: 'row', marginTop: hp('2%') }}>
-              <Image style={{}} source={Images.Logout}></Image>
-              <Text
-                style={{
-                  marginLeft: wp('2%'),
-                  marginTop: -3,
-                  marginBottom: 10,
-                  fontSize: 16,
-                  color: globalColors.black,
-                }}>
-                Logout
+          // />
+          <SkeletonLoaderProfile />
+        ) : data ? (
+          <View style={styles.container}>
+            <TouchableOpacity onPress={editable ? handleSave : handleEdit}>
+              <Text style={{ marginLeft: 'auto' }}>
+                {editable ? 'Save' : 'Edit'}
               </Text>
+            </TouchableOpacity>
+            <Text style={styles.mainText}>Profile Information</Text>
+            <Text style={styles.contactHeading}>Contact Details</Text>
+            <View style={styles.contantContainer}>
+              <View style={styles.subContantContainer}>
+                <Text style={styles.textHeading}>Name</Text>
+                {editable ? (
+                  <>
+                    <TextInput
+                      style={styles.textInput}
+                      value={name}
+                      onChangeText={setName}
+                      onKeyPress={({ nativeEvent }) => {
+                        if (!/[a-zA-Z]/.test(nativeEvent.key)) {
+                          nativeEvent.preventDefault();
+                        }
+                      }}
+                    />
+                    {errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
+                  </>
+                ) : (
+                  <Text style={styles.textHeadingValue}>{data?.first_name}</Text>
+                )}
+              </View>
+              <View style={styles.subContantContainer}>
+                <Text style={styles.textHeading}>Email</Text>
+                {editable ? (
+                  <TextInput
+                    style={styles.textInput}
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+                ) : (
+                  <Text style={styles.textHeadingValue}>{data?.email}</Text>
+                )}
+              </View>
+              <View style={styles.subPasswordContainer}>
+                <View>
+                  <Text style={styles.textHeading}>Password</Text>
+                  <Text style={styles.textHeadingValue}>********</Text>
+                </View>
+                <View style={{ marginLeft: 'auto', marginRight: 5 }}>
+                  <Text
+                    style={{ textDecorationLine: 'underline' }}
+                    onPress={() => setModalVisible(true)}>
+                    Change
+                  </Text>
+                  <PasswordModal
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                  />
+                </View>
+              </View>
+              <View style={styles.subContantContainer}>
+                <Text style={styles.textHeading}>Currency</Text>
+                {editable ? (
+                  <RNPickerSelect
+                    onValueChange={value => handleCountryChange(value)}
+                    items={currencies.map(item => ({
+                      label: item.name,
+                      value: item.name,
+                    }))}
+                  />
+                ) : (
+                  <Text style={styles.textHeadingValue}>{isoCode}</Text>
+                )}
+              </View>
+              <View style={styles.subContantContainer}>
+                <Text style={styles.textHeading}>Phone Number</Text>
+
+                {editable ? (
+                  <>
+                    <TextInput
+                      style={styles.textInput}
+                      value={phone}
+                      onChangeText={setPhone}
+                      keyboardType="numeric"
+                    />
+                    {errors.phone ? <Text style={styles.errorText}>{errors.phone}</Text> : null}
+                  </>
+                ) : (
+                  <Text style={styles.textHeadingValue}>
+                    {data?.meta_data[2]?.value}
+                  </Text>
+                )}
+              </View>
+              <View style={styles.subContantContainer}>
+                <Text style={styles.textHeading}>Address</Text>
+                {editable ? (
+                  <>
+                    <TextInput
+                      style={styles.textInput}
+                      value={address}
+                      onChangeText={setAddress}
+
+                    />
+                    {errors.shippingAddress ? <Text style={styles.errorText}>{errors.shippingAddress}</Text> : null}
+
+                  </>
+                ) : (
+                  <Text style={styles.textHeadingValue}>
+                    {data?.shipping?.address_1}
+                  </Text>
+                )}
+              </View>
             </View>
-          </TouchableOpacity>
-        </View>
-      ) : null}
-    </ScrollView>
+            <View style={styles.subContantContainerAddress}>
+              <Text style={styles.mainText}>Shipping Address</Text>
+              <View style={styles.contantContainer}>
+                {editable ? (
+                  <View>
+                    <Text style={styles.textHeading}>shippingCountry</Text>
+                    <TextInput
+                      style={styles.textInputShipping}
+                      value={shippingCountry}
+                      onChangeText={setShippingCountry}
+                      placeholder="shippingCountry"
+                    />
+                    {errors.shippingCountry ? (
+                      <Text style={styles.errorText}>{errors.shippingCountry}</Text>
+                    ) : null}
+                  </View>
+                ) : (
+                  <Text style={styles.textHeading}>
+                    {data?.shipping?.country}
+                  </Text>
+                )}
+                {editable ? (
+                  <View>
+                    <Text style={styles.textHeading}>shipping Address</Text>
+
+                    <TextInput
+                      style={styles.textInputShipping}
+                      value={shippingAddress}
+                      onChangeText={setShippingAddress}
+
+                      placeholder="shippingAddress"
+                    />
+
+                    {errors.shippingAddress ? (
+                      <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+                    ) : null}
+                  </View>
+                ) : (
+                  <Text style={styles.SubtextHeading}>
+                    {data?.shipping?.address_1}
+                  </Text>
+                )}
+                {/* <Text style={styles.textHeading}>Johnathan doe</Text> */}
+                {editable ? (
+                  <View>
+                    <Text style={styles.textHeading}>shipping City</Text>
+
+                    <TextInput
+                      style={styles.textInputShipping}
+                      value={shippingCity}
+                      onChangeText={setShippingCity}
+                      placeholder="shippingCity"
+                    />
+                    {errors.shippingCity ? (
+                      <Text style={styles.errorText}>{errors.shippingCity}</Text>
+                    ) : null}
+
+                  </View>
+                ) : (
+                  <Text style={styles.textHeading}>{data?.shipping?.city}</Text>
+                )}
+              </View>
+            </View>
+            <TouchableOpacity onPress={handleLogout}>
+              <View style={{ flexDirection: 'row', marginTop: hp('2%') }}>
+                <Image style={{}} source={Images.Logout}></Image>
+                <Text
+                  style={{
+                    marginLeft: wp('2%'),
+                    marginTop: -3,
+                    marginBottom: 10,
+                    fontSize: 16,
+                    color: globalColors.black,
+                  }}>
+                  Logout
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -421,6 +482,11 @@ const styles = StyleSheet.create({
     borderColor: globalColors.black,
     marginBottom: 10,
     marginTop: 10,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 2,
   },
 });
 export default Profile;

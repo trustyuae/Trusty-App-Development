@@ -19,11 +19,11 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import {Images} from '../../Constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {useEffect, useRef, useState} from 'react';
-import {fetchById} from '../../Redux/Slice/SingleProductslice';
-import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
+import { Images } from '../../Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { fetchById } from '../../Redux/Slice/SingleProductslice';
+import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
 import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
 import { getToken, getUsername } from '../../Utils/localstorage';
@@ -33,17 +33,18 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import { addToWishlist, fetchWishlist, removeFromWishlist } from '../../Redux/Slice/wishlistSlice';
+import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoaderProductDetails';
 
-export default function Productdetailscreen({route, navigation}) {
+export default function Productdetailscreen({ route, navigation }) {
   const scrollViewRef = useRef();
-  const {userId, isWatchList} = route?.params;
+  const { userId, isWatchList } = route?.params;
   const dispatch = useDispatch();
-  const {loading, error, responseData} = useSelector(state => state?.getById);
+  const { loading, error, responseData } = useSelector(state => state?.getById);
 
-  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
-  const {items} = useSelector(state => state.wishlist);
+  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
+  const { items } = useSelector(state => state.wishlist);
 
-  const {loa, err, cartdata} = useSelector(state => state);
+  const { loa, err, cartdata } = useSelector(state => state);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
@@ -61,9 +62,13 @@ export default function Productdetailscreen({route, navigation}) {
 
   useEffect(() => {
     dispatch(fetchById(id));
-    
+
   }, [id]);
 
+  useEffect(() => {
+    dispatch(fetchById(userId));
+
+  }, [userId]);
   useEffect(() => {
     responseData?.attributes?.forEach(attribute => {
       if (attribute.name.toLowerCase() === 'size') {
@@ -224,13 +229,9 @@ export default function Productdetailscreen({route, navigation}) {
       <SafeAreaView style={{ marginTop: hp('-7%') }}>
         <View>
           {loading ? (
-            <View style={styles.container}>
-              <ActivityIndicator
-                size="large"
-                color="black"
-                style={styles.loader}
-              />
-            </View>
+            // <View style={styles.container}>
+            <SkeletonLoaderProductDetails />
+            // </View>
           ) : (
             <>
               <View>
