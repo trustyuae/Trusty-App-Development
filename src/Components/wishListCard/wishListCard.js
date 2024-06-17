@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -7,18 +7,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDispatch} from 'react-redux';
-import {removeFromWishlist} from '../../Redux/Slice/wishlistSlice';
-import {getToken} from '../../Utils/localstorage';
+import { useDispatch } from 'react-redux';
+import { removeFromWishlist } from '../../Redux/Slice/wishlistSlice';
+import { getToken } from '../../Utils/localstorage';
 
-const WishListCard = ({navigation, item, onPress}) => {
+const WishListCard = ({ navigation, item, onPress }) => {
   const dispatch = useDispatch();
   const [tokenData, setTokenData] = useState(null);
 
@@ -85,14 +85,14 @@ const WishListCard = ({navigation, item, onPress}) => {
               right: 0,
             }}></View>
 
-          <View style={{alignSelf: 'center'}}>
+          <View style={{ alignSelf: 'center' }}>
             {/* {( */}
-            {item.image? <Image
-              source={{uri: item.image}}
+            {item.image ? <Image
+              source={{ uri: item.image }}
               // style={{ width: 90, height: 90 }}
               height={120}
               width={120}
-            /> :<View style={{height:120,width:120,backgroundColor:"white"}}></View>}
+            /> : <View style={{ height: 120, width: 120, backgroundColor: "white" }}></View>}
             {/* )  */}
             {/* // : ( */}
             {/* // <View */}
@@ -115,7 +115,7 @@ const WishListCard = ({navigation, item, onPress}) => {
             </Text>
 
             {item.price ? (
-              <View style={{flexDirection: 'row', fontSize: 16}}>
+              <View style={{ flexDirection: 'row', fontSize: 16 }}>
                 <Text
                   style={{
                     color: 'black',
@@ -143,7 +143,7 @@ const WishListCard = ({navigation, item, onPress}) => {
                 fontSize: 16,
               }}>
               Stock :{' '}
-              <Text style={{color: '#676766'}}>
+              <Text style={{ color: '#676766' }}>
                 {/* {Item?.variation_attr?.attribute_pa_color} */}
                 {item.stock}
               </Text>{' '}
@@ -156,7 +156,7 @@ const WishListCard = ({navigation, item, onPress}) => {
                 fontSize: 16,
               }}>
               Size :{' '}
-              <Text style={{color: '#676766'}}>
+              <Text style={{ color: '#676766' }}>
                 L{/* {Item?.variation_attr?.attribute_pa_size} */}
               </Text>{' '}
             </Text>
