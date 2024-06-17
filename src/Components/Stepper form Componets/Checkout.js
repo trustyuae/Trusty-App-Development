@@ -156,10 +156,22 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
 
   const update = cartData?.map(item => ({
     ...item,
+    taxed:parseFloat(item.tax)*item.quantity,
+    total_tax:parseFloat(item.tax)+item.product_price*item.quantity,
     total: item.product_price * item.quantity,
   }));
   const totalSum = update?.reduce(
     (accumulator, currentItem) => accumulator + currentItem.total,
+    0,
+  );
+
+  const tax = update?.reduce(
+    (accumulator, currentItem) => accumulator + currentItem.taxed,
+    0,
+  );
+  
+  const totaltax = update?.reduce(
+    (accumulator, currentItem) => accumulator + currentItem.total_tax,
     0,
   );
 
@@ -229,7 +241,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     ]);
   };
 
-  console.log('phone------------->', data);
+ 
 
   return (
     <GestureHandlerRootView>
@@ -504,6 +516,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
               marginVertical: 5,
             }}>
             <Text style={styles.custText}>TAXES</Text>
+            {/* <Text>{tax?.toFixed(2)} AED</Text> */}
             <Text>0 AED</Text>
           </View>
 
@@ -516,6 +529,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
               marginVertical: 5,
             }}>
             <Text style={styles.custText}>TOTAL</Text>
+            {/* <Text>{tax+totalSum} AED</Text> */}
             <Text>{totalSum} AED</Text>
           </View>
 

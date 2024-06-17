@@ -512,6 +512,8 @@ const SignupPage = () => {
               <View style={styles.inputPicker}>
                 <SelectDropdown
                   data={countries}
+                  search
+                  searchPlaceHolder="Search Country"
                   onSelect={(selectedItem, index) => {
                     setFormData({
                       ...formData,

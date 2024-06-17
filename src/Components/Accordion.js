@@ -80,7 +80,18 @@ const Accordion = ({
                 {Color?.map((item, key) => (
                   <View key={key}>
                     <Pressable onPress={() => setChange(item)}>
-                      <Image source={Dummyproduct1}></Image>
+                      {/* <Image source={Dummyproduct1}></Image> */}
+
+                      <View style={{marginVertical: 7,marginLeft:20}}>
+                        <View
+                          style={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: 15,
+                            backgroundColor: `${item?.toLowerCase()}`,
+                          }}
+                        />
+                      </View>
                     </Pressable>
                   </View>
                 ))}
@@ -162,5 +173,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#444444',
     fontFamily: 'Intrepid Regular',
+  },
+  circle: {
+    width: 100, // or whatever diameter you want
+    height: 100, // or whatever diameter you want
+    borderRadius: 50, // make borderRadius half of the width and height
+    backgroundColor: 'blue', // any color
   },
 });
