@@ -1,11 +1,13 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Home } from '../Screens';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Home} from '../Screens';
 import Productdetailscreen from '../Screens/Productdetail/Productdetailscreen';
 import Icon from 'react-native-vector-icons/Ionicons'; // Assuming you're using Ionicons for the back button icon
 
 import CategoryProducts from '../Screens/CategoryProducts';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import WishListCard from '../Components/wishListCard/wishListCard';
+import Wishlist from '../Screens/wishlist/wishlist';
 const Stack = createNativeStackNavigator();
 
 const HomeCustomeNavigation = () => {
@@ -14,7 +16,7 @@ const HomeCustomeNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={'DrawerHome'}
         component={Home}
       />
@@ -22,8 +24,7 @@ const HomeCustomeNavigation = () => {
       <Stack.Screen
         name="ProductDetail"
         component={Productdetailscreen}
-
-        options={{
+        options={({navigation}) => ({
           headerTransparent: true,
           title: null,
           headerStyle: {
@@ -34,13 +35,12 @@ const HomeCustomeNavigation = () => {
             <Icon
               name="arrow-back"
               size={25}
-              color="#333" // Customize the color as needed
-              style={{ marginLeft: -8 }}
+              color="#333"
+              style={{marginLeft: 1}}
               onPress={() => navigation.goBack()}
-
             />
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name="CategoryProducts"
@@ -57,7 +57,7 @@ const HomeCustomeNavigation = () => {
               name="arrow-back"
               size={25}
               color="#333" // Customize the color as needed
-              style={{ marginLeft: -8 }}
+              style={{marginLeft: -8}}
               onPress={() => navigation.goBack()}
             />
           ),

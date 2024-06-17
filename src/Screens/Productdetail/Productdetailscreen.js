@@ -19,32 +19,39 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import { Images } from '../../Constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
-import { fetchById } from '../../Redux/Slice/SingleProductslice';
-import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
+import {Images} from '../../Constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect, useRef, useState} from 'react';
+import {fetchById} from '../../Redux/Slice/SingleProductslice';
+import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
-import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
-import { getToken, getUsername } from '../../Utils/localstorage';
-import { color } from 'react-native-elements/dist/helpers';
-import { useFocusEffect } from '@react-navigation/native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
+import {getToken, getUsername} from '../../Utils/localstorage';
+import {color} from 'react-native-elements/dist/helpers';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
-import { addToWishlist, fetchWishlist, removeFromWishlist } from '../../Redux/Slice/wishlistSlice';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import {
+  addToWishlist,
+  fetchWishlist,
+  removeFromWishlist,
+} from '../../Redux/Slice/wishlistSlice';
 import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoaderProductDetails';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function Productdetailscreen({ route, navigation }) {
+
+export default function Productdetailscreen({route, }) {
   const scrollViewRef = useRef();
-  const { userId, isWatchList } = route?.params;
+  const navigation = useNavigation();
+  const {userId, isWatchList} = route?.params;
   const dispatch = useDispatch();
-  const { loading, error, responseData } = useSelector(state => state?.getById);
+  const {loading, error, responseData} = useSelector(state => state?.getById);
 
-  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
-  const { items } = useSelector(state => state.wishlist);
+  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
+  const {items} = useSelector(state => state.wishlist);
 
-  const { loa, err, cartdata } = useSelector(state => state);
+  const {loa, err, cartdata} = useSelector(state => state);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
@@ -55,19 +62,16 @@ export default function Productdetailscreen({ route, navigation }) {
   const [color, setColor] = useState();
   const [size, setSize] = useState();
 
-  const [wishlistId, setWishListId] = useState()
-  const [isWishlist, setIsWishlist] = useState(isWatchList)
-
-
+  
+  const [wishlistId, setWishListId] = useState();
+  const [isWishlist, setIsWishlist] = useState(isWatchList);
 
   useEffect(() => {
     dispatch(fetchById(id));
-
   }, [id]);
 
   useEffect(() => {
     dispatch(fetchById(userId));
-
   }, [userId]);
   useEffect(() => {
     responseData?.attributes?.forEach(attribute => {
@@ -115,7 +119,7 @@ export default function Productdetailscreen({ route, navigation }) {
         attributes[attribute.slug] = changeColor.toLowerCase();
       }
     });
-  }, [responseData, changeSize, changeColor]);
+  }, [changeSize, changeColor]);
 
   useEffect(() => {
     if (responseData?.categories[0]?.id && !load) {
@@ -133,8 +137,24 @@ export default function Productdetailscreen({ route, navigation }) {
       attributes: attributes,
     };
 
+    console.log(data);
 
     if (isLoggedIn) {
+      if (changeSize == '' && changeColor == '') {
+        Alert.alert('', 'Make sure you selected size and color');
+        setLoding(false);
+        return;
+      }
+      if (!changeSize) {
+        Alert.alert('','Make sure you selected size');
+        setLoding(false);
+        return;
+      }
+      if (!changeColor) {
+        Alert.alert('','Make sure you selected color');
+        setLoding(false);
+        return;
+      }
       dispatch(addToCart(data)).then(action => {
         if (addToCart.fulfilled.match(action)) {
           setLoding(false);
@@ -169,20 +189,18 @@ export default function Productdetailscreen({ route, navigation }) {
     if (items.Wishlist) {
       const itemIdList = items.Wishlist?.map(item => ({id: item}));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
-      // console.log("items---------->", itemIdListids)
-      setWishListId(itemIdListids)
+     
+      setWishListId(itemIdListids);
       const result = partner?.map(productItem => ({
         ...productItem,
         isWatchList: itemIdListids.has(productItem.id),
       }));
 
       setWishlistRelated(result);
-    }
-    else if (partner) {
+    } else if (partner) {
       setWishlistRelated(partner);
     }
   }, [partner, toggleSaved]);
-
 
   const toggleSaved = async () => {
     const tokenData = await getToken();
@@ -194,14 +212,14 @@ export default function Productdetailscreen({ route, navigation }) {
         if (isWishlist) {
           // Product is in the wishlist, so remove it
           await dispatch(fetchWishlist(tokenData));
-          dispatch(removeFromWishlist({ product_id: userId, tokenData }));
-          setIsWishlist(false)
+          dispatch(removeFromWishlist({product_id: userId, tokenData}));
+          setIsWishlist(false);
         } else {
-          // Product is not in the wishlist, so add it          
+          // Product is not in the wishlist, so add it
           dispatch(fetchWishlist(tokenData));
 
-          dispatch(addToWishlist({ product_id: userId, tokenData }));
-          setIsWishlist(true)
+          dispatch(addToWishlist({product_id: userId, tokenData}));
+          setIsWishlist(true);
         }
 
         // Toggle the saved state
@@ -211,7 +229,10 @@ export default function Productdetailscreen({ route, navigation }) {
       }
     } else {
       navigation.navigate('LoginCustomeNavigation');
-      Alert.alert('Please login', 'You need to login to save items to your wishlist');
+      Alert.alert(
+        'Please login',
+        'You need to login to save items to your wishlist',
+      );
     }
   };
 
@@ -223,16 +244,27 @@ export default function Productdetailscreen({ route, navigation }) {
   //   }
   // })
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView pointerEvents="none">
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+      {/* <Icon
+        name={'arrow-left'}
+        size={25}
+        color="black"
+        style={{
+          position:'absolute',
+          left: 10,
+          top:3,
+          zIndex: 10,
+        }}
+        onPress={() => navigation.goBack()}></Icon> */}
 
-      <SafeAreaView style={{ marginTop: hp('-7%') }}>
+      <SafeAreaView style={{marginTop: hp('-7%')}}>
         <View>
           {loading ? (
             // <View style={styles.container}>
             <SkeletonLoaderProductDetails />
-            // </View>
           ) : (
+            // </View>
             <>
               <View>
                 <ScrollView
@@ -325,7 +357,7 @@ export default function Productdetailscreen({ route, navigation }) {
                       {wishlistrelated
                         ?.map((product, key) => (
                           // console.log("=====related", product),
-                          < View key={key} >
+                          <View key={key}>
                             <TouchableOpacity
                               onPress={() => handleproduct(product?.id)}>
                               <Product
@@ -355,8 +387,8 @@ export default function Productdetailscreen({ route, navigation }) {
             </>
           )}
         </View>
-      </SafeAreaView >
-    </GestureHandlerRootView >
+      </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }
 const styles = StyleSheet.create({

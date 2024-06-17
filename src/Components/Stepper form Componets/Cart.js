@@ -151,13 +151,23 @@ const Cart = ({
 
   const update = cartData?.map(item => ({
     ...item,
+    total_tax:parseFloat(item.tax)*item.quantity,
     total: item.product_price * item.quantity,
   }));
+
+  
 
   const totalSum = update?.reduce(
     (accumulator, currentItem) => accumulator + currentItem.total,
     0,
   );
+
+  const totaltax = update?.reduce(
+    (accumulator, currentItem) => accumulator + currentItem.total_tax,
+    0,
+  );
+
+
 
   useFocusEffect(
     useCallback(() => {
@@ -377,7 +387,8 @@ const Cart = ({
             marginTop: 10,
           }}>
           <Text style={styles.custText}>TOTAL </Text>
-          <Text>{totalSum} AED</Text>
+          {/* <Text>{totaltax+totalSum} AED</Text> */}
+         <Text>{totalSum}</Text>
         </View>
 
         <View style={styles.custborder} />

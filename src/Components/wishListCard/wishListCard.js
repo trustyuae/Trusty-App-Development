@@ -26,7 +26,7 @@ const WishListCard = ({ navigation, item, onPress }) => {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        console.log(token);
+       
         if (token) {
           setTokenData(token);
         }
