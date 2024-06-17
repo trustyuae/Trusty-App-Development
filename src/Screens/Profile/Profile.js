@@ -141,10 +141,17 @@ const Profile = () => {
       return;
     }
 
-
+    const validName = name.replace(/\s+/g, ' ').trim();
+    if (!validName) {
+      Alert.alert(
+        'Invalid name',
+        'Name cannot be empty or consist of only spaces.',
+      );
+      return;
+    }
 
     const updatedData = {
-      first_name: name,
+      first_name: validName,
       email,
 
       shipping: {
@@ -233,11 +240,11 @@ const Profile = () => {
                       style={styles.textInput}
                       value={name}
                       onChangeText={setName}
-                      onKeyPress={({ nativeEvent }) => {
-                        if (!/[a-zA-Z]/.test(nativeEvent.key)) {
-                          nativeEvent.preventDefault();
-                        }
-                      }}
+                    // onKeyPress={({ nativeEvent }) => {
+                    //   if (!/[a-zA-Z]/.test(nativeEvent.key)) {
+                    //     nativeEvent.preventDefault();
+                    //   }
+                    // }}
                     />
                     {errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
                   </>
@@ -332,7 +339,7 @@ const Profile = () => {
               <View style={styles.contantContainer}>
                 {editable ? (
                   <View>
-                    <Text style={styles.textHeading}>shippingCountry</Text>
+                    <Text style={styles.textHeading}>shipping Country</Text>
                     <TextInput
                       style={styles.textInputShipping}
                       value={shippingCountry}
