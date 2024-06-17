@@ -20,6 +20,8 @@ import { getToken, getUserId } from '../../Utils/localstorage';
 import OrderComponents from '../../Components/Order/OrderComponents';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
+import SkeletonLoaderOrder from '../../Components/Loader/SkeletonLoaderOrder';
 
 const Order = () => {
   const navigation = useNavigation();
@@ -85,35 +87,47 @@ const Order = () => {
   return (
     <SafeAreaView style={styles.container}>
       <CustomStatusBar color={globalColors.headingBackground} />
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-          />
-        }
-        ListHeaderComponent={
-          loading && !refreshing ? (
-            <ActivityIndicator
-              style={styles.loader}
-              size="large"
-              color={globalColors.black}
+
+      {loading ? (
+        <View style={{ padding: 20 }}>
+          <SkeletonLoaderOrder count={6} />
+        </View>
+      ) : data?.length === 0 ? (
+        <Text style={styles.noOrdersText}>No orders found.</Text>
+
+      ) :
+
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
             />
-          ) : null
-        }
-        ListFooterComponent={
-          isFetchingMore ? (
-            <ActivityIndicator
-              size="large"
-              color={globalColors.black}
-            />
-          ) : null
-        }
-        showsVerticalScrollIndicator={false}
-      />
+          }
+          ListHeaderComponent={
+            loading && !refreshing ? (
+              <ActivityIndicator
+                style={styles.loader}
+                size="large"
+                color={globalColors.black}
+              />
+            ) : null
+          }
+          ListFooterComponent={
+            isFetchingMore ? (
+              <ActivityIndicator
+                size="large"
+                color={globalColors.black}
+              />
+            ) : null
+          }
+          showsVerticalScrollIndicator={false}
+        />}
+
+
     </SafeAreaView>
   );
 };

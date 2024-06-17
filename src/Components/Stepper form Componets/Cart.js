@@ -36,7 +36,9 @@ import Toast from 'react-native-toast-message';
 import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
 import {ProductViewToCart} from '../../Redux/Slice/car_slice/withoulogin/ViewProdcutcart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import SkeletonLoader from '../Loader/SkeletonLoader';
+import SkeletonLoaderOrder from '../Loader/SkeletonLoaderOrder';
 
 const Cart = ({
   count,
@@ -222,8 +224,9 @@ const Cart = ({
         <View style={styles.custborder} />
 
         {loading ? (
-          <ActivityIndicator size="small" color="blue" />
-        ) : (
+          <View style={{ padding: 10 }}>
+            <SkeletonLoaderOrder count={1} />
+          </View>) : (
           <View>
             {cartData?.map(Item => (
               <View

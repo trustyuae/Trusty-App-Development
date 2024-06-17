@@ -134,7 +134,7 @@ const Home = () => {
       <View style={styles.container}>
         <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar>
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
-        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} 
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}
           tintColor={globalColors.black} />}
         >
           <HeadingImage />
@@ -143,24 +143,29 @@ const Home = () => {
           <Text style={styles.heading}>Ready To Go</Text>
           <View style={styles.categoryContainer}>
             {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}> */}
-            {categories.map(category => (
-              <Pressable
-                key={category.id}
-                onPress={() => navigateToCategoryProducts(category)}>
-                <Category
-                  key={category.id}
-                  uri={category?.image?.src}
-                  name={category.name}
-                />
-              </Pressable>
-            ))}
+            {
+              categoryStatus === 'loading' ? (
+                <View style={{ marginLeft: wp('2.5%'), }}>
+                  <SkeletonLoader count={6} />
+                </View>) :
+                categories.map(category => (
+                  <Pressable
+                    key={category.id}
+                    onPress={() => navigateToCategoryProducts(category)}>
+                    <Category
+                      key={category.id}
+                      uri={category?.image?.src}
+                      name={category.name}
+                    />
+                  </Pressable>
+                ))}
             {/* </ScrollView> */}
           </View>
           <Text style={styles.heading}>Signature Selections</Text>
           <PreviewImage style={{ height: hp('10%') }} uri={Images.preview1} />
           <View style={{ flexDirection: 'column', marginTop: 15 }}>
             <View style={styles.productContainer}>
-              {(true && wishlist.length === 0) ? (<SkeletonLoader />) :
+              {(true && wishlist.length === 0) ? (<View style={{ marginLeft: wp('-1.5%'), marginRight: wp('-2.5%') }}><SkeletonLoader count={2} /></View>) :
                 (wishlist.slice(startIndex, startIndex + 4).map(product => (
                   <Pressable
                     key={product?.id}
@@ -225,7 +230,7 @@ const Home = () => {
               </TouchableOpacity>
             </View>
             <View style={styles.productContainer}>
-              {true && wishlist.length === 0 ? (<SkeletonLoader />) :
+              {true && wishlist.length === 0 ? (<View style={{ marginLeft: wp('-1.5%'), marginRight: wp('-2.5%') }}><SkeletonLoader count={2} /></View>) :
 
                 wishlist.slice(startIndex + 2, startIndex + 4).map(product => (
                   <Pressable

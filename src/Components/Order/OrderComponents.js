@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Pressable, SafeAreaView, Text } from 'react-native';
+import { Image, Platform, Pressable, SafeAreaView, Text } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import Button from '../Button';
 import { Images } from '../../Constants/index';
@@ -22,16 +22,16 @@ const OrderComponents = ({
     <SafeAreaView>
       <View style={styles.line} />
       <View style={{ flexDirection: 'row' }}>
-       { line_items?<Image
+        {line_items ? <Image
           style={{ width: wp('40%'), height: hp('18%') }}
-          source={{ uri: line_items }}></Image>:<View style={{width: wp('40%'),height: hp('18%'),backgroundColor:"white"}}></View>}
+          source={{ uri: line_items }}></Image> : <View style={{ width: wp('40%'), height: hp('18%'), backgroundColor: "white" }}></View>}
         <View style={styles.orderProducts}>
           <View
             style={{
               flexDirection: 'row',
               paddingLeft: 10,
               // justifyContent: 'space-between', // Add this line
-              gap: 50,
+              gap: Platform.OS === 'ios' ? 50 : 30
             }}>
             <View style={{ flexDirection: 'column' }}>
               <Text style={styles.headingTextOrder}>Order On</Text>

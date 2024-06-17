@@ -20,6 +20,7 @@ import {
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { getToken } from '../../Utils/localstorage';
+import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 
 const SearchScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -87,13 +88,16 @@ const SearchScreen = ({ navigation }) => {
           </View>
         </View>
         {status == 'loading' ? (
-          <ActivityIndicator
-            size="large"
-            color={globalColors.black}
-            style={{ marginTop: '50%' }}
-          />
+          // <ActivityIndicator
+          //   size="large"
+          //   color={globalColors.black}
+          //   style={{ marginTop: '50%' }}
+          // />
+          <View style={{}}>
+            <SkeletonLoader count={6} />
+          </View>
         ) : (
-          <ScrollView   showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false}>
             {updated.length > 0 ? (
               <View style={styles.productContainer}>
                 {updated?.map(product => (
@@ -144,7 +148,7 @@ const styles = StyleSheet.create({
     marginBottom: hp('30%'),
   },
   container: {
-    // padding: 5,
+    padding: 5,
   },
   inputfield: {
     backgroundColor: 'white',
