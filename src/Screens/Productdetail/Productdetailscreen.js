@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert,
   SafeAreaView,
+  Dimensions,
 } from 'react-native';
 // import { NotSaveICon, SaveICon } from '../../Constants/Icons';
 import {
@@ -39,10 +40,11 @@ import {
 } from '../../Redux/Slice/wishlistSlice';
 import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoaderProductDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {NoImg, ProductIMG} from '../../Constants/Icons';
 
-
-export default function Productdetailscreen({route, }) {
+export default function Productdetailscreen({route}) {
   const scrollViewRef = useRef();
+  const width = Dimensions.get('window').width;
   const navigation = useNavigation();
   const {userId, isWatchList} = route?.params;
   const dispatch = useDispatch();
@@ -62,7 +64,6 @@ export default function Productdetailscreen({route, }) {
   const [color, setColor] = useState();
   const [size, setSize] = useState();
 
-  
   const [wishlistId, setWishListId] = useState();
   const [isWishlist, setIsWishlist] = useState(isWatchList);
 
@@ -137,8 +138,6 @@ export default function Productdetailscreen({route, }) {
       attributes: attributes,
     };
 
-    console.log(data);
-
     if (isLoggedIn) {
       if (changeSize == '' && changeColor == '') {
         Alert.alert('', 'Make sure you selected size and color');
@@ -146,12 +145,12 @@ export default function Productdetailscreen({route, }) {
         return;
       }
       if (!changeSize) {
-        Alert.alert('','Make sure you selected size');
+        Alert.alert('', 'Make sure you selected size');
         setLoding(false);
         return;
       }
       if (!changeColor && color) {
-        Alert.alert('','Make sure you selected color');
+        Alert.alert('', 'Make sure you selected color');
         setLoding(false);
         return;
       }
@@ -189,7 +188,7 @@ export default function Productdetailscreen({route, }) {
     if (items.Wishlist) {
       const itemIdList = items.Wishlist?.map(item => ({id: item}));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
-     
+
       setWishListId(itemIdListids);
       const result = partner?.map(productItem => ({
         ...productItem,
@@ -243,6 +242,7 @@ export default function Productdetailscreen({route, }) {
 
   //   }
   // })
+
   return (
     <GestureHandlerRootView pointerEvents="none">
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
@@ -270,13 +270,25 @@ export default function Productdetailscreen({route, }) {
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   ref={scrollViewRef}>
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <MyCarousel views={responseData?.images} />
+
+<View
+                      style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                  {responseData?.images.length > 0 ? (
+                 
+                      <MyCarousel views={responseData?.images} />
+                  
+                  ) : (
+                   
+                      <Image
+                        source={NoImg}
+                        style={styles.Imgcontainer}
+                        resizeMode="cover"></Image>
+                    
+                  )}
                   </View>
 
                   <View style={styles.custcontainer}>
@@ -394,10 +406,11 @@ export default function Productdetailscreen({route, }) {
 const styles = StyleSheet.create({
   Imgcontainer: {
     width: wp('100%'),
-    height: hp('60%'),
+    height: hp('50%'),
     objectFit: 'cover',
+    marginBottom:hp('8%')
   },
-  custcontainer: {
+  custcontainer:{
     marginHorizontal: wp('3%'),
     marginTop: hp('-5%'),
   },
