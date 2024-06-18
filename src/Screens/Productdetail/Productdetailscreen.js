@@ -150,7 +150,7 @@ export default function Productdetailscreen({route, }) {
         setLoding(false);
         return;
       }
-      if (!changeColor) {
+      if (!changeColor && color) {
         Alert.alert('','Make sure you selected color');
         setLoding(false);
         return;
@@ -319,7 +319,7 @@ export default function Productdetailscreen({route, }) {
                       </Text>
                     </View>
 
-                    {responseData?.type !== 'simple' ? (
+                    {responseData?.type == 'variable' ? (
                       <Accordion
                         Size={size}
                         Color={color}

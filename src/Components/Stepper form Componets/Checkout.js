@@ -11,6 +11,7 @@ import {
   CartImg,
   EditICon,
   Groupicon,
+  NoImg,
   PlusIcon,
   ProductIMG,
 } from '../../Constants/Icons';
@@ -431,16 +432,14 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                     {item.product_image ? (
                       <Image
                         source={{uri: item?.product_image}}
-                        height={100}
-                        width={90}
+                        style={styles.imageStyle}
                       />
                     ) : (
-                      <View
-                        style={{
-                          height: 100,
-                          width: 90,
-                          backgroundColor: 'white',
-                        }}></View>
+                      <Image
+                      source={NoImg}
+                     style={styles.imageStyle}
+                     resizeMode="contain"
+                    />
                     )}
                   </View>
                   <View>
@@ -555,6 +554,10 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
 
 export default Checkout;
 const styles = StyleSheet.create({
+  imageStyle:{
+    height: 100, 
+    width: 90 
+  },
   container: {
     marginHorizontal: wp('3%'),
     marginTop: hp('2%'),

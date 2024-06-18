@@ -29,6 +29,8 @@ const Accordion = ({
     return html.replace(/<[^>]*>?/gm, '');
   };
 
+  console.log(Color);
+
   return (
     <List.Section>
       <List.Accordion
@@ -82,7 +84,7 @@ const Accordion = ({
                     <Pressable onPress={() => setChange(item)}>
                       {/* <Image source={Dummyproduct1}></Image> */}
 
-                      <View style={{marginVertical: 7,marginLeft:20}}>
+                      <View style={{marginVertical: 7, marginLeft: 20}}>
                         <View
                           style={{
                             width: 30,
