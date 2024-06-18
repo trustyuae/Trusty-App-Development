@@ -1,6 +1,6 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {Consumer_key, Consumer_secret, baseURL} from '../../Utils/API';
+import { Consumer_key, Consumer_secret, baseURL } from '../../Utils/API';
 
 const API_URL = 'https://wordpress.trustysystem.com/wp-json/wc/v3';
 const CONSUMER_KEY = 'ck_604dffdbe6cb804616978b0b6a04bae3de51db57';
@@ -24,15 +24,17 @@ export const fetchProducts = createAsyncThunk('product', async () => {
 
 export const fetchCategoryProducts = createAsyncThunk(
   'product/fetchCategoryProducts',
-  async ({categoryId}, {rejectWithValue}) => {
+  async ({ categoryId, page }, { getState, rejectWithValue }) => {
     try {
-      const response = await api.get(`/products?category=${categoryId}`);
+      const response = await api.get(`/products?category=${categoryId}&per_page=10&page=${page}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   },
 );
+
+
 
 const productSlice = createSlice({
   name: 'product',
@@ -41,9 +43,14 @@ const productSlice = createSlice({
     categoryProducts: [],
     status: 'idle',
     error: null,
+    currentPage: 1, // Track current page for pagination
+    totalProducts: 0,
   },
-  reducers: {},
-  extraReducers: builder => {
+  reducers: {
+    resetCategoryProducts: (state) => {
+      state.categoryProducts = [];
+    },
+  }, extraReducers: builder => {
     builder
       .addCase(fetchProducts.pending, state => {
         state.status = 'loading';
@@ -61,7 +68,8 @@ const productSlice = createSlice({
       })
       .addCase(fetchCategoryProducts.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.categoryProducts = action.payload;
+        state.categoryProducts = [...state.categoryProducts, ...action.payload];
+        state.totalProducts += action.payload.length;
       })
       .addCase(fetchCategoryProducts.rejected, (state, action) => {
         state.status = 'failed';
@@ -69,5 +77,8 @@ const productSlice = createSlice({
       });
   },
 });
+
+
+export const { resetCategoryProducts } = productSlice.actions;
 
 export default productSlice.reducer;
