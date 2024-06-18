@@ -58,20 +58,21 @@ const AppNavigations = ({ navigation }) => {
           options={({ navigation }) => ({
             // Pass navigation prop here
             headerTransparent: true,
+            headerShown: false,
             title: null,
             headerStyle: {
               backgroundColor: '#f6f1eb',
             },
             headerBackTitleVisible: false,
-            headerLeft: () => (
-              <Icon
-                name="arrow-back"
-                size={25}
-                color="#333"
-                style={{ marginLeft: 1 }}
-                onPress={() => navigation.goBack()}
-              />
-            ),
+            // headerLeft: () => (
+            //   <Icon
+            //     name="arrow-back"
+            //     size={25}
+            //     color="#333"
+            //     style={{ marginLeft: 1 }}
+            //     onPress={() => navigation.goBack()}
+            //   />
+            // ),
           })} />
         <Stack.Screen
           name="wishlist"

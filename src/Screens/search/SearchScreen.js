@@ -31,7 +31,7 @@ const SearchScreen = ({ navigation }) => {
   const [wishlist, setWishlist] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [loadingSearch, setLoadingSearch] = useState(false);
-  const debouncedSearchRef = useRef(debounce(handleSearch, 300));
+  const debouncedSearchRef = useRef(useCallback(debounce(handleSearch, 300)));
 
   useEffect(() => {
     const token = getToken();
