@@ -244,7 +244,7 @@ export default function Productdetailscreen({route}) {
   // })
 
   return (
-    <GestureHandlerRootView pointerEvents="none">
+    <GestureHandlerRootView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
       {/* <Icon
         name={'arrow-left'}
@@ -270,25 +270,20 @@ export default function Productdetailscreen({route}) {
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   ref={scrollViewRef}>
-
-<View
-                      style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                  {responseData?.images.length > 0 ? (
-                 
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    {responseData?.images.length > 0 ? (
                       <MyCarousel views={responseData?.images} />
-                  
-                  ) : (
-                   
+                    ) : (
                       <Image
                         source={NoImg}
                         style={styles.Imgcontainer}
                         resizeMode="cover"></Image>
-                    
-                  )}
+                    )}
                   </View>
 
                   <View style={styles.custcontainer}>
@@ -408,9 +403,9 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     height: hp('50%'),
     objectFit: 'cover',
-    marginBottom:hp('8%')
+    marginBottom: hp('8%'),
   },
-  custcontainer:{
+  custcontainer: {
     marginHorizontal: wp('3%'),
     marginTop: hp('-5%'),
   },
