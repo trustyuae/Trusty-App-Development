@@ -20,6 +20,7 @@ import updateChekoutslice from "../Slice/car_slice/updatecheckout"
 import UpdateToCartSlice from '../Slice/car_slice/updatecart';
 import ProductAddToCartSlice from '../Slice/car_slice/withoulogin/productaddtocart';
 import ProductViewToCartSlice from '../Slice/car_slice/withoulogin/ViewProdcutcart';
+import searchProductSlice from '../Slice/searchProductSlice';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -44,7 +45,8 @@ const rootReducer = combineReducers({
   checkoutupdate:updateChekoutslice,
   updateToCart:UpdateToCartSlice,
   productaddtocart:ProductAddToCartSlice,
-  ProductViewToCart:ProductViewToCartSlice
+  ProductViewToCart:ProductViewToCartSlice,
+  searchProduct:searchProductSlice
 
 });
 

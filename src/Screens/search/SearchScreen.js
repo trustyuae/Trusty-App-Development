@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -5,12 +6,11 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  SafeAreaView, ActivityIndicator
+  SafeAreaView,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import Product from '../../Components/Product/Product';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../Redux/Slice/productSlice';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import {
@@ -18,62 +18,117 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
-import { getToken } from '../../Utils/localstorage';
+import Product from '../../Components/Product/Product';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
+import { getToken } from '../../Utils/localstorage';
 
 const SearchScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { products, status, error } = useSelector(state => state.product);
-  const [data, setData] = useState([]);
+  const { products, status } = useSelector(state => state.product);
   const { items } = useSelector(state => state.wishlist);
 
   const [search, setSearch] = useState('');
   const [wishlist, setWishlist] = useState([]);
-  const [tokenData, setTokenData] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [loadingSearch, setLoadingSearch] = useState(false);
+  const debouncedSearchRef = useRef(debounce(handleSearch, 300));
 
   useEffect(() => {
     const token = getToken();
     if (token) {
-      setTokenData(token);
       dispatch(fetchWishlist(token));
     }
-
     dispatch(fetchProducts());
-    dataWishlist()
   }, [dispatch]);
 
+  useEffect(() => {
+    const updatedWishlist = updateWishlistWithFlags(products, items.Wishlist);
+    setWishlist(updatedWishlist);
+  }, [products, items]);
 
+  const updateWishlistWithFlags = (products, wishlistItems) => {
+    if (!wishlistItems || wishlistItems.length === 0) {
+      return products;
+    }
 
-  const dataWishlist = () => {
-    if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
-      const productIds = new Set(itemIdList.map(item => Number(item.id)));
-      const result = products.map(productItem => ({
-        ...productItem,
-        isWatchList: productIds.has(productItem.id),
-      }));
-      setWishlist(result);
-    } else if (wishlist) {
-      setWishlist(products);
+    const wishlistIds = new Set(wishlistItems.map(item => Number(item)));
+    return products.map(product => ({
+      ...product,
+      isWatchList: wishlistIds.has(product.id),
+    }));
+  };
+
+  async function handleSearch(searchQuery) {
+    try {
+      if (searchQuery.trim().length > 0) {
+        setLoadingSearch(true);
+        const response = await fetch(
+          `https://wordpress.trustysystem.com/wp-json/custom-woo-api/v1/products/search?search=${encodeURIComponent(
+            searchQuery.trim()
+          )}`
+        );
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const searchData = await response.json();
+        setSearchResults(searchData);
+      } else {
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      setSearchResults([]);
+    } finally {
+      setLoadingSearch(false);
     }
   }
 
-
-
-
   useEffect(() => {
-    setData(wishlist);
-  }, [products]);
+    debouncedSearchRef.current(search);
+  }, [search]);
 
-  const updated = data.filter(item =>
-    item?.name?.toLowerCase().includes(search?.toLowerCase()),
-  );
+  const renderProducts = () => {
+    const dataToRender = search.trim().length > 0 ? searchResults : wishlist;
+
+    if (loadingSearch) {
+      return <SkeletonLoader count={6} />;
+    }
+
+    if (dataToRender.length === 0) {
+      return (
+        <View style={styles.noRecordContainer}>
+          <Text style={styles.noRecordText}>No Record Found</Text>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.productContainer}>
+        {dataToRender.map(product => (
+          <TouchableOpacity
+            key={product.id}
+            onPress={() =>
+              navigation.navigate('ProductDetail', {
+                userId: product.id,
+              })
+            }>
+            <Product
+              uri={product?.images?.[0]?.src || product?.image}
+              name={product?.name}
+              price={product?.price}
+              saved={product?.saved}
+              product_id={product?.id}
+              isWatchList={product?.isWatchList}
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView>
-      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-
+      <CustomStatusBar color={globalColors.headingBackground} />
       <View style={styles.container}>
         <View style={styles.searchContainer}>
           <View style={styles.custposition}>
@@ -83,54 +138,16 @@ const SearchScreen = ({ navigation }) => {
               value={search}
               onChangeText={text => setSearch(text)}
             />
-
-            <Icon name={'search'} size={20} style={styles.cust_icon} />
+            <TouchableOpacity style={styles.cust_icon}>
+              <Icon name={'search'} size={20} onPress={() => debouncedSearchRef.current(search)} />
+            </TouchableOpacity>
           </View>
         </View>
-        {status == 'loading' ? (
-          // <ActivityIndicator
-          //   size="large"
-          //   color={globalColors.black}
-          //   style={{ marginTop: '50%' }}
-          // />
-          <View style={{}}>
-            <SkeletonLoader count={6} />
-          </View>
+        {status === 'loading' ? (
+          <SkeletonLoader count={6} />
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
-            {updated.length > 0 ? (
-              <View style={styles.productContainer}>
-                {updated?.map(product => (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('ProductDetail', {
-                        userId: product.id,
-                      })
-                    }>
-                    <Product
-                      key={product.id}
-                      uri={product?.images?.[0]?.src}
-                      name={product?.name}
-                      price={product?.price}
-                      saved={product?.saved}
-                      product_id={product?.id}
-                      isWatchList={product?.isWatchList}
-                    />
-                  </TouchableOpacity>
-                ))}
-              </View>
-            ) : (
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{ fontFamily: 'Intrepid Regular' }}>
-                  No Record Found
-                </Text>
-              </View>
-            )}
+            {renderProducts()}
           </ScrollView>
         )}
       </View>
@@ -139,6 +156,19 @@ const SearchScreen = ({ navigation }) => {
 };
 
 export default SearchScreen;
+
+// Debounce function to delay API calls
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+      func.apply(context, args);
+    }, wait);
+  };
+}
 
 const styles = StyleSheet.create({
   productContainer: {
@@ -169,5 +199,13 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     marginVertical: 20,
+  },
+  noRecordContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noRecordText: {
+    fontFamily: 'Intrepid Regular',
   },
 });
