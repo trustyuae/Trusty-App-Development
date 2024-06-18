@@ -24,10 +24,10 @@ const api1 = axios.create({
 
 export const fetchSearchProducts = createAsyncThunk(
     'searchProduct/fetchSearchProducts',
-    async ({ search = '' }) => {
+    async () => {
         const response = await api1.get(`/search`, {
             params: {
-                search,
+
                 consumer_key: CONSUMER_KEY,
                 consumer_secret: CONSUMER_SECRET,
 
@@ -74,17 +74,13 @@ const searchProductSlice = createSlice({
             })
             .addCase(fetchSearchProducts.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                if (state.page === 1) {
-                    state.products = action.payload;
-                } else {
-                    state.products = [...state.products, ...action.payload];
-                }
-                state.page += 1;
+                state.products = action.payload; // Assuming the payload is an array of products
             })
             .addCase(fetchSearchProducts.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
             })
+
             .addCase(fetchDefaultProducts.pending, (state) => {
                 state.status = 'loading';
             })
