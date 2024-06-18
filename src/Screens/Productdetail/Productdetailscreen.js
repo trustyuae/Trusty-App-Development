@@ -20,19 +20,19 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import {Images} from '../../Constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {useEffect, useRef, useState} from 'react';
-import {fetchById} from '../../Redux/Slice/SingleProductslice';
-import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
+import { Images } from '../../Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { fetchById } from '../../Redux/Slice/SingleProductslice';
+import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
 import ProductBackup from '../../Components/Product/ProductBackup';
-import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
-import {getToken, getUsername} from '../../Utils/localstorage';
-import {color} from 'react-native-elements/dist/helpers';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
+import { getToken, getUsername } from '../../Utils/localstorage';
+import { color } from 'react-native-elements/dist/helpers';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import {
   addToWishlist,
   fetchWishlist,
@@ -42,18 +42,26 @@ import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoader
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {NoImg, ProductIMG} from '../../Constants/Icons';
 
+<<<<<<< HEAD
 export default function Productdetailscreen({route}) {
   const scrollViewRef = useRef();
   const width = Dimensions.get('window').width;
   const navigation = useNavigation();
   const {userId, isWatchList} = route?.params;
+=======
+
+export default function Productdetailscreen({ route, }) {
+  const scrollViewRef = useRef();
+  const Navigation = useNavigation();
+  const { userId, isWatchList } = route?.params;
+>>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
   const dispatch = useDispatch();
-  const {loading, error, responseData} = useSelector(state => state?.getById);
+  const { loading, error, responseData } = useSelector(state => state?.getById);
 
-  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
-  const {items} = useSelector(state => state.wishlist);
+  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
+  const { items } = useSelector(state => state.wishlist);
 
-  const {loa, err, cartdata} = useSelector(state => state);
+  const { loa, err, cartdata } = useSelector(state => state);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
@@ -64,6 +72,10 @@ export default function Productdetailscreen({route}) {
   const [color, setColor] = useState();
   const [size, setSize] = useState();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
   const [wishlistId, setWishListId] = useState();
   const [isWishlist, setIsWishlist] = useState(isWatchList);
 
@@ -149,7 +161,11 @@ export default function Productdetailscreen({route}) {
         setLoding(false);
         return;
       }
+<<<<<<< HEAD
       if (!changeColor && color) {
+=======
+      if (!changeColor) {
+>>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
         Alert.alert('', 'Make sure you selected color');
         setLoding(false);
         return;
@@ -178,7 +194,7 @@ export default function Productdetailscreen({route}) {
   };
 
   const handleproduct = id => {
-    scrollViewRef.current.scrollTo({y: 0, animated: true});
+    scrollViewRef.current.scrollTo({ y: 0, animated: true });
     setId(id);
   };
 
@@ -186,7 +202,7 @@ export default function Productdetailscreen({route}) {
 
   useEffect(() => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({id: item}));
+      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
 
       setWishListId(itemIdListids);
@@ -211,13 +227,13 @@ export default function Productdetailscreen({route}) {
         if (isWishlist) {
           // Product is in the wishlist, so remove it
           await dispatch(fetchWishlist(tokenData));
-          dispatch(removeFromWishlist({product_id: userId, tokenData}));
+          dispatch(removeFromWishlist({ product_id: userId, tokenData }));
           setIsWishlist(false);
         } else {
           // Product is not in the wishlist, so add it
           dispatch(fetchWishlist(tokenData));
 
-          dispatch(addToWishlist({product_id: userId, tokenData}));
+          dispatch(addToWishlist({ product_id: userId, tokenData }));
           setIsWishlist(true);
         }
 
@@ -258,7 +274,7 @@ export default function Productdetailscreen({route}) {
         }}
         onPress={() => navigation.goBack()}></Icon> */}
 
-      <SafeAreaView style={{marginTop: hp('-7%')}}>
+      <SafeAreaView style={{ marginTop: hp('-7%') }}>
         <View>
           {loading ? (
             // <View style={styles.container}>
@@ -320,8 +336,8 @@ export default function Productdetailscreen({route}) {
                       AED {responseData?.price}
                     </Text>
                     <View
-                      style={{borderBottomWidth: 1, borderColor: '#D8D8D8'}}>
-                      <Text style={{color: '#86D973', marginBottom: '10'}}>
+                      style={{ borderBottomWidth: 1, borderColor: '#D8D8D8' }}>
+                      <Text style={{ color: '#86D973', marginBottom: '10' }}>
                         {responseData?.stock_status}
                       </Text>
                     </View>
@@ -349,7 +365,7 @@ export default function Productdetailscreen({route}) {
                     )}
                     {/* <DummyAccordion attributes={responseData?.attributes}/> */}
                   </View>
-                  <View style={{borderTopWidth: 1, borderColor: '#DBCCC1'}}>
+                  <View style={{ borderTopWidth: 1, borderColor: '#DBCCC1' }}>
                     <Text
                       style={{
                         textAlign: 'center',

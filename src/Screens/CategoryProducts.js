@@ -22,6 +22,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchCategoryProducts,
   fetchProducts,
+  resetCategoryProducts,
 } from '../Redux/Slice/productSlice';
 import { fetchWishlist } from '../Redux/Slice/wishlistSlice';
 import { getToken } from '../Utils/localstorage';
@@ -40,29 +41,49 @@ const CategoryProducts = ({ navigation }) => {
   const { categoryProducts, status, error } = useSelector(state => state.product);
   const { items } = useSelector(state => state.wishlist);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [page, setPage] = useState(1);
 
+
+
+
+  // useEffect(() => {
+  //   dispatch(fetchCategoryProducts({ categoryId: category.id, page: 1 }));
+  //   refreshWishlist();
+  // }, [dispatch, category.id]);
+
+
+
+  // const loadMoreProducts = () => {
+  //   const nextPage = page + 1;
+  //   dispatch(fetchCategoryProducts({ categoryId: category.id, page: nextPage }));
+  //   setPage(nextPage);
+  // };
 
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = await getToken();
-
-        if (token) {
-          setTokenData(token);
-          await dispatch(fetchWishlist({ tokenData: token }));
-        }
-      } catch (error) {
-        console.log('Error retrieving data:', error);
-      }
-    };
-
     fetchData();
-  }, [dispatch, tokenData]);
+  }, [category, page]);
+
+  const fetchData = async () => {
+    try {
+      const token = await getToken();
+      if (token) {
+        await dispatch(fetchWishlist({ tokenData: token }));
+      }
+      await dispatch(fetchCategoryProducts({ categoryId: category.id, page: page }));
+    } catch (error) {
+      console.log('Error fetching data:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    dispatch(resetCategoryProducts());
+    setPage(1);
+  }, [category]);
 
   const refreshWishlist = () => {
     const itemIdList = items?.Wishlist?.map(item => ({ id: item }));
-
     const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
     const result = categoryProducts.map(productItem => ({
       ...productItem,
@@ -76,19 +97,24 @@ const CategoryProducts = ({ navigation }) => {
     refreshWishlist();
   }, [items, categoryProducts]);
 
+  const loadMoreProducts = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+  };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(fetchCategoryProducts({ categoryId: category.id }));
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     dispatch(fetchCategoryProducts({ categoryId: category.id }));
 
-      refreshWishlist();
+  //     refreshWishlist();
 
-    }, [dispatch, category.id])
-  );
+  //   }, [dispatch, category.id])
+  // );
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    await dispatch(fetchCategoryProducts({ categoryId: category.id }));
+    dispatch(resetCategoryProducts());
+    await dispatch(fetchCategoryProducts({ categoryId: category.id, page: page }));
     await dispatch(fetchWishlist(tokenData));
     refreshWishlist();
     setRefreshing(false);
@@ -278,9 +304,20 @@ const CategoryProducts = ({ navigation }) => {
               ))
             )}
           </View>
+
+          {wishlist.length >= 10 && (
+            <TouchableOpacity style={{ alignItems: 'center' }} onPress={loadMoreProducts}>
+              <View style={{
+                backgroundColor: globalColors.black, height: hp('4%'), justifyContent: 'center', width: wp('25%'), borderRadius: 5, marginBottom: 15
+              }}>
+                <Text style={styles.loadMoreButton}>Load More</Text>
+
+              </View>
+            </TouchableOpacity>
+          )}
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
@@ -322,6 +359,14 @@ const styles = StyleSheet.create({
   dropdownButtonStyle: {
     width: 80,
     flexDirection: 'row',
+  },
+  loadMoreButton: {
+    textAlign: 'center',
+    marginVertical: 10,
+    color: globalColors.white,
+    fontFamily: 'Intrepid Regular',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
 
