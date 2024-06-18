@@ -27,6 +27,8 @@ export const CLEAR_TO_CART="CLEAR_TO_CART"
 
 export const UPDATE_CHECKOUT="UPDATE_CHECKOUT"
 
+export const GET_COUPON="GET_COUPON"
+
 // *************************** Order  **************************
 
 

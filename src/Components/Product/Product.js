@@ -22,6 +22,7 @@ import {
 import { getToken } from '../../Utils/localstorage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import { NoImg } from '../../Constants/Icons';
 
 const Product = ({ uri, name, price, product_id, isWatchList }) => {
   const dispatch = useDispatch();
@@ -111,13 +112,17 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
       <View style={styles.imageContainer}>
 
 
-        <Image
+       {uri? <Image
           style={styles.image}
           source={{
             uri,
           }}
           resizeMode="cover"
-        />
+        />: <Image
+        source={NoImg}
+        style={styles.image}
+       resizeMode="contain"
+      />}
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
             style={styles.saveImage}
@@ -196,6 +201,7 @@ const styles = StyleSheet.create({
   image: {
     width: wp('46%'),
     height: hp('25%'),
+    objectFit:"cover"
     // alignContent: 'center',
   },
 });

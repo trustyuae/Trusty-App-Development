@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Alert,
   SafeAreaView,
+  Dimensions,
 } from 'react-native';
 // import { NotSaveICon, SaveICon } from '../../Constants/Icons';
 import {
@@ -39,12 +40,21 @@ import {
 } from '../../Redux/Slice/wishlistSlice';
 import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoaderProductDetails';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {NoImg, ProductIMG} from '../../Constants/Icons';
 
+<<<<<<< HEAD
+export default function Productdetailscreen({route}) {
+  const scrollViewRef = useRef();
+  const width = Dimensions.get('window').width;
+  const navigation = useNavigation();
+  const {userId, isWatchList} = route?.params;
+=======
 
 export default function Productdetailscreen({ route, }) {
   const scrollViewRef = useRef();
   const Navigation = useNavigation();
   const { userId, isWatchList } = route?.params;
+>>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
   const dispatch = useDispatch();
   const { loading, error, responseData } = useSelector(state => state?.getById);
 
@@ -62,7 +72,10 @@ export default function Productdetailscreen({ route, }) {
   const [color, setColor] = useState();
   const [size, setSize] = useState();
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
   const [wishlistId, setWishListId] = useState();
   const [isWishlist, setIsWishlist] = useState(isWatchList);
 
@@ -137,8 +150,6 @@ export default function Productdetailscreen({ route, }) {
       attributes: attributes,
     };
 
-    console.log(data);
-
     if (isLoggedIn) {
       if (changeSize == '' && changeColor == '') {
         Alert.alert('', 'Make sure you selected size and color');
@@ -150,7 +161,11 @@ export default function Productdetailscreen({ route, }) {
         setLoding(false);
         return;
       }
+<<<<<<< HEAD
+      if (!changeColor && color) {
+=======
       if (!changeColor) {
+>>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
         Alert.alert('', 'Make sure you selected color');
         setLoding(false);
         return;
@@ -243,8 +258,9 @@ export default function Productdetailscreen({ route, }) {
 
   //   }
   // })
+
   return (
-    <GestureHandlerRootView >
+    <GestureHandlerRootView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
       {/* <Icon
         name={'arrow-left'}
@@ -276,7 +292,14 @@ export default function Productdetailscreen({ route, }) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    <MyCarousel views={responseData?.images} />
+                    {responseData?.images.length > 0 ? (
+                      <MyCarousel views={responseData?.images} />
+                    ) : (
+                      <Image
+                        source={NoImg}
+                        style={styles.Imgcontainer}
+                        resizeMode="cover"></Image>
+                    )}
                   </View>
 
                   <View style={styles.custcontainer}>
@@ -319,7 +342,7 @@ export default function Productdetailscreen({ route, }) {
                       </Text>
                     </View>
 
-                    {responseData?.type !== 'simple' ? (
+                    {responseData?.type == 'variable' ? (
                       <Accordion
                         Size={size}
                         Color={color}
@@ -394,8 +417,9 @@ export default function Productdetailscreen({ route, }) {
 const styles = StyleSheet.create({
   Imgcontainer: {
     width: wp('100%'),
-    height: hp('60%'),
+    height: hp('50%'),
     objectFit: 'cover',
+    marginBottom: hp('8%'),
   },
   custcontainer: {
     marginHorizontal: wp('3%'),

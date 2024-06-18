@@ -20,6 +20,7 @@ import updateChekoutslice from "../Slice/car_slice/updatecheckout"
 import UpdateToCartSlice from '../Slice/car_slice/updatecart';
 import ProductAddToCartSlice from '../Slice/car_slice/withoulogin/productaddtocart';
 import ProductViewToCartSlice from '../Slice/car_slice/withoulogin/ViewProdcutcart';
+import CouponDetailCartSlice from '../Slice/car_slice/coupon/couponcart';
 import searchProductSlice from '../Slice/searchProductSlice';
 
 const rootReducer = combineReducers({
@@ -46,7 +47,8 @@ const rootReducer = combineReducers({
   updateToCart:UpdateToCartSlice,
   productaddtocart:ProductAddToCartSlice,
   ProductViewToCart:ProductViewToCartSlice,
-  searchProduct:searchProductSlice
+  CouponDetail:CouponDetailCartSlice,
+  searchProduct:searchProductSlice,
 
 });
 

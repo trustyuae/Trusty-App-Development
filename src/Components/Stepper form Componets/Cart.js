@@ -12,6 +12,7 @@ import {
   CartImg,
   Dummyproduct1,
   Dummyproduct2,
+  NoImg,
   NoProductImage,
   Plus,
   minus,
@@ -39,6 +40,7 @@ import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import SkeletonLoader from '../Loader/SkeletonLoader';
 import SkeletonLoaderOrder from '../Loader/SkeletonLoaderOrder';
+import { CouponDetail } from '../../Redux/Slice/car_slice/coupon/couponcart';
 
 const Cart = ({
   count,
@@ -54,7 +56,9 @@ const Cart = ({
   const {erros, loading, viewcartdata} = useSelector(
     state => state?.ViewToCart,
   );
-  const state = useSelector(state => state.ProductView);
+
+  const {coupon}=useSelector(state=>state.CouponDetail)
+  const state = useSelector(state => state?.ProductView);
   const {deteltedData} = useSelector(state => state?.DeleteToCart);
   const {isloading} = useSelector(state => state?.OrderToCart);
   const {data} = useSelector(state => state?.profile);
@@ -62,7 +66,6 @@ const Cart = ({
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigation();
-
 
 
   useEffect(() => {
@@ -75,6 +78,7 @@ const Cart = ({
         setIsLoggedIn(false);
       }
       dispatch(fetchProfile(userid));
+      dispatch(CouponDetail())
       setCustomerID(userid);
     };
     fetch();
@@ -304,16 +308,14 @@ const Cart = ({
                   {Item.product_image ? (
                     <Image
                       source={{uri: Item?.product_image}}
-                      height={100}
-                      width={90}
+                      style={styles.imageStyle}
                     />
                   ) : (
-                    <View
-                      style={{
-                        height: 100,
-                        width: 90,
-                        backgroundColor: 'white',
-                      }}></View>
+                    <Image
+                    source={NoImg}
+                   style={styles.imageStyle}
+                   resizeMode="contain"
+                  />
                   )}
                 </View>
                 <View>
@@ -388,7 +390,7 @@ const Cart = ({
           }}>
           <Text style={styles.custText}>TOTAL </Text>
           {/* <Text>{totaltax+totalSum} AED</Text> */}
-         <Text>{totalSum}</Text>
+         <Text>{totalSum} AED</Text>
         </View>
 
         <View style={styles.custborder} />
@@ -425,6 +427,10 @@ const Cart = ({
 export default Cart;
 
 const styles = StyleSheet.create({
+  imageStyle:{
+    height: 100, 
+    width: 90 
+  },
   container: {
     marginHorizontal: wp('3%'),
     marginTop: hp('2%'),

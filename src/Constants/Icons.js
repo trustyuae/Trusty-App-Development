@@ -33,5 +33,6 @@ export const Bronze=require("../Assets/Images/Bronze.png")
 export const Platinum=require("../Assets/Images/Platnium.png")
 export const Sliver=require("../Assets/Images/Sliver.png")
 export const Gift=require("../Assets/Images/gifts.png")
+export const NoImg=require("../Assets/Images/productBackground.png")
 
 
