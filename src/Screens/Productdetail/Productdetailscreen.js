@@ -42,19 +42,11 @@ import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoader
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {NoImg, ProductIMG} from '../../Constants/Icons';
 
-<<<<<<< HEAD
 export default function Productdetailscreen({route}) {
   const scrollViewRef = useRef();
   const width = Dimensions.get('window').width;
   const navigation = useNavigation();
   const {userId, isWatchList} = route?.params;
-=======
-
-export default function Productdetailscreen({ route, }) {
-  const scrollViewRef = useRef();
-  const Navigation = useNavigation();
-  const { userId, isWatchList } = route?.params;
->>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
   const dispatch = useDispatch();
   const { loading, error, responseData } = useSelector(state => state?.getById);
 
@@ -72,10 +64,6 @@ export default function Productdetailscreen({ route, }) {
   const [color, setColor] = useState();
   const [size, setSize] = useState();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
   const [wishlistId, setWishListId] = useState();
   const [isWishlist, setIsWishlist] = useState(isWatchList);
 
@@ -161,11 +149,7 @@ export default function Productdetailscreen({ route, }) {
         setLoding(false);
         return;
       }
-<<<<<<< HEAD
       if (!changeColor && color) {
-=======
-      if (!changeColor) {
->>>>>>> 7f4c3cdb4d4669bb734fb6929fc1f5f7372273b5
         Alert.alert('', 'Make sure you selected color');
         setLoding(false);
         return;
