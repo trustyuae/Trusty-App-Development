@@ -62,7 +62,7 @@ const CategoryProducts = ({ navigation }) => {
 
   useEffect(() => {
     fetchData();
-  }, [category, page]);
+  }, [dispatch, category, page]);
 
   const fetchData = async () => {
     try {

@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import counterReducer from '../Slice/counterSlice';
 import userSliceReducer from '../Slice/loginslice';
 import getByIdSlice from '../Slice/SingleProductslice';
@@ -22,6 +22,7 @@ import ProductAddToCartSlice from '../Slice/car_slice/withoulogin/productaddtoca
 import ProductViewToCartSlice from '../Slice/car_slice/withoulogin/ViewProdcutcart';
 import CouponDetailCartSlice from '../Slice/car_slice/coupon/couponcart';
 import searchProductSlice from '../Slice/searchProductSlice';
+import paginatedProductSlice from '../Slice/paginatedProductSlice';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -42,13 +43,14 @@ const rootReducer = combineReducers({
   wishlist: wishlistSlice,
   OrderToCart: OrderToCartSlice,
   OrderDetailCart: OrderDetailCartSlice,
-  ClearToCarted:ClearToCartSlice,
-  checkoutupdate:updateChekoutslice,
-  updateToCart:UpdateToCartSlice,
-  productaddtocart:ProductAddToCartSlice,
-  ProductViewToCart:ProductViewToCartSlice,
-  CouponDetail:CouponDetailCartSlice,
-  searchProduct:searchProductSlice,
+  ClearToCarted: ClearToCartSlice,
+  checkoutupdate: updateChekoutslice,
+  updateToCart: UpdateToCartSlice,
+  productaddtocart: ProductAddToCartSlice,
+  ProductViewToCart: ProductViewToCartSlice,
+  CouponDetail: CouponDetailCartSlice,
+  searchProduct: searchProductSlice,
+  paginatedProducts: paginatedProductSlice
 
 });
 
