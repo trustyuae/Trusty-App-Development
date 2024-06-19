@@ -1,8 +1,8 @@
 // profileSlice.js
 
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {baseURL} from '../../Utils/API';
+import { Consumer_key, Consumer_secret, baseURL } from '../../Utils/API';
 import Toast from 'react-native-toast-message';
 // Async thunk to fetch profile data
 export const fetchProfile = createAsyncThunk(
@@ -13,8 +13,8 @@ export const fetchProfile = createAsyncThunk(
         `${baseURL}/wc/v3/customers/${customer_id}`,
         {
           auth: {
-            username: 'ck_604dffdbe6cb804616978b0b6a04bae3de51db57',
-            password: 'cs_a508308d959ceb307994082b20b01cf9fedc2fef',
+            username: Consumer_key,
+            password: Consumer_secret,
           },
         },
       );
@@ -30,22 +30,22 @@ export const fetchProfile = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
   'profile/updateProfile',
-  async ({customer_id, newData}, thunkAPI) => {
+  async ({ customer_id, newData }, thunkAPI) => {
     try {
       const response = await axios.put(
         `${baseURL}/wc/v3/customers/${customer_id}`,
         newData,
         {
           auth: {
-            username: 'ck_604dffdbe6cb804616978b0b6a04bae3de51db57',
-            password: 'cs_a508308d959ceb307994082b20b01cf9fedc2fef',
+            username: Consumer_key,
+            password: Consumer_secret,
           },
         },
       );
       Toast.show({
-        type:'success',
-        text1:'updated successfully!',
-        position:'bottom',
+        type: 'success',
+        text1: 'updated successfully!',
+        position: 'bottom',
         visibilityTime: 3000,
         autoHide: true,
       });
@@ -102,6 +102,6 @@ const profileSlice = createSlice({
   },
 });
 
-export const {resetProfile} = profileSlice.actions;
+export const { resetProfile } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -2,23 +2,19 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Consumer_key, Consumer_secret, baseURL } from '../../Utils/API';
 
-const API_URL = 'https://wordpress.trustysystem.com/wp-json/wc/v3';
-const CONSUMER_KEY = 'ck_604dffdbe6cb804616978b0b6a04bae3de51db57';
-const CONSUMER_SECRET = 'cs_a508308d959ceb307994082b20b01cf9fedc2fef';
-
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
   auth: {
-    username: CONSUMER_KEY,
-    password: CONSUMER_SECRET,
+    username: Consumer_key,
+    password: Consumer_secret,
   },
 });
 
 export const fetchProducts = createAsyncThunk('product', async () => {
-  const response = await api.get('/products');
+  const response = await api.get('/wc/v3/products');
   return response.data;
 });
 
@@ -26,7 +22,7 @@ export const fetchCategoryProducts = createAsyncThunk(
   'product/fetchCategoryProducts',
   async ({ categoryId, page }, { getState, rejectWithValue }) => {
     try {
-      const response = await api.get(`/products?category=${categoryId}&per_page=10&page=${page}`);
+      const response = await api.get(`/wc/v3/products?category=${categoryId}&per_page=10&page=${page}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);

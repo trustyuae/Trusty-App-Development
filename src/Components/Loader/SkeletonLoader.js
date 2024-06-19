@@ -1,11 +1,11 @@
-import React, {useRef, useEffect} from 'react';
-import {View, StyleSheet, Animated} from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, StyleSheet, Animated } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const SkeletonLoader = ({count}) => {
+const SkeletonLoader = ({ count }) => {
   const opacity = useRef(new Animated.Value(0.6)).current;
 
   useEffect(() => {
@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
   skeletonContainer: {
     flexDirection: 'row',
     borderRadius: 10,
-    alignContent: 'center',
-    marginLeft: wp('1%'),
+    alignSelf: 'center',
+    // marginLeft: wp('1%'),
     marginBottom: hp('2%'),
     overflow: 'hidden',
     flexWrap: 'wrap',
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   skeletonProduct: {
     width: wp('45%'),
     height: hp('25%'),
-    marginHorizontal: wp('0.9%'),
+    marginHorizontal: wp('0.8%'),
     marginBottom: hp('2%'),
     backgroundColor: '#E0E0E0',
     borderRadius: 8,

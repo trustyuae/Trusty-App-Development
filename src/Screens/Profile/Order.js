@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginTop: Platform.OS === 'ios' ? hp('22%') : hp('27%'),
-    marginBottom: hp('3%'),
+    // marginBottom: hp('3%'),
     flex: 1,
   },
   headingText: {

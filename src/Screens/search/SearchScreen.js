@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../Redux/Slice/productSlice';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import { fetchPaginatedProducts, resetProducts } from '../../Redux/Slice/paginatedProductSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import {
@@ -21,10 +22,11 @@ import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import Product from '../../Components/Product/Product';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import { getToken } from '../../Utils/localstorage';
+import { baseURL } from '../../Utils/API';
 
 const SearchScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { products, status } = useSelector(state => state.product);
+  const { products: paginatedProducts, status: paginatedStatus, page } = useSelector(state => state.paginatedProducts);
   const { items } = useSelector(state => state.wishlist);
 
   const [search, setSearch] = useState('');
@@ -33,18 +35,20 @@ const SearchScreen = ({ navigation }) => {
   const [loadingSearch, setLoadingSearch] = useState(false);
   const debouncedSearchRef = useRef(useCallback(debounce(handleSearch, 300)));
 
+
   useEffect(() => {
     const token = getToken();
     if (token) {
       dispatch(fetchWishlist(token));
     }
-    dispatch(fetchProducts());
+    dispatch(resetProducts());
+    dispatch(fetchPaginatedProducts({ page: 1 }));
   }, [dispatch]);
 
   useEffect(() => {
-    const updatedWishlist = updateWishlistWithFlags(products, items.Wishlist);
+    const updatedWishlist = updateWishlistWithFlags(paginatedProducts, items.Wishlist);
     setWishlist(updatedWishlist);
-  }, [products, items]);
+  }, [paginatedProducts, items]);
 
   const updateWishlistWithFlags = (products, wishlistItems) => {
     if (!wishlistItems || wishlistItems.length === 0) {
@@ -63,7 +67,7 @@ const SearchScreen = ({ navigation }) => {
       if (searchQuery.trim().length > 0) {
         setLoadingSearch(true);
         const response = await fetch(
-          `https://wordpress.trustysystem.com/wp-json/custom-woo-api/v1/products/search?search=${encodeURIComponent(
+          `${baseURL}/custom-woo-api/v1/products/search?search=${encodeURIComponent(
             searchQuery.trim()
           )}`
         );
@@ -90,8 +94,8 @@ const SearchScreen = ({ navigation }) => {
   const renderProducts = () => {
     const dataToRender = search.trim().length > 0 ? searchResults : wishlist;
 
-    if (loadingSearch) {
-      return <SkeletonLoader count={6} />;
+    if (loadingSearch || paginatedStatus === 'loading') {
+      return <View style={{ marginLeft: wp('1.5%') }}><SkeletonLoader count={6} /></View>;
     }
 
     if (dataToRender.length === 0) {
@@ -126,32 +130,52 @@ const SearchScreen = ({ navigation }) => {
     );
   };
 
+  const loadMoreProducts = () => {
+    dispatch(fetchPaginatedProducts({ page }));
+  };
+
   return (
     <SafeAreaView>
-      <CustomStatusBar color={globalColors.headingBackground} />
-      <View style={styles.container}>
-        <View style={styles.searchContainer}>
-          <View style={styles.custposition}>
-            <TextInput
-              style={styles.inputfield}
-              placeholder="Search"
-              value={search}
-              onChangeText={text => setSearch(text)}
-            />
-            <TouchableOpacity style={styles.cust_icon}>
-              <Icon name={'search'} size={20} onPress={() => debouncedSearchRef.current(search)} />
-            </TouchableOpacity>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <CustomStatusBar color={globalColors.headingBackground} />
+        <View style={styles.container}>
+          <View style={styles.searchContainer}>
+            <View style={styles.custposition}>
+              <TextInput
+                style={styles.inputfield}
+                placeholder="Search"
+                value={search}
+                onChangeText={text => setSearch(text)}
+              />
+              <TouchableOpacity style={styles.cust_icon}>
+                <Icon name={'search'} size={20} onPress={() => debouncedSearchRef.current(search)} />
+              </TouchableOpacity>
+            </View>
           </View>
+          {paginatedStatus === 'loading' ? (
+            <View style={{ marginLeft: wp('1.5%') }}>
+              <SkeletonLoader count={6} />
+            </View>
+          ) : (
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {renderProducts()}
+
+            </ScrollView>
+          )}
         </View>
-        {status === 'loading' ? (
-          <SkeletonLoader count={6} />
-        ) : (
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {renderProducts()}
-          </ScrollView>
-        )}
-      </View>
-    </SafeAreaView>
+        {paginatedProducts.length > 0 && (<View style={{
+          backgroundColor: globalColors.black, height: hp('4%'), alignSelf: 'center', width: wp('25%'), borderRadius: 5, marginBottom: hp('6%'),
+
+        }}>
+          <TouchableOpacity onPress={loadMoreProducts} style={styles.loadMoreButton}>
+            <Text style={styles.loadMoreButtonText}>Load More</Text>
+          </TouchableOpacity>
+        </View>)
+
+        }
+
+      </ScrollView>
+    </SafeAreaView >
   );
 };
 
@@ -175,7 +199,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginBottom: hp('30%'),
   },
   container: {
     padding: 5,
@@ -207,5 +230,19 @@ const styles = StyleSheet.create({
   },
   noRecordText: {
     fontFamily: 'Intrepid Regular',
+  },
+  loadMoreButton: {
+    // alignItems: 'center',
+    marginVertical: 10,
+    color: globalColors.white,
+    fontFamily: 'Intrepid Regular',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  loadMoreButtonText: {
+    fontSize: 14,
+    color: globalColors.white,
+    fontFamily: 'Intrepid Regular',
+    textAlign: 'center'
   },
 });
