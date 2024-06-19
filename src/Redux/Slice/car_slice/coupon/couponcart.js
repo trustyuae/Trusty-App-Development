@@ -2,19 +2,21 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {Consumer_key, Consumer_secret, baseURL} from '../../../../Utils/API';
 import {GET_COUPON} from '../../../../Constants/UserConstants';
+import { getToken } from '../../../../Utils/localstorage';
 
 export const CouponDetail = createAsyncThunk(
   GET_COUPON,
-  async (id, {rejectWithValue}) => {
+  async (data, {rejectWithValue}) => {
     try {
-      const config = {
-        auth: {
-          username: Consumer_key,
-          password: Consumer_secret,
-        },
-      };
+      
+      let token=await getToken()
 
-      const response = await axios.get(`${baseURL}/wc/v3/coupons`, config);
+      const response = await axios.post(`${baseURL}/custom/v1/apply-coupon`,data,
+        {
+          headers: {
+            'Authorization':`Bearer ${token}`,
+          },
+        }, );
 
       return response.data;
     } catch (error) {
@@ -25,7 +27,7 @@ export const CouponDetail = createAsyncThunk(
 );
 
 const initialState = {
-  isLoading: false,
+  load: false,
   iserrors: null,
   coupon: null,
 };
@@ -37,17 +39,17 @@ const CouponDetailCartSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(CouponDetail.pending, state => {
-        state.isLoading = true;
+        state.load = true;
         state.iserrors = null;
       })
 
       .addCase(CouponDetail.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.load = false;
         state.coupon = action.payload;
       })
 
       .addCase(CouponDetail.rejected, (state, action) => {
-        state.isLoading = false;
+        state.load = false;
         state.iserrors = action.error.message || 'An error occurred';
       });
   },
