@@ -23,7 +23,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {List} from 'react-native-paper';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import ModalComponent from '../Model/Modalcomopnet';
 import {useDispatch, useSelector} from 'react-redux';
 import {OrderDetail} from '../../Redux/Slice/car_slice/orderdeatails';
@@ -43,13 +43,21 @@ import {
   GestureHandlerRootView,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
+import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
 
-const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
+const Checkout = ({
+  count,
+  setCount,
+  orderdetail,
+  setGetorderDetail,
+  coupondiscount,
+}) => {
+  const {viewcartdata} = useSelector(state => state?.ViewToCart);
   const [expanded, setExpanded] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
   const {data, loading, error} = useSelector(state => state?.profile);
-  const [cartData, setCartData] = useState(orderdetail);
+  const [cartData, setCartData] = useState(viewcartdata?.cartData);
   const {deteltedData} = useSelector(state => state?.DeleteToCart);
   const {orderData, iserror, isloading} = useSelector(
     state => state?.OrderToCart,
@@ -91,7 +99,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
   }));
 
   const handleConfirmpay = () => {
-    let convertPrice = JSON.stringify(totalSum);
+    let convertPrice = JSON.stringify(totalSum - coupondiscount);
     const obj = {
       payment_method: 'COD',
       payment_method_title: 'Cash On Delivery',
@@ -125,7 +133,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         {
           method_id: 'flat_rate',
           method_title: 'Flat Rate',
-          total: convertPrice,
+          total: viewcartdata?.total_price,
         },
       ],
     };
@@ -157,8 +165,8 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
 
   const update = cartData?.map(item => ({
     ...item,
-    taxed:parseFloat(item.tax)*item.quantity,
-    total_tax:parseFloat(item.tax)+item.product_price*item.quantity,
+    taxed: parseFloat(item.tax) * item.quantity,
+    total_tax: parseFloat(item.tax) + item.product_price * item.quantity,
     total: item.product_price * item.quantity,
   }));
   const totalSum = update?.reduce(
@@ -170,13 +178,13 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     (accumulator, currentItem) => accumulator + currentItem.taxed,
     0,
   );
-  
+
   const totaltax = update?.reduce(
     (accumulator, currentItem) => accumulator + currentItem.total_tax,
     0,
   );
 
-  const handleIncrease = key => {
+  const handleIncrease = async (key) => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key) {
         return {
@@ -188,16 +196,17 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     });
     setCartData(updatedCart);
     const selectedItem = updatedCart.find(item => item.key === key);
-    dispatch(
+    await dispatch(
       updateToCart({
         product_id: selectedItem.product_id,
         variation_id: selectedItem.variation_id,
         quantity: selectedItem.quantity,
       }),
     );
+    await dispatch(ViewToCart());
   };
 
-  const handleDecrease = key => {
+  const handleDecrease = async (key) => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key && item.quantity > 1) {
         return {
@@ -209,13 +218,15 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
     });
     setCartData(updatedCart);
     const selectedItem = updatedCart.find(item => item.key === key);
-    dispatch(
+    await dispatch(
       updateToCart({
         product_id: selectedItem.product_id,
         variation_id: selectedItem.variation_id,
         quantity: selectedItem.quantity,
       }),
     );
+
+    await dispatch(ViewToCart());
   };
 
   const handleRemove = item => {
@@ -233,16 +244,25 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
         text: 'OK',
         onPress: () => {
           dispatch(deleteToCart(data));
-          const filterdata = cartData.filter(
-            item => item.variation_id !== data.variation_id,
-          );
-          setCartData(filterdata);
         },
       },
     ]);
   };
 
- 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(ViewToCart());
+    }, [deteltedData]),
+  );
+
+  useEffect(() => {
+    setCartData(viewcartdata?.cart_items);
+  }, [viewcartdata, deteltedData]);
+
+
+
 
   return (
     <GestureHandlerRootView>
@@ -436,10 +456,10 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
                       />
                     ) : (
                       <Image
-                      source={NoImg}
-                     style={styles.imageStyle}
-                     resizeMode="contain"
-                    />
+                        source={NoImg}
+                        style={styles.imageStyle}
+                        resizeMode="contain"
+                      />
                     )}
                   </View>
                   <View>
@@ -516,7 +536,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
             }}>
             <Text style={styles.custText}>TAXES</Text>
             {/* <Text>{tax?.toFixed(2)} AED</Text> */}
-            <Text>0 AED</Text>
+            <Text>{viewcartdata?.total_tax} AED</Text>
           </View>
 
           <View style={styles.custborder} />
@@ -529,7 +549,7 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
             }}>
             <Text style={styles.custText}>TOTAL</Text>
             {/* <Text>{tax+totalSum} AED</Text> */}
-            <Text>{totalSum} AED</Text>
+            <Text>{viewcartdata?.total_price} AED</Text>
           </View>
 
           <Button
@@ -554,9 +574,9 @@ const Checkout = ({count, setCount, orderdetail, setGetorderDetail}) => {
 
 export default Checkout;
 const styles = StyleSheet.create({
-  imageStyle:{
-    height: 100, 
-    width: 90 
+  imageStyle: {
+    height: 100,
+    width: 90,
   },
   container: {
     marginHorizontal: wp('3%'),

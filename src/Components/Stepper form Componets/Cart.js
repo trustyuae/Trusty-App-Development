@@ -37,10 +37,10 @@ import Toast from 'react-native-toast-message';
 import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
 import {ProductViewToCart} from '../../Redux/Slice/car_slice/withoulogin/ViewProdcutcart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import SkeletonLoader from '../Loader/SkeletonLoader';
 import SkeletonLoaderOrder from '../Loader/SkeletonLoaderOrder';
-import { CouponDetail } from '../../Redux/Slice/car_slice/coupon/couponcart';
+import {CouponDetail} from '../../Redux/Slice/car_slice/coupon/couponcart';
 
 const Cart = ({
   count,
@@ -51,13 +51,11 @@ const Cart = ({
   setTotal,
   scrollViewRef,
 }) => {
-  const handlepress = () => {};
   const dispatch = useDispatch();
   const {erros, loading, viewcartdata} = useSelector(
     state => state?.ViewToCart,
   );
-
-  const {coupon}=useSelector(state=>state.CouponDetail)
+  const {coupon, load, iserrors} = useSelector(state => state.CouponDetail);
   const state = useSelector(state => state?.ProductView);
   const {deteltedData} = useSelector(state => state?.DeleteToCart);
   const {isloading} = useSelector(state => state?.OrderToCart);
@@ -66,7 +64,7 @@ const Cart = ({
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigation();
-
+  const [discount, setDiscount] = useState();
 
   useEffect(() => {
     const fetch = async () => {
@@ -78,7 +76,7 @@ const Cart = ({
         setIsLoggedIn(false);
       }
       dispatch(fetchProfile(userid));
-      dispatch(CouponDetail())
+
       setCustomerID(userid);
     };
     fetch();
@@ -109,7 +107,7 @@ const Cart = ({
     ]);
   };
 
-  const handleIncrease = key => {
+  const handleIncrease =async (key) => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key) {
         return {
@@ -123,16 +121,18 @@ const Cart = ({
     setCartData(updatedCart);
 
     const selectedItem = updatedCart.find(item => item.key === key);
-    dispatch(
+  await  dispatch(
       updateToCart({
         product_id: selectedItem.product_id,
         variation_id: selectedItem.variation_id,
         quantity: selectedItem.quantity,
       }),
     );
+
+  await dispatch(ViewToCart())
   };
 
-  const handleDecrease = key => {
+  const handleDecrease =async (key) => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key && item.quantity > 1) {
         return {
@@ -144,22 +144,22 @@ const Cart = ({
     });
     setCartData(updatedCart);
     const selectedItem = updatedCart.find(item => item.key === key);
-    dispatch(
+   await dispatch(
       updateToCart({
         product_id: selectedItem.product_id,
         variation_id: selectedItem.variation_id,
         quantity: selectedItem.quantity,
       }),
     );
+
+   await dispatch(ViewToCart())
   };
 
   const update = cartData?.map(item => ({
     ...item,
-    total_tax:parseFloat(item.tax)*item.quantity,
+    total_tax: parseFloat(item.tax) * item.quantity,
     total: item.product_price * item.quantity,
   }));
-
-  
 
   const totalSum = update?.reduce(
     (accumulator, currentItem) => accumulator + currentItem.total,
@@ -171,12 +171,10 @@ const Cart = ({
     0,
   );
 
-
-
   useFocusEffect(
     useCallback(() => {
       dispatch(ViewToCart());
-    }, [deteltedData, navigation]),
+    }, [deteltedData]),
   );
   // useEffect(()=>{
   //  dispatch(ProductViewToCart())
@@ -216,6 +214,48 @@ const Cart = ({
     }
   };
 
+  const handlepress = () => {
+    const payload = {
+      coupon_code: discount,
+    };
+
+    dispatch(CouponDetail(payload)).then(response => {
+      if (response?.payload?.success) {
+        // const discountPercentage = parseFloat(response?.payload?.Coupon_amount);
+        // if (!isNaN(discountPercentage)) {
+        //   recalculateDiscount();
+        if (response?.payload?.success) {
+          dispatch(ViewToCart());
+          Toast.show({
+            type: 'success',
+            text1: response?.payload?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          // setCouponapplied(response?.payload?.message);
+        } else {
+          // setCouponDiscount(0);
+          Toast.show({
+            type: 'error',
+            text1: response?.payload?.message,
+            position: 'bottom',
+            visibilityTime: 1500,
+          });
+          // setCouponapplied(response?.payload?.message);
+        }
+      } else {
+        // setCouponDiscount(0);
+        Toast.show({
+          type: 'error',
+          text1: response?.payload?.message,
+          position: 'bottom',
+          visibilityTime: 1500,
+        });
+      }
+    });
+    setDiscount('');
+  };
+
   return (
     <SafeAreaView style={{position: 'relative'}}>
       <Icon
@@ -238,9 +278,10 @@ const Cart = ({
         <View style={styles.custborder} />
 
         {loading ? (
-          <View style={{ padding: 10 }}>
+          <View style={{padding: 10}}>
             <SkeletonLoaderOrder count={1} />
-          </View>) : (
+          </View>
+        ) : (
           <View>
             {cartData?.map(Item => (
               <View
@@ -312,10 +353,10 @@ const Cart = ({
                     />
                   ) : (
                     <Image
-                    source={NoImg}
-                   style={styles.imageStyle}
-                   resizeMode="contain"
-                  />
+                      source={NoImg}
+                      style={styles.imageStyle}
+                      resizeMode="contain"
+                    />
                   )}
                 </View>
                 <View>
@@ -369,6 +410,18 @@ const Cart = ({
         </View>
 
         <View style={styles.custborder} />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginVertical: 10,
+          }}>
+          <Text style={styles.custText}>COUPON</Text>
+          <Text>{viewcartdata?.coupon_status}</Text>
+        </View>
+
+            
+        <View style={styles.custborder} />
 
         <View style={{marginVertical: 10}}>
           <Text style={styles.custText}>SHIPPING</Text>
@@ -390,7 +443,7 @@ const Cart = ({
           }}>
           <Text style={styles.custText}>TOTAL </Text>
           {/* <Text>{totaltax+totalSum} AED</Text> */}
-         <Text>{totalSum} AED</Text>
+          <Text>{viewcartdata?.sub_total} AED</Text>
         </View>
 
         <View style={styles.custborder} />
@@ -400,6 +453,8 @@ const Cart = ({
             DISCOUNT CODE
           </Text>
           <TextInput
+            value={discount}
+            onChangeText={text => setDiscount(text)}
             type="text"
             placeholder="Coupon code"
             style={styles.custInput}></TextInput>
@@ -410,6 +465,7 @@ const Cart = ({
           styleoffont={styles.custfontstyle}
           name={'Apply'}
           handlepress={handlepress}
+          loading={load}
         />
 
         <Button
@@ -427,9 +483,9 @@ const Cart = ({
 export default Cart;
 
 const styles = StyleSheet.create({
-  imageStyle:{
-    height: 100, 
-    width: 90 
+  imageStyle: {
+    height: 100,
+    width: 90,
   },
   container: {
     marginHorizontal: wp('3%'),
