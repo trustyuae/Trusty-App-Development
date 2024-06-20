@@ -5,11 +5,10 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  ScrollView,
   SafeAreaView,
+  FlatList,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../../Redux/Slice/productSlice';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { fetchPaginatedProducts, resetProducts } from '../../Redux/Slice/paginatedProductSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -23,6 +22,7 @@ import Product from '../../Components/Product/Product';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import { getToken } from '../../Utils/localstorage';
 import { baseURL } from '../../Utils/API';
+import { useFocusEffect } from '@react-navigation/native';
 
 const SearchScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -33,28 +33,39 @@ const SearchScreen = ({ navigation }) => {
   const [wishlist, setWishlist] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [loadingSearch, setLoadingSearch] = useState(false);
-  const debouncedSearchRef = useRef(useCallback(debounce(handleSearch, 300)));
+  const debouncedSearchRef = useRef(debounce(handleSearch, 300));
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const token = getToken();
+      if (token) {
+
+        dispatch(fetchWishlist(token));
+      }
+      dispatch(resetProducts());
+      dispatch(fetchPaginatedProducts({ page: 1 }));
+    }, [dispatch])
+  )
+
+
+  // useEffect(() => {
+  //   const token = getToken();
+  //   if (token) {
+
+  //     dispatch(fetchWishlist(token));
+  //   }
+  //   dispatch(resetProducts());
+  //   dispatch(fetchPaginatedProducts({ page: 1 }));
+  // }, [dispatch]);
 
   useEffect(() => {
-    const token = getToken();
-    if (token) {
-      dispatch(fetchWishlist(token));
-    }
-    dispatch(resetProducts());
-    dispatch(fetchPaginatedProducts({ page: 1 }));
-  }, [dispatch]);
-
-  useEffect(() => {
-    const updatedWishlist = updateWishlistWithFlags(paginatedProducts, items.Wishlist);
-    setWishlist(updatedWishlist);
+    setWishlist(updateWishlistWithFlags(paginatedProducts, items.Wishlist));
   }, [paginatedProducts, items]);
 
   const updateWishlistWithFlags = (products, wishlistItems) => {
     if (!wishlistItems || wishlistItems.length === 0) {
       return products;
     }
-
     const wishlistIds = new Set(wishlistItems.map(item => Number(item)));
     return products.map(product => ({
       ...product,
@@ -67,9 +78,7 @@ const SearchScreen = ({ navigation }) => {
       if (searchQuery.trim().length > 0) {
         setLoadingSearch(true);
         const response = await fetch(
-          `${baseURL}/custom-woo-api/v1/products/search?search=${encodeURIComponent(
-            searchQuery.trim()
-          )}`
+          `${baseURL}/custom-woo-api/v1/products/search?search=${encodeURIComponent(searchQuery.trim())}`
         );
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -91,6 +100,22 @@ const SearchScreen = ({ navigation }) => {
     debouncedSearchRef.current(search);
   }, [search]);
 
+  const renderProduct = ({ item: product }) => (
+    <TouchableOpacity
+      key={product.id}
+      onPress={() => navigation.navigate('ProductDetail', { userId: product.id })}
+    >
+      <Product
+        uri={product?.images?.[0]?.src || product?.image}
+        name={product?.name}
+        price={product?.price}
+        saved={product?.saved}
+        product_id={product?.id}
+        isWatchList={product?.isWatchList}
+      />
+    </TouchableOpacity>
+  );
+
   const renderProducts = () => {
     const dataToRender = search.trim().length > 0 ? searchResults : wishlist;
 
@@ -107,26 +132,20 @@ const SearchScreen = ({ navigation }) => {
     }
 
     return (
-      <View style={styles.productContainer}>
-        {dataToRender.map(product => (
-          <TouchableOpacity
-            key={product.id}
-            onPress={() =>
-              navigation.navigate('ProductDetail', {
-                userId: product.id,
-              })
-            }>
-            <Product
-              uri={product?.images?.[0]?.src || product?.image}
-              name={product?.name}
-              price={product?.price}
-              saved={product?.saved}
-              product_id={product?.id}
-              isWatchList={product?.isWatchList}
-            />
+      <FlatList
+        data={dataToRender}
+        renderItem={renderProduct}
+        keyExtractor={item => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.productContainer}
+        ListFooterComponent={search.trim().length === 0 && paginatedProducts.length > 0 && (
+          <TouchableOpacity onPress={loadMoreProducts} style={styles.loadMoreButton}>
+            <Text style={styles.loadMoreButtonText}>Load More</Text>
           </TouchableOpacity>
-        ))}
-      </View>
+        )}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      />
     );
   };
 
@@ -135,54 +154,38 @@ const SearchScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <CustomStatusBar color={globalColors.headingBackground} />
-        <View style={styles.container}>
-          <View style={styles.searchContainer}>
-            <View style={styles.custposition}>
-              <TextInput
-                style={styles.inputfield}
-                placeholder="Search"
-                value={search}
-                onChangeText={text => setSearch(text)}
-              />
-              <TouchableOpacity style={styles.cust_icon}>
-                <Icon name={'search'} size={20} onPress={() => debouncedSearchRef.current(search)} />
-              </TouchableOpacity>
-            </View>
+    <SafeAreaView style={styles.safeAreaView}>
+      <CustomStatusBar color={globalColors.headingBackground} />
+      <Icon
+        name="arrow-back"
+        size={25}
+        color="#333"
+        style={{ marginLeft: 8 }}
+        onPress={() => navigation.goBack()}
+      />
+      <View style={styles.container}>
+        <View style={styles.searchContainer}>
+          <View style={styles.custposition}>
+            <TextInput
+              style={styles.inputfield}
+              placeholder="Search"
+              value={search}
+              onChangeText={setSearch}
+            />
+            <TouchableOpacity style={styles.cust_icon} onPress={() => debouncedSearchRef.current(search)}>
+              <Icon name={'search'} size={20} />
+            </TouchableOpacity>
           </View>
-          {paginatedStatus === 'loading' ? (
-            <View style={{ marginLeft: wp('1.5%') }}>
-              <SkeletonLoader count={6} />
-            </View>
-          ) : (
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {renderProducts()}
-
-            </ScrollView>
-          )}
         </View>
-        {paginatedProducts.length > 0 && (<View style={{
-          backgroundColor: globalColors.black, height: hp('4%'), alignSelf: 'center', width: wp('25%'), borderRadius: 5, marginBottom: hp('6%'),
-
-        }}>
-          <TouchableOpacity onPress={loadMoreProducts} style={styles.loadMoreButton}>
-            <Text style={styles.loadMoreButtonText}>Load More</Text>
-          </TouchableOpacity>
-        </View>)
-
-        }
-
-      </ScrollView>
-    </SafeAreaView >
+        {renderProducts()}
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default SearchScreen;
 
-// Debounce function to delay API calls
-function debounce(func, wait) {
+const debounce = (func, wait) => {
   let timeout;
   return function (...args) {
     const context = this;
@@ -192,16 +195,19 @@ function debounce(func, wait) {
       func.apply(context, args);
     }, wait);
   };
-}
+};
 
 const styles = StyleSheet.create({
+  safeAreaView: {
+    flex: 1,
+  },
   productContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   container: {
     padding: 5,
+    flex: 1,
+    marginTop: -5
   },
   inputfield: {
     backgroundColor: 'white',
@@ -221,7 +227,7 @@ const styles = StyleSheet.create({
     top: 20,
   },
   searchContainer: {
-    marginVertical: 20,
+    marginVertical: 5,
   },
   noRecordContainer: {
     flex: 1,
@@ -232,7 +238,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
   },
   loadMoreButton: {
-    // alignItems: 'center',
+    backgroundColor: globalColors.black,
+    height: hp('4%'),
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: wp('25%'),
+    borderRadius: 5,
+    marginBottom: hp('6%'),
     marginVertical: 10,
     color: globalColors.white,
     fontFamily: 'Intrepid Regular',
@@ -243,6 +255,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: globalColors.white,
     fontFamily: 'Intrepid Regular',
-    textAlign: 'center'
+    textAlign: 'center',
   },
 });

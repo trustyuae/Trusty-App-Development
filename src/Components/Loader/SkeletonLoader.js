@@ -13,12 +13,14 @@ const SkeletonLoader = ({ count }) => {
       Animated.sequence([
         Animated.timing(opacity, {
           toValue: 1,
-          duration: 800,
+          duration: 300,
+          delay: 500,
           useNativeDriver: true,
         }),
         Animated.timing(opacity, {
           toValue: 0.6,
-          duration: 800,
+          duration: 500,
+          delay: 500,
           useNativeDriver: true,
         }),
       ]),
@@ -42,6 +44,7 @@ const SkeletonLoader = ({ count }) => {
           ]}
         />
       ))}
+      
     </View>
   );
 };
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
     height: hp('25%'),
     marginHorizontal: wp('0.8%'),
     marginBottom: hp('2%'),
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#E1E1E1',
     borderRadius: 8,
   },
 });

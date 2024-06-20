@@ -70,7 +70,7 @@ const Order = () => {
 
   const renderItem = useMemo(() => {
     return ({ item }) => (
-      <Pressable>
+      <Pressable onPress={() => navigation.navigate('OrderDetail', { orderId: item.id })}>
         <OrderComponents
           key={item.id}
           currency={item.currency}
