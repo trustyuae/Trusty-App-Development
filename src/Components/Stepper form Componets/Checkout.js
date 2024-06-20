@@ -184,7 +184,7 @@ const Checkout = ({
     0,
   );
 
-  const handleIncrease = async (key) => {
+  const handleIncrease = async key => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key) {
         return {
@@ -206,7 +206,7 @@ const Checkout = ({
     await dispatch(ViewToCart());
   };
 
-  const handleDecrease = async (key) => {
+  const handleDecrease = async key => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key && item.quantity > 1) {
         return {
@@ -260,9 +260,6 @@ const Checkout = ({
   useEffect(() => {
     setCartData(viewcartdata?.cart_items);
   }, [viewcartdata, deteltedData]);
-
-
-
 
   return (
     <GestureHandlerRootView>
@@ -483,15 +480,13 @@ const Checkout = ({
                       }}>
                       Color :{' '}
                       <Text style={{color: '#676766'}}>
-                        {' '}
-                        {item?.mod_attributes?.color}{' '}
+                        {item?.mod_attributes?.color}
                       </Text>{' '}
                     </Text>
                     <Text
                       style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
                       Size :{' '}
                       <Text style={{color: '#676766'}}>
-                        {' '}
                         {item?.mod_attributes?.size}
                       </Text>{' '}
                     </Text>
@@ -516,21 +511,30 @@ const Checkout = ({
 
           <View style={styles.custborder} />
 
-
-          {viewcartdata?.coupon_status?
-           ( <>
-            <View
-             style={{
-               flexDirection: 'row',
-               justifyContent: 'space-between',
-               marginVertical: 5,
-             }}>
-             <Text style={styles.custText}>DISCOUNT PERCENTAGE</Text>
-             <Text>{viewcartdata?.discount_percentage}% </Text>
-           </View>
- 
-           <View style={styles.custborder} /></>):null
-          }
+          {viewcartdata?.coupon_status ? (
+            <>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginVertical: 5,
+                }}>
+                <Text style={styles.custText}>DISCOUNT PERCENTAGE</Text>
+                <Text>{viewcartdata?.discount_percentage}% </Text>
+              </View>
+              <View style={styles.custborder} />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginVertical: 5,
+                }}>
+                <Text style={styles.custText}>SAVE</Text>
+                <Text>{viewcartdata?.discount_amount} AED </Text>
+              </View>
+              <View style={styles.custborder} />
+            </>
+          ) : null}
 
           <View
             style={{

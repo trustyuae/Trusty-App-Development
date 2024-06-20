@@ -381,14 +381,14 @@ const Cart = ({
                     Color :{' '}
                     <Text style={{color: '#676766'}}>
                       {Item?.mod_attributes?.color}
-                    </Text>{' '}
+                    </Text>
                   </Text>
                   <Text
                     style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
                     Size :{' '}
                     <Text style={{color: '#676766'}}>
                       {Item?.mod_attributes?.size}
-                    </Text>{' '}
+                    </Text>
                   </Text>
                 </View>
                 <View></View>
