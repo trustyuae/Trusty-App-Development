@@ -306,13 +306,8 @@ const CategoryProducts = ({ navigation }) => {
           </View>
 
           {wishlist.length >= 10 && (
-            <TouchableOpacity style={{ alignItems: 'center' }} onPress={loadMoreProducts}>
-              <View style={{
-                backgroundColor: globalColors.black, height: hp('4%'), justifyContent: 'center', width: wp('25%'), borderRadius: 5, marginBottom: 15
-              }}>
-                <Text style={styles.loadMoreButton}>Load More</Text>
-
-              </View>
+            <TouchableOpacity onPress={loadMoreProducts} style={styles.loadMoreButton}>
+              <Text style={styles.loadMoreButtonText}>Load More</Text>
             </TouchableOpacity>
           )}
         </ScrollView>
@@ -361,12 +356,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   loadMoreButton: {
-    textAlign: 'center',
+    backgroundColor: globalColors.black,
+    height: hp('4%'),
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: wp('25%'),
+    borderRadius: 5,
+    marginBottom: hp('6%'),
     marginVertical: 10,
     color: globalColors.white,
     fontFamily: 'Intrepid Regular',
     fontSize: 12,
     fontWeight: 'bold',
+  },
+  loadMoreButtonText: {
+    fontSize: 14,
+    color: globalColors.white,
+    fontFamily: 'Intrepid Regular',
+    textAlign: 'center',
   },
 });
 
