@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     top: 20,
   },
   searchContainer: {
-    marginVertical: 5,
+    // marginVertical: 5,
   },
   noRecordContainer: {
     flex: 1,
