@@ -26,7 +26,7 @@ export const loginUser = createAsyncThunk(
   USER_LOGIN_REQUEST,
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${baseURL}/custom/v1/login`, data);
+      const response = await axios.post(`${baseURL}/jwt-auth/v1/token`, data);
       await AsyncStorage.setItem(
         'token',
         JSON.stringify(response?.data?.jwt_token),

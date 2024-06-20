@@ -107,7 +107,7 @@ const Cart = ({
     ]);
   };
 
-  const handleIncrease =async (key) => {
+  const handleIncrease = async key => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key) {
         return {
@@ -121,7 +121,7 @@ const Cart = ({
     setCartData(updatedCart);
 
     const selectedItem = updatedCart.find(item => item.key === key);
-  await  dispatch(
+    await dispatch(
       updateToCart({
         product_id: selectedItem.product_id,
         variation_id: selectedItem.variation_id,
@@ -129,10 +129,10 @@ const Cart = ({
       }),
     );
 
-  await dispatch(ViewToCart())
+    await dispatch(ViewToCart());
   };
 
-  const handleDecrease =async (key) => {
+  const handleDecrease = async key => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key && item.quantity > 1) {
         return {
@@ -144,7 +144,7 @@ const Cart = ({
     });
     setCartData(updatedCart);
     const selectedItem = updatedCart.find(item => item.key === key);
-   await dispatch(
+    await dispatch(
       updateToCart({
         product_id: selectedItem.product_id,
         variation_id: selectedItem.variation_id,
@@ -152,7 +152,7 @@ const Cart = ({
       }),
     );
 
-   await dispatch(ViewToCart())
+    await dispatch(ViewToCart());
   };
 
   const update = cartData?.map(item => ({
@@ -410,18 +410,33 @@ const Cart = ({
         </View>
 
         <View style={styles.custborder} />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 10,
-          }}>
-          <Text style={styles.custText}>COUPON</Text>
-          <Text>{viewcartdata?.coupon_status}</Text>
-        </View>
 
-            
-        <View style={styles.custborder} />
+        {viewcartdata?.coupon_status ? (
+          <>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginVertical: 10,
+              }}>
+              <Text style={styles.custText}>COUPON</Text>
+              <Text>{viewcartdata?.coupon_status}</Text>
+            </View>
+
+            <View style={styles.custborder} />
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginVertical: 10,
+              }}>
+              <Text style={styles.custText}>DISCOUNT PERCENTAGE</Text>
+              <Text>{viewcartdata?.discount_percentage}%</Text>
+            </View>
+            <View style={styles.custborder} />
+          </>
+        ) : null}
 
         <View style={{marginVertical: 10}}>
           <Text style={styles.custText}>SHIPPING</Text>
@@ -443,7 +458,7 @@ const Cart = ({
           }}>
           <Text style={styles.custText}>TOTAL </Text>
           {/* <Text>{totaltax+totalSum} AED</Text> */}
-          <Text>{viewcartdata?.sub_total} AED</Text>
+          <Text>{viewcartdata?.discount_sub_total} AED</Text>
         </View>
 
         <View style={styles.custborder} />

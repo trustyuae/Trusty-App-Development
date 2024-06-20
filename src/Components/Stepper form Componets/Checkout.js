@@ -516,6 +516,22 @@ const Checkout = ({
 
           <View style={styles.custborder} />
 
+
+          {viewcartdata?.coupon_status?
+           ( <>
+            <View
+             style={{
+               flexDirection: 'row',
+               justifyContent: 'space-between',
+               marginVertical: 5,
+             }}>
+             <Text style={styles.custText}>DISCOUNT PERCENTAGE</Text>
+             <Text>{viewcartdata?.discount_percentage}% </Text>
+           </View>
+ 
+           <View style={styles.custborder} /></>):null
+          }
+
           <View
             style={{
               flexDirection: 'row',
