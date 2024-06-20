@@ -12,6 +12,7 @@ import { ScrollView } from 'react-native';
 import { Image } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons'; // Import the Icon component
 import SkeletonLoaderOrder from '../../Components/Loader/SkeletonLoaderOrder';
+import SkeletonLoaderOrderDetails from '../../Components/Loader/SkeletonLoaderOrderDetails';
 
 const OrderDetails = ({ route }) => {
     const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const OrderDetails = ({ route }) => {
 
                 {
                     loading ? <View style={{ alignItems: 'center' }}>
-                        <SkeletonLoaderOrder count={1} />
+                        <SkeletonLoaderOrderDetails count={1} />
                     </View> : <View style={styles.container}>
 
 
