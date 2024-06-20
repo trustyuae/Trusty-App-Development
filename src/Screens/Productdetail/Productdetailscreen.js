@@ -139,12 +139,18 @@ export default function Productdetailscreen({route}) {
     };
 
     if (isLoggedIn) {
+          if(responseData?.type=="simple" || responseData?.price==''){
+            Alert.alert('', 'This product does not have a price or  it should be simple type. Please check.');
+            setLoding(false);
+            return;
+          }
+
       if (changeSize == '' && changeColor == '') {
-        Alert.alert('', 'Make sure you selected size and color');
+        Alert.alert('','Make sure you selected size and color');
         setLoding(false);
         return;
       }
-      if (!changeSize) {
+      if (!changeSize && size) {
         Alert.alert('', 'Make sure you selected size');
         setLoding(false);
         return;
@@ -242,6 +248,8 @@ export default function Productdetailscreen({route}) {
 
   //   }
   // })
+
+  console.log("userId");
 
   return (
     <GestureHandlerRootView>
