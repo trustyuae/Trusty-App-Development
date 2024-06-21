@@ -44,6 +44,7 @@ import {
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
+import debounce from 'lodash/debounce';
 
 const Checkout = ({
   count,
@@ -73,6 +74,7 @@ const Checkout = ({
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
   );
+  
   const [title, setTitle] = useState(data?.meta_data[1]?.value || '');
 
   useEffect(() => {
@@ -98,8 +100,108 @@ const Checkout = ({
     quantity: item.quantity,
   }));
 
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(ViewToCart());
+    }, [deteltedData]),
+  );
+
+  useEffect(() => {
+    setCartData(viewcartdata?.cart_items);
+  }, [viewcartdata, deteltedData]);
+
+  const handleEditClick = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const update = cartData?.map(item => ({
+    ...item,
+    taxed: parseFloat(item.tax) * item.quantity,
+    total_tax: parseFloat(item.tax) + item.product_price * item.quantity,
+    total: item.product_price * item.quantity,
+  }));
+
+  const totalSum = update?.reduce(
+    (accumulator, currentItem) => accumulator + currentItem.total,
+    0,
+  );
+
+  // const tax = update?.reduce(
+  //   (accumulator, currentItem) => accumulator + currentItem.taxed,
+  //   0,
+  // );
+
+  // const totaltax = update?.reduce(
+  //   (accumulator, currentItem) => accumulator + currentItem.total_tax,
+  //   0,
+  // );
+
+  const debouncedUpdateCart =useCallback( debounce(async (selectedItem) => {
+    await dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
+    await dispatch(ViewToCart());
+  }, 100),[])
+
+  const handleIncrease =useCallback( key => {
+    const updatedCart = cartData?.map(item => {
+      if (item.key === key) {
+        const updatedItem = {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+        debouncedUpdateCart(updatedItem);
+        return updatedItem;
+      }
+      return item;
+    });
+    setCartData(updatedCart);
+  },[cartData,debouncedUpdateCart]);
+
+  const handleDecrease =useCallback( key => {
+    const updatedCart = cartData?.map(item => {
+      if (item.key === key && item.quantity > 1) {
+        const updatedItem = {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+        debouncedUpdateCart(updatedItem);
+        return updatedItem;
+      }
+      return item;
+    });
+    setCartData(updatedCart);
+  },[cartData,debouncedUpdateCart]);
+
+  const handleRemove = useCallback(item => {
+    const data = {
+      product_id: item.product_id,
+      variation_id: item.variation_id,
+    };
+    Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          dispatch(deleteToCart(data));
+        },
+      },
+    ]);
+  },[viewcartdata]);
+
   const handleConfirmpay = () => {
-    let convertPrice = JSON.stringify(totalSum - coupondiscount);
     const obj = {
       payment_method: 'COD',
       payment_method_title: 'Cash On Delivery',
@@ -154,113 +256,6 @@ const Checkout = ({
       });
     }
   };
-
-  const handleEditClick = () => {
-    setIsModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const update = cartData?.map(item => ({
-    ...item,
-    taxed: parseFloat(item.tax) * item.quantity,
-    total_tax: parseFloat(item.tax) + item.product_price * item.quantity,
-    total: item.product_price * item.quantity,
-  }));
-  const totalSum = update?.reduce(
-    (accumulator, currentItem) => accumulator + currentItem.total,
-    0,
-  );
-
-  const tax = update?.reduce(
-    (accumulator, currentItem) => accumulator + currentItem.taxed,
-    0,
-  );
-
-  const totaltax = update?.reduce(
-    (accumulator, currentItem) => accumulator + currentItem.total_tax,
-    0,
-  );
-
-  const handleIncrease = async key => {
-    const updatedCart = cartData?.map(item => {
-      if (item.key === key) {
-        return {
-          ...item,
-          quantity: item.quantity + 1,
-        };
-      }
-      return item;
-    });
-    setCartData(updatedCart);
-    const selectedItem = updatedCart.find(item => item.key === key);
-    await dispatch(
-      updateToCart({
-        product_id: selectedItem.product_id,
-        variation_id: selectedItem.variation_id,
-        quantity: selectedItem.quantity,
-      }),
-    );
-    await dispatch(ViewToCart());
-  };
-
-  const handleDecrease = async key => {
-    const updatedCart = cartData?.map(item => {
-      if (item.key === key && item.quantity > 1) {
-        return {
-          ...item,
-          quantity: item.quantity - 1,
-        };
-      }
-      return item;
-    });
-    setCartData(updatedCart);
-    const selectedItem = updatedCart.find(item => item.key === key);
-    await dispatch(
-      updateToCart({
-        product_id: selectedItem.product_id,
-        variation_id: selectedItem.variation_id,
-        quantity: selectedItem.quantity,
-      }),
-    );
-
-    await dispatch(ViewToCart());
-  };
-
-  const handleRemove = item => {
-    const data = {
-      product_id: item.product_id,
-      variation_id: item.variation_id,
-    };
-    Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {
-        text: 'OK',
-        onPress: () => {
-          dispatch(deleteToCart(data));
-        },
-      },
-    ]);
-  };
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(ViewToCart());
-    }, [deteltedData]),
-  );
-
-  useEffect(() => {
-    setCartData(viewcartdata?.cart_items);
-  }, [viewcartdata, deteltedData]);
-
   return (
     <GestureHandlerRootView>
       <SafeAreaView style={{position: 'relative'}}>
@@ -389,7 +384,7 @@ const Checkout = ({
                     size={20}
                     color="black"
                     style={{
-                      position: 'absolute',
+                      position:'absolute',
                       right: 0,
                     }}
                     onPress={() => handleRemove(item)}></Icon>
@@ -410,7 +405,7 @@ const Checkout = ({
                 <View><Text>{number}</Text></View>
                 <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
 
-                      <View>
+                      <View >
                         <Text
                           style={{
                             fontSize: 20,
@@ -418,10 +413,10 @@ const Checkout = ({
                             marginLeft: 7,
                           }}
                           onPress={() => handleDecrease(item.key)}>
-                          -
+                            -
                         </Text>
                       </View>
-                      <View>
+                      <View >
                         <Text
                           style={{
                             fontSize: 20,

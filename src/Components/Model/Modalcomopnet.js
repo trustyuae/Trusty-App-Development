@@ -356,6 +356,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
+    marginTop:-8,
   },
   inputfield: {
     backgroundColor: '#ffffff',
