@@ -30,18 +30,21 @@ import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
 import { RefreshControl } from 'react-native';
 import SkeletonLoader from '../Components/Loader/SkeletonLoader';
 
+
 const CategoryProducts = ({ navigation }) => {
   const route = useRoute();
   const { category } = route.params;
   // const [productss, setProducts] = useState([]);
   const dispatch = useDispatch();
   const [wishlist, setWishlist] = useState([]);
-
   const [tokenData, setTokenData] = useState(null);
   const { categoryProducts, status, error } = useSelector(state => state.product);
   const { items } = useSelector(state => state.wishlist);
   const [refreshing, setRefreshing] = React.useState(false);
   const [page, setPage] = useState(1);
+  const [msg,setMsg]=useState();
+
+
 
 
 
@@ -125,6 +128,11 @@ const CategoryProducts = ({ navigation }) => {
   const data = ['One', 'Two', 'Three'];
   const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
   const emojisWithIcons1 = ['Name', 'Price', 'Color'];
+  setTimeout(()=>{
+    if(wishlist.length<=0){
+     setMsg("No Product")
+    }
+     },5000)
 
   return (
     <SafeAreaView>
@@ -279,9 +287,7 @@ const CategoryProducts = ({ navigation }) => {
               </View>
             ) : status === 'failed' ? (
               <Text style={styles.errorText}>Error: {error}</Text>
-            ) : wishlist.length === 0 ? (
-              <Text style={styles.noProductsText}>No products available</Text>
-            ) : (
+            )  : (wishlist.length>0?
               wishlist.map(product => (
                 <TouchableOpacity
                   key={product.id}
@@ -301,7 +307,7 @@ const CategoryProducts = ({ navigation }) => {
                     isWatchList={product?.isWatchList}
                   />
                 </TouchableOpacity>
-              ))
+              )):(<Text>{msg}</Text>)
             )}
           </View>
 
