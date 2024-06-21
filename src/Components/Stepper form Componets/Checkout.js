@@ -199,7 +199,7 @@ const Checkout = ({
         },
       },
     ]);
-  });
+  },[viewcartdata]);
 
   const handleConfirmpay = () => {
     const obj = {
