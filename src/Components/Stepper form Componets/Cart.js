@@ -415,7 +415,7 @@ const Cart = ({
                 marginVertical: 10,
               }}>
               <Text style={styles.custText}>COUPON</Text>
-              <Text>{viewcartdata?.coupon_status}</Text>
+              <Text style={{fontFamily: 'Intrepid Regular'}}>{viewcartdata?.coupon_status}</Text>
             </View>
 
             <View style={styles.custborder} />
@@ -435,10 +435,10 @@ const Cart = ({
 
         <View style={{marginVertical: 10}}>
           <Text style={styles.custText}>SHIPPING</Text>
-          <Text style={{marginTop: 5}}>
+          <Text style={{marginTop: 5, fontFamily: 'Intrepid Regular',}}>
             Delivery fees Cash on Arrival 30 AED
           </Text>
-          <Text style={{marginTop: 5}}>
+          <Text style={{marginTop: 5, fontFamily: 'Intrepid Regular',}}>
             Shipping options will be updated during Checkout
           </Text>
         </View>
@@ -513,6 +513,7 @@ const styles = StyleSheet.create({
     borderColor: '#DBCCC1',
   },
   custInput: {
+    fontFamily: 'Intrepid Regular',
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: '#cccccc',
@@ -530,6 +531,7 @@ const styles = StyleSheet.create({
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
+    fontFamily: 'Intrepid Regular',
   },
   custmargin: {
     marginBottom: 10,
