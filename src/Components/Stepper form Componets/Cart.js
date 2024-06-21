@@ -41,6 +41,7 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 import SkeletonLoader from '../Loader/SkeletonLoader';
 import SkeletonLoaderOrder from '../Loader/SkeletonLoaderOrder';
 import {CouponDetail} from '../../Redux/Slice/car_slice/coupon/couponcart';
+import debounce from 'lodash/debounce';
 
 const Cart = ({
   count,
@@ -86,7 +87,7 @@ const Cart = ({
     setCartData(viewcartdata?.cart_items);
   }, [viewcartdata, deteltedData]);
 
-  const handleRemove = item => {
+  const handleRemove =useCallback( item => {
     const data = {
       product_id: item.product_id,
       variation_id: item.variation_id,
@@ -105,55 +106,49 @@ const Cart = ({
         },
       },
     ]);
-  };
+  });
+  
+  const debouncedUpdateCart = debounce(async (selectedItem) => {
+    await dispatch(
+      updateToCart({
+        product_id: selectedItem.product_id,
+        variation_id: selectedItem.variation_id,
+        quantity: selectedItem.quantity,
+      }),
+    );
+    await dispatch(ViewToCart());
+  }, 200); 
 
-  const handleIncrease = async key => {
+  const handleIncrease =useCallback( key => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key) {
-        return {
+        const updatedItem = {
           ...item,
           quantity: item.quantity + 1,
         };
+        debouncedUpdateCart(updatedItem);
+        return updatedItem;
       }
       return item;
     });
-
     setCartData(updatedCart);
+  });
 
-    const selectedItem = updatedCart.find(item => item.key === key);
-    await dispatch(
-      updateToCart({
-        product_id: selectedItem.product_id,
-        variation_id: selectedItem.variation_id,
-        quantity: selectedItem.quantity,
-      }),
-    );
-
-    await dispatch(ViewToCart());
-  };
-
-  const handleDecrease = async key => {
+  const handleDecrease =useCallback( key => {
     const updatedCart = cartData?.map(item => {
       if (item.key === key && item.quantity > 1) {
-        return {
+        const updatedItem = {
           ...item,
           quantity: item.quantity - 1,
         };
+        debouncedUpdateCart(updatedItem);
+        return updatedItem;
       }
       return item;
     });
     setCartData(updatedCart);
-    const selectedItem = updatedCart.find(item => item.key === key);
-    await dispatch(
-      updateToCart({
-        product_id: selectedItem.product_id,
-        variation_id: selectedItem.variation_id,
-        quantity: selectedItem.quantity,
-      }),
-    );
+  });
 
-    await dispatch(ViewToCart());
-  };
 
   const update = cartData?.map(item => ({
     ...item,
