@@ -395,7 +395,7 @@ export default function Productdetailscreen({ route }) {
                   stylesofbtn={styles.custbtn}
                   styleoffont={styles.custfontstyle}
                   handlepress={handlepress}
-                  name={'Add To Carts'}
+                  name={'Add To Cart'}
                   loading={load}
                 />
               </View>
@@ -440,6 +440,7 @@ const styles = StyleSheet.create({
   custfontstyle: {
     textAlign: 'center',
     color: 'white',
+    fontFamily: 'Intrepid Regular',
   },
   productContainer: {
     flexDirection: 'row',

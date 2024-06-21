@@ -118,7 +118,7 @@ const Confirmation = ({setCount, total}) => {
           <Button
             stylesofbtn={styles.custbtn}
             styleoffont={styles.custfontstyle}
-            name={'Shop more'}
+            name={'Shop More'}
             handlepress={handlepress}
           />
         </ScrollView>

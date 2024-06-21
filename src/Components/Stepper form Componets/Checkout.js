@@ -256,6 +256,7 @@ const Checkout = ({
       });
     }
   };
+
   return (
     <GestureHandlerRootView>
       <SafeAreaView style={{position: 'relative'}}>
@@ -626,6 +627,7 @@ const styles = StyleSheet.create({
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
+    fontFamily: 'Intrepid Regular',
   },
   custmargin: {
     marginBottom: 10,
