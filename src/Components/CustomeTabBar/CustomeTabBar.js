@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,42 +8,39 @@ import {
   Image,
   Pressable,
 } from 'react-native';
-import { globalColors } from '../../Assets/Theme/globalColors';
-import { Images } from '../../Constants';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import {Images} from '../../Constants';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import { getToken } from '../../Utils/localstorage';
-import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import {getToken} from '../../Utils/localstorage';
+import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
-const CustomTabBar = ({ state, descriptors, navigation }) => {
+const CustomTabBar = ({state, descriptors, navigation}) => {
   const dispatch = useDispatch();
 
-  const { data } = useSelector(state => state.profile);
-  const { items } = useSelector(state => state.wishlist);
-
+  const {data} = useSelector(state => state.profile);
+  const {items} = useSelector(state => state.wishlist);
 
   useEffect(() => {
     const fetchData = async () => {
       const token = await getToken();
       if (token) {
-        dispatch(fetchWishlist({ tokenData: token }));
+        dispatch(fetchWishlist({tokenData: token}));
       }
-    }
+    };
     fetchData();
   }, [dispatch]);
 
-
   const handleClick = () => {
     navigation.navigate('wishlist', {
-      items: items
-    })
-  }
+      items: items,
+    });
+  };
   return (
     <View style={styles.tabBarContainer}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
@@ -51,38 +48,43 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
         name="arrow-back"
         size={25}
         color="#333"
-        style={{ marginLeft: 8 }}
+        style={{marginLeft: 8, marginTop: -16}}
         onPress={() => navigation.goBack()}
       />
-      <ScrollView >
-
+      <ScrollView>
         <View style={styles.container}>
-          <Pressable style={{ marginRight: 10 }} onPress={handleClick}>
+          <Pressable style={{marginRight: 10}} onPress={handleClick}>
             <Image style={styles.image} source={Images.saveIconUnFill3x} />
-            {items?.Wishlist?.length > 0 && <View style={styles.notificationCount}><Text style={{
-              color: 'white', textAlign: 'center',
-            }}>{items?.Wishlist?.length}</Text></View>}
+            {items?.Wishlist?.length > 0 && (
+              <View style={styles.notificationCount}>
+                <Text
+                  style={{
+                    color: 'white',
+                    textAlign: 'center',
+                  }}>
+                  {items?.Wishlist?.length}
+                </Text>
+              </View>
+            )}
           </Pressable>
         </View>
 
         {/* <Pressable onPress={handleClick}><Text>sdfsd</Text></Pressable> */}
-        <View style={{ alignItems: 'center', paddingBottom: 2, marginTop: wp('3%') }}>
-
-
+        <View
+          style={{alignItems: 'center', paddingBottom: 2, marginTop: wp('3%')}}>
           <Image source={Images.ProfileIcon}></Image>
 
-
-          <Text style={{ marginBottom: hp('2.3%') }}>{data?.first_name}</Text>
+          <Text style={{marginBottom: hp('2.3%')}}>{data?.first_name}</Text>
         </View>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{flexDirection: 'row'}}>
           {state.routes.map((route, index) => {
-            const { options } = descriptors[route.key];
+            const {options} = descriptors[route.key];
             const label =
               options.tabBarLabel !== undefined
                 ? options.tabBarLabel
                 : options.title !== undefined
-                  ? options.title
-                  : route.name;
+                ? options.title
+                : route.name;
 
             const isFocused = state.index === index;
 
@@ -108,7 +110,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             return (
               <TouchableOpacity
                 accessibilityRole="button"
-                accessibilityState={isFocused ? { selected: true } : {}}
+                accessibilityState={isFocused ? {selected: true} : {}}
                 accessibilityLabel={options.tabBarAccessibilityLabel}
                 testID={options.tabBarTestID}
                 onPress={onPress}
@@ -152,7 +154,8 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.headingBackground, // Ensure background color to cover content below
   },
   image: {
-    marginRight: wp('7%'), marginTop: 8,
+    marginRight: wp('7%'),
+    marginTop: 8,
     // width: 30,
     // height: 30,
     // resizeMode: 'contain',
@@ -162,8 +165,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     height: 40, // Add a fixed height to the parent container
   },
-
-
 
   notificationCount: {
     marginRight: wp('7.5%'),
