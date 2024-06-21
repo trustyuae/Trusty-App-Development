@@ -140,7 +140,7 @@ const Checkout = ({
   //   0,
   // );
 
-  const debouncedUpdateCart = debounce(async (selectedItem) => {
+  const debouncedUpdateCart =useCallback( debounce(async (selectedItem) => {
     await dispatch(
       updateToCart({
         product_id: selectedItem.product_id,
@@ -149,7 +149,7 @@ const Checkout = ({
       }),
     );
     await dispatch(ViewToCart());
-  }, 100); 
+  }, 100),[])
 
   const handleIncrease =useCallback( key => {
     const updatedCart = cartData?.map(item => {
@@ -164,7 +164,7 @@ const Checkout = ({
       return item;
     });
     setCartData(updatedCart);
-  });
+  },[cartData,debouncedUpdateCart]);
 
   const handleDecrease =useCallback( key => {
     const updatedCart = cartData?.map(item => {
@@ -179,7 +179,7 @@ const Checkout = ({
       return item;
     });
     setCartData(updatedCart);
-  });
+  },[cartData,debouncedUpdateCart]);
 
   const handleRemove = useCallback(item => {
     const data = {
