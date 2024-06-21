@@ -15,6 +15,7 @@ import OrderDetails from '../Screens/Profile/OrderDetails.js';
 import Order from '../Screens/Profile/Order.js';
 import Wishlist from '../Screens/wishlist/wishlist.js';
 import Productdetailscreen from '../Screens/Productdetail/Productdetailscreen.js';
+import OrderTrackingScreen from '../Screens/OrderTrackingScreen.js';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = ({ navigation }) => {
@@ -134,6 +135,26 @@ const AppNavigations = ({ navigation }) => {
             //   backgroundColor: '#f6f1eb',
             // },
           }}
+        />
+        <Stack.Screen
+          name="OrderTracking"
+          component={OrderTrackingScreen}
+          options={({ navigation }) => ({
+            headerTransparent: true,
+            title: null,
+            // headerStyle: {
+            //   backgroundColor: '#f6f1eb',
+            // },
+            headerLeft: () => (
+              <Icon
+                name="arrow-back"
+                size={25}
+                color="#333"
+                style={{ marginLeft: 1 }}
+                onPress={() => navigation.goBack()}
+              />
+            ),
+          })}
         />
         <Stack.Screen
           name="OrderDetail"

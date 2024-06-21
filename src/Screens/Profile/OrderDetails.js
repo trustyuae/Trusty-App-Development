@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {
@@ -19,8 +20,9 @@ import {Image} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons'; // Import the Icon component
 import SkeletonLoaderOrder from '../../Components/Loader/SkeletonLoaderOrder';
 import SkeletonLoaderOrderDetails from '../../Components/Loader/SkeletonLoaderOrderDetails';
+import Button from '../../Components/Button';
 
-const OrderDetails = ({route}) => {
+const OrderDetails = ({route, navigation}) => {
   const dispatch = useDispatch();
   const {data, loading, error} = useSelector(state => state.order);
   const [date, setDate] = useState('');
@@ -54,7 +56,8 @@ const OrderDetails = ({route}) => {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: '20%',
+              //   marginTop: '20%',
+              marginTop: Platform.OS === 'ios' ? 0 : '20%',
             }}>
             <SkeletonLoaderOrderDetails count={1} />
           </View>
@@ -68,40 +71,52 @@ const OrderDetails = ({route}) => {
               />
               <Text style={styles.heading}>Order Details</Text>
             </View>
-            <View style={styles.sectionProduct}>
-              <Text style={styles.subHeading}>Product</Text>
-              {data?.line_items?.map(item => (
-                <View key={item.id} style={styles.item}>
-                  {/* <Image source={{ uri: item.image.src }} style={styles.itemImage} /> */}
+            <TouchableOpacity
+              onPress={() => navigation.navigate('OrderTracking', {orderId})}>
+              <View style={styles.sectionProduct}>
+                <Text style={styles.subHeading}>Product</Text>
+                {data?.line_items?.map(item => (
+                  <View key={item.id} style={styles.item}>
+                    {/* <Image source={{ uri: item.image.src }} style={styles.itemImage} /> */}
 
-                  {item.image.src ? (
-                    <Image
-                      source={{
-                        uri: item.image.src,
-                      }}
-                      height={120}
-                      width={120}></Image>
-                  ) : (
-                    <View
-                      style={{
-                        height: 120,
-                        width: 120,
-                        backgroundColor: globalColors.buttonBackground,
-                      }}></View>
-                  )}
-                  <View style={styles.itemDetails}>
-                    <Text style={styles.itemName}>{item.name}</Text>
-                    <Text style={styles.text}>Quantity: {item.quantity}</Text>
-                    <Text style={styles.text}>
-                      Price: {data.currency_symbol} {item.price}
-                    </Text>
-                    <Text style={styles.text}>
-                      Subtotal: {data.currency_symbol} {item.subtotal}
-                    </Text>
+                    {item.image.src ? (
+                      <Image
+                        source={{
+                          uri: item.image.src,
+                        }}
+                        height={120}
+                        width={120}></Image>
+                    ) : (
+                      <View
+                        style={{
+                          height: 120,
+                          width: 120,
+                          backgroundColor: globalColors.buttonBackground,
+                        }}></View>
+                    )}
+                    <View style={styles.itemDetails}>
+                      <Text style={styles.itemName}>{item.name}</Text>
+                      <Text style={styles.text}>Quantity: {item.quantity}</Text>
+                      <Text style={styles.text}>
+                        Price: {data.currency_symbol} {item.price}
+                      </Text>
+                      <Text style={styles.text}>
+                        Subtotal: {data.currency_symbol} {item.subtotal}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              ))}
-            </View>
+                ))}
+              </View>
+            </TouchableOpacity>
+
+            <Button
+              name={'Order Tracking Status'}
+              handlepress={() =>
+                navigation.navigate('OrderTracking', {orderId})
+              }
+              stylesofbtn={styles.custbtn}
+              styleoffont={styles.custfontstyle}
+            />
 
             <View style={styles.section}>
               <Text style={styles.subHeading}>Order Information</Text>
@@ -180,7 +195,7 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     fontSize: 18,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     marginBottom: hp('1%'),
     color: globalColors.black,
     fontFamily: 'Intrepid Regular',
@@ -220,6 +235,17 @@ const styles = StyleSheet.create({
 
     marginBottom: hp('0.5%'),
     color: globalColors.black,
+  },
+  custbtn: {
+    backgroundColor: '#444444',
+    padding: 7,
+    marginHorizontal: 90,
+    marginVertical: 20,
+    borderRadius: 5,
+  },
+  custfontstyle: {
+    color: 'white',
+    textAlign: 'center',
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Pressable,
@@ -11,20 +11,20 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { globalColors } from '../../Assets/Theme/globalColors';
-import { Images } from '../../Constants/index';
-import { useDispatch, useSelector } from 'react-redux';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import {Images} from '../../Constants/index';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   addToWishlist,
   fetchWishlist,
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
-import { getToken } from '../../Utils/localstorage';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {getToken} from '../../Utils/localstorage';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import { NoImg } from '../../Constants/Icons';
+import {NoImg} from '../../Constants/Icons';
 
-const Product = ({ uri, name, price, product_id, isWatchList }) => {
+const Product = ({uri, name, price, product_id, isWatchList}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -58,7 +58,7 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
       };
 
       fetchData();
-    }, [saved, dispatch, isWatchList, tokenData])
+    }, [saved, dispatch, isWatchList, tokenData]),
   );
   // useEffect(() => {
   //   if (wishlist && wishlist.length > 0) {
@@ -76,8 +76,8 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
     if (tokenData) {
       if (saved) {
         try {
-          await dispatch(fetchWishlist(tokenData));
-          dispatch(removeFromWishlist({ product_id, tokenData }));
+          dispatch(fetchWishlist(tokenData));
+          dispatch(removeFromWishlist({product_id, tokenData}));
           setSaved(false);
           await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -85,8 +85,8 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
         }
       } else {
         try {
-          await dispatch(fetchWishlist(tokenData));
-          dispatch(addToWishlist({ product_id, tokenData }));
+          dispatch(fetchWishlist(tokenData));
+          dispatch(addToWishlist({product_id, tokenData}));
           setSaved(true);
           await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -110,19 +110,17 @@ const Product = ({ uri, name, price, product_id, isWatchList }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-
-
-       {uri? <Image
-          style={styles.image}
-          source={{
-            uri,
-          }}
-          resizeMode="cover"
-        />: <Image
-        source={NoImg}
-        style={styles.image}
-       resizeMode="contain"
-      />}
+        {uri ? (
+          <Image
+            style={styles.image}
+            source={{
+              uri,
+            }}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image source={NoImg} style={styles.image} resizeMode="contain" />
+        )}
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
             style={styles.saveImage}
@@ -201,7 +199,7 @@ const styles = StyleSheet.create({
   image: {
     width: wp('46%'),
     height: hp('25%'),
-    objectFit:"cover"
+    objectFit: 'cover',
     // alignContent: 'center',
   },
 });
