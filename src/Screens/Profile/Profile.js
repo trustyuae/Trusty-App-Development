@@ -422,7 +422,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     // marginTop: hp('28%'),
-    marginTop: Platform.OS === 'ios' ? hp('20%') : hp('28%'),
+    marginTop: Platform.OS === 'ios' ? hp('21%') : hp('29%'),
 
     padding: 20,
   },

@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
 import { getToken } from '../../Utils/localstorage';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
@@ -46,7 +47,13 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
     <View style={styles.tabBarContainer}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-
+      <Icon
+        name="arrow-back"
+        size={25}
+        color="#333"
+        style={{ marginLeft: 8 }}
+        onPress={() => navigation.goBack()}
+      />
       <ScrollView >
 
         <View style={styles.container}>
@@ -59,13 +66,13 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
         </View>
 
         {/* <Pressable onPress={handleClick}><Text>sdfsd</Text></Pressable> */}
-        <View style={{ alignItems: 'center', paddingBottom: 2, marginTop: wp('5%') }}>
+        <View style={{ alignItems: 'center', paddingBottom: 2, marginTop: wp('3%') }}>
 
 
           <Image source={Images.ProfileIcon}></Image>
 
 
-          <Text style={{ marginBottom: hp('2.5%') }}>{data?.first_name}</Text>
+          <Text style={{ marginBottom: hp('2.3%') }}>{data?.first_name}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
           {state.routes.map((route, index) => {
@@ -145,7 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.headingBackground, // Ensure background color to cover content below
   },
   image: {
-    marginRight: wp('7%'), marginTop: 10,
+    marginRight: wp('7%'), marginTop: 8,
     // width: 30,
     // height: 30,
     // resizeMode: 'contain',
