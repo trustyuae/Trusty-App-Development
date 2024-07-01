@@ -57,11 +57,10 @@ const PasswordModal = ({ modalVisible, setModalVisible }) => {
         visibilityTime: 3000,
         autoHide: true,
       });
-      // You might want to show a success message or navigate the user to another screen
-      setModalVisible(false); // Close the modal after successful password change
+      
+      setModalVisible(false); 
     } catch (error) {
       console.error('Error changing password:', error);
-      // Handle errors if needed
     }
   };
 

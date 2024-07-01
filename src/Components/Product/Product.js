@@ -28,9 +28,6 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  // const wishlist = useSelector(state => state.wishlist.items);
-
-  // const initialSaved = false;
   const [saved, setSaved] = useState(isWatchList === true);
   const [tokenData, setTokenData] = useState(null);
 
@@ -76,7 +73,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
     if (tokenData) {
       if (saved) {
         try {
-          dispatch(fetchWishlist(tokenData));
+          await dispatch(fetchWishlist(tokenData));
           dispatch(removeFromWishlist({product_id, tokenData}));
           setSaved(false);
           await dispatch(fetchWishlist(tokenData));
@@ -85,7 +82,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
         }
       } else {
         try {
-          dispatch(fetchWishlist(tokenData));
+          await dispatch(fetchWishlist(tokenData));
           dispatch(addToWishlist({product_id, tokenData}));
           setSaved(true);
           await dispatch(fetchWishlist(tokenData));
@@ -146,15 +143,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   imageContainer: {
-    // flexDirection: 'row',
-    // flexWrap: 'wrap',
-    // objectFit: 'resizeMode',
-    // justifyContent: 'center',
+
     width: wp('46%'),
     position: 'relative',
-    // height: hp('25%'),
+   
     backgroundColor: globalColors.productBackground,
-    // gap: 10,
+   
   },
   detailsContainer: {
     height: hp('7%'),
@@ -180,16 +174,12 @@ const styles = StyleSheet.create({
   saveImagea: {
     position: 'absolute',
     marginTop: wp('2%'),
-    // backgroundColor: 'red',
     marginLeft: wp('30%'),
-    // width: 25,
     padding: 12,
-    // height: 25,
     left: 19,
   },
   saveImage: {
-    // position: 'absolute',
-    // marginLeft: wp('15%'),
+   
     width: 11,
     resizeMode: 'contain',
 
@@ -200,7 +190,6 @@ const styles = StyleSheet.create({
     width: wp('46%'),
     height: hp('25%'),
     objectFit: 'cover',
-    // alignContent: 'center',
   },
 });
 

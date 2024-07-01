@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   Image,
   RefreshControl,
@@ -7,63 +7,66 @@ import {
   StyleSheet,
   Text,
   View,
+  Pressable,
 } from 'react-native';
-import { globalColors } from '../../Assets/Theme/globalColors';
-import { Images } from '../../Constants';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import {Images} from '../../Constants';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import WishListCard from '../../Components/wishListCard/wishListCard';
-import { useDispatch, useSelector } from 'react-redux';
-import { getToken } from '../../Utils/localstorage';
-import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { Pressable } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {getToken} from '../../Utils/localstorage';
+import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
-const Wishlist = ({ route }) => {
+const Wishlist = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
-  const [token, SetToken] = useState(null);
+  const [token, setToken] = useState(null);
+  const [shouldFetchData, setShouldFetchData] = useState(true);
 
-  // const { items } = route?.params;
-  const { items } = useSelector(state => state.wishlist);
-
+  const {items} = useSelector(state => state.wishlist);
 
   const fetchWishlistData = async () => {
     try {
       const token = await getToken();
-      SetToken(token);
+      setToken(token);
       if (token) {
-        await dispatch(fetchWishlist({ tokenData: token }));
+        await dispatch(fetchWishlist({tokenData: token}));
       }
     } catch (error) {
       console.log('Error retrieving data:', error);
     }
   };
 
+  // Fetch data on initial mount and whenever shouldFetchData changes
   useEffect(() => {
-    fetchWishlistData();
-  }, [dispatch]);
+    if (shouldFetchData) {
+      fetchWishlistData();
+      setShouldFetchData(false);
+    }
+  }, [shouldFetchData, dispatch]);
 
+  // Fetch data when token changes
   useEffect(() => {
     if (token) {
-      dispatch(fetchWishlist({ tokenData: token }));
+      dispatch(fetchWishlist({tokenData: token}));
     }
   }, [token, dispatch]);
 
   const onRefresh = async () => {
-    setRefreshing(true); // Set refreshing to true
-    await dispatch(fetchWishlist({ tokenData: token })); // Fetch data again
-    setRefreshing(false); // Set refreshing to false once data is fetched
+    setRefreshing(true);
+    await fetchWishlistData();
+    setRefreshing(false);
   };
 
   useFocusEffect(
-    React.useCallback(() => {
-      fetchWishlistData();
-    }, [dispatch, token]) // Fetch data on focus or token change
+    useCallback(() => {
+      setShouldFetchData(true);
+    }, [dispatch]),
   );
 
   return (
@@ -74,32 +77,33 @@ const Wishlist = ({ route }) => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={['black']} // Customize the refresh indicator colors
+            colors={['black']}
           />
         }>
         <View style={styles.container}>
-          <View style={{ flexDirection: 'row' }}>
-            <Image
-              style={{ marginRight: 15 }}
-              source={Images.saveIconFill}></Image>
+          <View style={{flexDirection: 'row'}}>
+            <Image style={{marginRight: 15}} source={Images.saveIconFill} />
             <Text style={styles.mainHeading}>My Wishlists</Text>
           </View>
 
           {items?.Products?.map(item => (
             <Pressable
+              key={item.id}
               onPress={() => {
-                navigation.navigate('ProductDetail', { userId: item.id, isWatchList: true });
+                navigation.navigate('ProductDetail', {
+                  userId: item.id,
+                  isWatchList: true,
+                });
               }}>
               <WishListCard key={item.id} item={item} />
             </Pressable>
           ))}
-
-          {/* <WishListCard items={items} /> */}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     padding: 20,
@@ -113,12 +117,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
   },
-  productHeading: {
-    height: hp('6%'),
-    marginTop: hp('2%'),
-    justifyContent: 'space-between',
-    backgroundColor: globalColors.white,
-    flexDirection: 'row',
-  },
 });
+
 export default Wishlist;

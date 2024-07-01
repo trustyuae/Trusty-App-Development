@@ -414,26 +414,7 @@ const SignupPage = () => {
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Billing Information</Text>
 
-              {/* <View style={styles.inputPicker}>
-                <Picker
-                  selectedValue={formData.selectedCountry}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setFormData({ ...formData, selectedCountry: itemValue })
-                  }
-                  style={{
-                    fontFamily: 'Intrepid Regular',
-                    fontSize: 14,
-                    color: globalColors.buttonBackground,
-                  }}>
-                  {countries.map((country, index) => (
-                    <Picker.Item
-                      key={index}
-                      label={country.label}
-                      value={country.value}
-                    />
-                  ))}
-                </Picker>
-              </View> */}
+           
               <View style={styles.inputPicker}>
                 <SelectDropdown
                   data={countries}
@@ -732,16 +713,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.white,
   },
   inputPicker: {
-    // borderWidth: 1,
-    // height: hp('5.5%'),
-    // justifyContent: 'center',
-    // borderColor: globalColors.inputBorder,
-    // borderRadius: 4,
-    // fontFamily: 'Intrepid Regular',
-    // fontSize: 14,
-    // marginBottom: hp('1.5%'),
-    // fontSize: wp('3.1%'),
-    // backgroundColor: globalColors.white,
+    
   },
 
   custfontstyle: {

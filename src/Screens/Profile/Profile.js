@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,21 +15,21 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { globalColors } from '../../Assets/Theme/globalColors.js';
-import { Image } from 'react-native';
-import { Images } from '../../Constants/index.js';
-import { logoutUser } from '../../Redux/Slice/loginslice.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { getToken, getUserId } from '../../Utils/localstorage.js';
+import {globalColors} from '../../Assets/Theme/globalColors.js';
+import {Image} from 'react-native';
+import {Images} from '../../Constants/index.js';
+import {logoutUser} from '../../Redux/Slice/loginslice.js';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {getToken, getUserId} from '../../Utils/localstorage.js';
 import RNPickerSelect from 'react-native-picker-select';
-import { currencies } from '../../Assets/Currency.js';
+import {currencies} from '../../Assets/Currency.js';
 import {
   fetchProfile,
   resetProfile,
   updateProfile,
 } from '../../Redux/Slice/profileSlice.js';
-import { ActivityIndicator } from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PasswordModal from '../../Components/Model/PasswordModal.js';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar.js';
@@ -41,7 +41,7 @@ const Profile = () => {
   const [editable, setEditable] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { data, loading, error } = useSelector(state => state.profile);
+  const {data, loading, error} = useSelector(state => state.profile);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -89,7 +89,6 @@ const Profile = () => {
     shippingCity: '',
     phone: '',
   });
-
 
   useEffect(() => {
     const phoneNumberMetadata = data?.meta_data.find(
@@ -161,24 +160,20 @@ const Profile = () => {
       },
       meta_data: [
         ...data.meta_data.slice(0, 2),
-        { ...data.meta_data[2], value: phone },
+        {...data.meta_data[2], value: phone},
         ...data.meta_data.slice(3),
       ],
     };
 
-
     const customer_id = await getUserId();
     try {
-      dispatch(updateProfile({ customer_id, newData: updatedData }));
+      dispatch(updateProfile({customer_id, newData: updatedData}));
       setEditable(false);
-
     } catch (error) {
       console.log(error);
     }
     // setEditable(false);
   };
-
-
 
   const handleLogout = async () => {
     // await AsyncStorage.removeItem('token');
@@ -201,18 +196,22 @@ const Profile = () => {
   };
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100} // Adjust this offset as needed
     >
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          colors={['black']}
-        />
-      }>
-        <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+      <ScrollView
+        style={{flex: 1}}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['black']}
+          />
+        }>
+        <CustomStatusBar
+          color={globalColors.headingBackground}></CustomStatusBar>
 
         {loading ? (
           // <ActivityIndicator
@@ -224,13 +223,21 @@ const Profile = () => {
           <SkeletonLoaderProfile />
         ) : data ? (
           <View style={styles.container}>
-            <TouchableOpacity onPress={editable ? handleSave : handleEdit}>
-              <Text style={{ marginLeft: 'auto' }}>
-                {editable ? 'Save' : 'Edit'}
-              </Text>
-            </TouchableOpacity>
             <Text style={styles.mainText}>Profile Information</Text>
-            <Text style={styles.contactHeading}>Contact Details</Text>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style={styles.contactHeading}>Contact Details</Text>
+              <TouchableOpacity onPress={editable ? handleSave : handleEdit}>
+                <Text
+                  style={{
+                    marginLeft: 'auto',
+                    marginTop: hp('1%'),
+                    textDecorationLine: 'underline',
+                  }}>
+                  {editable ? 'Save' : 'Edit'}
+                </Text>
+              </TouchableOpacity>
+            </View>
             <View style={styles.contantContainer}>
               <View style={styles.subContantContainer}>
                 <Text style={styles.textHeading}>Name</Text>
@@ -240,16 +247,20 @@ const Profile = () => {
                       style={styles.textInput}
                       value={name}
                       onChangeText={setName}
-                    // onKeyPress={({ nativeEvent }) => {
-                    //   if (!/[a-zA-Z]/.test(nativeEvent.key)) {
-                    //     nativeEvent.preventDefault();
-                    //   }
-                    // }}
+                      // onKeyPress={({ nativeEvent }) => {
+                      //   if (!/[a-zA-Z]/.test(nativeEvent.key)) {
+                      //     nativeEvent.preventDefault();
+                      //   }
+                      // }}
                     />
-                    {errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
+                    {errors.name ? (
+                      <Text style={styles.errorText}>{errors.name}</Text>
+                    ) : null}
                   </>
                 ) : (
-                  <Text style={styles.textHeadingValue}>{data?.first_name}</Text>
+                  <Text style={styles.textHeadingValue}>
+                    {data?.first_name}
+                  </Text>
                 )}
               </View>
               <View style={styles.subContantContainer}>
@@ -269,9 +280,9 @@ const Profile = () => {
                   <Text style={styles.textHeading}>Password</Text>
                   <Text style={styles.textHeadingValue}>********</Text>
                 </View>
-                <View style={{ marginLeft: 'auto', marginRight: 5 }}>
+                <View style={{marginLeft: 'auto', marginRight: 5}}>
                   <Text
-                    style={{ textDecorationLine: 'underline' }}
+                    style={{textDecorationLine: 'underline'}}
                     onPress={() => setModalVisible(true)}>
                     Change
                   </Text>
@@ -306,7 +317,9 @@ const Profile = () => {
                       onChangeText={setPhone}
                       keyboardType="numeric"
                     />
-                    {errors.phone ? <Text style={styles.errorText}>{errors.phone}</Text> : null}
+                    {errors.phone ? (
+                      <Text style={styles.errorText}>{errors.phone}</Text>
+                    ) : null}
                   </>
                 ) : (
                   <Text style={styles.textHeadingValue}>
@@ -322,10 +335,12 @@ const Profile = () => {
                       style={styles.textInput}
                       value={address}
                       onChangeText={setAddress}
-
                     />
-                    {errors.shippingAddress ? <Text style={styles.errorText}>{errors.shippingAddress}</Text> : null}
-
+                    {errors.shippingAddress ? (
+                      <Text style={styles.errorText}>
+                        {errors.shippingAddress}
+                      </Text>
+                    ) : null}
                   </>
                 ) : (
                   <Text style={styles.textHeadingValue}>
@@ -347,7 +362,9 @@ const Profile = () => {
                       placeholder="shippingCountry"
                     />
                     {errors.shippingCountry ? (
-                      <Text style={styles.errorText}>{errors.shippingCountry}</Text>
+                      <Text style={styles.errorText}>
+                        {errors.shippingCountry}
+                      </Text>
                     ) : null}
                   </View>
                 ) : (
@@ -363,12 +380,13 @@ const Profile = () => {
                       style={styles.textInputShipping}
                       value={shippingAddress}
                       onChangeText={setShippingAddress}
-
                       placeholder="shippingAddress"
                     />
 
                     {errors.shippingAddress ? (
-                      <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+                      <Text style={styles.errorText}>
+                        {errors.shippingAddress}
+                      </Text>
                     ) : null}
                   </View>
                 ) : (
@@ -388,9 +406,10 @@ const Profile = () => {
                       placeholder="shippingCity"
                     />
                     {errors.shippingCity ? (
-                      <Text style={styles.errorText}>{errors.shippingCity}</Text>
+                      <Text style={styles.errorText}>
+                        {errors.shippingCity}
+                      </Text>
                     ) : null}
-
                   </View>
                 ) : (
                   <Text style={styles.textHeading}>{data?.shipping?.city}</Text>
@@ -398,7 +417,7 @@ const Profile = () => {
               </View>
             </View>
             <TouchableOpacity onPress={handleLogout}>
-              <View style={{ flexDirection: 'row', marginTop: hp('2%') }}>
+              <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
                 <Image style={{}} source={Images.Logout}></Image>
                 <Text
                   style={{

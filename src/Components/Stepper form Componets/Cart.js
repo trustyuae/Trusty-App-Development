@@ -87,68 +87,79 @@ const Cart = ({
     setCartData(viewcartdata?.cart_items);
   }, [viewcartdata, deteltedData]);
 
-  const handleRemove =useCallback( item => {
-    const data = {
-      product_id: item.product_id,
-      variation_id: item.variation_id,
-    };
+  const handleRemove = useCallback(
+    item => {
+      const data = {
+        product_id: item.product_id,
+        variation_id: item.variation_id,
+      };
 
-    Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-      {
-        text: 'OK',
-        onPress: async () => {
-          dispatch(deleteToCart(data));
-          setCartData(viewcartdata?.cart_items);
+      Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
         },
-      },
-    ]);
-  },[viewcartdata]);
+        {
+          text: 'OK',
+          onPress: async () => {
+            dispatch(deleteToCart(data));
+            setCartData(viewcartdata?.cart_items);
+          },
+        },
+      ]);
+    },
+    [viewcartdata],
+  );
 
-  const debouncedUpdateCart =useCallback( debounce(async (selectedItem) => {
-    await dispatch(
-      updateToCart({
-        product_id: selectedItem.product_id,
-        variation_id: selectedItem.variation_id,
-        quantity: selectedItem.quantity,
-      }),
-    );
-    await dispatch(ViewToCart());
-  }, 200),[])
+  const debouncedUpdateCart = useCallback(
+    debounce(async selectedItem => {
+      await dispatch(
+        updateToCart({
+          product_id: selectedItem.product_id,
+          variation_id: selectedItem.variation_id,
+          quantity: selectedItem.quantity,
+        }),
+      );
+      await dispatch(ViewToCart());
+    }, 200),
+    [],
+  );
 
-  const handleIncrease =useCallback( key => {
-    const updatedCart = cartData?.map(item => {
-      if (item.key === key) {
-        const updatedItem = {
-          ...item,
-          quantity: item.quantity + 1,
-        };
-        debouncedUpdateCart(updatedItem);
-        return updatedItem;
-      }
-      return item;
-    });
-    setCartData(updatedCart);
-  },[cartData, debouncedUpdateCart]);
+  const handleIncrease = useCallback(
+    key => {
+      const updatedCart = cartData?.map(item => {
+        if (item.key === key) {
+          const updatedItem = {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+          debouncedUpdateCart(updatedItem);
+          return updatedItem;
+        }
+        return item;
+      });
+      setCartData(updatedCart);
+    },
+    [cartData, debouncedUpdateCart],
+  );
 
-  const handleDecrease =useCallback( key => {
-    const updatedCart = cartData?.map(item => {
-      if (item.key === key && item.quantity > 1) {
-        const updatedItem = {
-          ...item,
-          quantity: item.quantity - 1,
-        };
-        debouncedUpdateCart(updatedItem);
-        return updatedItem;
-      }
-      return item;
-    });
-    setCartData(updatedCart);
-  },[cartData, debouncedUpdateCart]);
-
+  const handleDecrease = useCallback(
+    key => {
+      const updatedCart = cartData?.map(item => {
+        if (item.key === key && item.quantity > 1) {
+          const updatedItem = {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+          debouncedUpdateCart(updatedItem);
+          return updatedItem;
+        }
+        return item;
+      });
+      setCartData(updatedCart);
+    },
+    [cartData, debouncedUpdateCart],
+  );
 
   const update = cartData?.map(item => ({
     ...item,
@@ -415,7 +426,9 @@ const Cart = ({
                 marginVertical: 10,
               }}>
               <Text style={styles.custText}>COUPON</Text>
-              <Text style={{fontFamily: 'Intrepid Regular'}}>{viewcartdata?.coupon_status}</Text>
+              <Text style={{fontFamily: 'Intrepid Regular'}}>
+                {viewcartdata?.coupon_status}
+              </Text>
             </View>
 
             <View style={styles.custborder} />
@@ -435,10 +448,10 @@ const Cart = ({
 
         <View style={{marginVertical: 10}}>
           <Text style={styles.custText}>SHIPPING</Text>
-          <Text style={{marginTop: 5, fontFamily: 'Intrepid Regular',}}>
+          <Text style={{marginTop: 5, fontFamily: 'Intrepid Regular'}}>
             Delivery fees Cash on Arrival 30 AED
           </Text>
-          <Text style={{marginTop: 5, fontFamily: 'Intrepid Regular',}}>
+          <Text style={{marginTop: 5, fontFamily: 'Intrepid Regular'}}>
             Shipping options will be updated during Checkout
           </Text>
         </View>

@@ -55,7 +55,10 @@ const Confirmation = ({setCount, total}) => {
       <View style={styles.container}>
         <ScrollView
           style={{
-            padding: wp('10%'),
+            paddingLeft: wp('5%'),
+            paddingRight: wp('5%'),
+            paddingTop: wp('5%'),
+            paddingBottom: wp('1%'),
           }}
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
@@ -71,7 +74,7 @@ const Confirmation = ({setCount, total}) => {
               You'll receive an email confirmation shortly.
             </Text>
           </View>
-          <Text style={styles.MainHeading}>ORDER DETAILS</Text>
+          <Text style={styles.MainHeadingOrder}>ORDER DETAILS</Text>
           <View style={styles.containerTable}>
             <View style={styles.table}>
               <View style={styles.row}>
@@ -158,20 +161,28 @@ const styles = StyleSheet.create({
     // marginBottom: hp('2%'),
   },
   imageContainer1: {
-    marginTop: hp('5%'),
+    marginTop: hp('4%'),
+    marginBottom: hp('5%'),
     alignItems: 'center',
-    marginBottom: hp('3%'),
   },
   MainHeading: {
     fontSize: 22,
-    marginTop: hp('2%'),
+    marginTop: hp('6%'),
     marginBottom: hp('2%'),
     fontFamily: 'Intrepid Regular',
 
     color: globalColors.productTextColor,
     textAlign: 'center',
   },
+  MainHeadingOrder: {
+    fontSize: 22,
+    marginTop: hp('3%'),
+    marginBottom: hp('1%'),
+    fontFamily: 'Intrepid Regular',
 
+    color: globalColors.productTextColor,
+    textAlign: 'center',
+  },
   subHeadingContainer: {
     alignItems: 'center',
     color: globalColors.buttonBackground,

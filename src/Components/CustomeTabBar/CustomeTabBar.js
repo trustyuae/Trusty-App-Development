@@ -54,7 +54,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
       <ScrollView>
         <View style={styles.container}>
           <Pressable style={{marginRight: 10}} onPress={handleClick}>
-            <Image style={styles.image} source={Images.saveIconUnFill3x} />
+            <Image style={styles.image} source={Images.saveIconUnFill} />
             {items?.Wishlist?.length > 0 && (
               <View style={styles.notificationCount}>
                 <Text
@@ -73,8 +73,14 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
         <View
           style={{alignItems: 'center', paddingBottom: 2, marginTop: wp('3%')}}>
           <Image source={Images.ProfileIcon}></Image>
-
-          <Text style={{marginBottom: hp('2.3%')}}>{data?.first_name}</Text>
+          <View style={{marginBottom: hp('1%')}}></View>
+          <Text
+            style={{
+              marginBottom: hp('1.3%'),
+              color: globalColors.productTextColor,
+            }}>
+            {data?.first_name}
+          </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           {state.routes.map((route, index) => {
@@ -122,7 +128,11 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
                     color: isFocused
                       ? globalColors.black
                       : globalColors.buttonBackground,
-                    padding: 10,
+
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    paddingBottom: 5,
+                    paddingTop: 5,
                     fontSize: 16,
                     backgroundColor: isFocused
                       ? globalColors.white
@@ -151,11 +161,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    backgroundColor: globalColors.headingBackground, // Ensure background color to cover content below
+    backgroundColor: globalColors.headingBackground, 
   },
   image: {
     marginRight: wp('7%'),
-    marginTop: 8,
+    marginTop: 12,
     // width: 30,
     // height: 30,
     // resizeMode: 'contain',
@@ -163,13 +173,13 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-end',
     position: 'relative',
-    height: 40, // Add a fixed height to the parent container
+    height: 40, 
   },
 
   notificationCount: {
     marginRight: wp('7.5%'),
     position: 'absolute',
-    right: -7,
+    right: -10,
     backgroundColor: globalColors.black,
     borderRadius: 50,
     width: 20,

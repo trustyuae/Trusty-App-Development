@@ -39,22 +39,15 @@ const WishListCard = ({navigation, item, onPress}) => {
     fetchData();
   }, [dispatch]);
 
-  // const handleRemove = () => {
-  //     console.log("Dispatchcalling", item.id)
-  //     dispatch(removeFromWishlist({ product_id: item.id, tokenData }));
-  // }
   return (
     <SafeAreaView>
       <View>
-        {/* {cartData?.map(Item => ( */}
         <View
           style={{
             borderBottomWidth: 1,
-            // marginRight: 10,
-            // marginLeft: 10,
-            // paddingRight: 20,
+
             borderBottomColor: globalColors.inputBorder,
-            // marginBottom: 10,
+
             marginTop: 20,
           }}
         />
@@ -65,18 +58,6 @@ const WishListCard = ({navigation, item, onPress}) => {
             gap: 10,
             position: 'relative',
           }}>
-          {/* <Icon
-                        name={'close'}
-                        size={20}
-                        color="black"
-                        style={{
-                            position: 'absolute',
-                            right: 0,
-                        }}
-                        onPress={handleRemove}
-
-                    ></Icon> */}
-
           <View
             style={{
               backgroundColor: '#ffffff',
@@ -101,15 +82,6 @@ const WishListCard = ({navigation, item, onPress}) => {
                 resizeMode="contain"
               />
             )}
-            {/* )  */}
-            {/* // : ( */}
-            {/* // <View */}
-            {/* //     style={{ */}
-            {/* //         height: 100,
-        //         width: 90,
-        //         backgroundColor: '#f4f4f4',
-        //     }}></View>
-        // )} */}
           </View>
           <View>
             <Text
@@ -150,11 +122,7 @@ const WishListCard = ({navigation, item, onPress}) => {
                 fontFamily: 'Intrepid Regular',
                 fontSize: 16,
               }}>
-              Stock :{' '}
-              <Text style={{color: '#676766'}}>
-                {/* {Item?.variation_attr?.attribute_pa_color} */}
-                {item.stock}
-              </Text>{' '}
+              Stock : <Text style={{color: '#676766'}}>{item.stock}</Text>{' '}
             </Text>
             <Text
               style={{
@@ -174,12 +142,8 @@ const WishListCard = ({navigation, item, onPress}) => {
         <View
           style={{
             borderBottomWidth: 1,
-            // marginRight: 10,
-            // marginLeft: 10,
-            // paddingRight: 20,
+
             borderBottomColor: globalColors.inputBorder,
-            // marginBottom: 10,
-            // marginTop: 10,
           }}
         />
         {/* ))} */}
