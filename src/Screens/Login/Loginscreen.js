@@ -1,38 +1,32 @@
-import { StyleSheet, Text, View, TextInput, ScrollView } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../Components/Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../Redux/Slice/loginslice';
-import { getToken, getUserId } from '../../Utils/localstorage';
-import Profile from '../Profile/Profile';
-import CustomTabBar from '../../Components/CustomeTabBar/CustomeTabBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginUser} from '../../Redux/Slice/loginslice';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
 
-const Loginscreen = ({ navigation }) => {
+const Loginscreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const { loading, error, userData } = useSelector(state => state?.user);
+  const {loading, error, userData} = useSelector(state => state?.user);
   const [showPassword, setShowPassword] = useState(true);
   const [errors, setErrors] = useState({
     email: '',
     password: '',
   });
 
-  const [isAuth, setAuth] = useState();
-
   useEffect(() => {
     if (userData) {
       const data = async () => {
-        await dispatch(fetchWishlist({ tokenData: userData.jwt_token })); // Use the token from userData
-
-      }
-      data()
+        await dispatch(fetchWishlist({tokenData: userData.jwt_token})); // Use the token from userData
+      };
+      data();
       navigation.navigate('DrawerHome');
     }
 
@@ -62,7 +56,7 @@ const Loginscreen = ({ navigation }) => {
       setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
       return;
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
+      setErrors(prevErrors => ({...prevErrors, email: ''}));
     }
 
     if (!values.password) {
@@ -78,13 +72,13 @@ const Loginscreen = ({ navigation }) => {
       }));
       return;
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, password: '' }));
+      setErrors(prevErrors => ({...prevErrors, password: ''}));
     }
     return true;
   };
 
   const handlePress = () => {
-    const { email, password } = values;
+    const {email, password} = values;
     const ChangeKey = {
       username: email,
       password: password,
@@ -105,29 +99,29 @@ const Loginscreen = ({ navigation }) => {
           <View style={styles.custContainer}>
             <TextInput
               style={styles.inputfield}
-              placeholder="E-mail"
+              placeholder="E-mail  *"
               value={values.email}
               onChangeText={text =>
-                setValues(prevValues => ({ ...prevValues, email: text }))
+                setValues(prevValues => ({...prevValues, email: text}))
               }
             />
             {errors.email !== '' && (
-              <Text style={{ marginTop: -10, color: 'red', marginBottom: 10 }}>
+              <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
                 {errors.email}
               </Text>
             )}
             <View style={styles.custposition}>
               <TextInput
                 style={styles.inputfield}
-                placeholder="Password"
+                placeholder="Password  *"
                 value={values.password}
                 secureTextEntry={showPassword}
                 onChangeText={text =>
-                  setValues(prevValues => ({ ...prevValues, password: text }))
+                  setValues(prevValues => ({...prevValues, password: text}))
                 }
               />
               {errors.password !== '' && (
-                <Text style={{ marginTop: -10, color: 'red', marginBottom: 10 }}>
+                <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
                   {errors.password}
                 </Text>
               )}
@@ -142,7 +136,7 @@ const Loginscreen = ({ navigation }) => {
             <Text
               style={styles.custforgotpasstext}
               onPress={() => navigation.navigate('Forgotpassword')}>
-              Forgot Password?
+              Forgot Password ?
             </Text>
 
             <Button
@@ -175,7 +169,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
   },
   headingtext: {
-    color: 'black',
+    color: globalColors.black,
     fontSize: wp('5%'),
     padding: wp('5%'),
     fontWeight: '600',
@@ -183,7 +177,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
   },
   inputfield: {
-    backgroundColor: '#ffffff',
+    backgroundColor: globalColors.white,
     borderWidth: 1,
     height: hp('5.5%'),
     borderRadius: 4,
@@ -191,7 +185,7 @@ const styles = StyleSheet.create({
     marginBottom: hp('2%'),
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
-    borderColor: '#dbccc1',
+    borderColor: globalColors.borderColor,
     paddingHorizontal: wp('5%'),
     borderRadius: 5,
     padding: 10,
@@ -208,8 +202,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
   },
   custfontstyle: {
-    color: 'white',
-
+    color: globalColors.white,
     textAlign: 'center',
     fontFamily: 'Intrepid Regular',
   },
@@ -227,9 +220,9 @@ const styles = StyleSheet.create({
   },
   cust_icon: {
     position: 'absolute',
-    right: wp("2.5%"),
+    right: wp('2.5%'),
     color: globalColors.buttonBackground,
-    top: hp("1.5%"),
+    top: hp('1.5%'),
   },
   custbtn: {
     backgroundColor: 'black',
@@ -237,7 +230,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   custfontstyle: {
-    color: 'white',
+    color: globalColors.white,
     fontFamily: 'Intrepid Regular',
     fontSize: 16,
     textAlign: 'center',
@@ -250,6 +243,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
   },
   errorText: {
-    color: 'red',
+    color: globalColors.error,
   },
 });
