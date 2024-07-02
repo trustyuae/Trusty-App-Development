@@ -4,14 +4,10 @@ import {
   View,
   Image,
   ScrollView,
-  Pressable,
   TouchableOpacity,
-  ActivityIndicator,
   Alert,
   SafeAreaView,
-  Dimensions,
 } from 'react-native';
-// import { NotSaveICon, SaveICon } from '../../Constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -20,40 +16,33 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import { Images } from '../../Constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
-import { fetchById } from '../../Redux/Slice/SingleProductslice';
-import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
-import ProductBackup from '../../Components/Product/ProductBackup';
-import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
-import { getToken, getUsername } from '../../Utils/localstorage';
-import { color } from 'react-native-elements/dist/helpers';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {Images} from '../../Constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect, useRef, useState} from 'react';
+import {fetchById} from '../../Redux/Slice/SingleProductslice';
+import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
+import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
+import {getToken} from '../../Utils/localstorage';
+import {useNavigation} from '@react-navigation/native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import {
   addToWishlist,
   fetchWishlist,
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
 import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoaderProductDetails';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { NoImg, ProductIMG } from '../../Constants/Icons';
+import {NoImg} from '../../Constants/Icons';
 
-export default function Productdetailscreen({ route }) {
+export default function Productdetailscreen({route}) {
   const scrollViewRef = useRef();
-  const width = Dimensions.get('window').width;
   const navigation = useNavigation();
-  const { userId, isWatchList } = route?.params;
+  const {userId, isWatchList} = route?.params;
   const dispatch = useDispatch();
-  const { loading, error, responseData } = useSelector(state => state?.getById);
-
-  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
-  const { items } = useSelector(state => state.wishlist);
-
-  const { loa, err, cartdata } = useSelector(state => state);
+  const {loading, error, responseData} = useSelector(state => state?.getById);
+  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
+  const {items} = useSelector(state => state.wishlist);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
@@ -61,15 +50,17 @@ export default function Productdetailscreen({ route }) {
   const [load, setLoding] = useState(false);
   const [wishlistrelated, setWishlistRelated] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState();
-  const [color, setColor] = useState();
-  const [size, setSize] = useState();
-
+  const [color, setColor] = useState([]);
+  const [size, setSize] = useState([]);
   const [wishlistId, setWishListId] = useState();
   const [isWishlist, setIsWishlist] = useState(isWatchList);
 
   useEffect(() => {
     dispatch(fetchById(id));
   }, [id]);
+
+
+  console.log(color);
 
   useEffect(() => {
     dispatch(fetchById(userId));
@@ -139,8 +130,11 @@ export default function Productdetailscreen({ route }) {
     };
 
     if (isLoggedIn) {
-      if (responseData?.type == "simple" || responseData?.price == '') {
-        Alert.alert('', 'This product does not have a price or  it should be simple type. Please check.');
+      if (responseData?.type == 'simple' || responseData?.price == '') {
+        Alert.alert(
+          '',
+          'This product does not have a price or  it should be simple type. Please check.',
+        );
         setLoding(false);
         return;
       }
@@ -155,11 +149,11 @@ export default function Productdetailscreen({ route }) {
         setLoding(false);
         return;
       }
-      if (!changeColor && color) {
-        Alert.alert('', 'Make sure you selected color');
-        setLoding(false);
-        return;
-      }
+      // if (!changeColor && color) {
+      //   Alert.alert('', 'Make sure you selected color');
+      //   setLoding(false);
+      //   return;
+      // }
       dispatch(addToCart(data)).then(action => {
         if (addToCart.fulfilled.match(action)) {
           setLoding(false);
@@ -184,15 +178,13 @@ export default function Productdetailscreen({ route }) {
   };
 
   const handleproduct = id => {
-    scrollViewRef.current.scrollTo({ y: 0, animated: true });
+    scrollViewRef.current.scrollTo({y: 0, animated: true});
     setId(id);
   };
 
-  // console.log("partner JSON-->", JSON.stringify(partner));
-
   useEffect(() => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+      const itemIdList = items.Wishlist?.map(item => ({id: item}));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
 
       setWishListId(itemIdListids);
@@ -211,23 +203,17 @@ export default function Productdetailscreen({ route }) {
     const tokenData = await getToken();
     if (tokenData) {
       try {
-        // Check if the product is in the wishlist
-        // const isProductInWishlist = wishlistId?.has(userId);
-
         if (isWishlist) {
-          // Product is in the wishlist, so remove it
           await dispatch(fetchWishlist(tokenData));
-          dispatch(removeFromWishlist({ product_id: userId, tokenData }));
+          dispatch(removeFromWishlist({product_id: userId, tokenData}));
           setIsWishlist(false);
         } else {
-          // Product is not in the wishlist, so add it
           dispatch(fetchWishlist(tokenData));
 
-          dispatch(addToWishlist({ product_id: userId, tokenData }));
+          dispatch(addToWishlist({product_id: userId, tokenData}));
           setIsWishlist(true);
         }
 
-        // Toggle the saved state
         setSaved(!isProductInWishlist);
       } catch (error) {
         console.log(error);
@@ -241,38 +227,17 @@ export default function Productdetailscreen({ route }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (items.Wishlist) {
-  //     const itemIdList = items.Wishlist?.map(item => ({ id: item }));
-  //     const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
-
-  //   }
-  // })
-
-  // console.log("userId");
+  console.log(changeColor);
 
   return (
     <GestureHandlerRootView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-      {/* <Icon
-        name={'arrow-left'}
-        size={25}
-        color="black"
-        style={{
-          position:'absolute',
-          left: 10,
-          top:3,
-          zIndex: 10,
-        }}
-        onPress={() => navigation.goBack()}></Icon> */}
 
-      <SafeAreaView style={{ marginTop: hp('-7%') }}>
+      <SafeAreaView style={{marginTop: hp('-7%')}}>
         <View>
           {loading ? (
-            // <View style={styles.container}>
             <SkeletonLoaderProductDetails />
           ) : (
-            // </View>
             <>
               <View>
                 <ScrollView
@@ -303,7 +268,7 @@ export default function Productdetailscreen({ route }) {
                       <View>
                         <Text
                           style={{
-                            color: '#444444',
+                            color: globalColors.darkGray,
                             fontWeight: '500',
                             marginBottom: 2,
                           }}>
@@ -311,7 +276,6 @@ export default function Productdetailscreen({ route }) {
                         </Text>
                       </View>
                       <View>
-                        {/* {saved?<Image source={SaveICon} onPress={() => setSaved(false)}/>:<Image source={NotSaveICon} onPress={() => setSaved(true)} />} */}
                         <TouchableOpacity onPress={toggleSaved}>
                           {isWishlist ? (
                             <Image source={Images.saveIconFill} />
@@ -328,8 +292,15 @@ export default function Productdetailscreen({ route }) {
                       AED {responseData?.price}
                     </Text>
                     <View
-                      style={{ borderBottomWidth: 1, borderColor: '#D8D8D8' }}>
-                      <Text style={{ color: '#86D973', marginBottom: '10' }}>
+                      style={{
+                        borderBottomWidth: 1,
+                        borderColor: globalColors.lightGray,
+                      }}>
+                      <Text
+                        style={{
+                          color: globalColors.lightGreen,
+                          marginBottom: '10',
+                        }}>
                         {responseData?.stock_status}
                       </Text>
                     </View>
@@ -355,15 +326,18 @@ export default function Productdetailscreen({ route }) {
                         setChangeSize={setChangeSize}
                       />
                     )}
-                    {/* <DummyAccordion attributes={responseData?.attributes}/> */}
                   </View>
-                  <View style={{ borderTopWidth: 1, borderColor: '#DBCCC1' }}>
+                  <View
+                    style={{
+                      borderTopWidth: 1,
+                      borderColor: globalColors.inputBorder,
+                    }}>
                     <Text
                       style={{
                         textAlign: 'center',
                         marginTop: 20,
                         fontSize: 20,
-                        color: '#4B4746',
+                        color: globalColors.darkBrown,
                         fontFamily: 'Intrepid Regular',
                       }}>
                       The Perfect Partner
@@ -371,7 +345,6 @@ export default function Productdetailscreen({ route }) {
                     <View style={styles.productContainer}>
                       {wishlistrelated
                         ?.map((product, key) => (
-                          // console.log("=====related", product),
                           <View key={key}>
                             <TouchableOpacity
                               onPress={() => handleproduct(product?.id)}>
@@ -422,12 +395,12 @@ const styles = StyleSheet.create({
     marginBottom: hp('0.5%'),
   },
   custAEDtext: {
-    color: '#858483',
+    color: globalColors.productPriceText,
     marginLeft: 5,
     marginTop: 5,
   },
   custbtn: {
-    backgroundColor: 'black',
+    backgroundColor: globalColors.black,
     padding: 5,
     marginHorizontal: 110,
     borderRadius: 5,
@@ -439,7 +412,7 @@ const styles = StyleSheet.create({
   },
   custfontstyle: {
     textAlign: 'center',
-    color: 'white',
+    color: globalColors.white,
     fontFamily: 'Intrepid Regular',
   },
   productContainer: {
@@ -448,7 +421,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: -2,
     paddingVertical: wp('1%'),
-    // paddingHorizontal: wp('1.5%'),
     marginTop: hp('1%'),
     marginBottom: hp('7%'),
   },

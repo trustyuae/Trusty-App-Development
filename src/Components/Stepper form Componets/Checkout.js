@@ -29,11 +29,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {OrderDetail} from '../../Redux/Slice/car_slice/orderdeatails';
 import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
 import {Alert} from 'react-native';
-import {Product} from '../../Constants/Images';
 import {useFocusEffect} from '@react-navigation/native';
 import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
 import {getUserId} from '../../Utils/localstorage';
-import {clearToCart} from '../../Redux/Slice/car_slice/clearcart';
 import {fetchProfile} from '../../Redux/Slice/profileSlice';
 import Toast from 'react-native-toast-message';
 import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
@@ -49,9 +47,8 @@ import debounce from 'lodash/debounce';
 const Checkout = ({
   count,
   setCount,
-  orderdetail,
   setGetorderDetail,
-  coupondiscount,
+ 
 }) => {
   const {viewcartdata} = useSelector(state => state?.ViewToCart);
   const [expanded, setExpanded] = useState(true);
@@ -130,15 +127,6 @@ const Checkout = ({
     0,
   );
 
-  // const tax = update?.reduce(
-  //   (accumulator, currentItem) => accumulator + currentItem.taxed,
-  //   0,
-  // );
-
-  // const totaltax = update?.reduce(
-  //   (accumulator, currentItem) => accumulator + currentItem.total_tax,
-  //   0,
-  // );
 
   const debouncedUpdateCart =useCallback( debounce(async (selectedItem) => {
     await dispatch(
@@ -282,7 +270,7 @@ const Checkout = ({
             <Text style={styles.custText}>SHIPPING ADDRESS</Text>
           </View>
 
-          <View style={styles.custborder} />
+            <View style={styles.custborder} />
 
           <View
             style={{
@@ -307,7 +295,7 @@ const Checkout = ({
                 marginVertical: 10,
                 maxWidth: '80%',
               }}>
-              <Text style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+              <Text style={{color: globalColors.black, fontFamily: 'Intrepid Regular'}}>
                 {title}. {billingdata?.first_name} {billingdata?.last_name}
               </Text>
               <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
@@ -328,7 +316,7 @@ const Checkout = ({
             <Text
               style={{
                 textDecorationLine: 'underline',
-                color: 'black',
+                color: globalColors.black,
                 fontFamily: 'Intrepid Regular',
               }}>
               Add an address
@@ -351,7 +339,7 @@ const Checkout = ({
             <Text
               style={{
                 fontFamily: 'Intrepid Regular',
-                color: 'black',
+                color: globalColors.black,
                 marginVertical: 5,
               }}>
               Delivery fees Cash On Arrivals 30 AED
@@ -362,13 +350,13 @@ const Checkout = ({
           <List.Section>
             <List.Accordion
               title="MY ORDERS"
-              titleStyle={{color: '#444444'}}
+              titleStyle={{color: globalColors.darkGray}}
               expanded={expanded}
               style={{
-                backgroundColor: '#f6f1eb',
+                backgroundColor: globalColors.headingBackground,
                 paddingTop: -5,
                 borderBottomWidth: expanded ? 1 : 0,
-                borderBottomColor: '#D8CCC1',
+                borderBottomColor: globalColors.lightOrange,
                 fontFamily: 'Intrepid Regular',
               }}
               onPress={() => setExpanded(!expanded)}>
@@ -392,7 +380,7 @@ const Checkout = ({
 
                   <View
                     style={{
-                      backgroundColor: '#ffffff',
+                      backgroundColor: globalColors.white,
                       paddingVertical: 2,
                       position: 'absolute',
                       bottom: -8,
@@ -402,15 +390,12 @@ const Checkout = ({
                       style={{
                         flexDirection: 'row',
                       }}>
-                      {/* <View><Pressable onPress={setNumber(pre=>pre<=0 ?0:pre-1)}><Image source={minus}/></Pressable></View>
-                <View><Text>{number}</Text></View>
-                <View><Pressable onPress={setNumber(pre=>pre+1)}><Image source={Plus}/></Pressable></View> */}
-
+                      
                       <View >
                         <Text
                           style={{
                             fontSize: 20,
-                            color: '#444444',
+                            color: globalColors.darkGray,
                             marginLeft: 7,
                           }}
                           onPress={() => handleDecrease(item.key)}>
@@ -421,7 +406,7 @@ const Checkout = ({
                         <Text
                           style={{
                             fontSize: 20,
-                            color: '#444444',
+                            color: globalColors.darkGray,
                             fontFamily: 'Intrepid Regular',
                             marginHorizontal: 30,
                           }}>
@@ -432,7 +417,7 @@ const Checkout = ({
                         <Text
                           style={{
                             fontSize: 20,
-                            color: '#444444',
+                            color: globalColors.darkGray,
                             marginRight: 7,
                           }}
                           onPress={() => handleIncrease(item.key)}>
@@ -457,13 +442,13 @@ const Checkout = ({
                   </View>
                   <View>
                     <Text
-                      style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                      style={{color: globalColors.black, fontFamily: 'Intrepid Regular'}}>
                       {item.product_name}
                     </Text>
                     <Text
                       style={{
                         marginVertical: 2,
-                        color: '#676766',
+                        color: globalColors.buttonBackground,
                         fontFamily: 'Intrepid Regular',
                       }}>
                       {item.product_price} AED
@@ -471,18 +456,18 @@ const Checkout = ({
                     <Text
                       style={{
                         marginVertical: 3,
-                        color: 'black',
+                        color: globalColors.black,
                         fontFamily: 'Intrepid Regular',
                       }}>
                       Color :{' '}
-                      <Text style={{color: '#676766'}}>
+                      <Text style={{color: globalColors.buttonBackground}}>
                         {item?.mod_attributes?.color}
                       </Text>{' '}
                     </Text>
                     <Text
-                      style={{color: 'black', fontFamily: 'Intrepid Regular'}}>
+                      style={{color: globalColors.black, fontFamily: 'Intrepid Regular'}}>
                       Size :{' '}
-                      <Text style={{color: '#676766'}}>
+                      <Text style={{color: globalColors.buttonBackground}}>
                         {item?.mod_attributes?.size}
                       </Text>{' '}
                     </Text>
@@ -551,7 +536,6 @@ const Checkout = ({
               marginVertical: 5,
             }}>
             <Text style={styles.custText}>TAXES</Text>
-            {/* <Text>{tax?.toFixed(2)} AED</Text> */}
             <Text>{viewcartdata?.total_tax} AED</Text>
           </View>
 
@@ -564,7 +548,6 @@ const Checkout = ({
               marginVertical: 5,
             }}>
             <Text style={styles.custText}>TOTAL</Text>
-            {/* <Text>{tax+totalSum} AED</Text> */}
             <Text>{viewcartdata?.total_price} AED</Text>
           </View>
 
@@ -599,7 +582,7 @@ const styles = StyleSheet.create({
     marginTop: hp('2%'),
   },
   custText: {
-    color: 'black',
+    color: globalColors.black,
     fontWeight: '600',
     marginVertical: 5,
     fontFamily: 'Intrepid Regular',
@@ -610,15 +593,15 @@ const styles = StyleSheet.create({
     borderColor: '#DBCCC1',
   },
   custInput: {
-    backgroundColor: 'white',
+    backgroundColor: globalColors.white,
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: globalColors.gray,
     paddingHorizontal: 20,
     borderRadius: 5,
     paddingVertical: 8,
   },
   custbtn: {
-    backgroundColor: '#444444',
+    backgroundColor: globalColors.darkGray,
     padding: 7,
     marginHorizontal: 90,
     marginVertical: 20,

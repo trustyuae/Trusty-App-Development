@@ -1,18 +1,18 @@
-import { StyleSheet, Text, View, TextInput, SafeAreaView } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {StyleSheet, Text, View, TextInput, SafeAreaView} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Button from '../../Components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { postApi } from '../../Redux/Slice/postApiSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {postApi} from '../../Redux/Slice/postApiSlice';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
-const ForgotpasswordScreen = ({ navigation }) => {
+const ForgotpasswordScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const { loading, error, postData } = useSelector(state => state.post);
+  const {loading, error, postData} = useSelector(state => state.post);
 
   useEffect(() => {
     if (!error) {
@@ -32,7 +32,7 @@ const ForgotpasswordScreen = ({ navigation }) => {
   });
 
   const handlechange = (key, value) => {
-    setValues(pre => ({ ...pre, [key]: value }));
+    setValues(pre => ({...pre, [key]: value}));
   };
 
   const validateEmail = email => {
@@ -48,7 +48,7 @@ const ForgotpasswordScreen = ({ navigation }) => {
       setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
       return;
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
+      setErrors(prevErrors => ({...prevErrors, email: ''}));
     }
     return true;
   };
@@ -68,7 +68,10 @@ const ForgotpasswordScreen = ({ navigation }) => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.logincontainer}>
-        <Text style={styles.headingtext}>Forget Your Password <Text style={{ fontFamily: "San Francisco" }}>?</Text> </Text>
+        <Text style={styles.headingtext}>
+          Forget Your Password{' '}
+          <Text style={{fontFamily: 'San Francisco'}}>?</Text>{' '}
+        </Text>
 
         <View style={styles.custContainer}>
           <Text
@@ -76,7 +79,7 @@ const ForgotpasswordScreen = ({ navigation }) => {
               fontWeight: '600',
               fontFamily: 'Intrepid Regular',
               fontSize: 14,
-              color: 'black',
+              color: globalColors.black,
             }}>
             Enter the email address associated with account and we will send you
             a link to reset your password
@@ -114,18 +117,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 20,
     fontFamily: 'Intrepid Regular',
-    color: 'black',
+    color: globalColors.black,
     fontSize: 22,
   },
   inputfield: {
-    backgroundColor: '#ffffff',
+    backgroundColor: globalColors.white,
     borderWidth: 1,
     height: hp('5.5%'),
     marginTop: hp('3%'),
     fontFamily: 'Intrepid Regular',
     marginBottom: hp('3%'),
     paddingHorizontal: wp('5%'),
-    borderColor: '#dbccc1',
+    borderColor: globalColors.borderColor,
     borderRadius: 5,
     padding: 8,
   },
@@ -134,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: hp('-3%'),
   },
   custbtn: {
-    backgroundColor: 'black',
+    backgroundColor: globalColors.black,
     padding: wp('3%'),
     borderRadius: 5,
     fontFamily: 'Intrepid Regular',
@@ -147,7 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   errorText: {
-    color: 'red',
+    color: globalColors.error,
     marginTop: -24,
     marginBottom: 20,
   },
