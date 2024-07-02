@@ -1,15 +1,7 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Pressable,
-  ScrollView,
-} from 'react-native';
+import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
 import {useState} from 'react';
 import {List} from 'react-native-paper';
-import {Dummyproduct1} from '../Constants/Icons';
-// import { ScrollView } from 'react-native-gesture-handler';
+import {globalColors} from '../Assets/Theme/globalColors';
 
 const Accordion = ({
   Size,
@@ -31,17 +23,18 @@ const Accordion = ({
 
   console.log(Color);
 
+
   return (
     <List.Section>
       <List.Accordion
         title={`Size:${changeSize}`}
-        titleStyle={{color: '#444444'}}
+        titleStyle={{color: globalColors.darkGray}}
         expanded={expandedSize}
         style={{
-          backgroundColor: '#f6f1eb',
+          backgroundColor: globalColors.headingBackground,
           paddingTop: -5,
           borderBottomWidth: expandedSize ? 0 : 1,
-          borderBottomColor: '#D8D8D8',
+          borderBottomColor: globalColors.lightGray,
           fontFamily: 'Intrepid Regular',
         }}
         onPress={() => setExpandedSize(!expandedSize)}>
@@ -64,13 +57,13 @@ const Accordion = ({
 
       <List.Accordion
         title={`Color:${changeColor}`}
-        titleStyle={{color: '#444444'}}
+        titleStyle={{color: globalColors.darkGray}}
         expanded={expandedimg}
         style={{
-          backgroundColor: '#f6f1eb',
+          backgroundColor: globalColors.headingBackground,
           paddingTop: -5,
           borderBottomWidth: expandedimg ? 0 : 1,
-          borderBottomColor: '#D8D8D8',
+          borderBottomColor: globalColors.lightGray,
         }}
         onPress={() => setExpandedimg(!expandedimg)}>
         {expandedimg && (
@@ -82,8 +75,6 @@ const Accordion = ({
                 {Color?.map((item, key) => (
                   <View key={key}>
                     <Pressable onPress={() => setChange(item)}>
-                      {/* <Image source={Dummyproduct1}></Image> */}
-
                       <View style={{marginVertical: 7, marginLeft: 20}}>
                         <View
                           style={{
@@ -105,14 +96,14 @@ const Accordion = ({
       </List.Accordion>
 
       <List.Accordion
-        titleStyle={{color: '#444444'}}
+        titleStyle={{color: globalColors.darkGray}}
         title="Product details"
         expanded={expandedproductDetail}
         style={{
-          backgroundColor: '#f6f1eb',
+          backgroundColor: globalColors.headingBackground,
           paddingTop: -5,
           borderBottomWidth: expandedproductDetail ? 0 : 1,
-          borderBottomColor: '#D8D8D8',
+          borderBottomColor: globalColors.lightGray,
         }}
         onPress={() => setProductDetail(!expandedproductDetail)}>
         {expandedproductDetail && (
@@ -126,11 +117,11 @@ const Accordion = ({
       </List.Accordion>
 
       <List.Accordion
-        titleStyle={{color: '#444444'}}
+        titleStyle={{color: globalColors.darkGray}}
         title="Delivery And Returns"
         expanded={expandedproductreturn}
         style={{
-          backgroundColor: '#f6f1eb',
+          backgroundColor: globalColors.headingBackground,
           paddingTop: -5,
         }}
         onPress={() => setProductReturn(!expandedproductreturn)}>
@@ -162,24 +153,25 @@ const styles = StyleSheet.create({
   custView: {
     flexDirection: 'row',
     gap: 20,
+    paddingLeft: 20,
     marginTop: -6,
     fontFamily: 'Intrepid Regular',
     flexWrap: 'wrap',
   },
   custBorder: {
     marginTop: 13,
-    borderBottomColor: '#D8D8D8',
+    borderBottomColor: globalColors.lightGray,
     borderBottomWidth: 1,
   },
   custboldtext: {
     textAlign: 'center',
-    color: '#444444',
+    color: globalColors.darkGray,
     fontFamily: 'Intrepid Regular',
   },
   circle: {
-    width: 100, // or whatever diameter you want
-    height: 100, // or whatever diameter you want
-    borderRadius: 50, // make borderRadius half of the width and height
-    backgroundColor: 'blue', // any color
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: globalColors.blue,
   },
 });

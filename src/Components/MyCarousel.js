@@ -1,10 +1,4 @@
-import {
-  Dimensions,
-  View,
-  Image,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import {Dimensions, View, Image, StyleSheet, ScrollView} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {
   widthPercentageToDP as wp,
@@ -128,7 +122,7 @@ const styles = StyleSheet.create({
   },
   paginationContainer: {
     position: 'absolute',
-    bottom: 90,
+     bottom: hp('12%'),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

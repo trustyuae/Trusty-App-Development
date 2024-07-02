@@ -1,13 +1,9 @@
 import {View, ScrollView} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-
+import React, { useRef, useState} from 'react';
 import StepperComponet from '../../Components/Stepper/StepperComponet';
 import Cart from '../../Components/Stepper form Componets/Cart';
 import Checkout from '../../Components/Stepper form Componets/Checkout';
 import Confirmation from '../../Components/Stepper form Componets/Confirmation';
-import ModalComponent from '../../Components/Model/Modalcomopnet';
-import {useDispatch, useSelector} from 'react-redux';
-import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
 import {SafeAreaView} from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import {globalColors} from '../../Assets/Theme/globalColors';
@@ -22,9 +18,6 @@ const CartScreen = () => {
   const [total, setTotal] = useState(0);
   const [getorderdetail, setGetorderDetail] = useState();
 
-  // const openModal = () => {
-  //   setIsModalVisible(true);
-  // };
 
   const closeModal = () => {
     setIsModalVisible(false);
