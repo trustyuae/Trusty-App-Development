@@ -29,13 +29,11 @@ const OrderTrackingScreen = ({navigation}) => {
     loading,
     error,
   } = useSelector(state => state.order);
-  //   const token = useSelector(state => state.auth.token); // Assuming you store the token in the auth slice
 
   useEffect(() => {
     const fetchData = async () => {
       const token = await getToken();
       dispatch(OrderByIdTrack({orderId, token}));
-      //   console.log('orderDetails-->', orderDetails);
     };
     fetchData();
   }, [dispatch, orderId]);
@@ -117,7 +115,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: globalColors.gray,
     marginVertical: 20,
   },
   subHeading: {
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   custbtn: {
-    backgroundColor: '#444444',
+    backgroundColor: globalColors.darkGray,
     padding: 7,
     marginHorizontal: 90,
     marginVertical: 20,

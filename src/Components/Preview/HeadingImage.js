@@ -1,15 +1,15 @@
 import React from 'react';
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
-import { Images } from '../../Constants/index';
+import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Images} from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 
 const HeadingImage = () => {
   return (
-    <View style={{ width: wp('100%'), alignSelf: 'center' }}>
+    <View style={{width: wp('100%'), alignSelf: 'center'}}>
       <ImageBackground style={styles.container} source={Images.HeadingImage}>
         <Image
           style={styles.container}
@@ -17,7 +17,7 @@ const HeadingImage = () => {
         <Image style={styles.imageContainer} source={Images.logoHome}></Image>
         <View style={styles.textConatainer}>
           <Text style={styles.MainHeading}>
-            SHINE WITH US OUR CAVE OF WONDER
+            SHINE WITH IN US OUR CAVE OF WONDER
           </Text>
           <Text style={styles.subHeading}>
             We create for you a world of elegance and beauty with love and
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     fontFamily: 'Intrepid Regular',
-    fontSize: 18,
+    fontSize: 17,
     color: globalColors.white,
   },
   subHeading: {

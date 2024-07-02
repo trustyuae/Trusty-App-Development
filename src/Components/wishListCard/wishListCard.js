@@ -146,7 +146,7 @@ const WishListCard = ({navigation, item, onPress}) => {
             borderBottomColor: globalColors.inputBorder,
           }}
         />
-        {/* ))} */}
+      
       </View>
     </SafeAreaView>
   );

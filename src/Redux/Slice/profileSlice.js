@@ -1,10 +1,9 @@
-// profileSlice.js
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Consumer_key, Consumer_secret, baseURL } from '../../Utils/API';
 import Toast from 'react-native-toast-message';
-// Async thunk to fetch profile data
+
 export const fetchProfile = createAsyncThunk(
   'profile/fetchProfile',
   async (customer_id, thunkAPI) => {
@@ -19,10 +18,10 @@ export const fetchProfile = createAsyncThunk(
         },
       );
 
-      // Return profile data
+      
       return response.data;
     } catch (error) {
-      // Handle errors
+    
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },

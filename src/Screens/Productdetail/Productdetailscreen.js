@@ -59,9 +59,6 @@ export default function Productdetailscreen({route}) {
     dispatch(fetchById(id));
   }, [id]);
 
-
-  console.log(color);
-
   useEffect(() => {
     dispatch(fetchById(userId));
   }, [userId]);
@@ -204,13 +201,15 @@ export default function Productdetailscreen({route}) {
     if (tokenData) {
       try {
         if (isWishlist) {
-          await dispatch(fetchWishlist(tokenData));
+          // await dispatch(fetchWishlist(tokenData));
           dispatch(removeFromWishlist({product_id: userId, tokenData}));
+          dispatch(fetchWishlist(tokenData));
           setIsWishlist(false);
         } else {
-          dispatch(fetchWishlist(tokenData));
+          // dispatch(fetchWishlist(tokenData));
 
           dispatch(addToWishlist({product_id: userId, tokenData}));
+          dispatch(fetchWishlist(tokenData));
           setIsWishlist(true);
         }
 
@@ -227,7 +226,7 @@ export default function Productdetailscreen({route}) {
     }
   };
 
-  console.log(changeColor);
+  // console.log(changeColor);
 
   return (
     <GestureHandlerRootView>

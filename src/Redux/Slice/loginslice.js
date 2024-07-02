@@ -59,7 +59,6 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      // Handling login actions
       .addCase(loginUser.pending, state => {
         state.loading = true;
         state.error = null;
@@ -84,7 +83,6 @@ const userSlice = createSlice({
           visibilityTime: 2000,
         });
       })
-      // Handling logout actions
       .addCase(logoutUser.pending, state => {
         state.loading = true;
         state.error = null;

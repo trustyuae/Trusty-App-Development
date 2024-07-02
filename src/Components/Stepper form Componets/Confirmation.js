@@ -134,11 +134,7 @@ export default Confirmation;
 
 const styles = StyleSheet.create({
   container: {
-    // padding: wp('10%'),
-    // width: wp('100%'),
-    // height: hp('100%'),
-    // marginTop: hp('2%'),
-    // paddingTop: 30,
+  
     backgroundColor: globalColors.headingBackground,
   },
   custbtn: {

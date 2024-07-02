@@ -13,15 +13,14 @@ export const globalColors = {
   productPriceText: '#858483',
   homeScreenBackground: '#441B00',
   statusBar: '#977D68',
-  borderColor:"#dbccc1",
-  darkGray:"#444444",
-  lightGray:"#D8D8D8",
-  lightGreen:"#86D973",
-  darkBrown:"#4B4746",
-  blue:"blue",
-  lightOrange:'#d8ccc1',
-  gray:"#cccccc",
-  error:"red"
+  borderColor: '#dbccc1',
+  darkGray: '#444444',
+  lightGray: '#D8D8D8',
+  lightGreen: '#86D973',
+  darkBrown: '#4B4746',
+  blue: 'blue',
+  lightOrange: '#d8ccc1',
+  gray: '#cccccc',
+  error: 'red',
+  skeleton: '#E0E0E0',
 };
-
-

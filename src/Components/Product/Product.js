@@ -73,19 +73,19 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
     if (tokenData) {
       if (saved) {
         try {
-          await dispatch(fetchWishlist(tokenData));
+          // await dispatch(fetchWishlist(tokenData));
           dispatch(removeFromWishlist({product_id, tokenData}));
           setSaved(false);
-          await dispatch(fetchWishlist(tokenData));
+          // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
           console.log(error);
         }
       } else {
         try {
-          await dispatch(fetchWishlist(tokenData));
+          // await dispatch(fetchWishlist(tokenData));
           dispatch(addToWishlist({product_id, tokenData}));
           setSaved(true);
-          await dispatch(fetchWishlist(tokenData));
+          // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
           console.log(error);
         }
@@ -143,12 +143,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   imageContainer: {
-
     width: wp('46%'),
     position: 'relative',
-   
+
     backgroundColor: globalColors.productBackground,
-   
   },
   detailsContainer: {
     height: hp('7%'),
@@ -179,7 +177,6 @@ const styles = StyleSheet.create({
     left: 19,
   },
   saveImage: {
-   
     width: 11,
     resizeMode: 'contain',
 

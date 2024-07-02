@@ -15,11 +15,9 @@ export const signupUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (error.response && error.response.data) {
-        // Customize the error messages based on the response from the server
         if (error.response.data.code === 'email_already_registered') {
           return rejectWithValue('This email is already taken/registered');
         }
-        // Add more cases as needed
         return rejectWithValue(error.response.data.message);
       }
       return rejectWithValue('An unknown error occurred');

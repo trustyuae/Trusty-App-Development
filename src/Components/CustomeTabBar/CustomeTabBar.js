@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    backgroundColor: globalColors.headingBackground, 
+    backgroundColor: globalColors.headingBackground,
   },
   image: {
     marginRight: wp('7%'),
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-end',
     position: 'relative',
-    height: 40, 
+    height: 40,
   },
 
   notificationCount: {

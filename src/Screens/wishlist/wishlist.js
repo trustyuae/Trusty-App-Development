@@ -26,9 +26,10 @@ const Wishlist = ({route}) => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
   const [token, setToken] = useState(null);
-  const [shouldFetchData, setShouldFetchData] = useState(true);
-
   const {items} = useSelector(state => state.wishlist);
+
+  // console.log(token);
+  // console.log('items', items);
 
   const fetchWishlistData = async () => {
     try {
@@ -42,32 +43,20 @@ const Wishlist = ({route}) => {
     }
   };
 
-  // Fetch data on initial mount and whenever shouldFetchData changes
   useEffect(() => {
-    if (shouldFetchData) {
-      fetchWishlistData();
-      setShouldFetchData(false);
-    }
-  }, [shouldFetchData, dispatch]);
+    fetchWishlistData();
+  }, [items]);
 
-  // Fetch data when token changes
-  useEffect(() => {
-    if (token) {
-      dispatch(fetchWishlist({tokenData: token}));
-    }
-  }, [token, dispatch]);
+  const fetchWishlistCallback = useCallback(() => {
+    dispatch(fetchWishlist({tokenData: token}));
+  }, [dispatch, token, items]);
 
+  useFocusEffect(fetchWishlistCallback);
   const onRefresh = async () => {
     setRefreshing(true);
-    await fetchWishlistData();
+    await fetchWishlistCallback();
     setRefreshing(false);
   };
-
-  useFocusEffect(
-    useCallback(() => {
-      setShouldFetchData(true);
-    }, [dispatch]),
-  );
 
   return (
     <SafeAreaView>

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   mainText: {
     textAlign: 'center',
-    color: 'black',
+    color: globalColors.black,
     fontFamily: 'Intrepid Regular',
     marginTop: hp('20%'),
   },

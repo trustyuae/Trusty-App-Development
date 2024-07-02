@@ -28,7 +28,7 @@ const SkeletonLoader = ({ count }) => {
 
     opacityAnimation.start();
 
-    return () => opacityAnimation.stop(); // Clean up animation on unmount
+    return () => opacityAnimation.stop(); 
   }, [opacity]);
 
   return (

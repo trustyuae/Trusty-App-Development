@@ -23,9 +23,7 @@ const styles = StyleSheet.create({
     marginTop: hp('1%'),
   },
   imageContainer: {
-    // marginLeft: wp('10%'),
-    // width: '80%',
-    // marginRight: wp('10%'),
+    
   },
 });
 

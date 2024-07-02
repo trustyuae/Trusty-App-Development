@@ -193,8 +193,6 @@ const Points = () => {
             </View>
 
             {/* ***********************************OR********************************************* */}
-
-        
           </View>
         </View>
       </ScrollView>
@@ -217,7 +215,7 @@ const styles = StyleSheet.create({
   },
   cust_continer: {
     backgroundColor: 'white',
-    padding: 16,
+    padding: 10,
     borderRadius: 5,
   },
   custBorder: {

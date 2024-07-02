@@ -44,12 +44,7 @@ import {
 import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
 import debounce from 'lodash/debounce';
 
-const Checkout = ({
-  count,
-  setCount,
-  setGetorderDetail,
- 
-}) => {
+const Checkout = ({count, setCount, setGetorderDetail}) => {
   const {viewcartdata} = useSelector(state => state?.ViewToCart);
   const [expanded, setExpanded] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -71,7 +66,7 @@ const Checkout = ({
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
   );
-  
+
   const [title, setTitle] = useState(data?.meta_data[1]?.value || '');
 
   useEffect(() => {
@@ -127,67 +122,78 @@ const Checkout = ({
     0,
   );
 
+  const debouncedUpdateCart = useCallback(
+    debounce(async selectedItem => {
+      await dispatch(
+        updateToCart({
+          product_id: selectedItem.product_id,
+          variation_id: selectedItem.variation_id,
+          quantity: selectedItem.quantity,
+        }),
+      );
+      await dispatch(ViewToCart());
+    }, 100),
+    [],
+  );
 
-  const debouncedUpdateCart =useCallback( debounce(async (selectedItem) => {
-    await dispatch(
-      updateToCart({
-        product_id: selectedItem.product_id,
-        variation_id: selectedItem.variation_id,
-        quantity: selectedItem.quantity,
-      }),
-    );
-    await dispatch(ViewToCart());
-  }, 100),[])
+  const handleIncrease = useCallback(
+    key => {
+      const updatedCart = cartData?.map(item => {
+        if (item.key === key) {
+          const updatedItem = {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+          debouncedUpdateCart(updatedItem);
+          return updatedItem;
+        }
+        return item;
+      });
+      setCartData(updatedCart);
+    },
+    [cartData, debouncedUpdateCart],
+  );
 
-  const handleIncrease =useCallback( key => {
-    const updatedCart = cartData?.map(item => {
-      if (item.key === key) {
-        const updatedItem = {
-          ...item,
-          quantity: item.quantity + 1,
-        };
-        debouncedUpdateCart(updatedItem);
-        return updatedItem;
-      }
-      return item;
-    });
-    setCartData(updatedCart);
-  },[cartData,debouncedUpdateCart]);
+  const handleDecrease = useCallback(
+    key => {
+      const updatedCart = cartData?.map(item => {
+        if (item.key === key && item.quantity > 1) {
+          const updatedItem = {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+          debouncedUpdateCart(updatedItem);
+          return updatedItem;
+        }
+        return item;
+      });
+      setCartData(updatedCart);
+    },
+    [cartData, debouncedUpdateCart],
+  );
 
-  const handleDecrease =useCallback( key => {
-    const updatedCart = cartData?.map(item => {
-      if (item.key === key && item.quantity > 1) {
-        const updatedItem = {
-          ...item,
-          quantity: item.quantity - 1,
-        };
-        debouncedUpdateCart(updatedItem);
-        return updatedItem;
-      }
-      return item;
-    });
-    setCartData(updatedCart);
-  },[cartData,debouncedUpdateCart]);
-
-  const handleRemove = useCallback(item => {
-    const data = {
-      product_id: item.product_id,
-      variation_id: item.variation_id,
-    };
-    Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {
-        text: 'OK',
-        onPress: () => {
-          dispatch(deleteToCart(data));
+  const handleRemove = useCallback(
+    item => {
+      const data = {
+        product_id: item.product_id,
+        variation_id: item.variation_id,
+      };
+      Alert.alert('Are You Sure', 'This Item Should Remove from Cart', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
         },
-      },
-    ]);
-  },[viewcartdata]);
+        {
+          text: 'OK',
+          onPress: () => {
+            dispatch(deleteToCart(data));
+          },
+        },
+      ]);
+    },
+    [viewcartdata],
+  );
 
   const handleConfirmpay = () => {
     const obj = {
@@ -270,7 +276,7 @@ const Checkout = ({
             <Text style={styles.custText}>SHIPPING ADDRESS</Text>
           </View>
 
-            <View style={styles.custborder} />
+          <View style={styles.custborder} />
 
           <View
             style={{
@@ -295,7 +301,11 @@ const Checkout = ({
                 marginVertical: 10,
                 maxWidth: '80%',
               }}>
-              <Text style={{color: globalColors.black, fontFamily: 'Intrepid Regular'}}>
+              <Text
+                style={{
+                  color: globalColors.black,
+                  fontFamily: 'Intrepid Regular',
+                }}>
                 {title}. {billingdata?.first_name} {billingdata?.last_name}
               </Text>
               <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
@@ -373,7 +383,7 @@ const Checkout = ({
                     size={20}
                     color="black"
                     style={{
-                      position:'absolute',
+                      position: 'absolute',
                       right: 0,
                     }}
                     onPress={() => handleRemove(item)}></Icon>
@@ -390,8 +400,7 @@ const Checkout = ({
                       style={{
                         flexDirection: 'row',
                       }}>
-                      
-                      <View >
+                      <View>
                         <Text
                           style={{
                             fontSize: 20,
@@ -399,10 +408,10 @@ const Checkout = ({
                             marginLeft: 7,
                           }}
                           onPress={() => handleDecrease(item.key)}>
-                            -
+                          -
                         </Text>
                       </View>
-                      <View >
+                      <View>
                         <Text
                           style={{
                             fontSize: 20,
@@ -442,7 +451,10 @@ const Checkout = ({
                   </View>
                   <View>
                     <Text
-                      style={{color: globalColors.black, fontFamily: 'Intrepid Regular'}}>
+                      style={{
+                        color: globalColors.black,
+                        fontFamily: 'Intrepid Regular',
+                      }}>
                       {item.product_name}
                     </Text>
                     <Text
@@ -465,7 +477,10 @@ const Checkout = ({
                       </Text>{' '}
                     </Text>
                     <Text
-                      style={{color: globalColors.black, fontFamily: 'Intrepid Regular'}}>
+                      style={{
+                        color: globalColors.black,
+                        fontFamily: 'Intrepid Regular',
+                      }}>
                       Size :{' '}
                       <Text style={{color: globalColors.buttonBackground}}>
                         {item?.mod_attributes?.size}
@@ -616,7 +631,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   custcheckoutbtn: {
-    backgroundColor: '#000000',
+    backgroundColor: globalColors.black,
     padding: 7,
     marginVertical: 20,
     borderRadius: 5,

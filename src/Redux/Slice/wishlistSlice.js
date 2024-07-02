@@ -1,13 +1,13 @@
 // src/redux/wishlistSlice.js
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
-import { baseURL } from '../../Utils/API';
+import {baseURL} from '../../Utils/API';
 
 export const fetchWishlist = createAsyncThunk(
   'wishlist/fetchWishlist',
-  async (tokenData, { rejectWithValue }) => {
+  async (tokenData, {rejectWithValue}) => {
     try {
       const response = await axios.get(`${baseURL}/custom/v1/wish/list`, {
         headers: {
@@ -23,7 +23,7 @@ export const fetchWishlist = createAsyncThunk(
 
 export const addToWishlist = createAsyncThunk(
   'wishlist/addToWishlist',
-  async ({ product_id, tokenData }, { rejectWithValue }) => {
+  async ({product_id, tokenData}, {rejectWithValue}) => {
     try {
       const response = await axios.post(
         `${baseURL}/custom/v1/wish/list/add`,
@@ -36,6 +36,7 @@ export const addToWishlist = createAsyncThunk(
           },
         },
       );
+      dispatch(fetchWishlist({tokenData}));
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -45,7 +46,7 @@ export const addToWishlist = createAsyncThunk(
 
 export const removeFromWishlist = createAsyncThunk(
   'wishlist/removeFromWishlist',
-  async ({ product_id, tokenData }, { rejectWithValue }) => {
+  async ({product_id, tokenData}, {rejectWithValue}) => {
     try {
       const response = await axios.post(
         `${baseURL}/custom/v1/wish/list/remove`,
@@ -58,6 +59,7 @@ export const removeFromWishlist = createAsyncThunk(
           },
         },
       );
+      dispatch(fetchWishlist({tokenData}));
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

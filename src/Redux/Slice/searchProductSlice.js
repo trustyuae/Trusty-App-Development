@@ -74,7 +74,7 @@ const searchProductSlice = createSlice({
             })
             .addCase(fetchSearchProducts.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.products = action.payload; // Assuming the payload is an array of products
+                state.products = action.payload; 
             })
             .addCase(fetchSearchProducts.rejected, (state, action) => {
                 state.status = 'failed';

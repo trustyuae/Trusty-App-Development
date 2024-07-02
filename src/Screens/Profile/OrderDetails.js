@@ -141,7 +141,6 @@ const OrderDetails = ({route, navigation}) => {
                 {data?.billing?.city}, {data?.billing?.country}
               </Text>
               <Text style={styles.text}>Email: {data?.billing?.email}</Text>
-              {/* <Text style={styles.text}>Phone: {data?.billing?.phone}</Text> */}
             </View>
 
             <View style={styles.section}>
@@ -171,7 +170,6 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 22,
     fontWeight: 'bold',
-    // marginBottom: hp('2%'),
     paddingLeft: 10,
     color: globalColors.black,
     fontFamily: 'Intrepid Regular',
@@ -195,7 +193,6 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     fontSize: 18,
-    // fontWeight: 'bold',
     marginBottom: hp('1%'),
     color: globalColors.black,
     fontFamily: 'Intrepid Regular',

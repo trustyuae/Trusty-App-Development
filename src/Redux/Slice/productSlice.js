@@ -35,11 +35,11 @@ export const fetchCategoryProducts = createAsyncThunk(
 const productSlice = createSlice({
   name: 'product',
   initialState: {
-    products: [], // Ensure products is initialized as an empty array
+    products: [],
     categoryProducts: [],
     status: 'idle',
     error: null,
-    currentPage: 1, // Track current page for pagination
+    currentPage: 1, 
     totalProducts: 0,
   },
   reducers: {

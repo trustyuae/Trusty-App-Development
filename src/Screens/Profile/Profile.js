@@ -42,7 +42,7 @@ const Profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const {data, loading, error} = useSelector(state => state.profile);
-
+  console.log('data', data);
   const onRefresh = async () => {
     setRefreshing(true);
     const customer_id = await getUserId();
@@ -198,8 +198,7 @@ const Profile = () => {
     <KeyboardAvoidingView
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100} // Adjust this offset as needed
-    >
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
       <ScrollView
         style={{flex: 1}}
         showsVerticalScrollIndicator={false}

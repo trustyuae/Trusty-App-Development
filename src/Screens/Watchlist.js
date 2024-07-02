@@ -14,7 +14,7 @@ const Watchlist = () => {
     if (isLoggedIn) {
       navigation.navigate('Profile');
     } else {
-      navigation.navigate('Login'); // Navigate to the login screen if not logged in
+      navigation.navigate('Login');
     }
   };
 
@@ -23,7 +23,11 @@ const Watchlist = () => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <Text
-        style={{fontSize: 22, color: 'black', fontFamily: 'Intrepid Regular'}}>
+        style={{
+          fontSize: 22,
+          color: globalColors.black,
+          fontFamily: 'Intrepid Regular',
+        }}>
         Menu Comming Soon !!!
       </Text>
     </View>
@@ -32,7 +36,7 @@ const Watchlist = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F1EB',
+    backgroundColor: globalColors.headingBackground,
     justifyContent: 'center',
     alignItems: 'center',
   },
