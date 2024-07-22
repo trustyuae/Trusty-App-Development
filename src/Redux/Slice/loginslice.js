@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import { baseURL } from '../../Utils/API';
+import {baseURL} from '../../Utils/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   USER_LOGIN_REQUEST,
@@ -10,7 +10,7 @@ import Toast from 'react-native-toast-message';
 
 export const logoutUser = createAsyncThunk(
   USER_LOGOUT_REQUEST,
-  async (_, { rejectWithValue }) => {
+  async (_, {rejectWithValue}) => {
     try {
       await AsyncStorage.clear();
       return true;
@@ -24,9 +24,10 @@ export const logoutUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   USER_LOGIN_REQUEST,
-  async (data, { rejectWithValue }) => {
+  async (data, {rejectWithValue}) => {
     try {
       const response = await axios.post(`${baseURL}/jwt-auth/v1/token`, data);
+      console.log('*****************************************************', res);
       await AsyncStorage.setItem(
         'token',
         JSON.stringify(response?.data?.jwt_token),

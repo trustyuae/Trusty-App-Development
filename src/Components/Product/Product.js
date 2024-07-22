@@ -74,7 +74,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
       if (saved) {
         try {
           // await dispatch(fetchWishlist(tokenData));
-          dispatch(removeFromWishlist({product_id, tokenData}));
+        await dispatch(removeFromWishlist({product_id, tokenData}));
           setSaved(false);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -83,7 +83,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
       } else {
         try {
           // await dispatch(fetchWishlist(tokenData));
-          dispatch(addToWishlist({product_id, tokenData}));
+        await dispatch(addToWishlist({product_id, tokenData}));
           setSaved(true);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -97,7 +97,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
         text1: 'Please login',
         position: 'bottom',
         text2: 'You need to login to save items to your wishlist',
-        visibilityTime: 2000,
+        visibilityTime: 3000,
         autoHide: true,
       });
       console.log('No token available');
