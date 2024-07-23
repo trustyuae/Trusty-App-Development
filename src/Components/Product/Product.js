@@ -74,7 +74,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
       if (saved) {
         try {
           // await dispatch(fetchWishlist(tokenData));
-        await dispatch(removeFromWishlist({product_id, tokenData}));
+          await dispatch(removeFromWishlist({product_id, tokenData}));
           setSaved(false);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -83,7 +83,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
       } else {
         try {
           // await dispatch(fetchWishlist(tokenData));
-        await dispatch(addToWishlist({product_id, tokenData}));
+          await dispatch(addToWishlist({product_id, tokenData}));
           setSaved(true);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -127,8 +127,40 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
       </View>
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.price}>{price}</Text>
+        <Text style={styles.heading}>MISH</Text>
+
+        <View
+          style={{
+            backgroundColor: globalColors.lightgold,
+            width: 80,
+            padding: 3,
+            borderRadius: 5,
+            flexDirection: 'row',
+            marginVertical: 5,
+          }}>
+          <Text
+            style={{
+              color: globalColors.white,
+              fontWeight: '700',
+              marginLeft: 5,
+            }}>
+            4.1
+          </Text>
+          <Image
+            source={Images.Rating}
+            height={8}
+            width={8}
+            style={{marginTop: 5}}></Image>
+          <Image
+            source={Images.Line}
+            height={10}
+            width={10}
+            style={{marginTop: 5, marginHorizontal: 3}}></Image>
+          <Text style={{color: 'white', marginLeft: 2}}>240</Text>
+        </View>
+
+        <Text style={styles.name}>{name.length > 20 ? `${name.substring(0, 20)}...` : name}</Text>
+        <Text style={styles.price}>{price} AED</Text>
       </View>
     </View>
   );
@@ -138,18 +170,20 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     marginHorizontal: wp('1%'),
-    borderRadius: 10,
+    borderRadius: 5,
     marginBottom: hp('2%'),
     overflow: 'hidden',
+    height: 350,
   },
   imageContainer: {
-    width: wp('46%'),
+    width: 180,
+    height: 200,
     position: 'relative',
-
     backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
-    height: hp('7%'),
+    marginTop: hp('3%'),
+    height: hp('10%'),
     width: wp('46%'),
     justifyContent: 'center',
     backgroundColor: globalColors.white,
@@ -157,17 +191,18 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '400',
-    marginLeft: wp('2%'),
     textTransform: 'capitalize',
     fontFamily: 'Intrepid Regular',
-    color: globalColors.productTextColor,
+    color: globalColors.black,
+    fontWeight: '600',
+    marginVertical: wp('1%'),
   },
   price: {
-    fontSize: 14.06,
-    marginLeft: wp('2%'),
+    fontSize: 15.06,
+    // marginLeft: wp('2%'),
     fontFamily: 'Intrepid Regular',
-
-    color: globalColors.productPriceText,
+    fontWeight: '700',
+    color: globalColors.black,
   },
   saveImagea: {
     position: 'absolute',
@@ -177,16 +212,20 @@ const styles = StyleSheet.create({
     left: 19,
   },
   saveImage: {
-    width: 11,
+    width: 32,
     resizeMode: 'contain',
-
     padding: 8,
-    height: 13,
+    height: 32,
   },
   image: {
     width: wp('46%'),
     height: hp('25%'),
     objectFit: 'cover',
+  },
+  heading: {
+    color: globalColors.lightgold,
+    marginTop: 20,
+    fontFamily: 'Intrepid Regular',
   },
 });
 

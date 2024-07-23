@@ -128,7 +128,7 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <HeadingImage />
+        {/* <HeadingImage /> */}
         <Text style={styles.heading}>Our Cave of Wonders</Text>
         <PreviewImage uri={previewimages.previewImages} />
         <Text style={styles.heading}>Ready To Go</Text>
@@ -210,7 +210,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: globalColors.headingBackground,
-    marginBottom: hp('6%'),
+     marginBottom: hp('6%'),
     height: hp('94%'),
     justifyContent: 'center',
   },
@@ -218,12 +218,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginRight: wp('2.5%'),
     marginLeft: wp('2.5%'),
-    alignItems: 'center',
+    alignItems:'center',
     marginTop: 10,
   },
   categoryContainer: {
-    // flexDirection: 'row',
-
+    
     marginLeft: wp('2.5%'),
   },
   image: {

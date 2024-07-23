@@ -9,22 +9,11 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 
 const HeadingImage = () => {
   return (
-    <View style={{width: wp('100%'), alignSelf: 'center'}}>
-      <ImageBackground style={styles.container} source={Images.HeadingImage}>
-        <Image
-          style={styles.container}
-          source={Images.homeScreenBackground}></Image>
-        <Image style={styles.imageContainer} source={Images.logoHome}></Image>
-        <View style={styles.textConatainer}>
-          <Text style={styles.MainHeading}>
-            SHINE WITH IN US OUR CAVE OF WONDER
-          </Text>
-          <Text style={styles.subHeading}>
-            We create for you a world of elegance and beauty with love and
-            passion, Luxurious life is stunning, the best from china to your
-            house door
-          </Text>
-        </View>
+    <View style={{width: wp('100%'), alignSelf: 'center',marginTop:-10}}>
+       
+       <ImageBackground style={styles.container} source={Images.HeadingImage}>
+        <Image style={styles.imageContainer} source={Images.Textimg}></Image>
+     
       </ImageBackground>
     </View>
   );
@@ -32,16 +21,17 @@ const HeadingImage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: wp('100%'),
+    width: wp("100%"),
     ImageBackground: globalColors.homeScreenBackground,
-    height: hp('49%'),
+    height: hp("37%"),
     objectFit: 'cover',
-    marginBottom: hp('1%'),
+   
   },
   imageContainer: {
-    // alignItems: 'center',
+    alignItems: 'center',
     margin: 'auto',
-    marginTop: hp('-47%'),
+    marginTop: hp('20%'),
+    
   },
   MainHeading: {
     fontWeight: '500',

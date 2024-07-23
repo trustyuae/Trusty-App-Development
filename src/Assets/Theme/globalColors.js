@@ -23,4 +23,5 @@ export const globalColors = {
   gray: '#cccccc',
   error: 'red',
   skeleton: '#E0E0E0',
+  lightgold:"#866528"
 };

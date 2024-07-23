@@ -8,6 +8,7 @@ import CategoryProducts from '../Screens/CategoryProducts';
 import {useNavigation} from '@react-navigation/native';
 import WishListCard from '../Components/wishListCard/wishListCard';
 import Wishlist from '../Screens/wishlist/wishlist';
+import DrawerNavigation from './DrawerNavigation';
 const Stack = createNativeStackNavigator();
 
 const HomeCustomeNavigation = () => {
@@ -16,9 +17,9 @@ const HomeCustomeNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        options={{headerShown: false}}
-        name={'DrawerHome'}
-        component={Home}
+        options={{headerShown: false,}}
+        name={'DrawerNavigation'}
+        component={DrawerNavigation}
       />
 
       <Stack.Screen

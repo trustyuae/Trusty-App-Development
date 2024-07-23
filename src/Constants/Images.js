@@ -10,7 +10,7 @@ const product = require('../Assets/Images/product.png');
 const productBackground = require('../Assets/Images/productBackground.png');
 const HeadingImage = require('../Assets/Images/homeScreen.png');
 const logoHome = require('../Assets/Images/logoHome.png');
-const homeScreenBackground = require('../Assets/Images/homeScreenBackground.png');
+const homeScreenBackground = require('../Assets/Images/Dashbordimg.png');
 const saveIconFill = require('../Assets/Images/saveIconFill.png');
 const saveIconUnFill = require('../Assets/Images/saveIconUnFill.png');
 const preview1 = require('../Assets/Images/preview1.png');
@@ -21,7 +21,47 @@ const Logout = require('../Assets/Images/Logout.png');
 const ProfileIcon = require('../Assets/Images/ProfileIcon.png');
 const whishlistIcon = require('../Assets/Images/wishlistIcon.png');
 const saveIconUnFill3x = require('../Assets/Images/SaveIconUnFill3x.png');
+const Bottom = require('../Assets/Images/Bottom.png');
+// const Tops = require('../Assets/Images/shopping.png');
+const Jewellery = require('../Assets/Images/Jewellery.png');
+const Shoes_01 = require('../Assets/Images/Shoes_01.png');
+const Rectangle = require('../Assets/Images/Rectangle.png');
+const Shopping=require('../Assets/Images/Shopping.png')
+const Accessories=require('../Assets/Images/accessories.png')
+const Scarf=require("../Assets/Images/Scarfs.png")
+const Backarrow=require("../Assets/Images/backarrow.png")
+const Rating=require("../Assets/Images/rating.png")
+const Line=require("../Assets/Images/Line.png")
+const Musthavelogo=require("../Assets/Images/logomusthave.png")
+const Textimg=require("../Assets/Images/homescreenwriting.png")
+const Boy=require("../Assets/Images/Boy.png")
+const Man=require("../Assets/Images/Man.png")
+const Woman=require("../Assets/Images/Woman.png")
+const Bags=require("../Assets/Images/Bagsx.png")
+const Head=require("../Assets/Images/Heading.png")
+const Menu=require("../Assets/Images/Menu.png")
+
+
 export default {
+  Head,
+  Menu,
+  Bags,
+  Woman,
+  Man,
+  Boy,
+  Textimg,
+  Musthavelogo,
+  Line,
+  Rating,
+  Backarrow,
+  Scarf,
+  Accessories,
+  Rectangle,
+  Bottom,
+  Shopping,
+  // Tops,
+  Jewellery,
+  Shoes_01,
   icons,
   bag,
   bags,
