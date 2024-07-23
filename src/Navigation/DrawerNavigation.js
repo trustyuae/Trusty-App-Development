@@ -13,15 +13,12 @@ import {DrawerActions} from '@react-navigation/native';
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = ({navigation}) => {
-  // const navigation=useNavigation()
   const screenOptions = {
     headerShown: false,
-    backgorundColor:"red"
-   
   };
 
   return (
-    <Drawer.Navigator screenOptions={screenOptions}>
+    <Drawer.Navigator>
       <Drawer.Screen
         name="DrawerHome"
         component={Home}
@@ -29,20 +26,21 @@ const DrawerNavigation = ({navigation}) => {
           headerShown: true,
           headerTitle: '',
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
+            <TouchableOpacity 
+              // onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+              >
               <View style={{marginLeft: 10}}>
-                <Image source={Images.Menu} style={{width: 24, height: 24}} />
+                <Image source={Images.Menu} style={{width: 20, height: 20}} />
               </View>
             </TouchableOpacity>
           ),
           headerTitleAlign: 'center',
           headerTitle: () => (
-            <Image source={Images.Head} style={{width: 142, height: 32}} />
+            <Image source={Images.Head} style={{width: 145, height: 32}} />
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Image source={Images.Bags} style={{width: 24, height: 24}} />
+              <Image source={Images.Bags} style={{width: 25, height: 24}} />
             </View>
           ),
         }}

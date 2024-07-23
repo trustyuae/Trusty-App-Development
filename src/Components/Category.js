@@ -56,10 +56,10 @@ const styles = StyleSheet.create({
   },
   saveImagea: {
     position: 'absolute',
-    marginTop: wp('2%'),
+    marginTop: wp('0.5%'),
     marginLeft: wp('30%'),
     padding: 12,
-    left: 19,
+    left: 14,
   },
   saveImage: {
    
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   custom:{
     color:globalColors.black,
     marginTop:-16,
+    fontWeight:"550"
   }
 });
 

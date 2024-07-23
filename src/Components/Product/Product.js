@@ -205,8 +205,8 @@ const styles = StyleSheet.create({
   },
   saveImagea: {
     position: 'absolute',
-    marginTop: wp('2%'),
-    marginLeft: wp('30%'),
+    marginTop: wp('0.5%'),
+    marginLeft: wp('28%'),
     padding: 12,
     left: 19,
   },

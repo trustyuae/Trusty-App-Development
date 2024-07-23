@@ -354,7 +354,7 @@ const Home = () => {
               </View>
               {/* </View> */}
 
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{justifyContent: 'center', alignItems: 'center',marginTop:-30,marginBottom:20}}>
                 <Button
                   stylesofbtn={styles.stylesofbtn}
                   handlepress={handlepress}
