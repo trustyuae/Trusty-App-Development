@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 'auto',
     marginTop: hp('20%'),
-    
+    height:hp("15%"),
+    width:wp('100%')  
   },
   MainHeading: {
     fontWeight: '500',

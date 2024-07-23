@@ -176,8 +176,8 @@ const styles = StyleSheet.create({
     height: 350,
   },
   imageContainer: {
-    width: 180,
-    height: 200,
+    width: wp('46%'),
+    height: hp('25%'),
     position: 'relative',
     backgroundColor: globalColors.productBackground,
   },
