@@ -234,7 +234,7 @@ const Home = () => {
             <View style={{marginTop: 20}}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={[styles.customheading, styles.custommargin]}>
-                MUST HAVE
+                  MUST HAVE
                 </Text>
                 <Image
                   source={Images.Musthavelogo}
@@ -289,7 +289,7 @@ const Home = () => {
                   // paddingLeft: 10,
                   // paddingRight: 10,
                   marginTop: 20,
-
+                  marginLeft: 2,
                   // rowGap: 20,
                   columnGap: 10,
                 }}>

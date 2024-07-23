@@ -186,7 +186,6 @@ const styles = StyleSheet.create({
     height: hp('10%'),
     width: wp('46%'),
     justifyContent: 'center',
-    backgroundColor: globalColors.white,
   },
   name: {
     fontSize: 16,
