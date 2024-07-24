@@ -33,7 +33,7 @@ let data = [
   {
     id: 5,
     img: Images.Jewellery,
-    label: 'JEWELLERY',
+    label: 'Jewellery``',
   },
   // {
   //   id: 4,

@@ -137,6 +137,8 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
             padding: 3,
             borderRadius: 5,
             flexDirection: 'row',
+            justifyContent:"center",
+            alignItems:"center",
             marginVertical: 8,
           }}>
           <Text
@@ -151,12 +153,12 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
             source={Images.Rating}
             height={8}
             width={8}
-            style={{marginTop: 5}}></Image>
+            ></Image>
           <Image
             source={Images.Line}
             height={10}
             width={10}
-            style={{marginTop: 5, marginHorizontal: 3}}></Image>
+            style={{ marginHorizontal: 3}}></Image>
           <Text style={{color: 'white', marginLeft: 2}}>240</Text>
         </View>
 
@@ -170,6 +172,12 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
 };
 
 const styles = StyleSheet.create({
+
+  centercontainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     alignContent: 'center',
     marginHorizontal: wp('1%'),
@@ -185,7 +193,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
-    marginTop: hp('1%'),
+   // marginTop: hp('1%'),
     height: hp('10%'),
     width: wp('46%'),
     justifyContent: 'center',
@@ -203,7 +211,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 18,
     // marginLeft: wp('2%'),
-    fontFamily: 'Intrepid Regular',
+    //fontFamily: 'Intrepid Regular',
     fontWeight: '700',
     color: globalColors.black,
   },
