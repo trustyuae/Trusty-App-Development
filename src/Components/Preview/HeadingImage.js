@@ -9,11 +9,9 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 
 const HeadingImage = () => {
   return (
-    <View style={{width: wp('100%'), alignSelf: 'center',marginTop:-10}}>
-       
-       <ImageBackground style={styles.container} source={Images.HeadingImage}>
+    <View style={{alignSelf: 'center', marginTop: -10}}>
+      <ImageBackground style={styles.container} source={Images.HeadingImage}>
         <Image style={styles.imageContainer} source={Images.Textimg}></Image>
-     
       </ImageBackground>
     </View>
   );
@@ -21,18 +19,18 @@ const HeadingImage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: wp("100%"),
+    width: wp('100%'),
     ImageBackground: globalColors.homeScreenBackground,
-    height: hp("37%"),
-    objectFit: 'cover',
-   
+    height: hp('36%'),
+    resizeMode: 'contain',
   },
   imageContainer: {
     alignItems: 'center',
     margin: 'auto',
-    marginTop: hp('20%'),
-    height:hp("15%"),
-    width:wp('100%')  
+    marginTop: hp('9%'),
+    height: hp('25%'),
+    width: wp('90%'),
+    resizeMode: 'contain',
   },
   MainHeading: {
     fontWeight: '500',

@@ -5,7 +5,10 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 import {Text} from 'react-native-paper';
 import {ScrollView} from 'react-native';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 let data = [
   {
     id: 1,
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+     paddingLeft: wp('1%'),
     paddingBottom: 16,
     gap: 13,
   },

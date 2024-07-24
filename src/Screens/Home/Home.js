@@ -58,6 +58,50 @@ const categories = [
   },
 ];
 
+const DummyData=[
+  {
+    id:"1",
+     img:Images.Woman,
+    name:"MISH",
+    description:"Button-Front V-Neck Top",
+    price:"920 ",
+    saved:false,
+    product_id:121,
+    isWatchList:false 
+  },
+  {
+    id:"2",
+    img:Images.Catelog3,
+    name:"ZINK LONDON",
+    description:"V-Neck Front Styled Top",
+    price:"320 ",
+    saved:false,
+    product_id:121,
+    isWatchList:false 
+  },
+  {
+    id:"3",
+    img:Images.Catelog2,
+    name:"MISH",
+    description:"Button-Front V-Neck Top",
+    price:"920 ",
+    saved:false,
+    product_id:121,
+    isWatchList:false 
+  },
+  {
+    id:"4",
+    img:Images.Catelog1,
+    name:"ZINK LONDON",
+    description:"V-Neck Front Styled Top",
+    price:"320",
+    saved:false,
+    product_id:121,
+    isWatchList:false 
+  },
+
+]
+
 const Home = () => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
@@ -176,21 +220,24 @@ const Home = () => {
               tintColor={globalColors.black}
             />
           }>
+            <View style={{paddingHorizontal:wp("2%")}}>
+
           <View
             style={{
               justifyContent: 'center',
               alignItems: 'center',
               marginTop: 20,
+              
             }}>
             <Image
               source={Images.homeScreenBackground}
-              width={382}
-              height={200}></Image>
+              style={styles.Topimg}
+              ></Image>
           </View>
 
           <CategoryComoponent />
 
-          <View style={{marginHorizontal: 10, marginVertical: 15}}>
+          <View style={{marginHorizontal: 5, marginTop: 15}}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text style={styles.customheading}>Ready to go</Text>
@@ -230,6 +277,7 @@ const Home = () => {
             </ScrollView>
           </View>
 
+                </View>
           <View style={{backgroundColor: 'white'}}>
             <View style={{marginTop: 20}}>
               <View style={{flexDirection: 'row'}}>
@@ -330,7 +378,7 @@ const Home = () => {
                     <SkeletonLoader count={2} />
                   </View>
                 ) : (
-                  wishlist.slice(0, 4).map(product => (
+                  DummyData.slice(0, 4).map(product => (
                     <Pressable
                       key={product?.id}
                       onPress={() =>
@@ -341,11 +389,13 @@ const Home = () => {
                       }>
                       <Product
                         key={product?.id}
-                        uri={product?.images[0]?.src}
+                        // uri={product?.images[0]?.src}
+                        img={product?.img}
                         name={product?.name}
                         price={product?.price}
                         saved={product?.saved}
                         product_id={product?.id}
+                        description={product?.description}
                         isWatchList={product?.isWatchList}></Product>
                     </Pressable>
                   ))
@@ -367,14 +417,21 @@ const Home = () => {
 
             <HeadingImage />
           </View>
+
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
+  Topimg:{
+    height:hp('26%'),
+    width:wp('96%'),
+    resizeMode:"contain"
+
+  },
   custommargin: {
-    marginLeft: 20,
+    paddingHorizontal:wp("2%"),
     fontSize: 30,
     marginBottom: 20,
   },

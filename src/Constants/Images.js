@@ -40,9 +40,14 @@ const Woman=require("../Assets/Images/Woman.png")
 const Bags=require("../Assets/Images/Bagsx.png")
 const Head=require("../Assets/Images/Heading.png")
 const Menu=require("../Assets/Images/Menu.png")
-
+const Catelog1=require("../Assets/Images/catelog1.png")
+const Catelog2=require("../Assets/Images/catelog2.png")
+const Catelog3=require("../Assets/Images/catelog3.png")
 
 export default {
+  Catelog1,
+  Catelog2,
+  Catelog3,
   Head,
   Menu,
   Bags,

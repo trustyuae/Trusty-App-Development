@@ -24,7 +24,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import {NoImg} from '../../Constants/Icons';
 
-const Product = ({uri, name, price, product_id, isWatchList}) => {
+const Product = ({uri, name, price, product_id, isWatchList,img,description}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -107,12 +107,13 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {uri ? (
+        {img  ? (
           <Image
             style={styles.image}
-            source={{
-              uri,
-            }}
+            // source={{
+            //   uri,
+            // }}
+            source={img}
             resizeMode="cover"
           />
         ) : (
@@ -127,7 +128,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
       </View>
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.heading}>MISH</Text>
+        <Text style={styles.heading}>{name}</Text>
 
         <View
           style={{
@@ -136,7 +137,7 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
             padding: 3,
             borderRadius: 5,
             flexDirection: 'row',
-            marginVertical: 5,
+            marginVertical: 8,
           }}>
           <Text
             style={{
@@ -159,7 +160,9 @@ const Product = ({uri, name, price, product_id, isWatchList}) => {
           <Text style={{color: 'white', marginLeft: 2}}>240</Text>
         </View>
 
-        <Text style={styles.name}>{name.length > 20 ? `${name.substring(0, 20)}...` : name}</Text>
+        {/* <Text style={styles.name}>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</Text> */}
+        <Text style={styles.name}>{description}</Text>
+       
         <Text style={styles.price}>{price} AED</Text>
       </View>
     </View>
@@ -173,22 +176,23 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: hp('2%'),
     overflow: 'hidden',
-    height: 350,
+    height: hp("52%"),
   },
   imageContainer: {
     width: wp('46%'),
-    height: hp('25%'),
+    height: hp('32%'),
     position: 'relative',
     backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
-    marginTop: hp('3%'),
+    marginTop: hp('1%'),
     height: hp('10%'),
     width: wp('46%'),
     justifyContent: 'center',
   },
   name: {
-    fontSize: 16,
+    width:wp("44%"),
+    fontSize: 18,
     fontWeight: '400',
     textTransform: 'capitalize',
     fontFamily: 'Intrepid Regular',
@@ -197,7 +201,7 @@ const styles = StyleSheet.create({
     marginVertical: wp('1%'),
   },
   price: {
-    fontSize: 15.06,
+    fontSize: 18,
     // marginLeft: wp('2%'),
     fontFamily: 'Intrepid Regular',
     fontWeight: '700',
@@ -205,10 +209,10 @@ const styles = StyleSheet.create({
   },
   saveImagea: {
     position: 'absolute',
-    marginTop: wp('0.5%'),
+    marginTop: wp('0.1%'),
     marginLeft: wp('28%'),
     padding: 12,
-    left: 19,
+    left: 15,
   },
   saveImage: {
     width: 32,
@@ -218,12 +222,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: wp('46%'),
-    height: hp('25%'),
-    objectFit: 'cover',
+    height: hp('32%'),
+    
   },
   heading: {
     color: globalColors.lightgold,
-    marginTop: 20,
+    marginTop: hp('6%'),
     fontFamily: 'Intrepid Regular',
   },
 });
