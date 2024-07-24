@@ -130,7 +130,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
       <View style={styles.detailsContainer}>
         <Text style={styles.heading}>{name}</Text>
 
-        <View
+        {/* <View
           style={{
             backgroundColor: globalColors.lightgold,
             width: 80,
@@ -160,7 +160,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
             width={10}
             style={{ marginHorizontal: 3}}></Image>
           <Text style={{color: 'white', marginLeft: 2}}>240</Text>
-        </View>
+        </View> */}
 
         {/* <Text style={styles.name}>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</Text> */}
         <Text style={styles.name}>{description}</Text>

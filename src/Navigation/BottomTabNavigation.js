@@ -103,20 +103,7 @@ const BottomTabNavigation = ({ navigation }) => {
       //   ),
       // })}
       />
-      <Tab.Screen
-        name="Menu"
-        component={Watchlist}
-        options={{
-          tabBarIcon: () => (
-            <Image
-              source={MenuIcon}
-              style={{ width: 40, height: 20 }}
-              resizeMode="contain"
-            />
-          ),
-          tabBarShowLabel: false,
-        }}
-      />
+   
       <Tab.Screen
         name="Bag"
         component={CartScreen}

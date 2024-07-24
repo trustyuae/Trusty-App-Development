@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     // resizeMode: 'contain',
     borderRadius: 5,
     width: wp('52%'),
+    height:hp("26%"),
   },
   name: {
     marginBottom: wp('5%'),
