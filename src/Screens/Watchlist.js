@@ -18,6 +18,8 @@ const Watchlist = () => {
     }
   };
 
+
+  
   return (
     <View style={styles.container}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>

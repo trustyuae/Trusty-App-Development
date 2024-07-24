@@ -180,7 +180,7 @@ const Profile = () => {
     // await AsyncStorage.removeItem('user_id');
     dispatch(logoutUser());
     dispatch(resetProfile());
-    navigation.navigate('DrawerHome');
+    navigation.navigate('Home');
   };
 
   const handleCountryChange = country => {

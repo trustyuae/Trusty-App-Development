@@ -4,17 +4,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchById} from '../Redux/Slice/SingleProductslice';
 
 const Account = () => {
-  
-
-
   return (
-   
-      <View style={styles.container}>
-        <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
-          Comming Soon 
-        </Text> 
-      </View>
-    
+    <View style={styles.container}>
+      <Text style={{fontSize: 22, fontFamily: 'Intrepid Regular'}}>
+        Comming Soon
+      </Text>
+    </View>
   );
 };
 const styles = StyleSheet.create({

@@ -27,7 +27,7 @@ const Loginscreen = ({navigation}) => {
         await dispatch(fetchWishlist({tokenData: userData.jwt_token})); // Use the token from userData
       };
       data();
-      navigation.navigate('DrawerHome');
+      navigation.navigate('Home');
     }
 
     if (!error) {
@@ -150,7 +150,7 @@ const Loginscreen = ({navigation}) => {
             <Text
               style={styles.createAccountText}
               onPress={() => navigation.navigate('Signup')}>
-              Create a new account
+              Create a new account 
             </Text>
           </View>
           <Text></Text>

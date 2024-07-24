@@ -58,49 +58,48 @@ const categories = [
   },
 ];
 
-const DummyData=[
+const DummyData = [
   {
-    id:"1",
-     img:Images.Woman,
-    name:"MISH",
-    description:"Button-Front V-Neck Top",
-    price:"920 ",
-    saved:false,
-    product_id:121,
-    isWatchList:false 
+    id: '1',
+    img: Images.Woman,
+    name: 'MISH',
+    description: 'Button-Front V-Neck Top',
+    price: '920 ',
+    saved: false,
+    product_id: 121,
+    isWatchList: false,
   },
   {
-    id:"2",
-    img:Images.Catelog3,
-    name:"ZINK LONDON",
-    description:"V-Neck Front Styled Top",
-    price:"320 ",
-    saved:false,
-    product_id:121,
-    isWatchList:false 
+    id: '2',
+    img: Images.Catelog3,
+    name: 'ZINK LONDON',
+    description: 'V-Neck Front Styled Top',
+    price: '320 ',
+    saved: false,
+    product_id: 121,
+    isWatchList: false,
   },
   {
-    id:"3",
-    img:Images.Catelog2,
-    name:"MISH",
-    description:"Button-Front V-Neck Top",
-    price:"920 ",
-    saved:false,
-    product_id:121,
-    isWatchList:false 
+    id: '3',
+    img: Images.Catelog2,
+    name: 'MISH',
+    description: 'Button-Front V-Neck Top',
+    price: '920 ',
+    saved: false,
+    product_id: 121,
+    isWatchList: false,
   },
   {
-    id:"4",
-    img:Images.Catelog1,
-    name:"ZINK LONDON",
-    description:"V-Neck Front Styled Top",
-    price:"320",
-    saved:false,
-    product_id:121,
-    isWatchList:false 
+    id: '4',
+    img: Images.Catelog1,
+    name: 'ZINK LONDON',
+    description: 'V-Neck Front Styled Top',
+    price: '320',
+    saved: false,
+    product_id: 121,
+    isWatchList: false,
   },
-
-]
+];
 
 const Home = () => {
   const navigation = useNavigation();
@@ -220,64 +219,63 @@ const Home = () => {
               tintColor={globalColors.black}
             />
           }>
-            <View style={{paddingHorizontal:wp("2%")}}>
-
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 20,
-              
-            }}>
-            <Image
-              source={Images.homeScreenBackground}
-              style={styles.Topimg}
-              ></Image>
-          </View>
-
-          <CategoryComoponent />
-
-          <View style={{marginHorizontal: 5, marginTop: 15}}>
+          <View style={{paddingHorizontal: wp('2%')}}>
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.customheading}>Ready to go</Text>
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 20,
+              }}>
+              <Image
+                source={Images.homeScreenBackground}
+                style={styles.Topimg}></Image>
+            </View>
 
-              <Text style={{color: 'black', fontSize: 12, fontWeight: 600}}>
-                SEE ALL{' '}
-                <Image source={Images.Backarrow} width={22} height={10}></Image>{' '}
-              </Text>
+            <CategoryComoponent />
+
+            <View style={{marginHorizontal: 5, marginTop: 15}}>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={styles.customheading}>Ready to go</Text>
+
+                <Text style={{color: 'black', fontSize: 12, fontWeight: 600}}>
+                  SEE ALL{' '}
+                  <Image
+                    source={Images.Backarrow}
+                    width={22}
+                    height={10}></Image>{' '}
+                </Text>
+              </View>
+            </View>
+            {/* <PreviewImage uri={previewimages.previewImages} /> */}
+            {/* <Text style={styles.heading}>Ready To Go</Text> */}
+            <View style={styles.categoryContainer}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {categoryStatus === 'loading' ? (
+                  <View style={{marginLeft: wp('2.5%')}}>
+                    <SkeletonLoader count={6} />
+                  </View>
+                ) : (
+                  categories.map(category => (
+                    <Pressable
+                      key={category.id}
+                      onPress={() => navigateToCategoryProducts(category)}>
+                      <Category
+                        key={category?.id}
+                        uri={category?.img}
+                        name={category?.name}
+                        price={category?.price}
+                        description={category?.description}
+                        id={category?.id}
+                      />
+                    </Pressable>
+                  ))
+                )}
+              </ScrollView>
             </View>
           </View>
-          {/* <PreviewImage uri={previewimages.previewImages} /> */}
-          {/* <Text style={styles.heading}>Ready To Go</Text> */}
-          <View style={styles.categoryContainer}>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
-              {categoryStatus === 'loading' ? (
-                <View style={{marginLeft: wp('2.5%')}}>
-                  <SkeletonLoader count={6} />
-                </View>
-              ) : (
-                categories.map(category => (
-                  <Pressable
-                    key={category.id}
-                    onPress={() => navigateToCategoryProducts(category)}>
-                    <Category
-                      key={category?.id}
-                      uri={category?.img}
-                      name={category?.name}
-                      price={category?.price}
-                      description={category?.description}
-                      id={category?.id}
-                    />
-                  </Pressable>
-                ))
-              )}
-            </ScrollView>
-          </View>
-
-                </View>
           <View style={{backgroundColor: 'white'}}>
             <View style={{marginTop: 20}}>
               <View style={{flexDirection: 'row'}}>
@@ -404,7 +402,13 @@ const Home = () => {
               </View>
               {/* </View> */}
 
-              <View style={{justifyContent: 'center', alignItems: 'center',marginTop:-30,marginBottom:20}}>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: -30,
+                  marginBottom: 20,
+                }}>
                 <Button
                   stylesofbtn={styles.stylesofbtn}
                   handlepress={handlepress}
@@ -417,21 +421,19 @@ const Home = () => {
 
             <HeadingImage />
           </View>
-
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
-  Topimg:{
-    height:hp('26%'),
-    width:wp('96%'),
-    resizeMode:"contain"
-
+  Topimg: {
+    height: hp('26%'),
+    width: wp('96%'),
+    resizeMode: 'contain',
   },
   custommargin: {
-    paddingHorizontal:wp("2%"),
+    paddingHorizontal: wp('2%'),
     fontSize: 30,
     marginBottom: 20,
   },

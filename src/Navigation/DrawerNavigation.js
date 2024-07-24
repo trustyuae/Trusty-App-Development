@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Image, Touchable, View} from 'react-native';
+import {Button, Image, Touchable, View} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {Home, Settings} from '../Screens';
 import SignupPage from '../Screens/Login/SignupPage';
@@ -10,25 +10,47 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {DrawerActions} from '@react-navigation/native';
+import {color} from 'react-native-elements/dist/helpers';
 const Drawer = createDrawerNavigator();
+
+function NotificationsScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    </View>
+  );
+}
+function FAQ({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    </View>
+  );
+}
 
 const DrawerNavigation = ({navigation}) => {
   const screenOptions = {
     headerShown: false,
+    activeBackgroundColor: 'red',
   };
 
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: '#fff',
+          width: 280,
+        },
+      }}>
       <Drawer.Screen
-        name="DrawerHome"
+        name="Home"
         component={Home}
         options={{
           headerShown: true,
           headerTitle: '',
           headerLeft: () => (
-            <TouchableOpacity 
-              // onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-              >
+            <TouchableOpacity
+              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
               <View style={{marginLeft: 10}}>
                 <Image source={Images.Menu} style={{width: 20, height: 20}} />
               </View>
@@ -46,7 +68,12 @@ const DrawerNavigation = ({navigation}) => {
         }}
       />
       {/* <Drawer.Screen name="Settings" component={Settings} /> */}
-      <Drawer.Screen name="Signup" component={SignupPage} />
+      <Drawer.Screen
+        name="Notification"
+        component={NotificationsScreen}
+        options={{headerTitle: ''}}
+      />
+      <Drawer.Screen name="Faq" component={FAQ} options={{headerTitle: ''}} />
     </Drawer.Navigator>
   );
 };

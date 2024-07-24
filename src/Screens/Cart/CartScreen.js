@@ -1,5 +1,5 @@
 import {View, ScrollView} from 'react-native';
-import React, { useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import StepperComponet from '../../Components/Stepper/StepperComponet';
 import Cart from '../../Components/Stepper form Componets/Cart';
 import Checkout from '../../Components/Stepper form Componets/Checkout';
@@ -17,7 +17,6 @@ const CartScreen = () => {
   const [orderdetail, setOrderDetail] = useState([]);
   const [total, setTotal] = useState(0);
   const [getorderdetail, setGetorderDetail] = useState();
-
 
   const closeModal = () => {
     setIsModalVisible(false);
