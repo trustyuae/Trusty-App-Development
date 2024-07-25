@@ -116,9 +116,12 @@ const Home = () => {
     state => state.wishlist,
   );
   const [tokenData, setTokenData] = useState(null);
-  const [wishlist, setWishlist] = useState([]);
-  //  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
+  // const [wishlist, setWishlist] = useState([]);
+    const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
   // console.log('inside home---->', products);
+
+
+
   useEffect(() => {
     data();
 
@@ -203,7 +206,9 @@ const Home = () => {
     setStartIndex(startIndex => Math.max(0, startIndex - 4));
   };
 
-  const handlepress = () => { };
+  const handlepress = () => {
+    navigation.navigate("Search")
+   };
 
   return (
     <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
@@ -381,7 +386,7 @@ const Home = () => {
                     <SkeletonLoader count={2} />
                   </View>
                 ) : (
-                  DummyData.slice(0, 4).map(product => (
+                  wishlist.slice(startIndex, startIndex + 4).map(product => (
                     <Pressable
                       key={product?.id}
                       onPress={() =>
@@ -390,16 +395,32 @@ const Home = () => {
                           isWatchList: product?.isWatchList,
                         })
                       }>
-                      <Product
-                        key={product?.id}
-                        // uri={product?.images[0]?.src}
-                        img={product?.img}
-                        name={product?.name}
-                        price={product?.price}
-                        saved={product?.saved}
-                        product_id={product?.id}
-                        description={product?.description}
-                        isWatchList={product?.isWatchList}></Product>
+                      {/* Console log for debugging */}
+                      {/* {console.log("product image URL:", product?.images[1]?.src)} */}
+                  
+                      {/* Product component */}
+                      {product.images && product.images.length > 0? (
+  <Product
+    key={product?.id}
+    uri={product?.images[0]?.src}
+    name={product?.name}
+    price={product?.price}
+    saved={product?.saved}
+    product_id={product?.id}
+    isWatchList={product?.isWatchList}
+  />
+) : (
+  <Product
+    key={product?.id}
+    uri={false}
+    name={product?.name}
+    price={product?.price}
+    saved={product?.saved}
+    product_id={product?.id}
+    isWatchList={product?.isWatchList}
+  />
+)}
+                      
                     </Pressable>
                   ))
                 )}
@@ -411,7 +432,7 @@ const Home = () => {
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
-                  marginTop: -30,
+                  marginTop: 10,
                   marginBottom: 20,
                 }}>
                 <Button

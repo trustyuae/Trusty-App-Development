@@ -104,20 +104,25 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
     }
   };
 
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {img  ? (
+        {uri? (
+<View>
+
           <Image
             style={styles.image}
-            // source={{
-            //   uri,
-            // }}
-            source={img}
+            source={{
+              uri:uri,
+            }}
+            // source={img}
             resizeMode="cover"
           />
+  </View>
+
         ) : (
-          <Image source={NoImg} style={styles.image} resizeMode="contain" />
+          <Image source={NoImg} style={styles.dummy} resizeMode="contain" />
         )}
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
@@ -164,8 +169,9 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
 
         {/* <Text style={styles.name}>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</Text> */}
         <Text style={styles.name}>{description}</Text>
-       
-        <Text style={styles.price}>{price} AED</Text>
+       { price?
+        <Text style={styles.price}>{price} AED</Text>: <Text style={styles.price}>200 AED</Text>
+       }
       </View>
     </View>
   );
@@ -184,12 +190,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     // marginBottom: hp('2%'),
     overflow: 'hidden',
-    height: hp("48%"),
+    height: hp("35%"),
     // backgroundColor:'yellow'
   },
   imageContainer: {
     width: wp('30%'),
-    // height: hp('32%'),
+    //  height: hp('32%'),
     position: 'relative',
     // backgroundColor: globalColors.productBackground,
   },
@@ -207,7 +213,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Product Sans',
     color: globalColors.black,
     fontWeight: '600',
-    marginVertical: wp('1%'),
+    // marginVertical: wp('1%'),
   },
   price: {
     fontSize: 18,
@@ -231,9 +237,15 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 6,
-    // width: wp('46%'),
-    // height: hp('32%'),
+    width: wp('46%'),
+    height:hp('21%'),
   },
+  dummy:{
+    borderRadius: 6,
+    width: wp('46%'),
+    height:hp('21%'),
+  },
+
   heading: {
     color: globalColors.lightgold,
     marginTop: hp('6%'),
