@@ -34,7 +34,7 @@ import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import CategoryComoponent from '../../Components/Category/CategoryComoponent';
 import Button from '../../Components/Button';
 
-const categories = [
+const categoriesx = [
   {
     id: 1,
     img: Images.Man,
@@ -101,16 +101,49 @@ const DummyData = [
   },
 ];
 
+let getData = [
+  {
+    id: 1,
+    img: Images.Shopping,
+    label: 'Bags',
+  },
+  {
+    id: 2,
+    img: Images.Shoes_01,
+    label: 'Shoes',
+  },
+  {
+    id: 3,
+    img: Images.Accessories,
+    label: 'Accessories',
+  },
+  {
+    id: 4,
+    img: Images.Scarf,
+    label: 'Scarfs',
+  },
+  {
+    id: 5,
+    img: Images.Jewellery,
+    label: 'Jewellery``',
+  },
+  // {
+  //   id: 4,
+  //   img: Images.shoes,
+  //   label: 'JEWELLERY',
+  // },
+];
+
 const Home = () => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
   const [newWitchList, setNewWitchList] = useState([]);
   const dispatch = useDispatch();
-  const categoryStatus = false;
-  // const {categories, categoryStatus, categoryError} = useSelector(
-  //   state => state.category,
-  // ); // Select category state from Redux store
+  // const categoryStatus = false;
+  const {categories, categoryStatus, categoryError} = useSelector(
+    state => state.category,
+  ); // Select category state from Redux store
   const { products, status, error } = useSelector(state => state.product);
   const { items, loading: wishlistLoading } = useSelector(
     state => state.wishlist,
@@ -193,6 +226,8 @@ const Home = () => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
+console.log("category --------------->",category);
+
     navigation.navigate('CategoryProducts', { category, products });
     // console.log("products",category);
   };
@@ -209,6 +244,8 @@ const Home = () => {
   const handlepress = () => {
     navigation.navigate("Search")
    };
+
+   
 
   return (
     <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
@@ -235,8 +272,10 @@ const Home = () => {
                 source={Images.homeScreenBackground}
                 style={styles.Topimg}></Image>
             </View>
-
-            <CategoryComoponent />
+             {
+              
+            <CategoryComoponent getData={getData} navigateToCategoryProducts={navigateToCategoryProducts} categories={categories} />
+             }
 
             <View style={{ marginHorizontal: 5, margin: 15 }}>
               <View
@@ -269,7 +308,7 @@ const Home = () => {
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (
-                  categories.map(category => (
+                  categoriesx.map(category => (
                     <Pressable
                       key={category.id}
                       onPress={() => navigateToCategoryProducts(category)}>

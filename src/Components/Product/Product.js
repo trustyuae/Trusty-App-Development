@@ -110,8 +110,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
       <View style={styles.imageContainer}>
         {uri? (
 <View>
-
-          <Image
+      <Image
             style={styles.image}
             source={{
               uri:uri,

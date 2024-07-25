@@ -9,45 +9,56 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-let data = [
-  {
-    id: 1,
-    img: Images.Shopping,
-    label: 'Bags',
-  },
-  {
-    id: 2,
-    img: Images.Shoes_01,
-    label: 'Shoes',
-  },
-  {
-    id: 3,
-    img: Images.Accessories,
-    label: 'Accessories',
-  },
-  {
-    id: 4,
-    img: Images.Scarf,
-    label: 'Scarfs',
-  },
-  {
-    id: 5,
-    img: Images.Jewellery,
-    label: 'Jewellery``',
-  },
-  // {
-  //   id: 4,
-  //   img: Images.shoes,
-  //   label: 'JEWELLERY',
-  // },
-];
 
-const CategoryComponent = () => {
+// let getData = [
+//   {
+//     id: 1,
+//     img: Images.Shopping,
+//     label: 'Bags',
+//   },
+//   {
+//     id: 2,
+//     img: Images.Shoes_01,
+//     label: 'Shoes',
+//   },
+//   {
+//     id: 3,
+//     img: Images.Accessories,
+//     label: 'Accessories',
+//   },
+//   {
+//     id: 4,
+//     img: Images.Scarf,
+//     label: 'Scarfs',
+//   },
+//   {
+//     id: 5,
+//     img: Images.Jewellery,
+//     label: 'Jewellery``',
+//   },
+//   // {
+//   //   id: 4,
+//   //   img: Images.shoes,
+//   //   label: 'JEWELLERY',
+//   // },
+// ];
+
+const CategoryComponent = ({getData,categories,navigateToCategoryProducts}) => {
+ 
+ 
+  const updated=getData.map((data)=>({
+    img:data.img,
+    // id: categories.find((item) => item.label == data.label)?.id,
+    id:data.id,
+    label:data.label
+  }))
+  console.log("updated---------------------->",updated);
+
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
-        {data.map(item => (
-          <TouchableOpacity key={item.id}>
+        {updated?.map(item => (
+          <TouchableOpacity key={item.id}  onPress={() => navigateToCategoryProducts(item.id)}>
             <View style={styles.imageContainer}>
               <Image source={item.img} style={styles.image} />
             </View>
