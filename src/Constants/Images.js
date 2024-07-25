@@ -43,8 +43,12 @@ const Menu=require("../Assets/Images/Menu.png")
 const Catelog1=require("../Assets/Images/catelog1.png")
 const Catelog2=require("../Assets/Images/catelog2.png")
 const Catelog3=require("../Assets/Images/catelog3.png")
+const categories_Bag=require("../Assets/Images/Bags_img.webp")
+const categories_shoes=require("../Assets/Images/Shoes_imgs.webp")
 
 export default {
+  categories_shoes,
+  categories_Bag,
   Catelog1,
   Catelog2,
   Catelog3,

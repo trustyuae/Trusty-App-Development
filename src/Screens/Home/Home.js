@@ -103,13 +103,13 @@ const DummyData = [
 
 let getData = [
   {
-    id: 1,
-    img: Images.Shopping,
+    id: 16,
+    img: Images.categories_Bag,
     label: 'Bags',
   },
   {
     id: 2,
-    img: Images.Shoes_01,
+    img: Images.categories_shoes,
     label: 'Shoes',
   },
   {
@@ -226,9 +226,10 @@ const Home = () => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
-console.log("category --------------->",category);
 
-    navigation.navigate('CategoryProducts', { category, products });
+
+console.log("category----------------->",category);
+       navigation.navigate('CategoryProducts', { category, products });
     // console.log("products",category);
   };
   const previewimages = {
@@ -425,7 +426,11 @@ console.log("category --------------->",category);
                     <SkeletonLoader count={2} />
                   </View>
                 ) : (
-                  wishlist.slice(startIndex, startIndex + 4).map(product => (
+                  wishlist
+                  .filter(product => {
+                    // Check if any category's name includes "Bag"
+                    return product?.categories?.some(category => category.slug.includes("bags-women"));
+                  }).slice(startIndex, startIndex + 4).map(product => (
                     <Pressable
                       key={product?.id}
                       onPress={() =>
@@ -437,7 +442,7 @@ console.log("category --------------->",category);
                       {/* Console log for debugging */}
                       {/* {console.log("product image URL:", product?.images[1]?.src)} */}
                   
-                      {/* Product component */}
+                      {console.log("Product---------------------->", product)}
                       {product.images && product.images.length > 0? (
   <Product
     key={product?.id}

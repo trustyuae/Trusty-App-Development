@@ -54,11 +54,15 @@ const CategoryComponent = ({getData,categories,navigateToCategoryProducts}) => {
   }))
   console.log("updated---------------------->",updated);
 
+  const handleCategoryClick = (categoryId) => {
+  
+    navigateToCategoryProducts(categoryId);
+  };
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
         {updated?.map(item => (
-          <TouchableOpacity key={item.id}  onPress={() => navigateToCategoryProducts(item.id)}>
+          <TouchableOpacity key={item.id}  onPress={() =>   handleCategoryClick(item)}>
             <View style={styles.imageContainer}>
               <Image source={item.img} style={styles.image} />
             </View>

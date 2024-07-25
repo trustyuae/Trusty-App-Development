@@ -132,7 +132,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
       </View>
 
       <View style={styles.detailsContainer}>
-        <Text style={styles.heading}>{name}</Text>
+       
 
         {/* <View
           style={{
@@ -167,7 +167,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
         </View> */}
 
         {/* <Text style={styles.name}>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</Text> */}
-        <Text style={styles.name}>{description}</Text>
+        <Text style={styles.name}>{name}</Text>
        { price?
         <Text style={styles.price}>{price} AED</Text>: <Text style={styles.price}>200 AED</Text>
        }
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     // backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
-   // marginTop: hp('1%'),
+    marginTop: hp('1%'),
     height: hp('10%'),
     width: wp('46%'),
     justifyContent: 'center',
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Product Sans',
     color: globalColors.black,
     fontWeight: '600',
-    // marginVertical: wp('1%'),
+     marginTop: wp('5%'),
   },
   price: {
     fontSize: 18,
