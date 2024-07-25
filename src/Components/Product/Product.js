@@ -189,12 +189,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     // marginBottom: hp('2%'),
     overflow: 'hidden',
-    height: hp("35%"),
+    height: hp("32%"),
     // backgroundColor:'yellow'
   },
   imageContainer: {
     width: wp('30%'),
-    //  height: hp('32%'),
+      height: hp('18%'),
     position: 'relative',
     // backgroundColor: globalColors.productBackground,
   },
