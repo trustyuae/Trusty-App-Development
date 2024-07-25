@@ -126,8 +126,11 @@ const CategoryProducts = ({ navigation }) => {
 
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
-  const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
-  const emojisWithIcons1 = ['Name', 'Price', 'Color'];
+  // const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
+  // const emojisWithIcons1 = ['Name', 'Price', 'Color'];
+  const emojisWithIcons = [''];
+  const emojisWithIcons1 = [''];
+
   setTimeout(()=>{
     if(wishlist.length<=0){
      setMsg("No Product")
@@ -191,7 +194,7 @@ const CategoryProducts = ({ navigation }) => {
                         fontSize: 15,
                         color: globalColors.buttonBackground,
                       }}>
-                      {(selectedItem && selectedItem.title) || 'filter'}
+                      {(selectedItem && selectedItem.title) || 'filter '}
                     </Text>
                     <Icon
                       name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -223,7 +226,7 @@ const CategoryProducts = ({ navigation }) => {
             />
             <SelectDropdown
               data={emojisWithIcons}
-              onSelect={(selectedItem, index) => { }}
+              // onSelect={(selectedItem, index) => { }}
               // style={{marginLeft: 0}}
               renderButton={(selectedItem, isOpen) => {
                 return (
@@ -330,9 +333,9 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     flexWrap: 'wrap',
-    marginTop: hp('3%'),
+    paddingHorizontal: 8,
   },
   TextHeading: {
     fontSize: 10,

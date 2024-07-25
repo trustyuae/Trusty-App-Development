@@ -43,7 +43,7 @@ import {
 //   // },
 // ];
 
-const CategoryComponent = ({getData,categories,navigateToCategoryProducts}) => {
+const CategoryComponent = ({getData,navigateToCategoryProducts}) => {
  
  
   const updated=getData.map((data)=>({

@@ -43,8 +43,10 @@ const BottomTabNavigation = ({navigation}) => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
+        tabBarActiveTintColor: '#e91e63',
         headerShown: false,
         tabBarStyle: {backgroundColor: '#101010'},
+       
       })}>
       <Tab.Screen
         name="HomeCustomeNavigation"

@@ -108,7 +108,7 @@ let getData = [
     label: 'Bags',
   },
   {
-    id: 2,
+    id: 17,
     img: Images.categories_shoes,
     label: 'Shoes',
   },
@@ -125,7 +125,7 @@ let getData = [
   {
     id: 5,
     img: Images.Jewellery,
-    label: 'Jewellery``',
+    label: 'Jewellery',
   },
   // {
   //   id: 4,
@@ -226,9 +226,6 @@ const Home = () => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
-
-
-console.log("category----------------->",category);
        navigation.navigate('CategoryProducts', { category, products });
     // console.log("products",category);
   };
@@ -275,7 +272,7 @@ console.log("category----------------->",category);
             </View>
              {
               
-            <CategoryComoponent getData={getData} navigateToCategoryProducts={navigateToCategoryProducts} categories={categories} />
+            <CategoryComoponent getData={getData} navigateToCategoryProducts={navigateToCategoryProducts}  />
              }
 
             <View style={{ marginHorizontal: 5, margin: 15 }}>
