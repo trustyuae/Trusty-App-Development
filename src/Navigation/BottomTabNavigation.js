@@ -53,7 +53,7 @@ const BottomTabNavigation = ({ navigation }) => {
           tabBarIcon: () => (
             <Image
               source={HomeIcon}
-              style={{ width: 20, height: 20 }}
+              style={{ width: 25, height: 25 }}
               resizeMode="contain"
             />
           ),
@@ -67,7 +67,7 @@ const BottomTabNavigation = ({ navigation }) => {
           tabBarIcon: () => (
             <Image
               source={SearchIcon}
-              style={{ width: 15, height: 15 }}
+              style={{ width: 20, height: 20 }}
               resizeMode="contain"
             />
           ),
@@ -103,7 +103,7 @@ const BottomTabNavigation = ({ navigation }) => {
       //   ),
       // })}
       />
-   
+
       <Tab.Screen
         name="Bag"
         component={CartScreen}
@@ -111,7 +111,7 @@ const BottomTabNavigation = ({ navigation }) => {
           tabBarIcon: () => (
             <Image
               source={BagIcon}
-              style={{ width: 15, height: 15 }}
+              style={{ width: 25, height: 25 }}
               resizeMode="contain"
             />
           ),
@@ -157,7 +157,7 @@ const BottomTabNavigation = ({ navigation }) => {
             tabBarIcon: () => (
               <Image
                 source={ProfileIcon}
-                style={{ width: 15, height: 15 }}
+                style={{ width: 20, height: 20 }}
                 resizeMode="contain"
               />
             ),

@@ -180,17 +180,18 @@ const styles = StyleSheet.create({
   },
   container: {
     alignContent: 'center',
-    marginHorizontal: wp('1%'),
+    // marginHorizontal: wp('1%'),
     borderRadius: 5,
-    marginBottom: hp('2%'),
+    // marginBottom: hp('2%'),
     overflow: 'hidden',
-    height: hp("52%"),
+    height: hp("48%"),
+    // backgroundColor:'yellow'
   },
   imageContainer: {
-    width: wp('46%'),
-    height: hp('32%'),
+    width: wp('30%'),
+    // height: hp('32%'),
     position: 'relative',
-    backgroundColor: globalColors.productBackground,
+    // backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
    // marginTop: hp('1%'),
@@ -200,10 +201,10 @@ const styles = StyleSheet.create({
   },
   name: {
     width:wp("44%"),
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '400',
     textTransform: 'capitalize',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     color: globalColors.black,
     fontWeight: '600',
     marginVertical: wp('1%'),
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 18,
     // marginLeft: wp('2%'),
-    //fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     fontWeight: '700',
     color: globalColors.black,
   },
@@ -229,14 +230,14 @@ const styles = StyleSheet.create({
     height: 32,
   },
   image: {
-    width: wp('46%'),
-    height: hp('32%'),
-    
+    borderRadius: 6,
+    // width: wp('46%'),
+    // height: hp('32%'),
   },
   heading: {
     color: globalColors.lightgold,
     marginTop: hp('6%'),
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
 });
 

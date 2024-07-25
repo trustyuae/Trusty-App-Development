@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginVertical: 10,
     fontSize: 16,
+    fontFamily:"Product Sans"
   },
   container: {
     backgroundColor: globalColors.headingBackground,
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
   },
   name: {
     marginBottom: wp('5%'),
-    fontFamily: 'Intrepid Regular',
-    fontSize: 18,
+    fontFamily: 'Product Sans',
+    // fontSize: 18,
     color: globalColors.lightgold,
   },
   saveImagea: {
@@ -76,7 +77,9 @@ const styles = StyleSheet.create({
   custom: {
     color: globalColors.black,
     marginTop: -16,
-    fontWeight: '550',
+    fontSize: 16,
+    fontWeight: '400',
+    fontFamily:"Product Sans"
   },
 });
 

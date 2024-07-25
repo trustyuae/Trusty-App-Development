@@ -83,5 +83,9 @@ const styles = StyleSheet.create({
     height: 42,
     width: 42,
   },
-  label: {textAlign: 'center', marginTop: 8},
+  label: {
+    textAlign: 'center',
+    marginTop: 8,
+    fontFamily:'Product Sans'
+  },
 });

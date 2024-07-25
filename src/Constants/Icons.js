@@ -8,17 +8,19 @@
 
 //  ******************************************* Exported Icons****************************
 
-export const HomeIcon = require('../Assets/Icons/homeicon.png');
-export const SearchIcon = require('../Assets/Icons/searchicon.png');
+export const HomeIcon = require('../Assets/Icons/Home4x.png');
+export const SearchIcon = require('../Assets/Icons/Search4x.png');
 export const MenuIcon = require('../Assets/Icons/menu.png');
-export const BagIcon = require('../Assets/Icons/bagicon.png');
-export const ProfileIcon = require('../Assets/Icons/profileIcon.png');
+export const BagIcon = require('../Assets/Icons/bag4x.png');
+export const ProfileIcon = require('../Assets/Icons/Profile4x.png');
 export const BackbtnIcon = require('../Assets/Icons/backbtnicon.png');
 export const EditICon = require('../Assets/Icons/Edit.png');
 export const Groupicon = require('../Assets/Icons/Group.png');
 export const PlusIcon = require('../Assets/Icons/Vector.png');
 export const Plus=require('../Assets/Icons/plus.png')
 export const minus=require('../Assets/Icons/minus.png')
+
+
 
 //*************************************************Exported Images**********************
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -12,23 +12,23 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from '../../Components/Counter';
 import Category from '../../Components/Category';
-import {Images} from '../../Constants/index';
+import { Images } from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import PreviewImage from '../../Components/Preview/PreviewImage';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import Product from '../../Components/Product/Product';
 import HeadingImage from '../../Components/Preview/HeadingImage';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Pressable} from 'react-native';
-import {fetchCategories} from '../../Redux/Slice/categorySlice';
-import {fetchProducts} from '../../Redux/Slice/productSlice';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
-import {getToken} from '../../Utils/localstorage';
-import {SafeAreaView} from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Pressable } from 'react-native';
+import { fetchCategories } from '../../Redux/Slice/categorySlice';
+import { fetchProducts } from '../../Redux/Slice/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import { getToken } from '../../Utils/localstorage';
+import { SafeAreaView } from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import CategoryComoponent from '../../Components/Category/CategoryComoponent';
@@ -111,8 +111,8 @@ const Home = () => {
   // const {categories, categoryStatus, categoryError} = useSelector(
   //   state => state.category,
   // ); // Select category state from Redux store
-  const {products, status, error} = useSelector(state => state.product);
-  const {items, loading: wishlistLoading} = useSelector(
+  const { products, status, error } = useSelector(state => state.product);
+  const { items, loading: wishlistLoading } = useSelector(
     state => state.wishlist,
   );
   const [tokenData, setTokenData] = useState(null);
@@ -166,7 +166,7 @@ const Home = () => {
   }, [dispatch, getToken]);
   const data = () => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({id: item}));
+      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const productIds = new Set(itemIdList.map(item => Number(item.id)));
       const result = products.map(productItem => ({
         ...productItem,
@@ -190,7 +190,7 @@ const Home = () => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
-    navigation.navigate('CategoryProducts', {category, products});
+    navigation.navigate('CategoryProducts', { category, products });
     // console.log("products",category);
   };
   const previewimages = {
@@ -203,10 +203,10 @@ const Home = () => {
     setStartIndex(startIndex => Math.max(0, startIndex - 4));
   };
 
-  const handlepress = () => {};
+  const handlepress = () => { };
 
   return (
-    <SafeAreaView style={{backgroundColor: globalColors.statusBar}}>
+    <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
       <View style={styles.container}>
         {/* <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar> */}
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
@@ -219,7 +219,7 @@ const Home = () => {
               tintColor={globalColors.black}
             />
           }>
-          <View style={{paddingHorizontal: wp('2%')}}>
+          <View style={{ paddingHorizontal: wp('2%') }}>
             <View
               style={{
                 justifyContent: 'center',
@@ -233,12 +233,18 @@ const Home = () => {
 
             <CategoryComoponent />
 
-            <View style={{marginHorizontal: 5, marginTop: 15}}>
+            <View style={{ marginHorizontal: 5, margin: 15 }}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.customheading}>Ready to go</Text>
 
-                <Text style={{color: 'black', fontSize: 12, fontWeight: 600}}>
+                <Text style={{
+                  color: 'black',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  fontFamily:'Product Sans',
+                  top:10
+                }}>
                   SEE ALL{' '}
                   <Image
                     source={Images.Backarrow}
@@ -254,7 +260,7 @@ const Home = () => {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
                 {categoryStatus === 'loading' ? (
-                  <View style={{marginLeft: wp('2.5%')}}>
+                  <View style={{ marginLeft: wp('2.5%') }}>
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (
@@ -276,9 +282,9 @@ const Home = () => {
               </ScrollView>
             </View>
           </View>
-          <View style={{backgroundColor: 'white'}}>
-            <View style={{marginTop: 20}}>
-              <View style={{flexDirection: 'row'}}>
+          <View style={{ backgroundColor: 'white' }}>
+            <View style={{ marginTop: 20 }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={[styles.customheading, styles.custommargin]}>
                   MUST HAVE
                 </Text>
@@ -286,9 +292,9 @@ const Home = () => {
                   source={Images.Musthavelogo}
                   height={30}
                   width={30}
-                  style={{margin: 6}}></Image>
+                  style={{ margin: 6 }}></Image>
               </View>
-              <View style={{marginTop: -20, marginBottom: 10}}>
+              <View style={{ marginTop: -20, marginBottom: 10 }}>
                 <Text style={[styles.customheading, styles.custommargin]}>
                   FOR{' '}
                   <Text style={[styles.customheading, styles.Custcolor]}>
@@ -330,14 +336,13 @@ const Home = () => {
               <View
                 style={{
                   flexDirection: 'row',
-                  // justifyContent: 'space-between',
+                  justifyContent: 'space-between',
                   flexWrap: 'wrap',
-                  // paddingLeft: 10,
-                  // paddingRight: 10,
-                  marginTop: 20,
-                  marginLeft: 2,
-                  // rowGap: 20,
-                  columnGap: 10,
+                  paddingHorizontal: 10,
+                  // marginTop: 20,
+                  // marginLeft: 2,
+                  // columnGap: 10,
+                  // backgroundColor:"blue"
                 }}>
                 {/* <TouchableOpacity
                 onPress={onBackPress}
@@ -372,7 +377,7 @@ const Home = () => {
               </TouchableOpacity> */}
                 {/* <View style={styles.productContainer}> */}
                 {true && wishlist.length === 0 ? (
-                  <View style={{marginLeft: wp('1.5%')}}>
+                  <View style={{ marginLeft: wp('1.5%') }}>
                     <SkeletonLoader count={2} />
                   </View>
                 ) : (
@@ -447,8 +452,9 @@ const styles = StyleSheet.create({
   },
   customheading: {
     fontWeight: '700',
-    fontSize: 22,
+    fontSize: 24,
     color: 'black',
+    fontFamily: 'Product Sans',
   },
   productContainer: {
     flexWrap: 'wrap',
@@ -475,7 +481,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     textAlign: 'center',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     fontWeight: '600',
     fontSize: 22,
     marginTop: hp('2%'),
@@ -510,11 +516,13 @@ const styles = StyleSheet.create({
     padding: 7,
     marginVertical: 20,
     width: 120,
+    borderRadius: 6,
   },
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
     fontWeight: '600',
+    fontFamily:'Product Sans'
   },
 });
 export default Home;

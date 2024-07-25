@@ -52,7 +52,7 @@ const DrawerNavigation = ({navigation}) => {
             <TouchableOpacity
               onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
               <View style={{marginLeft: 10}}>
-                <Image source={Images.Menu} style={{width: 20, height: 20}} />
+                <Image source={Images.Menu} style={{width: 18, height: 16}} />
               </View>
             </TouchableOpacity>
           ),
