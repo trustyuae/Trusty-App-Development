@@ -109,16 +109,16 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         {uri? (
-<View>
-      <Image
+       <View>
+          <Image
             style={styles.image}
             source={{
               uri:uri,
             }}
             // source={img}
             resizeMode="cover"
-          />
-  </View>
+          /> 
+       </View>
 
         ) : (
           <Image source={NoImg} style={styles.dummy} resizeMode="contain" />

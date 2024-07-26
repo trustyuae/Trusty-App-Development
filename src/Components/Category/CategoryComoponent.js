@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
-import {Images} from '../../Constants';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
-import {Text} from 'react-native-paper';
-import {ScrollView} from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { Images } from '../../Constants';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import { Text } from 'react-native-paper';
+import { ScrollView } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -43,26 +43,25 @@ import {
 //   // },
 // ];
 
-const CategoryComponent = ({getData,navigateToCategoryProducts}) => {
- 
- 
-  const updated=getData.map((data)=>({
-    img:data.img,
+const CategoryComponent = ({ getData, navigateToCategoryProducts }) => {
+
+
+  const updated = getData.map((data) => ({
+    img: data.img,
     // id: categories.find((item) => item.label == data.label)?.id,
-    id:data.id,
-    label:data.label
+    id: data.id,
+    label: data.label
   }))
-  console.log("updated---------------------->",updated);
 
   const handleCategoryClick = (categoryId) => {
-  
+
     navigateToCategoryProducts(categoryId);
   };
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <View style={styles.container}>
         {updated?.map(item => (
-          <TouchableOpacity key={item.id}  onPress={() =>   handleCategoryClick(item)}>
+          <TouchableOpacity key={item.id} onPress={() => handleCategoryClick(item)}>
             <View style={styles.imageContainer}>
               <Image source={item.img} style={styles.image} />
             </View>
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-     paddingLeft: wp('1%'),
+    paddingLeft: wp('1%'),
     paddingBottom: 16,
     gap: 13,
   },
@@ -95,12 +94,12 @@ const styles = StyleSheet.create({
   },
   image: {
     resizeMode: 'contain',
-    height: 42,
-    width: 42,
+    height: 60,
+    width: 60,
   },
   label: {
     textAlign: 'center',
     marginTop: 8,
-    fontFamily:'Product Sans'
+    fontFamily: 'Product Sans'
   },
 });

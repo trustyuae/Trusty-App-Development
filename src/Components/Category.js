@@ -1,16 +1,28 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
-import {Images} from '../Constants/index';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import {globalColors} from '../Assets/Theme/globalColors';
-const Category = ({uri, name, description, price, id}) => {
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import { Images } from '../Constants/index';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { globalColors } from '../Assets/Theme/globalColors';
+import { NoImg } from '../Constants/Icons';
+
+const Category = ({ uri, name, description, price, id }) => {
+  const [imageUri, setImageUri] = useState(uri);
+
+  const handleImageError = () => {
+    setImageUri(null);
+  };
+
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={uri}></Image>
-
+      {imageUri == null || imageUri === "" ? (
+        <Image source={NoImg} style={styles.dummy} resizeMode="contain" />
+      ) : (
+        <Image
+          style={styles.image}
+          source={{ uri: imageUri }}
+          onError={handleImageError}
+        />
+      )}
       <Pressable style={styles.saveImagea}>
         <Image
           style={styles.saveImage}
@@ -18,19 +30,15 @@ const Category = ({uri, name, description, price, id}) => {
         />
       </Pressable>
 
-      <View style={{width: 160,marginTop:hp("1%")}}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.custom}>{description}</Text>
+      <View style={{ width: 160, marginTop: hp("1%") }}>
+        <Text style={styles.custom}>{name}</Text>
         <Text style={styles.custtext}>{price}</Text>
-        {id == 1 ? (
-          <View
-            style={{flexDirection: 'row', marginTop: -10, marginBottom: 30}}>
-            <Text style={{textDecorationLine: 'line-through'}}>1840 AED </Text>
-            <Text style={{color: globalColors.lightgold}}> (50%)</Text>
+        {id === 1 ? (
+          <View style={{ flexDirection: 'row', marginTop: -10, marginBottom: 30 }}>
+            <Text style={{ textDecorationLine: 'line-through' }}>1840 AED </Text>
+            <Text style={{ color: globalColors.lightgold }}> (50%)</Text>
           </View>
-        ) : (
-          ''
-        )}
+        ) : null}
       </View>
     </View>
   );
@@ -42,23 +50,25 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginVertical: 10,
     fontSize: 16,
-    fontFamily:"Product Sans"
+    fontFamily: "Product Sans"
   },
   container: {
     backgroundColor: globalColors.headingBackground,
     marginHorizontal: 5,
   },
-
   image: {
-    // resizeMode: 'contain',
     borderRadius: 5,
     width: wp('52%'),
-    height:hp("26%"),
+    height: hp("26%"),
+  },
+  dummy: {
+    width: wp('52%'),
+    height: hp("26%"),
+    resizeMode: 'contain'
   },
   name: {
     marginBottom: wp('5%'),
     fontFamily: 'Product Sans',
-    // fontSize: 18,
     color: globalColors.lightgold,
   },
   saveImagea: {
@@ -76,10 +86,9 @@ const styles = StyleSheet.create({
   },
   custom: {
     color: globalColors.black,
-    marginTop: -16,
     fontSize: 16,
     fontWeight: '400',
-    fontFamily:"Product Sans"
+    fontFamily: "Product Sans"
   },
 });
 

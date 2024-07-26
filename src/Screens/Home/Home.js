@@ -33,6 +33,7 @@ import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import CategoryComoponent from '../../Components/Category/CategoryComoponent';
 import Button from '../../Components/Button';
+import { fetchRedyToGo } from '../../Redux/Slice/ready_to_go';
 
 const categoriesx = [
   {
@@ -141,24 +142,27 @@ const Home = () => {
   const [newWitchList, setNewWitchList] = useState([]);
   const dispatch = useDispatch();
   // const categoryStatus = false;
-  const {categories, categoryStatus, categoryError} = useSelector(
+  const { categories, categoryStatus, categoryError } = useSelector(
     state => state.category,
   ); // Select category state from Redux store
+  const { redytogoProducts, redytogoStatus, redytogoError } = useSelector(
+    state => state.redytogo,
+  );
   const { products, status, error } = useSelector(state => state.product);
   const { items, loading: wishlistLoading } = useSelector(
     state => state.wishlist,
   );
   const [tokenData, setTokenData] = useState(null);
   // const [wishlist, setWishlist] = useState([]);
-    const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
+  const [wishlist, setWishlist] = useState([items].map(item => ({ id: item })));
   // console.log('inside home---->', products);
 
 
 
   useEffect(() => {
     data();
-
-    dispatch(fetchCategories());
+    dispatch(fetchRedyToGo());
+    // dispatch(fetchCategories());
     dispatch(fetchProducts());
   }, [dispatch]);
 
@@ -226,7 +230,7 @@ const Home = () => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
-       navigation.navigate('CategoryProducts', { category, products });
+    navigation.navigate('CategoryProducts', { category, products });
     // console.log("products",category);
   };
   const previewimages = {
@@ -241,9 +245,9 @@ const Home = () => {
 
   const handlepress = () => {
     navigation.navigate("Search")
-   };
+  };
 
-   
+
 
   return (
     <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
@@ -270,10 +274,10 @@ const Home = () => {
                 source={Images.homeScreenBackground}
                 style={styles.Topimg}></Image>
             </View>
-             {
-              
-            <CategoryComoponent getData={getData} navigateToCategoryProducts={navigateToCategoryProducts}  />
-             }
+            {
+
+              <CategoryComoponent getData={getData} navigateToCategoryProducts={navigateToCategoryProducts} />
+            }
 
             <View style={{ marginHorizontal: 5, margin: 15 }}>
               <View
@@ -284,8 +288,8 @@ const Home = () => {
                   color: 'black',
                   fontSize: 14,
                   fontWeight: 600,
-                  fontFamily:'Product Sans',
-                  top:10
+                  fontFamily: 'Product Sans',
+                  top: 10
                 }}>
                   SEE ALL{' '}
                   <Image
@@ -297,7 +301,8 @@ const Home = () => {
             </View>
             {/* <PreviewImage uri={previewimages.previewImages} /> */}
             {/* <Text style={styles.heading}>Ready To Go</Text> */}
-            <View style={styles.categoryContainer}>
+            {/* ------ */}
+            {/* <View style={styles.categoryContainer}>
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
@@ -306,7 +311,7 @@ const Home = () => {
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (
-                  categoriesx.map(category => (
+                  categories.map(category => (
                     <Pressable
                       key={category.id}
                       onPress={() => navigateToCategoryProducts(category)}>
@@ -318,11 +323,40 @@ const Home = () => {
                         description={category?.description}
                         id={category?.id}
                       />
+                      {console.log("categories----------------->", category)}
+                    </Pressable>
+                  ))
+                )}
+              </ScrollView>
+            </View> */}
+            {/* ----- */}
+            <View style={styles.categoryContainer}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {redytogoStatus === 'loading' ? (
+                  <View style={{ marginLeft: wp('2.5%') }}>
+                    <SkeletonLoader count={6} />
+                  </View>
+                ) : (
+                  redytogoProducts.slice(startIndex, startIndex + 10).map(rtgproducts => (
+                    <Pressable
+                      key={rtgproducts.id}
+                      onPress={() => navigateToCategoryProducts(rtgproducts)}>
+                          <Category
+                            key={rtgproducts?.id}
+                            uri={rtgproducts?.images[0]}
+                            name={rtgproducts?.name}
+                            price={rtgproducts?.price}
+                            description={rtgproducts?.description}
+                            id={rtgproducts?.id}
+                          />
                     </Pressable>
                   ))
                 )}
               </ScrollView>
             </View>
+
           </View>
           <View style={{ backgroundColor: 'white' }}>
             <View style={{ marginTop: 20 }}>
@@ -424,46 +458,45 @@ const Home = () => {
                   </View>
                 ) : (
                   wishlist
-                  .filter(product => {
-                    // Check if any category's name includes "Bag"
-                    return product?.categories?.some(category => category.slug.includes("bags-women"));
-                  }).slice(startIndex, startIndex + 4).map(product => (
-                    <Pressable
-                      key={product?.id}
-                      onPress={() =>
-                        navigation.navigate('ProductDetail', {
-                          userId: product.id,
-                          isWatchList: product?.isWatchList,
-                        })
-                      }>
-                      {/* Console log for debugging */}
-                      {/* {console.log("product image URL:", product?.images[1]?.src)} */}
-                  
-                      {console.log("Product---------------------->", product)}
-                      {product.images && product.images.length > 0? (
-  <Product
-    key={product?.id}
-    uri={product?.images[0]?.src}
-    name={product?.name}
-    price={product?.price}
-    saved={product?.saved}
-    product_id={product?.id}
-    isWatchList={product?.isWatchList}
-  />
-) : (
-  <Product
-    key={product?.id}
-    uri={false}
-    name={product?.name}
-    price={product?.price}
-    saved={product?.saved}
-    product_id={product?.id}
-    isWatchList={product?.isWatchList}
-  />
-)}
-                      
-                    </Pressable>
-                  ))
+                    .filter(product => {
+                      // Check if any category's name includes "Bag"
+                      return product?.categories?.some(category => category.slug.includes("bags-women"));
+                    }).slice(startIndex, startIndex + 4).map(product => (
+                      <Pressable
+                        key={product?.id}
+                        onPress={() =>
+                          navigation.navigate('ProductDetail', {
+                            userId: product.id,
+                            isWatchList: product?.isWatchList,
+                          })
+                        }>
+                        {/* Console log for debugging */}
+                        {/* {console.log("product image URL:", product?.images[1]?.src)} */}
+
+                        {product.images && product.images.length > 0 ? (
+                          <Product
+                            key={product?.id}
+                            uri={product?.images[0]?.src}
+                            name={product?.name}
+                            price={product?.price}
+                            saved={product?.saved}
+                            product_id={product?.id}
+                            isWatchList={product?.isWatchList}
+                          />
+                        ) : (
+                          <Product
+                            key={product?.id}
+                            uri={false}
+                            name={product?.name}
+                            price={product?.price}
+                            saved={product?.saved}
+                            product_id={product?.id}
+                            isWatchList={product?.isWatchList}
+                          />
+                        )}
+
+                      </Pressable>
+                    ))
                 )}
                 {/* </View> */}
               </View>
@@ -584,7 +617,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: '600',
-    fontFamily:'Product Sans'
+    fontFamily: 'Product Sans'
   },
 });
 export default Home;

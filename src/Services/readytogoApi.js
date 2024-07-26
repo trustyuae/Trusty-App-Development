@@ -10,14 +10,13 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  auth: {
-    username: CONSUMER_KEY,
-    password: CONSUMER_SECRET,
-  },
+  // auth: {
+  //   username: CONSUMER_KEY,
+  //   password: CONSUMER_SECRET,
+  // },
 });
 
-export const getCategories = async () => {
-  const response = await api.get('/wc/v3/products/categories');
+export const getRedytoGo = async () => {
+  const response = await api.get('/custom-category-products/v1/all-category-products');
   return response.data;
 };
-

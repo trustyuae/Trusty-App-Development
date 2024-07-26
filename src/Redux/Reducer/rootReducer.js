@@ -4,6 +4,7 @@ import userSliceReducer from '../Slice/loginslice';
 import getByIdSlice from '../Slice/SingleProductslice';
 import productReducer from '../Slice/productSlice';
 import categoryReducer from '../Slice/categorySlice';
+import redytogoReducer from '../Slice/ready_to_go';
 import authReducer from '../Slice/authSlice';
 import postApiSlice from '../Slice/postApiSlice';
 import perfectpatnerSlice from '../Slice/perfectpatnerSlice';
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   counter: counterReducer,
   auth: authReducer,
   category: categoryReducer,
+  redytogo: redytogoReducer,
   product: productReducer,
   getById: getByIdSlice,
   user: userSliceReducer,
