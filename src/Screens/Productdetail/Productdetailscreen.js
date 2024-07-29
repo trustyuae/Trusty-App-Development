@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: -2,
+    gap: 5,
     paddingVertical: wp('1%'),
     marginTop: hp('1%'),
     marginBottom: hp('7%'),

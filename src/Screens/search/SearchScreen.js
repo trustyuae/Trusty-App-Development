@@ -168,7 +168,7 @@ const SearchScreen = ({ navigation }) => {
           <View style={styles.custposition}>
             <TextInput
               style={styles.inputfield}
-              placeholder="Search"
+              placeholder="Search "
               value={search}
               onChangeText={setSearch}
             />

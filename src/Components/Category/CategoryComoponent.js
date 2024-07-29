@@ -94,8 +94,9 @@ const styles = StyleSheet.create({
   },
   image: {
     resizeMode: 'contain',
-    height: 60,
-    width: 60,
+    height: 84,
+    width: 84,
+    borderRadius: 12,
   },
   label: {
     textAlign: 'center',

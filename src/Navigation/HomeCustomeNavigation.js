@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import WishListCard from '../Components/wishListCard/wishListCard';
 import Wishlist from '../Screens/wishlist/wishlist';
 import DrawerNavigation from './DrawerNavigation';
+import SeeAll from '../Screens/Ready To go see All/SeeAll';
 const Stack = createNativeStackNavigator();
 
 const HomeCustomeNavigation = () => {
@@ -63,6 +64,28 @@ const HomeCustomeNavigation = () => {
             />
           ),
         }}
+      />
+
+<Stack.Screen
+        name="SeeAll"
+        component={SeeAll}
+        options={({navigation}) => ({
+          headerTransparent: true,
+          title: null,
+          headerStyle: {
+            backgroundColor: '#f6f1eb',
+          },
+          headerBackTitleVisible: false,
+          headerLeft: () => (
+            <Icon
+              name="arrow-back"
+              size={25}
+              color="#333"
+              style={{marginLeft: 1}}
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
       />
     </Stack.Navigator>
   );

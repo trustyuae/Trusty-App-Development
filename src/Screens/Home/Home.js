@@ -113,21 +113,21 @@ let getData = [
     img: Images.categories_shoes,
     label: 'Shoes',
   },
-  {
-    id: 3,
-    img: Images.Accessories,
-    label: 'Accessories',
-  },
-  {
-    id: 4,
-    img: Images.Scarf,
-    label: 'Scarfs',
-  },
-  {
-    id: 5,
-    img: Images.Jewellery,
-    label: 'Jewellery',
-  },
+  // {
+  //   id: 3,
+  //  // img: Images.Accessories,
+  //   label: 'Accessories',
+  // },
+  // {
+  //   id: 4,
+  //  // img: Images.Scarf,
+  //   label: 'Scarfs',
+  // },
+  // {
+  //   id: 5,
+  //  // img: Images.Jewellery,
+  //   label: 'Jewellery',
+  // },
   // {
   //   id: 4,
   //   img: Images.shoes,
@@ -157,6 +157,8 @@ const Home = () => {
   const [wishlist, setWishlist] = useState([items].map(item => ({ id: item })));
   // console.log('inside home---->', products);
 
+
+  console.log("wishlist---------------->",wishlist);
 
 
   useEffect(() => {
@@ -284,18 +286,18 @@ const Home = () => {
                 style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={styles.customheading}>Ready to go</Text>
 
-                <Text style={{
+                <Text onPress={()=>navigation.navigate('SeeAll')} style={{
                   color: 'black',
                   fontSize: 14,
                   fontWeight: 600,
                   fontFamily: 'Product Sans',
                   top: 10
                 }}>
-                  SEE ALL{' '}
+                  SEE ALL
                   <Image
                     source={Images.Backarrow}
                     width={22}
-                    height={10}></Image>{' '}
+                    height={10}></Image>
                 </Text>
               </View>
             </View>
@@ -342,7 +344,7 @@ const Home = () => {
                   redytogoProducts.slice(startIndex, startIndex + 10).map(rtgproducts => (
                     <Pressable
                       key={rtgproducts.id}
-                      onPress={() => navigateToCategoryProducts(rtgproducts)}>
+                      onPress={() => navigation.navigate('ProductDetail', { userId:rtgproducts.id })}>
                           <Category
                             key={rtgproducts?.id}
                             uri={rtgproducts?.images[0]}
@@ -350,6 +352,7 @@ const Home = () => {
                             price={rtgproducts?.price}
                             description={rtgproducts?.description}
                             id={rtgproducts?.id}
+                            isWatchList={rtgproducts?.isWatchList}
                           />
                     </Pressable>
                   ))
@@ -452,9 +455,14 @@ const Home = () => {
                 </View>
               </TouchableOpacity> */}
                 {/* <View style={styles.productContainer}> */}
-                {true && wishlist.length === 0 ? (
-                  <View style={{ marginLeft: wp('1.5%') }}>
-                    <SkeletonLoader count={2} />
+                {true && wishlist.length === 0 ?
+           
+                 (
+                  <View style={{ flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    paddingHorizontal: 2 }}>
+                    <SkeletonLoader count={4} />
                   </View>
                 ) : (
                   wishlist
