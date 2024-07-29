@@ -34,6 +34,7 @@ import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import CategoryComoponent from '../../Components/Category/CategoryComoponent';
 import Button from '../../Components/Button';
 import { fetchRedyToGo } from '../../Redux/Slice/ready_to_go';
+import Readytogo from '../../Components/Ready To Go/Readytogo';
 
 const categoriesx = [
   {
@@ -220,6 +221,8 @@ const Home = () => {
     }
   };
 
+
+
   useEffect(() => {
     data();
   }, [items, products, categories, tokenData]);
@@ -341,20 +344,24 @@ const Home = () => {
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (
-                  redytogoProducts.slice(startIndex, startIndex + 10).map(rtgproducts => (
+                  redytogoProducts.slice(startIndex, startIndex + 10).map(product => (
+                    <>
+
                     <Pressable
-                      key={rtgproducts.id}
-                      onPress={() => navigation.navigate('ProductDetail', { userId:rtgproducts.id })}>
-                          <Category
-                            key={rtgproducts?.id}
-                            uri={rtgproducts?.images[0]}
-                            name={rtgproducts?.name}
-                            price={rtgproducts?.price}
-                            description={rtgproducts?.description}
-                            id={rtgproducts?.id}
-                            isWatchList={rtgproducts?.isWatchList}
+                      key={product.id}
+                      onPress={() => navigation.navigate('ProductDetail', { userId:product.id })}>
+                          <Readytogo
+                            key={product?.id}
+                            id={product?.id}
+                            uri={product?.images[0]}
+                            name={product?.name}
+                            price={product?.price}
+                            saved={product?.saved}
+                            product_id={product?.id}
+                            isWatchList={product?.isWatchList}
                           />
                     </Pressable>
+                    </>
                   ))
                 )}
               </ScrollView>

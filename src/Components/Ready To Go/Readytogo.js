@@ -1,23 +1,34 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
-import {Images} from '../Constants/index';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../Assets/Theme/globalColors';
-import {NoImg} from '../Constants/Icons';
-import { useFocusEffect } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import {Images} from '../../Constants/index';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addToWishlist,
+  fetchWishlist,
+  removeFromWishlist,
+} from '../../Redux/Slice/wishlistSlice';
+import {getToken} from '../../Utils/localstorage';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import {NoImg} from '../../Constants/Icons';
 
-const Category = ({uri, name, description, price, id, isWatchList}) => {
-  const dispatch=useDispatch()
-  const [imageUri, setImageUri] = useState(uri);
+const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id}) => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const [saved, setSaved] = useState(isWatchList === true);
-  const handleImageError = () => {
-    setImageUri(null);
-  };
-
   const [tokenData, setTokenData] = useState(null);
 
   useEffect(() => {
@@ -94,24 +105,33 @@ const Category = ({uri, name, description, price, id, isWatchList}) => {
   };
 
 
-
   return (
     <View style={styles.container}>
-      {imageUri == null || imageUri === '' ? (
-        <Image style={styles.image} source={NoImg} onError={handleImageError} />
-      ) : (
-        <Image
-          style={styles.image}
-          source={{uri: uri}}
-          onError={handleImageError}
-        />
-      )}
-      <Pressable onPress={toggleSaved} style={styles.saveImagea}>
-        <Image
-          style={styles.saveImage}
-          source={saved ? Images.saveIconFill : Images.saveIconUnFill}
-        />
-      </Pressable>
+      <View >
+
+
+        {uri? (
+       <View>
+          <Image
+            style={styles.image}
+            source={{
+              uri:uri,
+            }}
+            // source={img}
+            resizeMode="cover"
+          /> 
+       </View>
+
+        ) : (
+          <Image source={NoImg} style={styles.dummy} resizeMode="contain" />
+        )}
+        <Pressable onPress={toggleSaved} style={styles.saveImagea}>
+          <Image
+            style={styles.saveImage}
+            source={saved ? Images.saveIconFill : Images.saveIconUnFill}
+          />
+        </Pressable>
+      </View>
 
       <View style={{width: 160, marginTop: hp('1%')}}>
         <Text style={styles.custom}>{name}</Text>
@@ -129,16 +149,66 @@ const Category = ({uri, name, description, price, id, isWatchList}) => {
 };
 
 const styles = StyleSheet.create({
-  custtext: {
+    custtext: {
+        color: globalColors.black,
+        fontWeight: '700',
+        marginVertical: 10,
+        fontSize: 16,
+        fontFamily: 'Product Sans',
+      },
+  centercontainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    backgroundColor: globalColors.headingBackground,
+    marginHorizontal: 5,
+    // backgroundColor:'yellow'
+  },
+  imageContainer: {
+    borderRadius: hp('2%'),
+    width: wp('52%'),
+    height: hp('30%'),
+    resizeMode: 'contain',
+    position: 'relative',
+    // backgroundColor: globalColors.productBackground,
+  },
+  detailsContainer: {
+    marginTop: hp('1%'),
+    height: hp('10%'),
+    width: wp('46%'),
+    justifyContent: 'center',
+  },
+  name: {
+    width:wp("44%"),
+    fontSize: 17,
+    fontWeight: '400',
+    textTransform: 'capitalize',
+    fontFamily: 'Product Sans',
+    color: globalColors.black,
+    fontWeight: '600',
+     marginTop: wp('5%'),
+  },
+  price: {
     color: globalColors.black,
     fontWeight: '700',
     marginVertical: 10,
     fontSize: 16,
     fontFamily: 'Product Sans',
   },
-  container: {
-    backgroundColor: globalColors.headingBackground,
-    marginHorizontal: 5,
+  saveImagea: {
+    position: 'absolute',
+    marginTop: wp('0.1%'),
+    marginLeft: wp('32%'),
+    padding: 12,
+    left: 15,
+  },
+  saveImage: {
+    width: 32,
+    resizeMode: 'contain',
+    padding: 8,
+    height: 32,
   },
   image: {
     borderRadius: hp('2%'),
@@ -146,29 +216,16 @@ const styles = StyleSheet.create({
     height: hp('26%'),
     resizeMode: 'contain',
   },
-  dummy: {
-    borderRadius: 5,
-    width: wp('52%'),
-    height: hp('26%'),
-    resizeMode: 'contain',
+  dummy:{
+    borderRadius: 6,
+    width: wp('46%'),
+    height:hp('21%'),
   },
-  name: {
-    marginBottom: wp('5%'),
-    fontFamily: 'Product Sans',
+
+  heading: {
     color: globalColors.lightgold,
-  },
-  saveImagea: {
-    position: 'absolute',
-    marginTop: hp('1.5%'),
-    marginLeft: wp('34%'),
-    padding: 12,
-    left: 14,
-  },
-  saveImage: {
-    width: 32,
-    resizeMode: 'contain',
-    padding: 8,
-    height: 32,
+    marginTop: hp('6%'),
+    fontFamily: 'Product Sans',
   },
   custom: {
     color: globalColors.black,
@@ -178,4 +235,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Category;
+export default Readytogo;

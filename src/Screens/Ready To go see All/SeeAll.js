@@ -102,7 +102,7 @@ export default SeeAll;
 const styles = StyleSheet.create({
   maincontainer: {
     paddingHorizontal: wp('1%'),
-    marginTop: hp('1%'),
+    marginTop: hp('3%'),
     flexDirection: 'row',
   },
   name: {
