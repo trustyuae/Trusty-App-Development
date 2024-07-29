@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 18,
-    // marginLeft: wp('2%'),
+     marginTop: wp('1%'),
     fontFamily: 'Product Sans',
     fontWeight: '700',
     color: globalColors.black,
