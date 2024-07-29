@@ -26,10 +26,12 @@ export const loginUser = createAsyncThunk(
   USER_LOGIN_REQUEST,
   async (data, {rejectWithValue}) => {
     try {
-      const response = await axios.post(`${baseURL}/jwt-auth/v1/token`, data);
+      
+      const response = await axios.post(`${baseURL}/jwt-auth/v1/token`,data);
+
       await AsyncStorage.setItem(
         'token',
-        JSON.stringify(response?.data?.jwt_token),
+        JSON.stringify(response?.data?.token),
       );
       await AsyncStorage.setItem(
         'user_id',
@@ -42,6 +44,7 @@ export const loginUser = createAsyncThunk(
 
       return response.data;
     } catch (error) {
+      console.log("error------------------>",error);
       return rejectWithValue(error?.response?.data?.message);
     }
   },

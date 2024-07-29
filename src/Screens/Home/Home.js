@@ -346,7 +346,7 @@ const Home = () => {
                 ) : (
                   redytogoProducts.slice(startIndex, startIndex + 10).map(product => (
                     <>
-
+{console.log("**********************85555555555555555555555555555------------------>",redytogoProducts.isWatchList)}
                     <Pressable
                       key={product.id}
                       onPress={() => navigation.navigate('ProductDetail', { userId:product.id })}>
@@ -489,6 +489,9 @@ const Home = () => {
                         {/* {console.log("product image URL:", product?.images[1]?.src)} */}
 
                         {product.images && product.images.length > 0 ? (
+                          <>
+                       {console.log("**********************85555555555555555555555555555------------------>",product.isWatchList)}
+
                           <Product
                             key={product?.id}
                             uri={product?.images[0]?.src}
@@ -498,6 +501,7 @@ const Home = () => {
                             product_id={product?.id}
                             isWatchList={product?.isWatchList}
                           />
+                             </>
                         ) : (
                           <Product
                             key={product?.id}
