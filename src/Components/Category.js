@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   image: {
-    borderRadius: 5,
+    borderRadius: 15,
     width: wp('52%'),
     height: hp('26%'),
     resizeMode: 'contain',
@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
   },
   saveImagea: {
     position: 'absolute',
-    marginTop: -6,
-    marginLeft: wp('36%'),
+    marginTop: -4,
+    marginLeft: wp('34%'),
     padding: 12,
     left: 14,
   },
