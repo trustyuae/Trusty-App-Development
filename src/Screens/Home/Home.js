@@ -248,7 +248,7 @@ const Home = () => {
   };
 
   const handlepress = () => {
-    navigation.navigate('Search');
+    navigation.navigate('ExploreMore');
   };
 
   return (
@@ -349,10 +349,7 @@ const Home = () => {
                     .slice(startIndex, startIndex + 10)
                     .map(product => (
                       <>
-                        {console.log(
-                          '**********************85555555555555555555555555555------------------>',
-                          redytogoProducts.isWatchList,
-                        )}
+                       
                         <Pressable
                           key={product.id}
                           onPress={() =>

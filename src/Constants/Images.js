@@ -45,8 +45,21 @@ const Catelog2=require("../Assets/Images/catelog2.png")
 const Catelog3=require("../Assets/Images/catelog3.png")
 const categories_Bag=require("../Assets/Images/Bags_img.webp")
 const categories_shoes=require("../Assets/Images/Shoes_imgs.webp")
+const sortarrow=require("../Assets/Images/sort.png")
+const sortlogo=require("../Assets/Images/Frame.png")
+const circle=require("../Assets/Images/Ellipse.png")
+const down=require("../Assets/Images/down.png")
+const closeicon=require("../Assets/Images/closeicon.png")
+const righticon=require("../Assets/Images/righticon.png")
+
 
 export default {
+  righticon,
+  closeicon,
+  down,
+  sortarrow,
+  sortlogo,
+  circle,
   categories_shoes,
   categories_Bag,
   Catelog1,

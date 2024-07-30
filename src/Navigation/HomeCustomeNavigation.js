@@ -10,6 +10,7 @@ import WishListCard from '../Components/wishListCard/wishListCard';
 import Wishlist from '../Screens/wishlist/wishlist';
 import DrawerNavigation from './DrawerNavigation';
 import SeeAll from '../Screens/Ready To go see All/SeeAll';
+import ExploreMore from '../Screens/ExploreMore/Explore';
 const Stack = createNativeStackNavigator();
 
 const HomeCustomeNavigation = () => {
@@ -86,6 +87,30 @@ const HomeCustomeNavigation = () => {
             />
           ),
         })}
+      />
+
+<Stack.Screen
+        name="ExploreMore"
+        component={ExploreMore}
+        // options={({navigation}) => ({
+        //   headerTransparent: true,
+        //   title: null,
+        //   headerStyle: {
+        //     backgroundColor: '#f6f1eb',
+        //   },
+        //   headerBackTitleVisible: false,
+        //   headerLeft: () => (
+        //     <Icon
+        //       name="arrow-back"
+        //       size={25}
+        //       color="#333"
+        //       style={{marginLeft: 1}}
+        //       onPress={() => navigation.goBack()}
+        //     />
+        //   ),
+        // })}
+        options={{headerShown:false}}
+
       />
     </Stack.Navigator>
   );
