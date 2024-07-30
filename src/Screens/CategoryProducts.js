@@ -150,7 +150,7 @@ const CategoryProducts = ({ navigation }) => {
             />
           }
         >
-          <Text style={styles.TextHeading}>Women</Text>
+          {/* <Text style={styles.TextHeading}>Women</Text> */}
 
           <View
             style={{

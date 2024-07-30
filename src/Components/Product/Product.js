@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     // backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
-    marginTop: hp('1%'),
+    marginTop: hp('2%'),
     height: hp('10%'),
     width: wp('46%'),
     justifyContent: 'center',
@@ -207,11 +207,9 @@ const styles = StyleSheet.create({
   name: {
     width:wp("44%"),
     fontSize: 17,
-    fontWeight: '400',
     textTransform: 'capitalize',
     fontFamily: 'Product Sans',
     color: globalColors.black,
-    fontWeight: '600',
      marginTop: wp('5%'),
   },
   price: {

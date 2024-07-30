@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: 'Product Sans',
     color: globalColors.black,
-    fontWeight: '600',
+   // fontWeight: '600'
+   marginBottom:hp('0.5%'),
     fontSize: 17,
   },
 
