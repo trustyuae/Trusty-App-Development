@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {Images} from '../../Constants/index';
 import {
@@ -6,13 +6,21 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {globalColors} from '../../Assets/Theme/globalColors';
+import SkeletonLoader from '../Loader/SkeletonLoader';
+import SkeletonLoaderHomeimg from '../Loader/SkeletonLoaderHomeimg';
 
 const HeadingImage = () => {
+  const [imageLoaded, setImageLoaded] = useState(true);
+
   return (
     <View style={{alignSelf: 'center', marginTop: -10}}>
-      <ImageBackground style={styles.container} source={Images.HeadingImage}>
+      <ImageBackground
+        style={styles.container}
+        source={Images.HeadingImage}
+        onLoad={() => setImageLoaded(false)}>
         <Image style={styles.imageContainer} source={Images.Textimg}></Image>
       </ImageBackground>
+      {!imageLoaded && <SkeletonLoaderHomeimg />}
     </View>
   );
 };

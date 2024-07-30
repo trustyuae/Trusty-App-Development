@@ -151,7 +151,7 @@ const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id
 const styles = StyleSheet.create({
     custtext: {
         color: globalColors.black,
-       // fontWeight: '700',
+        fontWeight: '700',
         marginVertical: 10,
         fontSize: 16,
         fontFamily: 'Product Sans',
@@ -183,11 +183,11 @@ const styles = StyleSheet.create({
   name: {
     width:wp("44%"),
     fontSize: 17,
-    //fontWeight: '400',
-    //textTransform: 'capitalize',
+    fontWeight: '400',
+    textTransform: 'capitalize',
     fontFamily: 'Product Sans',
     color: globalColors.black,
-   // fontWeight: '600',
+   fontWeight: '600',
      marginTop: wp('5%'),
   },
   price: {

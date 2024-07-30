@@ -5,7 +5,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const SkeletonLoaderProductDetails = () => {
+const SkeletonLoaderHomeimg = () => {
   const translateX = useRef(new Animated.Value(-wp('40%'))).current;
   const opacity = useRef(new Animated.Value(0.3)).current;
 
@@ -38,42 +38,24 @@ const SkeletonLoaderProductDetails = () => {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.imageSkeleton, {opacity}]} />
-      <View style={styles.contentContainer}>
-        <Animated.View style={[styles.titleSkeleton, {opacity}]} />
-        <Animated.View style={[styles.priceSkeleton, {opacity}]} />
-        <Animated.View style={[styles.statusSkeleton, {opacity}]} />
-        <Animated.View style={[styles.accordionSkeleton, {opacity}]} />
-      </View>
-      <View style={styles.perfectPartnerContainer}>
-        <Animated.View style={[styles.partnerTitleSkeleton, {opacity}]} />
-        <View style={styles.productsContainer}>
-          {[...Array(4)].map((_, index) => (
-            <View key={index} style={styles.productSkeletonWrapper}>
-              <Animated.View
-                style={[
-                  styles.productSkeleton,
-                  {
-                    transform: [{translateX}],
-                  },
-                ]}
-              />
-            </View>
-          ))}
-        </View>
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: wp('3%'),
-    padding: 10,
-  },
+  // container: {
+  //     paddingHorizontal: wp('3%'),
+  //     padding: 10,
+  // },
   imageSkeleton: {
-    height: hp('60%'),
     backgroundColor: '#E0E0E0',
     marginBottom: hp('2%'),
+
+    //
+    width: wp('100%'),
+
+    height: hp('36%'),
+    resizeMode: 'contain',
   },
   contentContainer: {
     marginHorizontal: wp('3%'),
@@ -135,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SkeletonLoaderProductDetails;
+export default SkeletonLoaderHomeimg;

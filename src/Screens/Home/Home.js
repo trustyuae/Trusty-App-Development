@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -12,29 +12,31 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Counter from '../../Components/Counter';
 import Category from '../../Components/Category';
-import { Images } from '../../Constants/index';
+import {Images} from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import PreviewImage from '../../Components/Preview/PreviewImage';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import Product from '../../Components/Product/Product';
 import HeadingImage from '../../Components/Preview/HeadingImage';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { Pressable } from 'react-native';
-import { fetchCategories } from '../../Redux/Slice/categorySlice';
-import { fetchProducts } from '../../Redux/Slice/productSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
-import { getToken } from '../../Utils/localstorage';
-import { SafeAreaView } from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {Pressable} from 'react-native';
+import {fetchCategories} from '../../Redux/Slice/categorySlice';
+import {fetchProducts} from '../../Redux/Slice/productSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import {getToken} from '../../Utils/localstorage';
+import {SafeAreaView} from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import CategoryComoponent from '../../Components/Category/CategoryComoponent';
 import Button from '../../Components/Button';
-import { fetchRedyToGo } from '../../Redux/Slice/ready_to_go';
+import {fetchRedyToGo} from '../../Redux/Slice/ready_to_go';
 import Readytogo from '../../Components/Ready To Go/Readytogo';
+import {ImageBackground} from 'react-native';
+import SkeletonLoaderHomeimg from '../../Components/Loader/SkeletonLoaderHomeimg';
 
 const categoriesx = [
   {
@@ -139,28 +141,27 @@ let getData = [
 const Home = () => {
   const navigation = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
   const [newWitchList, setNewWitchList] = useState([]);
   const dispatch = useDispatch();
   // const categoryStatus = false;
-  const { categories, categoryStatus, categoryError } = useSelector(
+  const {categories, categoryStatus, categoryError} = useSelector(
     state => state.category,
   ); // Select category state from Redux store
-  const { redytogoProducts, redytogoStatus, redytogoError } = useSelector(
+  const {redytogoProducts, redytogoStatus, redytogoError} = useSelector(
     state => state.redytogo,
   );
-  const { products, status, error } = useSelector(state => state.product);
-  const { items, loading: wishlistLoading } = useSelector(
+  const {products, status, error} = useSelector(state => state.product);
+  const {items, loading: wishlistLoading} = useSelector(
     state => state.wishlist,
   );
   const [tokenData, setTokenData] = useState(null);
   // const [wishlist, setWishlist] = useState([]);
-  const [wishlist, setWishlist] = useState([items].map(item => ({ id: item })));
+  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
   // console.log('inside home---->', products);
 
-
-  console.log("wishlist---------------->",wishlist);
-
+  console.log('wishlist---------------->', wishlist);
 
   useEffect(() => {
     data();
@@ -209,7 +210,7 @@ const Home = () => {
   }, [dispatch, getToken]);
   const data = () => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+      const itemIdList = items.Wishlist?.map(item => ({id: item}));
       const productIds = new Set(itemIdList.map(item => Number(item.id)));
       const result = products.map(productItem => ({
         ...productItem,
@@ -220,8 +221,6 @@ const Home = () => {
       setWishlist(products);
     }
   };
-
-
 
   useEffect(() => {
     data();
@@ -235,7 +234,7 @@ const Home = () => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
-    navigation.navigate('CategoryProducts', { category, products });
+    navigation.navigate('CategoryProducts', {category, products});
     // console.log("products",category);
   };
   const previewimages = {
@@ -249,13 +248,11 @@ const Home = () => {
   };
 
   const handlepress = () => {
-    navigation.navigate("Search")
+    navigation.navigate('Search');
   };
 
-
-
   return (
-    <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
+    <SafeAreaView style={{backgroundColor: globalColors.statusBar}}>
       <View style={styles.container}>
         {/* <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar> */}
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
@@ -268,7 +265,7 @@ const Home = () => {
               tintColor={globalColors.black}
             />
           }>
-          <View style={{ paddingHorizontal: wp('2%') }}>
+          <View style={{paddingHorizontal: wp('2%')}}>
             <View
               style={{
                 justifyContent: 'center',
@@ -280,22 +277,26 @@ const Home = () => {
                 style={styles.Topimg}></Image>
             </View>
             {
-
-              <CategoryComoponent getData={getData} navigateToCategoryProducts={navigateToCategoryProducts} />
+              <CategoryComoponent
+                getData={getData}
+                navigateToCategoryProducts={navigateToCategoryProducts}
+              />
             }
 
-            <View style={{ marginHorizontal: 5, margin: 15 }}>
+            <View style={{marginHorizontal: 5, margin: 15}}>
               <View
-                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={styles.customheading}>Ready to go</Text>
 
-                <Text onPress={()=>navigation.navigate('SeeAll')} style={{
-                  color: 'black',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  fontFamily: 'Product Sans',
-                  top: 10
-                }}>
+                <Text
+                  onPress={() => navigation.navigate('SeeAll')}
+                  style={{
+                    color: 'black',
+                    fontSize: 14,
+                    fontWeight: 600,
+                    fontFamily: 'Product Sans',
+                    top: 10,
+                  }}>
                   SEE ALL
                   <Image
                     source={Images.Backarrow}
@@ -340,16 +341,25 @@ const Home = () => {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
                 {redytogoStatus === 'loading' ? (
-                  <View style={{ marginLeft: wp('2.5%') }}>
+                  <View style={{marginLeft: wp('2.5%')}}>
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (
-                  redytogoProducts.slice(startIndex, startIndex + 10).map(product => (
-                    <>
-{console.log("**********************85555555555555555555555555555------------------>",redytogoProducts.isWatchList)}
-                    <Pressable
-                      key={product.id}
-                      onPress={() => navigation.navigate('ProductDetail', { userId:product.id })}>
+                  redytogoProducts
+                    .slice(startIndex, startIndex + 10)
+                    .map(product => (
+                      <>
+                        {console.log(
+                          '**********************85555555555555555555555555555------------------>',
+                          redytogoProducts.isWatchList,
+                        )}
+                        <Pressable
+                          key={product.id}
+                          onPress={() =>
+                            navigation.navigate('ProductDetail', {
+                              userId: product.id,
+                            })
+                          }>
                           <Readytogo
                             key={product?.id}
                             id={product?.id}
@@ -360,17 +370,16 @@ const Home = () => {
                             product_id={product?.id}
                             isWatchList={product?.isWatchList}
                           />
-                    </Pressable>
-                    </>
-                  ))
+                        </Pressable>
+                      </>
+                    ))
                 )}
               </ScrollView>
             </View>
-
           </View>
-          <View style={{ backgroundColor: 'white' }}>
-            <View style={{ marginTop: 20 }}>
-              <View style={{ flexDirection: 'row' }}>
+          <View style={{backgroundColor: 'white'}}>
+            <View style={{marginTop: 20}}>
+              <View style={{flexDirection: 'row'}}>
                 <Text style={[styles.customheading, styles.custommargin]}>
                   MUST HAVE
                 </Text>
@@ -378,9 +387,9 @@ const Home = () => {
                   source={Images.Musthavelogo}
                   height={30}
                   width={30}
-                  style={{ margin: 6 }}></Image>
+                  style={{margin: 6}}></Image>
               </View>
-              <View style={{ marginTop: -20, marginBottom: 10 }}>
+              <View style={{marginTop: -20, marginBottom: 10}}>
                 <Text style={[styles.customheading, styles.custommargin]}>
                   FOR{' '}
                   <Text style={[styles.customheading, styles.Custcolor]}>
@@ -462,21 +471,26 @@ const Home = () => {
                 </View>
               </TouchableOpacity> */}
                 {/* <View style={styles.productContainer}> */}
-                {true && wishlist.length === 0 ?
-           
-                 (
-                  <View style={{ flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    paddingHorizontal: 2 }}>
+                {true && wishlist.length === 0 ? (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      paddingHorizontal: 2,
+                    }}>
                     <SkeletonLoader count={4} />
                   </View>
                 ) : (
                   wishlist
                     .filter(product => {
                       // Check if any category's name includes "Bag"
-                      return product?.categories?.some(category => category.slug.includes("bags-women"));
-                    }).slice(startIndex, startIndex + 4).map(product => (
+                      return product?.categories?.some(category =>
+                        category.slug.includes('bags-women'),
+                      );
+                    })
+                    .slice(startIndex, startIndex + 4)
+                    .map(product => (
                       <Pressable
                         key={product?.id}
                         onPress={() =>
@@ -490,18 +504,16 @@ const Home = () => {
 
                         {product.images && product.images.length > 0 ? (
                           <>
-                       {console.log("**********************85555555555555555555555555555------------------>",product.isWatchList)}
-
-                          <Product
-                            key={product?.id}
-                            uri={product?.images[0]?.src}
-                            name={product?.name}
-                            price={product?.price}
-                            saved={product?.saved}
-                            product_id={product?.id}
-                            isWatchList={product?.isWatchList}
-                          />
-                             </>
+                            <Product
+                              key={product?.id}
+                              uri={product?.images[0]?.src}
+                              name={product?.name}
+                              price={product?.price}
+                              saved={product?.saved}
+                              product_id={product?.id}
+                              isWatchList={product?.isWatchList}
+                            />
+                          </>
                         ) : (
                           <Product
                             key={product?.id}
@@ -513,7 +525,6 @@ const Home = () => {
                             isWatchList={product?.isWatchList}
                           />
                         )}
-
                       </Pressable>
                     ))
                 )}
@@ -538,7 +549,21 @@ const Home = () => {
               </View>
             </View>
 
-            <HeadingImage />
+            {/* <HeadingImage /> */}
+            <View style={{alignSelf: 'center', marginTop: -10}}>
+              {imageLoaded && <SkeletonLoaderHomeimg />}
+              <ImageBackground
+                style={styles.containerimgbackgr}
+                source={Images.HeadingImage}
+                onLoad={() => setImageLoaded(false)}
+                onError={err =>
+                  console.log('img error------------------>', err)
+                }>
+                <Image
+                  style={styles.imageContainer}
+                  source={Images.Textimg}></Image>
+              </ImageBackground>
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -636,7 +661,42 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: '600',
-    fontFamily: 'Product Sans'
+    fontFamily: 'Product Sans',
+  },
+  containerimgbackgr: {
+    width: wp('100%'),
+    ImageBackground: globalColors.homeScreenBackground,
+    height: hp('36%'),
+    resizeMode: 'contain',
+  },
+  imageContainer: {
+    alignItems: 'center',
+    margin: 'auto',
+    marginTop: hp('9%'),
+    height: hp('25%'),
+    width: wp('90%'),
+    resizeMode: 'contain',
+  },
+  MainHeading: {
+    fontWeight: '500',
+    textAlign: 'center',
+    fontFamily: 'Intrepid Regular',
+    fontSize: 17,
+    color: globalColors.white,
+  },
+  subHeading: {
+    fontSize: 14,
+    width: wp('70%'),
+    height: hp('10%'),
+    textAlign: 'center',
+    fontFamily: 'Intrepid Regular',
+    margin: 'auto',
+    color: globalColors.white,
+  },
+  textConatainer: {
+    marginBottom: hp('11%'),
+    alignContent: 'center',
+    gap: hp('1%'),
   },
 });
 export default Home;

@@ -48,11 +48,11 @@ const SeeAll = () => {
                     navigation.navigate('ProductDetail', {userId: item.id})
                   }>
                   {redytogoStatus === 'loading' ? (
-                  <View style={{ marginLeft: wp('2.5%') }}>
+                  <View style={{ marginLeft:"2.5%" }}>
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (<View style={styles.container}>
-                    <View style={styles.imageContainer}>
+                    <View >
                       {item?.images[0] ? (
                         <View>
                           <Image
