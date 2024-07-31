@@ -42,7 +42,6 @@ const Profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const {data, loading, error} = useSelector(state => state.profile);
-  console.log('data', data);
   const onRefresh = async () => {
     setRefreshing(true);
     const customer_id = await getUserId();
@@ -98,6 +97,7 @@ const Profile = () => {
       setPhone(phoneNumberMetadata.value);
     }
   }, [data]);
+
 
   // data
 
@@ -191,7 +191,7 @@ const Profile = () => {
       setIsoCode(selected.iso_code);
     } else {
       setCurrency('');
-      setIsoCode('');
+      setIsoCode(''); 
     }
   };
   return (
@@ -199,6 +199,7 @@ const Profile = () => {
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
+        <View style={{flex:1,backgroundColor:globalColors.white}}>  
       <ScrollView
         style={{flex: 1}}
         showsVerticalScrollIndicator={false}
@@ -222,112 +223,10 @@ const Profile = () => {
           <SkeletonLoaderProfile />
         ) : data ? (
           <View style={styles.container}>
-            <Text style={styles.mainText}>Profile Information</Text>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Text style={styles.contactHeading}>Contact Details</Text>
-              <TouchableOpacity onPress={editable ? handleSave : handleEdit}>
-                <Text
-                  style={{
-                    marginLeft: 'auto',
-                    marginTop: hp('1%'),
-                    textDecorationLine: 'underline',
-                  }}>
-                  {editable ? 'Save' : 'Edit'}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.contantContainer}>
-              <View style={styles.subContantContainer}>
-                <Text style={styles.textHeading}>Name</Text>
-                {editable ? (
-                  <>
-                    <TextInput
-                      style={styles.textInput}
-                      value={name}
-                      onChangeText={setName}
-                      // onKeyPress={({ nativeEvent }) => {
-                      //   if (!/[a-zA-Z]/.test(nativeEvent.key)) {
-                      //     nativeEvent.preventDefault();
-                      //   }
-                      // }}
-                    />
-                    {errors.name ? (
-                      <Text style={styles.errorText}>{errors.name}</Text>
-                    ) : null}
-                  </>
-                ) : (
-                  <Text style={styles.textHeadingValue}>
-                    {data?.first_name}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.subContantContainer}>
-                <Text style={styles.textHeading}>Email</Text>
-                {editable ? (
-                  <TextInput
-                    style={styles.textInput}
-                    value={email}
-                    onChangeText={setEmail}
-                  />
-                ) : (
-                  <Text style={styles.textHeadingValue}>{data?.email}</Text>
-                )}
-              </View>
-              <View style={styles.subPasswordContainer}>
-                <View>
-                  <Text style={styles.textHeading}>Password</Text>
-                  <Text style={styles.textHeadingValue}>********</Text>
-                </View>
-                <View style={{marginLeft: 'auto', marginRight: 5}}>
-                  <Text
-                    style={{textDecorationLine: 'underline'}}
-                    onPress={() => setModalVisible(true)}>
-                    Change
-                  </Text>
-                  <PasswordModal
-                    modalVisible={modalVisible}
-                    setModalVisible={setModalVisible}
-                  />
-                </View>
-              </View>
-              <View style={styles.subContantContainer}>
-                <Text style={styles.textHeading}>Currency</Text>
-                {editable ? (
-                  <RNPickerSelect
-                    onValueChange={value => handleCountryChange(value)}
-                    items={currencies.map(item => ({
-                      label: item.name,
-                      value: item.name,
-                    }))}
-                  />
-                ) : (
-                  <Text style={styles.textHeadingValue}>{isoCode}</Text>
-                )}
-              </View>
-              <View style={styles.subContantContainer}>
-                <Text style={styles.textHeading}>Phone Number</Text>
-
-                {editable ? (
-                  <>
-                    <TextInput
-                      style={styles.textInput}
-                      value={phone}
-                      onChangeText={setPhone}
-                      keyboardType="numeric"
-                    />
-                    {errors.phone ? (
-                      <Text style={styles.errorText}>{errors.phone}</Text>
-                    ) : null}
-                  </>
-                ) : (
-                  <Text style={styles.textHeadingValue}>
-                    {data?.meta_data[2]?.value}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.subContantContainer}>
-                <Text style={styles.textHeading}>Address</Text>
+            <Text style={styles.mainText}>Personal Information</Text>
+            
+            <View style={styles.subContantContainer}>
+                <Text style={styles.textHeading}>ADDRESS</Text>
                 {editable ? (
                   <>
                     <TextInput
@@ -347,76 +246,92 @@ const Profile = () => {
                   </Text>
                 )}
               </View>
-            </View>
-            <View style={styles.subContantContainerAddress}>
-              <Text style={styles.mainText}>Shipping Address</Text>
-              <View style={styles.contantContainer}>
+
+              <View style={styles.subContantContainer}>
+                <Text style={styles.textHeading}>PHONE NUMBER</Text>
+
                 {editable ? (
-                  <View>
-                    <Text style={styles.textHeading}>shipping Country</Text>
+                  <>
                     <TextInput
-                      style={styles.textInputShipping}
-                      value={shippingCountry}
-                      onChangeText={setShippingCountry}
-                      placeholder="shippingCountry"
+                      style={styles.textInput}
+                      value={phone}
+                      onChangeText={setPhone}
+                      keyboardType="numeric"
                     />
-                    {errors.shippingCountry ? (
-                      <Text style={styles.errorText}>
-                        {errors.shippingCountry}
-                      </Text>
+                    {errors.phone ? (
+                      <Text style={styles.errorText}>{errors.phone}</Text>
                     ) : null}
-                  </View>
+                  </>
                 ) : (
-                  <Text style={styles.textHeading}>
-                    {data?.shipping?.country}
+                  <Text style={styles.textHeadingValue}>
+                    {data?.meta_data[2]?.value}
                   </Text>
-                )}
-                {editable ? (
-                  <View>
-                    <Text style={styles.textHeading}>shipping Address</Text>
-
-                    <TextInput
-                      style={styles.textInputShipping}
-                      value={shippingAddress}
-                      onChangeText={setShippingAddress}
-                      placeholder="shippingAddress"
-                    />
-
-                    {errors.shippingAddress ? (
-                      <Text style={styles.errorText}>
-                        {errors.shippingAddress}
-                      </Text>
-                    ) : null}
-                  </View>
-                ) : (
-                  <Text style={styles.SubtextHeading}>
-                    {data?.shipping?.address_1}
-                  </Text>
-                )}
-                {/* <Text style={styles.textHeading}>Johnathan doe</Text> */}
-                {editable ? (
-                  <View>
-                    <Text style={styles.textHeading}>shipping City</Text>
-
-                    <TextInput
-                      style={styles.textInputShipping}
-                      value={shippingCity}
-                      onChangeText={setShippingCity}
-                      placeholder="shippingCity"
-                    />
-                    {errors.shippingCity ? (
-                      <Text style={styles.errorText}>
-                        {errors.shippingCity}
-                      </Text>
-                    ) : null}
-                  </View>
-                ) : (
-                  <Text style={styles.textHeading}>{data?.shipping?.city}</Text>
                 )}
               </View>
-            </View>
+             
+            <View style={styles.subPasswordContainer}>
+                <View>
+                  <Text style={styles.textHeading}>PASSWORD</Text>
+                  <Text style={styles.custpasswordtext}>********</Text>
+                </View>
+                <View style={{marginLeft: 'auto', marginRight: 5}}>
+                  <Text
+                    // style={{textDecorationLine: 'underline'}}
+                    style={{color:"#866528"}}
+                    onPress={() => setModalVisible(true)}>
+                    CHANGE?
+                  </Text>
+                  <PasswordModal
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.subPasswordContainer}>
+                <View>
+                <Text style={styles.textHeading}>CURRENCY</Text>
+                {editable ? (
+                  <RNPickerSelect
+                  
+                    onValueChange={value => handleCountryChange(value)}
+                    items={currencies.map(item => ({
+                      label: item.name,
+                      value: item.name,
+                    }))}
+                  />
+                ) : (
+                  <Text style={styles.textHeadingValue}>{isoCode}</Text>
+                )}
+                </View>
+
+                <View style={{marginLeft: 'auto', marginRight: 5}}>
+                  <Text
+                    // style={{textDecorationLine: 'underline'}}
+                    style={{color:"#866528"}}
+                    onPress={() => setEditable(true)}>
+                    CHANGE?
+                  </Text>
+              
+                </View>
+                
+              </View>
+
+              <View style={{marginTop:hp('2%')}}>
+              <Text style={styles.shippingaddress}>SHIPPING ADDRESS</Text>
+              </View>
+
+              <View style={{borderWidth:1,borderColor:"#D9D9D9"}}/>
+
+   <View style={{marginTop:hp('1%')}}>
+
+              <Text style={{fontFamily:"Product Sans Medium",fontSize:18,color:"black"}}>Johnathan Doe</Text>
+              <Text style={{fontFamily:"Product Sans Medium",fontSize:16,color:"black",marginTop:2}}>1234, Main st,Near Landmark XYZ 4567890</Text>
+   </View>
+
+ 
             <TouchableOpacity onPress={handleLogout}>
-              <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
+              <View style={{flexDirection: 'row', marginVertical: hp('3%')}}>
                 <Image style={{}} source={Images.Logout}></Image>
                 <Text
                   style={{
@@ -424,15 +339,18 @@ const Profile = () => {
                     marginTop: -3,
                     marginBottom: 10,
                     fontSize: 16,
-                    color: globalColors.black,
+                    color: "red",
+                    fontFamily:"Product Sans Medium"
                   }}>
-                  Logout
+                  LOGOUT
                 </Text>
               </View>
             </TouchableOpacity>
           </View>
         ) : null}
+        <View></View>
       </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -440,14 +358,25 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     // marginTop: hp('28%'),
-    marginTop: Platform.OS === 'ios' ? hp('21%') : hp('29%'),
+   
+    backgroundColor:"white",
+    marginTop: Platform.OS === 'ios' ? hp('21%') : hp('28%'),
 
-    padding: 20,
+    paddingHorizontal: wp('4%'),
   },
   mainText: {
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     color: globalColors.black,
-    fontSize: 18,
+    fontSize: 24,
+    fontWeight:'bold',
+    marginBottom: hp('2%'),
+    // marginTop: hp('1%'),
+  },
+  shippingaddress: {
+    fontFamily: 'Product Sans Medium',
+    color: "#866528",
+    fontSize: 16,
+    fontWeight:'600',
     marginBottom: hp('2%'),
     // marginTop: hp('1%'),
   },
@@ -456,21 +385,32 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   textHeading: {
+    opacity:0.6,
     color: globalColors.black,
-    fontSize: 16,
-    fontFamily: 'Intrepid Regular',
+    fontSize: 14,
+    fontFamily: 'Product Sans',
+    fontWeight: '400'
   },
   SubtextHeading: {
     color: globalColors.black,
     fontSize: 16,
     paddingTop: 6,
     paddingBottom: 6,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
-  textHeadingValue: {
-    color: globalColors.buttonBackground,
+  custpasswordtext: {
+    color: globalColors.black,
+    fontWeight:'700',
     fontSize: 16,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
+  },
+
+  textHeadingValue: {
+    color: globalColors.black,
+    fontWeight:'600',
+    fontSize: 16,
+    fontFamily: 'Product Sans',
+    marginTop:hp('0.5%')
   },
   subContantContainer: {
     marginBottom: wp('2%'),
@@ -492,6 +432,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
   },
   textInput: {
+    marginTop:hp("0.5%"),
     borderWidth: 1,
     borderRadius: 5,
     height: 40,

@@ -121,7 +121,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
        </View>
 
         ) : (
-          <Image source={NoImg} style={styles.dummy} resizeMode="contain" />
+          <Image source={NoImg} style={styles.dummy} resizeMode="cover" />
         )}
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image

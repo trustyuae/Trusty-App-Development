@@ -123,11 +123,36 @@ const BottomTabNavigation = ({navigation}) => {
         <Tab.Screen
           name="Profile"
           component={ProfileNavigations}
+          // options={{
+          //   headerTransparent: true,
+          //   title: null,
+          //   headerStyle: {
+          //     backgroundColor: '#f6f1eb',
+          //   },
+          //   tabBarIcon: () => (
+          //     <Image
+          //       source={ProfileIcon}
+          //       style={{width: 15, height: 15}}
+          //       resizeMode="contain"
+          //     />
+          //   ),
+          //   tabBarShowLabel: false,
+          //   headerBackTitleVisible: false,
+          //   headerLeft: () => (
+          //     <Icon
+          //       name="arrow-back"
+          //       size={25}
+          //       color="#333" // Customize the color as needed
+          //       style={{marginLeft: -8}}
+          //       onPress={() => navigation.goBack()}
+          //     />
+          //   ),
+          // }}
           options={{
             headerTransparent: true,
             title: null,
-            headerStyle: {
-              backgroundColor: '#f6f1eb',
+             headerStyle: {
+              backgroundColor:'#f6f1eb',
             },
             tabBarIcon: () => (
               <Image
@@ -138,15 +163,15 @@ const BottomTabNavigation = ({navigation}) => {
             ),
             tabBarShowLabel: false,
             headerBackTitleVisible: false,
-            headerLeft: () => (
-              <Icon
-                name="arrow-back"
-                size={25}
-                color="#333" // Customize the color as needed
-                style={{marginLeft: -8}}
-                onPress={() => navigation.goBack()}
-              />
-            ),
+            // headerLeft: () => (
+            //   <Icon
+            //     name="arrow-back"
+            //     size={25}
+            //     color="#333" // Customize the color as needed
+            //     style={{marginLeft: -8}}
+            //     onPress={() => navigation.goBack()}
+            //   />
+            // ),
           }}
         />
       ) : (

@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchRedyToGo} from '../../Redux/Slice/ready_to_go';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
@@ -19,21 +19,59 @@ import {useNavigation} from '@react-navigation/native';
 import {Images} from '../../Constants';
 import {NoImg} from '../../Constants/Icons';
 import {globalColors} from '../../Assets/Theme/globalColors';
-import {
-  GestureHandlerRootView,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {Get, Post, Remove} from '../../Services/Get';
+import {getToken} from '../../Utils/localstorage';
 const SeeAll = () => {
   const dispatch = useDispatch();
   const {redytogoProducts, redytogoStatus, redytogoError} = useSelector(
     state => state.redytogo,
   );
-
+  const [savedItems, setSavedItems] = useState({});
+  const [token, setToken] = useState();
   const navigation = useNavigation();
+  const [wishlistdata, setWishlist] = useState();
+  useEffect(() => {
+    // Synchronize savedItems state with wishlistdata when it changes
+    const updatedSavedItems = {};
+    wishlistdata?.Wishlist.forEach(item => {
+      updatedSavedItems[item.id] = true;
+    });
+    setSavedItems(updatedSavedItems);
+  }, [wishlistdata]);
+
+  useEffect(() => {
+    const getwishlist = async () => {
+      const token = await getToken();
+      setToken(token);
+      const data = await Get(token);
+      setWishlist(data);
+    };
+    getwishlist();
+  }, []);
 
   useLayoutEffect(() => {
     dispatch(fetchRedyToGo());
   }, [dispatch]);
+
+  const toggleSave = async itemId => {
+  
+    setSavedItems(prev => {
+      const isSaved = !!prev[itemId];
+      const newSavedItems = {
+        ...prev,
+        [itemId]: !isSaved,
+      };
+      if (!isSaved) {
+        Post({product_id: itemId}, token);
+      } else {
+        Remove({product_id: itemId}, token);
+      }
+      return newSavedItems;
+    });
+    const data = await Get(token);
+    setWishlist(data);
+  };
 
   return (
     <GestureHandlerRootView>
@@ -43,49 +81,55 @@ const SeeAll = () => {
             <FlatList
               data={redytogoProducts}
               renderItem={({item}) => (
-                <TouchableOpacity
+                <Pressable
                   onPress={() =>
                     navigation.navigate('ProductDetail', {userId: item.id})
                   }>
                   {redytogoStatus === 'loading' ? (
-                  <View style={{ marginLeft:"2.5%" }}>
-                    <SkeletonLoader count={6} />
-                  </View>
-                ) : (<View style={styles.container}>
-                    <View >
-                      {item?.images[0] ? (
-                        <View>
+                    <View style={{marginLeft: '2.5%'}}>
+                      <SkeletonLoader count={6} />
+                    </View>
+                  ) : (
+                    <View style={styles.container}>
+                      <View>
+                        {item?.images[0] ? (
+                          <View>
+                            <Image
+                              style={styles.image}
+                              source={{
+                                uri: item.images[0],
+                              }}
+                              resizeMode="cover"
+                            />
+                          </View>
+                        ) : (
                           <Image
+                            source={NoImg}
                             style={styles.image}
-                            source={{
-                              uri: item.images[0],
-                            }}
-                            resizeMode="cover"
+                            resizeMode="contain"
                           />
-                        </View>
-                      ) : (
-                        <Image
-                          source={NoImg}
-                          style={styles.image}
-                          resizeMode="contain"
-                        />
-                      )}
-                      <Pressable style={styles.saveImagea}>
-                        <Image
-                          style={styles.saveImage}
-                          source={
-                            false ? Images.saveIconFill : Images.saveIconUnFill
-                          }
-                        />
-                      </Pressable>
-                    </View>
+                        )}
+                        <Pressable
+                          onPress={() => toggleSave(item.id)}
+                          style={styles.saveImagea}>
+                          <Image
+                            style={styles.saveImage}
+                            source={
+                              savedItems[item.id]
+                                ? Images.saveIconFill
+                                : Images.saveIconUnFill
+                            }
+                          />
+                        </Pressable>
+                      </View>
 
-                    <View style={styles.detailsContainer}>
-                      <Text style={styles.name}>{item.name}</Text>
-                      <Text style={styles.price}>{item.price} AED</Text>
+                      <View style={styles.detailsContainer}>
+                        <Text style={styles.name}>{item.name}</Text>
+                        <Text style={styles.price}>{item.price} AED</Text>
+                      </View>
                     </View>
-                  </View>)}
-                </TouchableOpacity>
+                  )}
+                </Pressable>
               )}
               keyExtractor={item => item.id}
               numColumns={2}
@@ -102,14 +146,14 @@ export default SeeAll;
 const styles = StyleSheet.create({
   maincontainer: {
     paddingHorizontal: wp('1%'),
-    marginTop: hp('3%'),
+    marginTop: hp('5%'),
     flexDirection: 'row',
   },
   name: {
     fontFamily: 'Product Sans',
     color: globalColors.black,
-   // fontWeight: '600'
-   marginBottom:hp('0.5%'),
+    // fontWeight: '600'
+    marginBottom: hp('0.5%'),
     fontSize: 17,
   },
 
@@ -140,8 +184,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    margin: wp('1%'), 
-    marginTop:hp('3%')
+    margin: wp('1%'),
+    marginTop: hp('3%'),
   },
   price: {
     fontSize: 17,

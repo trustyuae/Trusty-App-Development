@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     fontFamily: 'Product Sans',
     color: globalColors.black,
-     marginTop: wp('5%'),
+     marginTop: wp('3%'),
   },
   price: {
     fontSize: 18,

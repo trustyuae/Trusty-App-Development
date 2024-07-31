@@ -67,6 +67,9 @@ export const removeFromWishlist = createAsyncThunk(
   },
 );
 
+
+
+
 const wishlistSlice = createSlice({
   name: 'wishlist',
   initialState: {

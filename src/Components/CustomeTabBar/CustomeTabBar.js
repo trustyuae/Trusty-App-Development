@@ -60,7 +60,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
                 <Text
                   style={{
                     color: 'white',
-                    textAlign: 'center',
+                    textAlign:'center',
                   }}>
                   {items?.Wishlist?.length}
                 </Text>
@@ -82,7 +82,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
             {data?.first_name}
           </Text>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row',backgroundColor:"white"}}>
           {state.routes.map((route, index) => {
             const {options} = descriptors[route.key];
             const label =
@@ -126,18 +126,22 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
                 <Text
                   style={{
                     color: isFocused
-                      ? globalColors.black
+                      ? '#866528'
                       : globalColors.buttonBackground,
+                      textDecorationLine:isFocused?'underline':'none', 
+                      textDecorationStyle:'solid',
+                      
 
-                    paddingLeft: 20,
-                    paddingRight: 20,
+                    // paddingLeft: 20,
+                    // paddingRight: 50,
+                    paddingHorizontal:wp("6%"),
                     paddingBottom: 5,
                     paddingTop: 5,
                     fontSize: 16,
                     backgroundColor: isFocused
                       ? globalColors.white
-                      : globalColors.headingBackground,
-                    fontFamily: 'Intrepid Regular',
+                      : globalColors.white,
+                    fontFamily: 'Product Sans Medium',
                   }}>
                   {label}
                 </Text>
@@ -152,7 +156,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
 
 const styles = StyleSheet.create({
   tabBarContainer: {
-    flexDirection: 'column',
+    flexDirection:'column',
     // width: '50%',
     // height: '30%',
     paddingTop: hp('5%'),
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
 
-  notificationCount: {
+  notificationCount:{
     marginRight: wp('7.5%'),
     position: 'absolute',
     right: -10,

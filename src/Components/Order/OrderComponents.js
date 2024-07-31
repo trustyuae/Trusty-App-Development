@@ -18,7 +18,6 @@ const OrderComponents = ({
   onPress,
 }) => {
   const date = new Date(OrderDate);
-  console.log('ss', OrderDate);
   const month = date.toLocaleString('default', {month: 'long'});
   const day = String(date.getDate()).padStart(2, '0');
   const year = date.getFullYear();

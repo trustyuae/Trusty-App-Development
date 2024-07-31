@@ -173,8 +173,8 @@ const ExploreMore = ({navigation}) => {
         style={{
           marginVertical: hp('1%'),
           flexDirection: 'row',
-          justifyContent: 'space-between', // Changed to space-between
-          alignItems: 'center', // Center items vertically
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
         }}>
         <Icon
           name="arrow-back"

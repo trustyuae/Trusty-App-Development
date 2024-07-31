@@ -161,7 +161,6 @@ const Home = () => {
   const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
   // console.log('inside home---->', products);
 
-  console.log('wishlist---------------->', wishlist);
 
   useEffect(() => {
     data();
@@ -293,7 +292,7 @@ const Home = () => {
                   style={{
                     color: 'black',
                     fontSize: 14,
-                    fontWeight: 600,
+                    fontWeight: '600',
                     fontFamily: 'Product Sans',
                     top: 10,
                   }}>
@@ -479,15 +478,12 @@ const Home = () => {
                     <SkeletonLoader count={4} />
                   </View>
                 ) : (
-                  wishlist
-                    .filter(product => {
-                      // Check if any category's name includes "Bag"
+                  wishlist.filter(product => {
                       return product?.categories?.some(category =>
+                       
                         category.slug.includes('bags-women'),
                       );
-                    })
-                    .slice(startIndex, startIndex + 4)
-                    .map(product => (
+                    }).slice(startIndex, startIndex + 4).map(product => (
                       <Pressable
                         key={product?.id}
                         onPress={() =>
@@ -553,9 +549,7 @@ const Home = () => {
                 style={styles.containerimgbackgr}
                 source={Images.HeadingImage}
                 onLoad={() => setImageLoaded(false)}
-                onError={err =>
-                  console.log('img error------------------>', err)
-                }>
+             >
                 <Image
                   style={styles.imageContainer}
                   source={Images.Textimg}></Image>
