@@ -121,7 +121,7 @@ const Explore = ({uri, name, price, product_id, isWatchList,img,description}) =>
        </View>
 
         ) : (
-          <Image source={NoImg} style={styles.dummy} resizeMode="contain" />
+          <Image source={NoImg} style={styles.dummy}  resizeMode="cover" />
         )}
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   dummy:{
     borderRadius: 6,
     width: wp('46%'),
-    height:hp('21%'),
+    height:hp('30%'),
   },
 
   heading: {
