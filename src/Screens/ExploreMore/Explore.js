@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: wp('25%'),
     borderRadius: 5,
-    marginBottom: hp('12%'),
+    marginBottom: hp('14%'),
     margintop: hp("0.2%"),
     color: globalColors.white,
     fontFamily: 'Product Sans',
