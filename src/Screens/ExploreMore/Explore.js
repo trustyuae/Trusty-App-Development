@@ -219,7 +219,14 @@ const ExploreMore = ({navigation}) => {
       <View style={styles.container}>
         <View style={{marginTop: '10%'}}>
           <View style={styles.searchContainer}>
-            <Text style={{fontFamily:"Product Sans",color:"black",fontSize:18}}>218 Bags found</Text>
+            <Text
+              style={{
+                fontFamily: 'Product Sans',
+                color: 'black',
+                fontSize: 18,
+              }}>
+              218 Bags found
+            </Text>
           </View>
           {renderProducts()}
         </View>
@@ -234,11 +241,16 @@ const ExploreMore = ({navigation}) => {
         <View
           style={{
             backgroundColor: 'white',
-            height: hp('60%'),
+            height: hp('65%'),
             marginTop: hp('34%'),
             padding: wp('3%'),
           }}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: hp('1%'),
+            }}>
             <View>
               <Text
                 style={{
@@ -255,13 +267,13 @@ const ExploreMore = ({navigation}) => {
                   fontSize: 40,
                   fontWeight: '700',
                   color: '#D42A57',
-                  marginTop:hp('-1%')
+                  marginTop: hp('-1%'),
                 }}>
                 BAG TYPE
               </Text>
             </View>
 
-            <View >
+            <View>
               <TouchableOpacity onPress={handlepress}>
                 <Image
                   source={Images.closeicon}
@@ -273,7 +285,7 @@ const ExploreMore = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View >
+          <View style={{paddingTop: hp('1%')}}>
             {options.map(option => (
               <TouchableOpacity
                 key={option.value}
@@ -328,7 +340,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: wp('3%'),
     borderRadius: 5,
-    marginVertical: hp("1%"),
+    marginVertical: hp('1.5%'),
   },
   custfontstyle: {
     color: globalColors.white,
@@ -339,10 +351,10 @@ const styles = StyleSheet.create({
 
   stylesofbtn: {
     backgroundColor: globalColors.black,
-    flexDirection:"row",
-    justifyContent:"center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     padding: 10,
-    marginHorizontal: 120,
+    marginHorizontal: wp('33%'),
     borderRadius: 30,
     marginVertical: 0,
     position: 'absolute',
@@ -389,8 +401,8 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     // marginVertical: 5,
-    marginBottom:hp('2%'),
-    marginLeft:wp('1%')
+    marginBottom: hp('2%'),
+    marginLeft: wp('1%'),
   },
   noRecordContainer: {
     flex: 1,
