@@ -32,7 +32,6 @@ import {Image} from 'react-native-elements';
 import Explore from '../../Components/ExploreMore/Explore';
 import Button from '../../Components/Button';
 import {Modal} from 'react-native-paper';
-import CheckBox from '@react-native-community/checkbox';
 
 const ExploreMore = ({navigation}) => {
   const dispatch = useDispatch();
@@ -172,7 +171,7 @@ const ExploreMore = ({navigation}) => {
       <CustomStatusBar color={globalColors.headingBackground} />
       <View
         style={{
-          marginVertical: hp('2%'),
+          marginVertical: hp('1%'),
           flexDirection: 'row',
           justifyContent: 'space-between', // Changed to space-between
           alignItems: 'center', // Center items vertically
@@ -194,7 +193,7 @@ const ExploreMore = ({navigation}) => {
             color: 'black',
             fontSize: 18,
           }}>
-          Women Bags{' '}
+          Women Bags
           <Icon
             name="keyboard-arrow-down"
             size={20}
@@ -220,7 +219,7 @@ const ExploreMore = ({navigation}) => {
       <View style={styles.container}>
         <View style={{marginTop: '10%'}}>
           <View style={styles.searchContainer}>
-            <View style={styles.custposition}></View>
+            <Text style={{fontFamily:"Product Sans",color:"black",fontSize:18}}>218 Bags found</Text>
           </View>
           {renderProducts()}
         </View>
@@ -262,7 +261,7 @@ const ExploreMore = ({navigation}) => {
               </Text>
             </View>
 
-            <View>
+            <View >
               <TouchableOpacity onPress={handlepress}>
                 <Image
                   source={Images.closeicon}
@@ -274,7 +273,7 @@ const ExploreMore = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View>
+          <View >
             {options.map(option => (
               <TouchableOpacity
                 key={option.value}
@@ -290,9 +289,9 @@ const ExploreMore = ({navigation}) => {
                         source={Images.righticon}
                         style={{
                           height: hp('1%'),
-                          width: wp('3%'),
+                          width: wp('3.2%'),
                           marginTop: hp('0.8%'),
-                          marginLeft: wp('0.9%'),
+                          marginLeft: wp('1.1%'),
                         }}></Image>
                     </View>
                   )}
@@ -329,7 +328,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: wp('3%'),
     borderRadius: 5,
-    marginTop: 10,
+    marginVertical: hp("1%"),
   },
   custfontstyle: {
     color: globalColors.white,
@@ -340,8 +339,10 @@ const styles = StyleSheet.create({
 
   stylesofbtn: {
     backgroundColor: globalColors.black,
+    flexDirection:"row",
+    justifyContent:"center",
     padding: 10,
-    marginHorizontal: 140,
+    marginHorizontal: 120,
     borderRadius: 30,
     marginVertical: 0,
     position: 'absolute',
@@ -388,6 +389,8 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     // marginVertical: 5,
+    marginBottom:hp('2%'),
+    marginLeft:wp('1%')
   },
   noRecordContainer: {
     flex: 1,

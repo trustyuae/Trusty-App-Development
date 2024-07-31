@@ -151,7 +151,6 @@ const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id
 const styles = StyleSheet.create({
     custtext: {
         color: globalColors.black,
-        fontWeight: '700',
         marginVertical: 10,
         fontSize: 16,
         fontFamily: 'Product Sans',
