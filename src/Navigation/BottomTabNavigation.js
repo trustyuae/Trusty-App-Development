@@ -153,6 +153,7 @@ const BottomTabNavigation = ({navigation}) => {
             title: null,
              headerStyle: {
               backgroundColor:'#f6f1eb',
+              zIndex:-1,
             },
             tabBarIcon: () => (
               <Image

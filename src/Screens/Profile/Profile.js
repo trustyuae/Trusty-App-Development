@@ -10,7 +10,6 @@ import {
   RefreshControl,
   KeyboardAvoidingView,
 } from 'react-native';
-import ProfileNavigations from '../../Navigation/ProfileNavigations';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -111,6 +110,7 @@ const Profile = () => {
     setPhone(data?.meta_data[2]?.value);
     setEditable(true);
   };
+
   const handleSave = async () => {
     if (!/^\d{10}$/.test(phone)) {
       Alert.alert(

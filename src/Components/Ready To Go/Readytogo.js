@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     borderRadius: hp('2%'),
-    width: wp('52%'),
+    width: wp('30%'),
     height: hp('30%'),
     resizeMode: 'contain',
     position: 'relative',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   saveImagea: {
     position: 'absolute',
     marginTop: wp('0.1%'),
-    marginLeft: wp('32%'),
+    marginLeft: wp('30%'),
     padding: 12,
     left: 15,
   },
@@ -212,8 +212,8 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: hp('2%'),
-    width: wp('52%'),
-    height: hp('26%'),
+    width: wp('46%'),
+     height: hp('25%'),
     resizeMode: 'contain',
   },
   dummy:{

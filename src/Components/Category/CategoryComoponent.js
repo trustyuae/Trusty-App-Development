@@ -86,21 +86,22 @@ const styles = StyleSheet.create({
   imageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 84,
-    width: 84,
+    height: 110,
+    width: 110,
     borderRadius: 12,
     backgroundColor: globalColors.white,
     marginTop: 16,
   },
   image: {
     resizeMode: 'contain',
-    height: 84,
-    width: 84,
+    height: 110,
+    width: 110,
     borderRadius: 12,
   },
   label: {
     textAlign: 'center',
     marginTop: 8,
-    fontFamily: 'Product Sans'
+    fontFamily: 'Product Sans',
+    fontSize:14,
   },
 });

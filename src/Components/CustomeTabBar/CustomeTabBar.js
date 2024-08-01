@@ -71,16 +71,30 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
 
         {/* <Pressable onPress={handleClick}><Text>sdfsd</Text></Pressable> */}
         <View
-          style={{alignItems: 'center', paddingBottom: 2, marginTop: wp('3%')}}>
-          <Image source={Images.ProfileIcon}></Image>
-          <View style={{marginBottom: hp('1%')}}></View>
+          style={{flexDirection:"row",  marginBottom: hp('3%'),paddingHorizontal:wp('2%')}}>
+          <Image source={Images.ProfileIcon} style={{  height:hp('14%'),
+              width:wp('30%')}} resizeMode='contain'></Image>
+          <View style={{marginTop: hp('2%')}}></View>
+          <View style={{marginLeft:wp('2%'),marginTop:hp('2%')}}>
           <Text
             style={{
               marginBottom: hp('1.3%'),
+              fontFamily:'Product Sans Light',
+              fontSize:32,
               color: globalColors.productTextColor,
             }}>
             {data?.first_name}
           </Text>
+          <Text
+            style={{
+                fontFamily:'Product Sans',
+                fontSize:16,
+              color: globalColors.black,
+            }}>
+            {data?.email}
+          </Text>
+          </View>
+         
         </View>
         <View style={{flexDirection: 'row',backgroundColor:"white"}}>
           {state.routes.map((route, index) => {
@@ -157,6 +171,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
 const styles = StyleSheet.create({
   tabBarContainer: {
     flexDirection:'column',
+   
     // width: '50%',
     // height: '30%',
     paddingTop: hp('5%'),
@@ -175,9 +190,11 @@ const styles = StyleSheet.create({
     // resizeMode: 'contain',
   },
   container: {
+    zIndex:3,
     alignItems: 'flex-end',
     position: 'relative',
     height: 40,
+    marginTop: hp('-4%')
   },
 
   notificationCount:{
