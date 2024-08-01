@@ -21,16 +21,20 @@ const OrderComponents = ({
   const month = date.toLocaleString('default', {month: 'long'});
   const day = String(date.getDate()).padStart(2, '0');
   const year = date.getFullYear();
-  const formattedDate = `${month} ${day},  ${year}`;
+  const formattedDate = `${month} ${day},${year}`;
 
   return (
     <SafeAreaView>
-      <View style={styles.line} />
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+      <View style={{flexDirection: 'row', paddingHorizontal: wp('5%')}}>
         {line_items ? (
           <Image
-            style={{width: wp('30%'), height: hp('17%')}}
-            source={{uri: line_items}}></Image>
+            style={{
+              width: wp('28%'),
+              height: hp('17%'),
+              borderRadius: wp('2%'),
+            }}
+            source={{uri: line_items}}
+            resizeMethod="contain"></Image>
         ) : (
           <View
             style={{
@@ -39,55 +43,64 @@ const OrderComponents = ({
               backgroundColor: 'white',
             }}></View>
         )}
-        <View style={styles.orderProducts}>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingLeft: 10,
-              // justifyContent: 'space-between', // Add this line
-              gap: Platform.OS === 'ios' ? 50 : wp('16%'),
-            }}>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.headingTextOrder}>Order On</Text>
-              <Text style={{color: globalColors.buttonBackground}}>
-                {formattedDate}
-              </Text>
 
-              <Text style={styles.headingText}>Total Amount</Text>
-              <Text
-                style={{
-                  fontFamily: 'Intrepid Regular',
-                  color: globalColors.buttonBackground,
-                  fontSize: 14,
-                }}>
-                {TotalAmount} {currency}
-              </Text>
-            </View>
-
+        <View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View
               style={{
-                flexDirection: 'column',
-                marginHorizontal: 'auto',
+                backgroundColor: '#F0E354',
+                borderRadius: 20,
+                padding: 5,
+                marginLeft: wp('4%'),
               }}>
+              <Text style={styles.headingTextOrder}>PROCESSING</Text>
+            </View>
+
+            <View>
               <Text
                 style={{
                   color: globalColors.productTextColor,
-                  fontSize: 14,
+                  fontSize: 12,
+                  fontFamily: 'Product Sans',
                   textTransform: 'capitalize',
+                  marginLeft: wp('17%'),
                 }}>
-                {status}
+                {/* {status} */}
+                {formattedDate}
               </Text>
-
-              <Button
-                name={'Details'}
-                stylesofbtn={styles.stylesofbtn}
-                styleoffont={styles.styleoffont}
-                handlepress={onPress}></Button>
             </View>
+          </View>
+
+          <View style={{marginVertical: hp('1%'), marginLeft: wp('5%')}}>
+            <Text style={{color: globalColors.black,fontFamily:"Product Sans",fontSize:16}}>
+              Button-Front V-Neck Top
+            </Text>
           </View>
         </View>
       </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          marginLeft: wp('37%'),
+          marginTop: hp('-5%'),
+          alignItems:"center",
+          
+        }}>
+        <View>
+          <Text style={{fontFamily:"Product Sans"}}>
+           
+            {TotalAmount} {currency}
+          </Text>
+        </View>
+        <View>
+        <Image source={Images.Detailview} resizeMode='contain' style={{marginLeft:wp('34%'),height:hp('5%'),width:wp('10%')}}></Image>
+      </View>
+      </View>
       <View style={styles.line} />
+
+     
+    
     </SafeAreaView>
   );
 };
@@ -106,8 +119,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   headingTextOrder: {
-    fontSize: 16,
-    fontFamily: 'Intrepid Regular',
+    paddingHorizontal:wp('1%'),
+    textAlign: 'center',
+    fontSize: 12,
+    fontFamily: 'Product Sans',
     color: globalColors.productTextColor,
   },
   stylesofbtn: {
@@ -129,7 +144,8 @@ const styles = StyleSheet.create({
   line: {
     borderBottomColor: globalColors.inputBorder,
     borderBottomWidth: 1,
-    marginVertical: 10,
+    marginVertical: 30,
+    paddingHorizontal:wp('5%')
   },
 });
 export default OrderComponents;

@@ -122,7 +122,8 @@ const BottomTabNavigation = ({navigation}) => {
       {isLoggedIn ? (
         <Tab.Screen
           name="Profile"
-          component={ProfileNavigations}
+          //component={ProfileNavigations}
+          component={Profile}
           // options={{
           //   headerTransparent: true,
           //   title: null,
@@ -148,31 +149,38 @@ const BottomTabNavigation = ({navigation}) => {
           //     />
           //   ),
           // }}
-          options={{
-            headerTransparent: true,
-            title: null,
-             headerStyle: {
-              backgroundColor:'#f6f1eb',
-              zIndex:-1,
-            },
-            tabBarIcon: () => (
-              <Image
-                source={ProfileIcon}
-                style={{width: 15, height: 15}}
-                resizeMode="contain"
-              />
-            ),
-            tabBarShowLabel: false,
-            headerBackTitleVisible: false,
-            // headerLeft: () => (
-            //   <Icon
-            //     name="arrow-back"
-            //     size={25}
-            //     color="#333" // Customize the color as needed
-            //     style={{marginLeft: -8}}
-            //     onPress={() => navigation.goBack()}
-            //   />
-            // ),
+           options={{
+          //   headerTransparent: true,
+          //   title: null,
+          //    headerStyle: {
+          //     backgroundColor:'#f6f1eb',
+          //     zIndex:-1,
+          //   },
+          //   tabBarIcon: () => (
+          //     <Image
+          //       source={ProfileIcon}
+          //       style={{width: 15, height: 15}}
+          //       resizeMode="contain"
+          //     />
+          //   ),
+          //   tabBarShowLabel: false,
+          //   headerBackTitleVisible: false,
+          //   // headerLeft: () => (
+          //   //   <Icon
+          //   //     name="arrow-back"
+          //   //     size={25}
+          //   //     color="#333" // Customize the color as needed
+          //   //     style={{marginLeft: -8}}
+          //   //     onPress={() => navigation.goBack()}
+          //   //   />
+          //   // ),
+          tabBarIcon: () => (
+            <Image
+                  source={ProfileIcon}
+                  style={{width: 15, height: 15}}
+                  resizeMode="contain"
+                />),
+          tabBarShowLabel: false,
           }}
         />
       ) : (

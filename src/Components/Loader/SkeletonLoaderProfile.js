@@ -25,8 +25,8 @@ const SkeletonLoaderProfile = () => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
-        marginTop: Platform.OS === 'ios' ? hp('20%') : hp('28%'),
+         padding: 20,
+        // marginTop: Platform.OS === 'ios' ? hp('21%') : hp('2%'),
     },
     skeletonBlock: {
         backgroundColor: '#E0E0E0',

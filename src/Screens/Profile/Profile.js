@@ -33,13 +33,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import PasswordModal from '../../Components/Model/PasswordModal.js';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar.js';
 import SkeletonLoaderProfile from '../../Components/Loader/SkeletonLoaderProfile.js';
+import Account from '../../Components/Account/Account.js';
+import Order from './Order.js';
+import Points from './Points.js';
 
 const Profile = () => {
+  
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [editable, setEditable] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [activetab,setActiveTab]=useState('Profile')
 
+  console.log(activetab);
   const {data, loading, error} = useSelector(state => state.profile);
   const onRefresh = async () => {
     setRefreshing(true);
@@ -96,7 +102,6 @@ const Profile = () => {
       setPhone(phoneNumberMetadata.value);
     }
   }, [data]);
-
 
   // data
 
@@ -191,165 +196,234 @@ const Profile = () => {
       setIsoCode(selected.iso_code);
     } else {
       setCurrency('');
-      setIsoCode(''); 
+      setIsoCode('');
     }
   };
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
-        <View style={{flex:1,backgroundColor:globalColors.white}}>  
-      <ScrollView
-        style={{flex: 1}}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            colors={['black']}
-          />
-        }>
-        <CustomStatusBar
-          color={globalColors.headingBackground}></CustomStatusBar>
+       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}
+      >
+      <View>
+        <Account />
+      </View>
+      <View style={{flex: 1, backgroundColor: globalColors.white}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingHorizontal: wp('5%'),
+            marginTop: hp('2%'),
 
-        {loading ? (
-          // <ActivityIndicator
-          //   style={{ marginTop: 300 }}
-          //   size="large"
-          //   color={globalColors.black}
-
-          // />
-          <SkeletonLoaderProfile />
-        ) : data ? (
-          <View style={styles.container}>
-            <Text style={styles.mainText}>Personal Information</Text>
-            
-            <View style={styles.subContantContainer}>
-                <Text style={styles.textHeading}>ADDRESS</Text>
-                {editable ? (
-                  <>
-                    <TextInput
-                      style={styles.textInput}
-                      value={address}
-                      onChangeText={setAddress}
-                    />
-                    {errors.shippingAddress ? (
-                      <Text style={styles.errorText}>
-                        {errors.shippingAddress}
-                      </Text>
-                    ) : null}
-                  </>
-                ) : (
-                  <Text style={styles.textHeadingValue}>
-                    {data?.shipping?.address_1}
-                  </Text>
-                )}
-              </View>
-
-              <View style={styles.subContantContainer}>
-                <Text style={styles.textHeading}>PHONE NUMBER</Text>
-
-                {editable ? (
-                  <>
-                    <TextInput
-                      style={styles.textInput}
-                      value={phone}
-                      onChangeText={setPhone}
-                      keyboardType="numeric"
-                    />
-                    {errors.phone ? (
-                      <Text style={styles.errorText}>{errors.phone}</Text>
-                    ) : null}
-                  </>
-                ) : (
-                  <Text style={styles.textHeadingValue}>
-                    {data?.meta_data[2]?.value}
-                  </Text>
-                )}
-              </View>
-             
-            <View style={styles.subPasswordContainer}>
-                <View>
-                  <Text style={styles.textHeading}>PASSWORD</Text>
-                  <Text style={styles.custpasswordtext}>********</Text>
-                </View>
-                <View style={{marginLeft: 'auto', marginRight: 5}}>
-                  <Text
-                    // style={{textDecorationLine: 'underline'}}
-                    style={{color:"#866528"}}
-                    onPress={() => setModalVisible(true)}>
-                    CHANGE?
-                  </Text>
-                  <PasswordModal
-                    modalVisible={modalVisible}
-                    setModalVisible={setModalVisible}
-                  />
-                </View>
-              </View>
-
-              <View style={styles.subPasswordContainer}>
-                <View>
-                <Text style={styles.textHeading}>CURRENCY</Text>
-                {editable ? (
-                  <RNPickerSelect
-                  
-                    onValueChange={value => handleCountryChange(value)}
-                    items={currencies.map(item => ({
-                      label: item.name,
-                      value: item.name,
-                    }))}
-                  />
-                ) : (
-                  <Text style={styles.textHeadingValue}>{isoCode}</Text>
-                )}
-                </View>
-
-                <View style={{marginLeft: 'auto', marginRight: 5}}>
-                  <Text
-                    // style={{textDecorationLine: 'underline'}}
-                    style={{color:"#866528"}}
-                    onPress={() => setEditable(true)}>
-                    CHANGE?
-                  </Text>
-              
-                </View>
-                
-              </View>
-
-              <View style={{marginTop:hp('2%')}}>
-              <Text style={styles.shippingaddress}>SHIPPING ADDRESS</Text>
-              </View>
-
-              <View style={{borderWidth:1,borderColor:"#D9D9D9"}}/>
-
-   <View style={{marginTop:hp('1%')}}>
-
-              <Text style={{fontFamily:"Product Sans Medium",fontSize:18,color:"black"}}>Johnathan Doe</Text>
-              <Text style={{fontFamily:"Product Sans Medium",fontSize:16,color:"black",marginTop:2}}>1234, Main st,Near Landmark XYZ 4567890</Text>
-   </View>
-
- 
-            <TouchableOpacity onPress={handleLogout}>
-              <View style={{flexDirection: 'row', marginVertical: hp('3%')}}>
-                <Image style={{}} source={Images.Logout}></Image>
-                <Text
-                  style={{
-                    marginLeft: wp('2%'),
-                    marginTop: -3,
-                    marginBottom: 10,
-                    fontSize: 16,
-                    color: "red",
-                    fontFamily:"Product Sans Medium"
-                  }}>
-                  LOGOUT
-                </Text>
-              </View>
-            </TouchableOpacity>
+          }}>
+            <View  style={{borderBottomWidth:activetab=="Profile"?2:0,borderBottomColor:"#866528"}} > 
+            <Text
+            onPress={()=>setActiveTab("Profile")}
+            style={{
+              paddingHorizontal: wp('5%'),
+              color:activetab=="Profile"?'#866528':'#606060',
+              paddingBottom: hp('1%')
+            }}>
+            PROFILE
+          </Text>
+            </View>
+     
+            <View  style={{borderBottomWidth:activetab=="ORDER"?2:0,borderBottomColor:"#866528"}}> 
+          <Text onPress={()=>setActiveTab("ORDER")} style={{paddingHorizontal: wp('5%'), color:activetab=="ORDER"?'#866528':'#606060',
+              paddingBottom: hp('1%')}}>ORDER</Text>
           </View>
-        ) : null}
-        <View></View>
-      </ScrollView>
+          <View  style={{borderBottomWidth:activetab=="POINTS"?2:0,borderBottomColor:"#866528"}}> 
+
+          <Text onPress={()=>setActiveTab("POINTS")} style={{paddingHorizontal: wp('5%'),color:activetab=="POINTS"?'#866528':'#606060'}}>POINTS</Text>
+          </View>
+          <View  style={{borderBottomWidth:activetab=="GIFTS"?2:0,borderBottomColor:"#866528"}}> 
+
+          <Text onPress={()=>setActiveTab("GIFTS")} style={{paddingHorizontal: wp('5%'),color:activetab=="GIFTS"?'#866528':'#606060'}}>GIFTS</Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            borderWidth: 1,
+            marginTop: hp('0.5%'),
+            borderColor: '#866528',
+            opacity: 0.2,
+          }}
+        />
+
+        { activetab == "Profile" &&
+           <ScrollView
+          //  style={{flex: 1}}
+           showsVerticalScrollIndicator={false}
+           refreshControl={
+             <RefreshControl
+               refreshing={refreshing}
+               onRefresh={onRefresh}
+               colors={['black']}
+             />
+           }>
+           <CustomStatusBar
+             color={globalColors.headingBackground}></CustomStatusBar>
+ 
+ 
+           {loading ? (
+             // <ActivityIndicator
+             //   style={{ marginTop: 300 }}
+             //   size="large"
+             //   color={globalColors.black}
+ 
+             // />
+             <SkeletonLoaderProfile />
+           ) : data ? (
+             <View style={styles.container}>
+               <Text style={styles.mainText}>Personal Information</Text>
+ 
+               <View style={styles.subContantContainer}>
+                 <Text style={styles.textHeading}>ADDRESS</Text>
+                 {editable ? (
+                   <>
+                     <TextInput
+                       style={styles.textInput}
+                       value={address}
+                       onChangeText={setAddress}
+                     />
+                     {errors.shippingAddress ? (
+                       <Text style={styles.errorText}>
+                         {errors.shippingAddress}
+                       </Text>
+                     ) : null}
+                   </>
+                 ) : (
+                   <Text style={styles.textHeadingValue}>
+                     {data?.shipping?.address_1}
+                   </Text>
+                 )}
+               </View>
+ 
+               <View style={styles.subContantContainer}>
+                 <Text style={styles.textHeading}>PHONE NUMBER</Text>
+ 
+                 {editable ? (
+                   <>
+                     <TextInput
+                       style={styles.textInput}
+                       value={phone}
+                       onChangeText={setPhone}
+                       keyboardType="numeric"
+                     />
+                     {errors.phone ? (
+                       <Text style={styles.errorText}>{errors.phone}</Text>
+                     ) : null}
+                   </>
+                 ) : (
+                   <Text style={styles.textHeadingValue}>
+                     {data?.meta_data[2]?.value}
+                   </Text>
+                 )}
+               </View>
+ 
+               <View style={styles.subPasswordContainer}>
+                 <View>
+                   <Text style={styles.textHeading}>PASSWORD</Text>
+                   <Text style={styles.custpasswordtext}>********</Text>
+                 </View>
+                 <View style={{marginLeft: 'auto', marginRight: 5}}>
+                   <Text
+                     // style={{textDecorationLine: 'underline'}}
+                     style={{color: '#866528'}}
+                     onPress={() => setModalVisible(true)}>
+                     CHANGE?
+                   </Text>
+                   <PasswordModal
+                     modalVisible={modalVisible}
+                     setModalVisible={setModalVisible}
+                   />
+                 </View>
+               </View>
+ 
+               <View style={styles.subPasswordContainer}>
+                 <View>
+                   <Text style={styles.textHeading}>CURRENCY</Text>
+                   {editable ? (
+                     <RNPickerSelect
+                       onValueChange={value => handleCountryChange(value)}
+                       items={currencies.map(item => ({
+                         label: item.name,
+                         value: item.name,
+                       }))}
+                     />
+                   ) : (
+                     <Text style={styles.textHeadingValue}>{isoCode}</Text>
+                   )}
+                 </View>
+ 
+                 <View style={{marginLeft: 'auto', marginRight: 5}}>
+                   <Text
+                     // style={{textDecorationLine: 'underline'}}
+                     style={{color: '#866528'}}
+                     onPress={() => setEditable(true)}>
+                     CHANGE?
+                   </Text>
+                 </View>
+               </View>
+ 
+               <View style={{marginTop: hp('2%')}}>
+                 <Text style={styles.shippingaddress}>SHIPPING ADDRESS</Text>
+               </View>
+ 
+               <View style={{borderWidth: 1, borderColor: '#D9D9D9'}} />
+ 
+               <View style={{marginTop: hp('1%')}}>
+                 <Text
+                   style={{
+                     fontFamily: 'Product Sans Medium',
+                     fontSize: 18,
+                     color: 'black',
+                   }}>
+                   Johnathan Doe
+                 </Text>
+                 <Text
+                   style={{
+                     fontFamily: 'Product Sans Medium',
+                     fontSize: 16,
+                     color: 'black',
+                     marginTop: 2,
+                   }}>
+                   1234, Main st,Near Landmark XYZ 4567890
+                 </Text>
+               </View>
+ 
+               <TouchableOpacity onPress={handleLogout}>
+                 <View style={{flexDirection: 'row', marginVertical: hp('3%')}}>
+                   <Image style={{}} source={Images.Logout}></Image>
+                   <Text
+                     style={{
+                       marginLeft: wp('2%'),
+                       marginTop: -3,
+                       marginBottom: 10,
+                       fontSize: 16,
+                       color: 'red',
+                       fontFamily: 'Product Sans Medium',
+                     }}>
+                     LOGOUT
+                   </Text>
+                 </View>
+               </TouchableOpacity>
+             </View>
+           ) : null}
+           <View></View>
+         </ScrollView>
+        }
+    { activetab == "ORDER" &&
+    <Order/>
+
+ }
+
+ { activetab == 'POINTS' &&
+ <Points/>
+
+ }
+        
       </View>
     </KeyboardAvoidingView>
   );
@@ -358,9 +432,9 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     // marginTop: hp('28%'),
-   
-    backgroundColor:"white",
-    marginTop: Platform.OS === 'ios' ? hp('21%') : hp('28%'),
+
+    backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? hp('21%') : hp('25%'),
 
     paddingHorizontal: wp('4%'),
   },
@@ -368,15 +442,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Product Sans',
     color: globalColors.black,
     fontSize: 24,
-    fontWeight:'bold',
+    fontWeight: 'bold',
     marginBottom: hp('2%'),
     // marginTop: hp('1%'),
   },
   shippingaddress: {
     fontFamily: 'Product Sans Medium',
-    color: "#866528",
+    color: '#866528',
     fontSize: 16,
-    fontWeight:'600',
+    fontWeight: '600',
     marginBottom: hp('2%'),
     // marginTop: hp('1%'),
   },
@@ -385,11 +459,11 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   textHeading: {
-    opacity:0.6,
+    opacity: 0.6,
     color: globalColors.black,
     fontSize: 14,
     fontFamily: 'Product Sans',
-    fontWeight: '400'
+    fontWeight: '400',
   },
   SubtextHeading: {
     color: globalColors.black,
@@ -400,17 +474,17 @@ const styles = StyleSheet.create({
   },
   custpasswordtext: {
     color: globalColors.black,
-    fontWeight:'700',
+    fontWeight: '700',
     fontSize: 16,
     fontFamily: 'Product Sans',
   },
 
   textHeadingValue: {
     color: globalColors.black,
-    fontWeight:'600',
+    fontWeight: '600',
     fontSize: 16,
     fontFamily: 'Product Sans',
-    marginTop:hp('0.5%')
+    marginTop: hp('0.5%'),
   },
   subContantContainer: {
     marginBottom: wp('2%'),
@@ -432,7 +506,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Regular',
   },
   textInput: {
-    marginTop:hp("0.5%"),
+    marginTop: hp('0.5%'),
     borderWidth: 1,
     borderRadius: 5,
     height: 40,

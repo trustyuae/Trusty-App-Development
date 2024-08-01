@@ -51,9 +51,18 @@ const circle=require("../Assets/Images/Ellipse.png")
 const down=require("../Assets/Images/down.png")
 const closeicon=require("../Assets/Images/closeicon.png")
 const righticon=require("../Assets/Images/righticon.png")
-
+const Editicon=require("../Assets/Images/Editicon.png")
+const Detailview=require("../Assets/Images/Detailview.png")
+const Points=require("../Assets/Images/Points.png")
+const Star=require("../Assets/Images/Star.png")
+const Celebration=require("../Assets/Images/celebration.png")
 
 export default {
+  Celebration,
+  Star,
+  Points,
+  Detailview,
+  Editicon,
   righticon,
   closeicon,
   down,

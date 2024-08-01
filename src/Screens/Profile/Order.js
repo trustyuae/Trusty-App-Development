@@ -71,6 +71,7 @@ const Order = () => {
   const renderItem = useMemo(() => {
     return ({ item }) => (
       <Pressable onPress={() => navigation.navigate('OrderDetail', { orderId: item.id })}>
+       
         <OrderComponents
           key={item.id}
           currency={item.currency}
@@ -87,6 +88,9 @@ const Order = () => {
   return (
     <SafeAreaView style={styles.container}>
       <CustomStatusBar color={globalColors.headingBackground} />
+      <View>
+
+      <Text style={styles.mainText}>Order History(03)</Text>
 
       {loading ? (
         <View style={{ padding: 20 }}>
@@ -96,6 +100,7 @@ const Order = () => {
         <Text style={styles.noOrdersText}>No orders found.</Text>
 
       ) :
+
 
         <FlatList
           data={data}
@@ -126,6 +131,7 @@ const Order = () => {
           }
           showsVerticalScrollIndicator={false}
         />}
+        </View>
 
 
     </SafeAreaView>
@@ -135,7 +141,7 @@ const Order = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: Platform.OS === 'ios' ? hp('22%') : hp('27%'),
+    //  marginTop: Platform.OS === 'ios' ? hp('22%') : hp('27%'),
     // marginBottom: hp('3%'),
     flex: 1,
   },
@@ -159,6 +165,15 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 200,
+  },
+  mainText: {
+    fontFamily: 'Product Sans',
+    color: globalColors.black,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: hp('4%'),
+    marginTop: hp('2%'),
+    paddingHorizontal: wp('5%')
   },
 });
 
