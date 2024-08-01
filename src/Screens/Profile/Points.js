@@ -22,7 +22,8 @@ const Points = () => {
 
   return (
     <SafeAreaView>
-     
+     <ScrollView showsVerticalScrollIndicator={false}>
+
 
 <View style={{paddingHorizontal:hp('2%')}}>
 
@@ -51,15 +52,16 @@ const Points = () => {
               </Text>
             </View>
 
-            <View style={{marginBottom:hp('6%')}}>
+            <View style={{marginBottom:hp('10%')}}>
               <ImageBackground source={Images.Points} resizeMode='contain' style={{height:hp('35%'),width:wp('93%'),zIndex:1}}>
-                <Image source={Images.Star}  style={{height:hp('34%'),width:wp('12%'),marginLeft:wp('5%'),zIndex:1}} resizeMode='contain'></Image>
-                <Image source={Images.Celebration}  style={{height:hp('20%'),width:wp('20%'),marginLeft:wp('5%'),zIndex:1}} resizeMode='contain'></Image>
+                <Image source={Images.Star}  style={{height:hp('34%'),width:wp('12%'),marginLeft:wp('5%'),zIndex:2}} resizeMode='contain'></Image>
+               {/* <Image source={Images.Celebration}  style={{height:hp('10%'),width:wp('20%'),marginLeft:wp('5%'),zIndex:1,marginTop:hp('%')}} resizeMode='contain'></Image> */}
               </ImageBackground>
             </View>
             
 
             </View>
+            </ScrollView>
 
      
     </SafeAreaView>
@@ -71,7 +73,7 @@ export default Points;
 const styles = StyleSheet.create({
   conatiner: {
     // marginTop: Platform.OS === 'ios' ? hp('26%') : hp('35%'),
-   marginTop:hp('13%')
+   marginTop:hp('3%')
   },
   cust_text: {
     color: '#797978',
