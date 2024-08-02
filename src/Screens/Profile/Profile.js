@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -36,14 +36,16 @@ import SkeletonLoaderProfile from '../../Components/Loader/SkeletonLoaderProfile
 import Account from '../../Components/Account/Account.js';
 import Order from './Order.js';
 import Points from './Points.js';
+import CountryFlag from 'react-native-country-flag';
 
 const Profile = () => {
-  
   const dispatch = useDispatch();
+  
+const pickerRef = useRef(null);
   const navigation = useNavigation();
   const [editable, setEditable] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [activetab,setActiveTab]=useState('Profile')
+  const [activetab, setActiveTab] = useState('Profile');
 
   console.log(activetab);
   const {data, loading, error} = useSelector(state => state.profile);
@@ -54,6 +56,12 @@ const Profile = () => {
       await dispatch(fetchProfile(customer_id));
     }
     setRefreshing(false);
+  };
+
+  const handleOpenDropdown = () => {
+    if (pickerRef.current) {
+      pickerRef.current.togglePicker(true);
+    }
   };
 
   useEffect(() => {
@@ -73,6 +81,7 @@ const Profile = () => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [currency, setCurrency] = useState('');
   const [isoCode, setIsoCode] = useState('');
+  const [country, setCountry] = useState('');
   const [name, setName] = useState(data?.first_name || ''); // Set initial value to data?.first_name
   const [email, setEmail] = useState(data?.email || ''); // Set initial value to data?.email
   const [phone, setPhone] = useState(data?.meta_data[2]?.value || ''); // Set initial value to data?.meta_data[2]?.value
@@ -85,6 +94,7 @@ const Profile = () => {
     data?.shipping?.country || '',
   );
   const [refreshing, setRefreshing] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
 
   const [errors, setErrors] = useState({
     name: '',
@@ -190,8 +200,9 @@ const Profile = () => {
 
   const handleCountryChange = country => {
     setSelectedCountry(country);
-    const selected = currencies.find(item => item.name === country);
+    const selected = currencies.find(item => item.name === country.name);
     if (selected) {
+      setCountry(selected.flag);
       setCurrency(selected.symbol);
       setIsoCode(selected.iso_code);
     } else {
@@ -203,8 +214,7 @@ const Profile = () => {
     <KeyboardAvoidingView
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}
-      >
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
       <View>
         <Account />
       </View>
@@ -214,31 +224,65 @@ const Profile = () => {
             flexDirection: 'row',
             paddingHorizontal: wp('5%'),
             marginTop: hp('2%'),
-
           }}>
-            <View  style={{borderBottomWidth:activetab=="Profile"?2:0,borderBottomColor:"#866528"}} > 
-            <Text
-            onPress={()=>setActiveTab("Profile")}
+          <View
             style={{
-              paddingHorizontal: wp('5%'),
-              color:activetab=="Profile"?'#866528':'#606060',
-              paddingBottom: hp('1%')
+              borderBottomWidth: activetab == 'Profile' ? 2 : 0,
+              borderBottomColor: '#866528',
             }}>
-            PROFILE
-          </Text>
-            </View>
-     
-            <View  style={{borderBottomWidth:activetab=="ORDER"?2:0,borderBottomColor:"#866528"}}> 
-          <Text onPress={()=>setActiveTab("ORDER")} style={{paddingHorizontal: wp('5%'), color:activetab=="ORDER"?'#866528':'#606060',
-              paddingBottom: hp('1%')}}>ORDER</Text>
+            <Text
+              onPress={() => setActiveTab('Profile')}
+              style={{
+                paddingHorizontal: wp('5%'),
+                color: activetab == 'Profile' ? '#866528' : '#606060',
+                paddingBottom: hp('1%'),
+              }}>
+              PROFILE
+            </Text>
           </View>
-          <View  style={{borderBottomWidth:activetab=="POINTS"?2:0,borderBottomColor:"#866528"}}> 
 
-          <Text onPress={()=>setActiveTab("POINTS")} style={{paddingHorizontal: wp('5%'),color:activetab=="POINTS"?'#866528':'#606060'}}>POINTS</Text>
+          <View
+            style={{
+              borderBottomWidth: activetab == 'ORDER' ? 2 : 0,
+              borderBottomColor: '#866528',
+            }}>
+            <Text
+              onPress={() => setActiveTab('ORDER')}
+              style={{
+                paddingHorizontal: wp('5%'),
+                color: activetab == 'ORDER' ? '#866528' : '#606060',
+                paddingBottom: hp('1%'),
+              }}>
+              ORDER
+            </Text>
           </View>
-          <View  style={{borderBottomWidth:activetab=="GIFTS"?2:0,borderBottomColor:"#866528"}}> 
-
-          <Text onPress={()=>setActiveTab("GIFTS")} style={{paddingHorizontal: wp('5%'),color:activetab=="GIFTS"?'#866528':'#606060'}}>GIFTS</Text>
+          <View
+            style={{
+              borderBottomWidth: activetab == 'POINTS' ? 2 : 0,
+              borderBottomColor: '#866528',
+            }}>
+            <Text
+              onPress={() => setActiveTab('POINTS')}
+              style={{
+                paddingHorizontal: wp('5%'),
+                color: activetab == 'POINTS' ? '#866528' : '#606060',
+              }}>
+              POINTS
+            </Text>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: activetab == 'GIFTS' ? 2 : 0,
+              borderBottomColor: '#866528',
+            }}>
+            <Text
+              onPress={() => setActiveTab('GIFTS')}
+              style={{
+                paddingHorizontal: wp('5%'),
+                color: activetab == 'GIFTS' ? '#866528' : '#606060',
+              }}>
+              GIFTS
+            </Text>
           </View>
         </View>
 
@@ -251,179 +295,187 @@ const Profile = () => {
           }}
         />
 
-        { activetab == "Profile" &&
-           <ScrollView
-          //  style={{flex: 1}}
-           showsVerticalScrollIndicator={false}
-           refreshControl={
-             <RefreshControl
-               refreshing={refreshing}
-               onRefresh={onRefresh}
-               colors={['black']}
-             />
-           }>
-           <CustomStatusBar
-             color={globalColors.headingBackground}></CustomStatusBar>
- 
- 
-           {loading ? (
-             // <ActivityIndicator
-             //   style={{ marginTop: 300 }}
-             //   size="large"
-             //   color={globalColors.black}
- 
-             // />
-             <SkeletonLoaderProfile />
-           ) : data ? (
-             <View style={styles.container}>
-               <Text style={styles.mainText}>Personal Information</Text>
- 
-               <View style={styles.subContantContainer}>
-                 <Text style={styles.textHeading}>ADDRESS</Text>
-                 {editable ? (
-                   <>
-                     <TextInput
-                       style={styles.textInput}
-                       value={address}
-                       onChangeText={setAddress}
-                     />
-                     {errors.shippingAddress ? (
-                       <Text style={styles.errorText}>
-                         {errors.shippingAddress}
-                       </Text>
-                     ) : null}
-                   </>
-                 ) : (
-                   <Text style={styles.textHeadingValue}>
-                     {data?.shipping?.address_1}
-                   </Text>
-                 )}
-               </View>
- 
-               <View style={styles.subContantContainer}>
-                 <Text style={styles.textHeading}>PHONE NUMBER</Text>
- 
-                 {editable ? (
-                   <>
-                     <TextInput
-                       style={styles.textInput}
-                       value={phone}
-                       onChangeText={setPhone}
-                       keyboardType="numeric"
-                     />
-                     {errors.phone ? (
-                       <Text style={styles.errorText}>{errors.phone}</Text>
-                     ) : null}
-                   </>
-                 ) : (
-                   <Text style={styles.textHeadingValue}>
-                     {data?.meta_data[2]?.value}
-                   </Text>
-                 )}
-               </View>
- 
-               <View style={styles.subPasswordContainer}>
-                 <View>
-                   <Text style={styles.textHeading}>PASSWORD</Text>
-                   <Text style={styles.custpasswordtext}>********</Text>
-                 </View>
-                 <View style={{marginLeft: 'auto', marginRight: 5}}>
-                   <Text
-                     // style={{textDecorationLine: 'underline'}}
-                     style={{color: '#866528'}}
-                     onPress={() => setModalVisible(true)}>
-                     CHANGE?
-                   </Text>
-                   <PasswordModal
-                     modalVisible={modalVisible}
-                     setModalVisible={setModalVisible}
-                   />
-                 </View>
-               </View>
- 
-               <View style={styles.subPasswordContainer}>
-                 <View>
-                   <Text style={styles.textHeading}>CURRENCY</Text>
-                   {editable ? (
-                     <RNPickerSelect
-                       onValueChange={value => handleCountryChange(value)}
-                       items={currencies.map(item => ({
-                         label: item.name,
-                         value: item.name,
-                       }))}
-                     />
-                   ) : (
-                     <Text style={styles.textHeadingValue}>{isoCode}</Text>
-                   )}
-                 </View>
- 
-                 <View style={{marginLeft: 'auto', marginRight: 5}}>
-                   <Text
-                     // style={{textDecorationLine: 'underline'}}
-                     style={{color: '#866528'}}
-                     onPress={() => setEditable(true)}>
-                     CHANGE?
-                   </Text>
-                 </View>
-               </View>
- 
-               <View style={{marginTop: hp('2%')}}>
-                 <Text style={styles.shippingaddress}>SHIPPING ADDRESS</Text>
-               </View>
- 
-               <View style={{borderWidth: 1, borderColor: '#D9D9D9'}} />
- 
-               <View style={{marginTop: hp('1%')}}>
-                 <Text
-                   style={{
-                     fontFamily: 'Product Sans',
-                     fontSize: 18,
-                     color: 'black',
-                   }}>
-                   Johnathan Doe
-                 </Text>
-                 <Text
-                   style={{
-                     fontFamily: 'Product Sans',
-                     fontSize: 16,
-                     color: 'black',
-                     marginTop: hp('1%'),
-                   }}>
-                   1234, Main st,Near Landmark XYZ 4567890
-                 </Text>
-               </View>
- 
-               <TouchableOpacity onPress={handleLogout}>
-                 <View style={{flexDirection: 'row', marginVertical: hp('3%')}}>
-                   <Image style={{}} source={Images.Logout}></Image>
-                   <Text
-                     style={{
-                       marginLeft: wp('2%'),
-                       marginTop: -3,
-                       marginBottom: 10,
-                       fontSize: 16,
-                       color: 'red',
-                       fontFamily: 'Product Sans Medium',
-                     }}>
-                     LOGOUT
-                   </Text>
-                 </View>
-               </TouchableOpacity>
-             </View>
-           ) : null}
-           <View></View>
-         </ScrollView>
-        }
-    { activetab == "ORDER" &&
-    <Order/>
+        {activetab == 'Profile' && (
+          <ScrollView
+            //  style={{flex: 1}}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={['black']}
+              />
+            }>
+            <CustomStatusBar
+              color={globalColors.headingBackground}></CustomStatusBar>
 
- }
+            {loading ? (
+              // <ActivityIndicator
+              //   style={{ marginTop: 300 }}
+              //   size="large"
+              //   color={globalColors.black}
 
- { activetab == 'POINTS' &&
- <Points/>
+              // />
+              <SkeletonLoaderProfile />
+            ) : data ? (
+              <View style={styles.container}>
+                <Text style={styles.mainText}>Personal Information</Text>
 
- }
-        
+                <View style={styles.subContantContainer}>
+                  <Text style={styles.textHeading}>ADDRESS</Text>
+                  {editable ? (
+                    <>
+                      <TextInput
+                        style={styles.textInput}
+                        value={address}
+                        onChangeText={setAddress}
+                      />
+                      {errors.shippingAddress ? (
+                        <Text style={styles.errorText}>
+                          {errors.shippingAddress}
+                        </Text>
+                      ) : null}
+                    </>
+                  ) : (
+                    <Text style={styles.textHeadingValue}>
+                      {data?.shipping?.address_1}
+                    </Text>
+                  )}
+                </View>
+
+                <View style={styles.subContantContainer}>
+                  <Text style={styles.textHeading}>PHONE NUMBER</Text>
+
+                  {editable ? (
+                    <>
+                      <TextInput
+                        style={styles.textInput}
+                        value={phone}
+                        onChangeText={setPhone}
+                        keyboardType="numeric"
+                      />
+                      {errors.phone ? (
+                        <Text style={styles.errorText}>{errors.phone}</Text>
+                      ) : null}
+                    </>
+                  ) : (
+                    <Text style={styles.textHeadingValue}>
+                      {data?.meta_data[2]?.value}
+                    </Text>
+                  )}
+                </View>
+
+                <View style={styles.subPasswordContainer}>
+                  <View>
+                    <Text style={styles.textHeading}>PASSWORD</Text>
+                    <Text style={styles.custpasswordtext}>********</Text>
+                  </View>
+                  <View style={{marginLeft: 'auto', marginRight: 5}}>
+                    <Text
+                      // style={{textDecorationLine: 'underline'}}
+                      style={{color: '#866528'}}
+                      onPress={() => setModalVisible(true)}>
+                      CHANGE?
+                    </Text>
+                    <PasswordModal
+                      modalVisible={modalVisible}
+                      setModalVisible={setModalVisible}
+                    />
+                  </View>
+                </View>
+
+                <View style={styles.subPasswordContainer}>
+                  <View>
+                    <Text style={styles.textHeading}>CURRENCY</Text>
+
+                    <RNPickerSelect
+            
+                      onValueChange={value => handleCountryChange(value)}
+                      items={currencies.map(item => ({
+                        label: item.name,
+                        value: item,
+                      }))}
+                    />
+
+                    <View style={{flexDirection: 'row', marginTop: hp('-5%')}}>
+                      <View>
+                        <CountryFlag
+                          isoCode={country}
+                          size={25}
+                          style={styles.flag}
+                          useNativeAndroidPickerStyle={false}
+                        />
+                      </View>
+                      <View style={{marginLeft: wp('2%')}}>
+                        <Text style={styles.textHeadingValue}>
+                          {isoCode || ''}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  <View style={{marginLeft: 'auto', marginRight: 5}}>
+                    <Text
+                      // style={{textDecorationLine: 'underline'}}
+
+                      style={{color: '#866528'}}
+                      onPress={handleOpenDropdown}>
+                      CHANGE?
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={{marginTop: hp('2%')}}>
+                  <Text style={styles.shippingaddress}>SHIPPING ADDRESS</Text>
+                </View>
+
+                <View style={{borderWidth: 1, borderColor: '#D9D9D9'}} />
+
+                <View style={{marginTop: hp('1%')}}>
+                  <Text
+                    style={{
+                      fontFamily: 'Product Sans',
+                      fontSize: 18,
+                      color: 'black',
+                    }}>
+                    Johnathan Doe
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: 'Product Sans',
+                      fontSize: 16,
+                      color: 'black',
+                      marginTop: hp('1%'),
+                    }}>
+                    1234, Main st,Near Landmark XYZ 4567890
+                  </Text>
+                </View>
+
+                <TouchableOpacity onPress={handleLogout}>
+                  <View
+                    style={{flexDirection: 'row', marginVertical: hp('3%')}}>
+                    <Image style={{}} source={Images.Logout}></Image>
+                    <Text
+                      style={{
+                        marginLeft: wp('2%'),
+                        marginTop: -3,
+                        marginBottom: 10,
+                        fontSize: 16,
+                        color: 'red',
+                        fontFamily: 'Product Sans Medium',
+                      }}>
+                      LOGOUT
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ) : null}
+            <View></View>
+          </ScrollView>
+        )}
+        {activetab == 'ORDER' && <Order />}
+
+        {activetab == 'POINTS' && <Points />}
       </View>
     </KeyboardAvoidingView>
   );
@@ -431,10 +483,10 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
   container: {
-     marginTop: hp('2%'),
+    marginTop: hp('2%'),
 
     backgroundColor: 'white',
-   // marginTop: Platform.OS === 'ios' ? hp('21%') : hp('25%'),
+    // marginTop: Platform.OS === 'ios' ? hp('21%') : hp('25%'),
 
     paddingHorizontal: wp('4%'),
   },
