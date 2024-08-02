@@ -12,7 +12,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getToken} from '../../Utils/localstorage';
 import {useNavigation} from '@react-navigation/native';
 
-const Account = () => {
+
+const Account = ({setEditable}) => {
   const dispatch = useDispatch();
   const {data} = useSelector(state => state.profile);
   const {items} = useSelector(state => state.wishlist);
@@ -29,9 +30,7 @@ const Account = () => {
   }, [dispatch]);
 
   const handleClick = () => {
-    navigation.navigate('wishlist', {
-      items: items,
-    });
+   setEditable(true)
   };
   return (
     <SafeAreaView>
@@ -66,7 +65,7 @@ const Account = () => {
          
         </View>
         <View style={styles.container}>
-          <View style={{marginRight:wp('1%')}}>
+          <View style={{marginRight:wp('-2%')}}>
           <Pressable onPress={handleClick}>
               <Image
                 style={styles.img}
@@ -78,7 +77,7 @@ const Account = () => {
          
 <View>
 <Pressable style={{marginRight: 10}} onPress={handleClick}>
-              <Image style={styles.saveImage} source={Images.saveIconUnFill} />
+              <Image style={styles.saveImage} source={Images.Wishlist} />
               {items?.Wishlist?.length > 0 && (
                 <View style={styles.notificationCount}>
                   <Text
@@ -145,17 +144,17 @@ const styles = StyleSheet.create({
 
   notificationCount: {
     position: 'absolute',
-    right: -6,
-    top: 3,
+    right: -1,
+    top: 8,
     backgroundColor: globalColors.black,
     borderRadius: 50,
     width: 20,
   },
   saveImage: {
-    width: wp('11.6%'),
+    width: wp('17%'),
     resizeMode: 'contain',
     padding: 8,
-    height: hp('10%'),
+    height: hp('12%'),
   },
   img: {
     width: wp('17%'),

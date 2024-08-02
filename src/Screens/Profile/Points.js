@@ -16,6 +16,7 @@ import {
 } from 'react-native-responsive-screen';
 import ProgressBar from 'react-native-progress-bar-horizontal';
 import { Images } from '../../Constants';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
 const Points = () => {
   const [count, setCount] = useState(3);
@@ -53,8 +54,20 @@ const Points = () => {
 
             <View style={{marginBottom:hp('6%')}}>
               <ImageBackground source={Images.Points} resizeMode='contain' style={{height:hp('35%'),width:wp('93%'),zIndex:1}}>
-                <Image source={Images.Star}  style={{height:hp('34%'),width:wp('12%'),marginLeft:wp('5%'),zIndex:1}} resizeMode='contain'></Image>
-                <Image source={Images.Celebration}  style={{height:hp('20%'),width:wp('20%'),marginLeft:wp('5%'),zIndex:1}} resizeMode='contain'></Image>
+                {/* <Image source={Images.Star}  style={{height:hp('34%'),width:wp('12%'),marginLeft:wp('5%'),zIndex:1}} resizeMode='contain'></Image> */}
+                {/* <Image source={Images.Celebration}  style={{height:hp('20%'),width:wp('20%'),marginLeft:wp('5%'),zIndex:1}} resizeMode='contain'></Image> */}
+
+                <View style={{flexDirection:'row'}}>
+                  <View style={{marginTop:hp('16%'),marginLeft:wp('25%')}}>
+
+                  <Text style={{fontFamily:'Product Sans Medium',fontSize:22,color:globalColors.black,fontWeight:'600'}}>You have earned</Text>
+                  </View>
+                  <View style={{marginTop:hp('15%'),marginLeft:wp('8%')}}>
+
+                  <Text style={{fontFamily:'Product Sans',fontSize:22,color:'#D42A57',fontWeight:'700'}}>3499</Text>
+                  <Text style={{fontFamily:'Product Sans',fontSize:22,color:'#D42A57',fontWeight:'700'}}>Points</Text>
+                  </View>
+                </View>
               </ImageBackground>
             </View>
             

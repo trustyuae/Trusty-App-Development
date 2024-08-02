@@ -56,8 +56,9 @@ const Detailview=require("../Assets/Images/Detailview.png")
 const Points=require("../Assets/Images/Points.png")
 const Star=require("../Assets/Images/Star.png")
 const Celebration=require("../Assets/Images/celebration.png")
-
+const Wishlist=require("../Assets/Images/Wishlist.png")
 export default {
+  Wishlist,
   Celebration,
   Star,
   Points,
