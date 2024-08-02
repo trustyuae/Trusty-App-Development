@@ -389,8 +389,9 @@ const pickerRef = useRef(null);
                     <Text style={styles.textHeading}>CURRENCY</Text>
 
                     <RNPickerSelect
-            
+                     
                       onValueChange={value => handleCountryChange(value)}
+    
                       items={currencies.map(item => ({
                         label: item.name,
                         value: item,
@@ -403,7 +404,6 @@ const pickerRef = useRef(null);
                           isoCode={country}
                           size={25}
                           style={styles.flag}
-                          useNativeAndroidPickerStyle={false}
                         />
                       </View>
                       <View style={{marginLeft: wp('2%')}}>
@@ -425,7 +425,7 @@ const pickerRef = useRef(null);
                   </View>
                 </View>
 
-                <View style={{marginTop: hp('2%')}}>
+                <View style={{marginTop: hp('4%')}}>
                   <Text style={styles.shippingaddress}>SHIPPING ADDRESS</Text>
                 </View>
 

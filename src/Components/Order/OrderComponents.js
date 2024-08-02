@@ -94,7 +94,7 @@ const OrderComponents = ({
           </Text>
         </View>
         <View>
-        <Image source={Images.Detailview} resizeMode='contain' style={{marginLeft:wp('26%'),height:hp('5%'),width:wp('10%')}}></Image>
+        <Image source={Images.Detailview} resizeMode='contain' style={{marginLeft:wp('29.5%'),height:hp('5%'),width:wp('10%')}}></Image>
       </View>
       </View>
       <View style={styles.line} />

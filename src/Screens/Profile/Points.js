@@ -59,11 +59,11 @@ const Points = () => {
                 {/* <Image source={Images.Celebration}  style={{height:hp('20%'),width:wp('20%'),marginLeft:wp('5%'),zIndex:1}} resizeMode='contain'></Image> */}
 
                 <View style={{flexDirection:'row'}}>
-                  <View style={{marginTop:hp('16%'),marginLeft:wp('25%')}}>
+                  <View style={{marginTop:hp('16%'),marginLeft:wp('24%')}}>
 
                   <Text style={{fontFamily:'Product Sans Medium',fontSize:22,color:globalColors.black,fontWeight:'600'}}>You have earned</Text>
                   </View>
-                  <View style={{marginTop:hp('15%'),marginLeft:wp('8%')}}>
+                  <View style={{marginTop:hp('14%'),marginLeft:wp('5%')}}>
 
                   <Text style={{fontFamily:'Product Sans',fontSize:22,color:'#D42A57',fontWeight:'700'}}>3499</Text>
                   <Text style={{fontFamily:'Product Sans',fontSize:22,color:'#D42A57',fontWeight:'700'}}>Points</Text>
