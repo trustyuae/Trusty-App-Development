@@ -45,7 +45,7 @@ const OrderComponents = ({
         )}
 
         <View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row', }}>
             <View
               style={{
                 backgroundColor: '#F0E354',
@@ -63,7 +63,7 @@ const OrderComponents = ({
                   fontSize: 12,
                   fontFamily: 'Product Sans',
                   textTransform: 'capitalize',
-                  marginLeft: wp('17%'),
+                  marginLeft: wp('10%'),
                 }}>
                 {/* {status} */}
                 {formattedDate}
@@ -82,7 +82,7 @@ const OrderComponents = ({
       <View
         style={{
           flexDirection: 'row',
-          marginLeft: wp('37%'),
+          marginLeft: wp('38%'),
           marginTop: hp('-5%'),
           alignItems:"center",
           
@@ -94,7 +94,7 @@ const OrderComponents = ({
           </Text>
         </View>
         <View>
-        <Image source={Images.Detailview} resizeMode='contain' style={{marginLeft:wp('34%'),height:hp('5%'),width:wp('10%')}}></Image>
+        <Image source={Images.Detailview} resizeMode='contain' style={{marginLeft:wp('26%'),height:hp('5%'),width:wp('10%')}}></Image>
       </View>
       </View>
       <View style={styles.line} />

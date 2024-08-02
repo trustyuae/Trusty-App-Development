@@ -90,7 +90,6 @@ const Order = () => {
       <CustomStatusBar color={globalColors.headingBackground} />
       <View>
 
-      <Text style={styles.mainText}>Order History(03)</Text>
 
       {loading ? (
         <View style={{ padding: 20 }}>
@@ -100,6 +99,9 @@ const Order = () => {
         <Text style={styles.noOrdersText}>No orders found.</Text>
 
       ) :
+(
+  <View>
+      <Text style={styles.mainText}>Order History(03)</Text>
 
 
         <FlatList
@@ -130,7 +132,9 @@ const Order = () => {
             ) : null
           }
           showsVerticalScrollIndicator={false}
-        />}
+        />
+        </View>
+        )}
         </View>
 
 

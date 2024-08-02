@@ -55,7 +55,7 @@ const Account = ({setEditable}) => {
               flex: 1,
               textAlign: 'center',
               fontFamily: 'Product Sans',
-              fontWeight: '700',
+              fontWeight: '600',
               color: 'black',
               fontSize: 18,
             }}>

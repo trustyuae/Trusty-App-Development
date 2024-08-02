@@ -376,7 +376,7 @@ const Profile = () => {
                <View style={{marginTop: hp('1%')}}>
                  <Text
                    style={{
-                     fontFamily: 'Product Sans Medium',
+                     fontFamily: 'Product Sans',
                      fontSize: 18,
                      color: 'black',
                    }}>
@@ -384,10 +384,10 @@ const Profile = () => {
                  </Text>
                  <Text
                    style={{
-                     fontFamily: 'Product Sans Medium',
+                     fontFamily: 'Product Sans',
                      fontSize: 16,
                      color: 'black',
-                     marginTop: 2,
+                     marginTop: hp('1%'),
                    }}>
                    1234, Main st,Near Landmark XYZ 4567890
                  </Text>
@@ -431,10 +431,10 @@ const Profile = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: hp('28%'),
+     marginTop: hp('2%'),
 
     backgroundColor: 'white',
-    marginTop: Platform.OS === 'ios' ? hp('21%') : hp('25%'),
+   // marginTop: Platform.OS === 'ios' ? hp('21%') : hp('25%'),
 
     paddingHorizontal: wp('4%'),
   },
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
 
   textHeadingValue: {
     color: globalColors.black,
-    fontWeight: '600',
+    fontWeight: '500',
     fontSize: 16,
     fontFamily: 'Product Sans',
     marginTop: hp('0.5%'),
