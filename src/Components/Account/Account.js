@@ -11,6 +11,7 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 import {useDispatch, useSelector} from 'react-redux';
 import {getToken} from '../../Utils/localstorage';
 import {useNavigation} from '@react-navigation/native';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 
 
 const Account = ({setEditable}) => {
@@ -98,7 +99,7 @@ const Account = ({setEditable}) => {
           style={{
             flexDirection: 'row',
             marginBottom: hp('3%'),
-            paddingHorizontal: wp('10%'),
+            paddingHorizontal: wp('3%'),
             marginTop:hp("-5%")
           }}>
           <Image
@@ -144,8 +145,8 @@ const styles = StyleSheet.create({
 
   notificationCount: {
     position: 'absolute',
-    right: -1,
-    top: 8,
+    right: 5,
+    top: 10,
     backgroundColor: globalColors.black,
     borderRadius: 50,
     width: 20,

@@ -38,6 +38,7 @@ import Order from './Order.js';
 import Points from './Points.js';
 import CountryFlag from 'react-native-country-flag';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors.js';
 
 const Profile = () => {
   const [selectedValue, setSelectedValue] = useState(currencies[0].value);
@@ -391,6 +392,7 @@ const Profile = () => {
                         value: item,
                       }))}
                     /> */}
+               
                     <DropDownPicker
                 
                       arrowIconContainerStyle={{display: 'none'}}
@@ -410,14 +412,17 @@ const Profile = () => {
                       placeholder="Select a country"
                       style={styles.dropdown}
                       dropDownStyle={styles.dropdown}
-                      containerStyle={styles.dropdownContainer}
+                      containerStyle={{height:openDropdown?hp('31%'):'auto'}}
                       textStyle={styles.dropdownText}
                       searchable={true}
                       searchablePlaceholder="Search..."
                        searchablePlaceholderTextColor="#888"
                       showArrow={false}
+                      itemStyle={styles.itemStyle}
+                      dropDownContainerStyle={{backgroundColor:'white'}}
+                                          
+                        listItemContainerStyle={styles.listItemContainer}
                     />
-
                     <View style={{flexDirection: 'row', marginTop: hp('-5%')}}>
                       <View>
                         {/* <CountryFlag
@@ -603,13 +608,23 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     borderWidth: 0,
-    width:wp('90%')
+    width:wp('90%'),
+    backgroundColor: '#ffffff',
   },
   dropdownText: {
     fontFamily: 'Product Sans',
   },
   dropdownContainer: {
-   
+   backgroundColor: '#ffffff',
+
+
   },
+  listItemContainer:{
+    backgroundColor: '#ffffff',
+  },
+  itemStyle:{
+    backgroundColor:'white',
+    zIndex:2
+  }
 });
 export default Profile;
