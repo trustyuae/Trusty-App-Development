@@ -394,7 +394,7 @@ const Profile = () => {
                     /> */}
                
                     <DropDownPicker
-                
+                   style={styles.dropdown}
                       arrowIconContainerStyle={{display: 'none'}}
                       open={openDropdown}
                       value={selectedCountry}
@@ -410,7 +410,7 @@ const Profile = () => {
                       setItems={setSelectedCountry}
                       onChangeValue={handleCountryChange}
                       placeholder="Select a country"
-                      style={styles.dropdown}
+                      // style={styles.dropdown}
                       dropDownStyle={styles.dropdown}
                       containerStyle={{height:openDropdown?hp('31%'):'auto'}}
                       textStyle={styles.dropdownText}
@@ -418,10 +418,7 @@ const Profile = () => {
                       searchablePlaceholder="Search..."
                        searchablePlaceholderTextColor="#888"
                       showArrow={false}
-                      itemStyle={styles.itemStyle}
-                      dropDownContainerStyle={{backgroundColor:'white'}}
-                                          
-                        listItemContainerStyle={styles.listItemContainer}
+                      dropDownContainerStyle={{ backgroundColor: 'white' }}
                     />
                     <View style={{flexDirection: 'row', marginTop: hp('-5%')}}>
                       <View>
@@ -609,7 +606,7 @@ const styles = StyleSheet.create({
   dropdown: {
     borderWidth: 0,
     width:wp('90%'),
-    backgroundColor: '#ffffff',
+    backgroundColor:'white'
   },
   dropdownText: {
     fontFamily: 'Product Sans',

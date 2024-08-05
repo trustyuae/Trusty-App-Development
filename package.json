@@ -23,6 +23,7 @@
     "react": "18.2.0",
     "react-form-stepper": "^2.0.3",
     "react-native": "0.74.1",
+    "react-native-animatable": "^1.4.0",
     "react-native-country-flag": "^2.0.2",
     "react-native-dropdown-country-picker": "^1.0.9",
     "react-native-dropdown-picker": "^5.4.6",
