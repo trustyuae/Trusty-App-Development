@@ -37,11 +37,12 @@ import Account from '../../Components/Account/Account.js';
 import Order from './Order.js';
 import Points from './Points.js';
 import CountryFlag from 'react-native-country-flag';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const Profile = () => {
+  const [selectedValue, setSelectedValue] = useState(currencies[0].value);
   const dispatch = useDispatch();
-  
-const pickerRef = useRef(null);
+  const pickerRef = useRef(null);
   const navigation = useNavigation();
   const [editable, setEditable] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -68,7 +69,6 @@ const pickerRef = useRef(null);
     const fetchData = async () => {
       try {
         const customer_id = await getUserId();
-
         if (customer_id) {
           await dispatch(fetchProfile(customer_id));
         }
@@ -78,14 +78,15 @@ const pickerRef = useRef(null);
     };
     fetchData();
   }, [editable]);
+
   const [selectedCountry, setSelectedCountry] = useState('');
   const [currency, setCurrency] = useState('');
   const [isoCode, setIsoCode] = useState('');
   const [country, setCountry] = useState('');
-  const [name, setName] = useState(data?.first_name || ''); // Set initial value to data?.first_name
-  const [email, setEmail] = useState(data?.email || ''); // Set initial value to data?.email
-  const [phone, setPhone] = useState(data?.meta_data[2]?.value || ''); // Set initial value to data?.meta_data[2]?.value
-  const [address, setAddress] = useState(data?.shipping?.address_1 || ''); // Set initial value to data?.shipping?.address_1
+  const [name, setName] = useState(data?.first_name || '');
+  const [email, setEmail] = useState(data?.email || '');
+  const [phone, setPhone] = useState(data?.meta_data[2]?.value || '');
+  const [address, setAddress] = useState(data?.shipping?.address_1 || '');
   const [shippingAddress, setShippingAddress] = useState(
     data?.shipping?.address_1 || '',
   );
@@ -112,8 +113,6 @@ const pickerRef = useRef(null);
       setPhone(phoneNumberMetadata.value);
     }
   }, [data]);
-
-  // data
 
   const handleEdit = () => {
     setName(data.first_name || '');
@@ -142,11 +141,9 @@ const pickerRef = useRef(null);
     if (!shippingAddress.trim()) {
       newErrors.shippingAddress = 'Address is required.';
     }
-
     if (!shippingCity.trim()) {
       newErrors.shippingCity = 'City is required.';
     }
-
     if (!shippingCountry.trim()) {
       newErrors.shippingCountry = 'Country is required.';
     }
@@ -167,7 +164,6 @@ const pickerRef = useRef(null);
     const updatedData = {
       first_name: validName,
       email,
-
       shipping: {
         address_1: shippingAddress,
         city: shippingCity,
@@ -187,12 +183,9 @@ const pickerRef = useRef(null);
     } catch (error) {
       console.log(error);
     }
-    // setEditable(false);
   };
 
   const handleLogout = async () => {
-    // await AsyncStorage.removeItem('token');
-    // await AsyncStorage.removeItem('user_id');
     dispatch(logoutUser());
     dispatch(resetProfile());
     navigation.navigate('Home');
@@ -200,8 +193,10 @@ const pickerRef = useRef(null);
 
   const handleCountryChange = country => {
     setSelectedCountry(country);
-    const selected = currencies.find(item => item.name === country.name);
+    const selected = currencies.find(item => item.name === country?.name);
     if (selected) {
+      console.log('selected---------->', selected.flag);
+      setSelectedValue(selected.name);
       setCountry(selected.flag);
       setCurrency(selected.symbol);
       setIsoCode(selected.iso_code);
@@ -388,23 +383,49 @@ const pickerRef = useRef(null);
                   <View>
                     <Text style={styles.textHeading}>CURRENCY</Text>
 
-                    <RNPickerSelect
-                     
+                    {/* <RNPickerSelect
                       onValueChange={value => handleCountryChange(value)}
     
                       items={currencies.map(item => ({
                         label: item.name,
                         value: item,
                       }))}
+                    /> */}
+                    <DropDownPicker
+                
+                      arrowIconContainerStyle={{display: 'none'}}
+                      open={openDropdown}
+                      value={selectedCountry}
+                      items={currencies.map(currency => ({
+                        label: currency.iso_code,
+                        value: currency.name,
+                        icon: () => (
+                          <CountryFlag isoCode={currency?.flag} size={20} />
+                        ),
+                      }))}
+                      setOpen={setOpenDropdown}
+                      setValue={setSelectedCountry}
+                      setItems={setSelectedCountry}
+                      onChangeValue={handleCountryChange}
+                      placeholder="Select a country"
+                      style={styles.dropdown}
+                      dropDownStyle={styles.dropdown}
+                      containerStyle={styles.dropdownContainer}
+                      textStyle={styles.dropdownText}
+                      searchable={true}
+                      searchablePlaceholder="Search..."
+                       searchablePlaceholderTextColor="#888"
+                      showArrow={false}
                     />
 
                     <View style={{flexDirection: 'row', marginTop: hp('-5%')}}>
                       <View>
-                        <CountryFlag
+                        {/* <CountryFlag
                           isoCode={country}
                           size={25}
                           style={styles.flag}
-                        />
+                          useNativeAndroidPickerStyle={false}
+                        /> */}
                       </View>
                       <View style={{marginLeft: wp('2%')}}>
                         <Text style={styles.textHeadingValue}>
@@ -419,7 +440,7 @@ const pickerRef = useRef(null);
                       // style={{textDecorationLine: 'underline'}}
 
                       style={{color: '#866528'}}
-                      onPress={handleOpenDropdown}>
+                      onPress={() => setOpenDropdown(true)}>
                       CHANGE?
                     </Text>
                   </View>
@@ -579,6 +600,16 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 12,
     marginTop: 2,
+  },
+  dropdown: {
+    borderWidth: 0,
+    width:wp('90%')
+  },
+  dropdownText: {
+    fontFamily: 'Product Sans',
+  },
+  dropdownContainer: {
+   
   },
 });
 export default Profile;
