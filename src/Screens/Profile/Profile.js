@@ -38,7 +38,7 @@ import Order from './Order.js';
 import Points from './Points.js';
 import CountryFlag from 'react-native-country-flag';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors.js';
+import {transparent} from 'react-native-paper/lib/typescript/styles/themes/v2/colors.js';
 
 const Profile = () => {
   const [selectedValue, setSelectedValue] = useState(currencies[0].value);
@@ -392,15 +392,17 @@ const Profile = () => {
                         value: item,
                       }))}
                     /> */}
-               
+
                     <DropDownPicker
-                   style={styles.dropdown}
+                      listMode="SCROLLVIEW"
+                      style={styles.dropdown}
                       arrowIconContainerStyle={{display: 'none'}}
                       open={openDropdown}
                       value={selectedCountry}
-                      items={currencies.map(currency => ({
+                      items={currencies.map((currency, index) => ({
                         label: currency.iso_code,
                         value: currency.name,
+                        key: index,
                         icon: () => (
                           <CountryFlag isoCode={currency?.flag} size={20} />
                         ),
@@ -412,13 +414,15 @@ const Profile = () => {
                       placeholder="Select a country"
                       // style={styles.dropdown}
                       dropDownStyle={styles.dropdown}
-                      containerStyle={{height:openDropdown?hp('31%'):'auto'}}
+                      containerStyle={{
+                        height: openDropdown ? hp('31%') : 'auto',
+                      }}
                       textStyle={styles.dropdownText}
                       searchable={true}
                       searchablePlaceholder="Search..."
-                       searchablePlaceholderTextColor="#888"
+                      searchablePlaceholderTextColor="#888"
                       showArrow={false}
-                      dropDownContainerStyle={{ backgroundColor: 'white' }}
+                      dropDownContainerStyle={{backgroundColor: 'white'}}
                     />
                     <View style={{flexDirection: 'row', marginTop: hp('-5%')}}>
                       <View>
@@ -605,23 +609,21 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     borderWidth: 0,
-    width:wp('90%'),
-    backgroundColor:'white'
+    width: wp('90%'),
+    backgroundColor: 'white',
   },
   dropdownText: {
     fontFamily: 'Product Sans',
   },
   dropdownContainer: {
-   backgroundColor: '#ffffff',
-
-
-  },
-  listItemContainer:{
     backgroundColor: '#ffffff',
   },
-  itemStyle:{
-    backgroundColor:'white',
-    zIndex:2
-  }
+  listItemContainer: {
+    backgroundColor: '#ffffff',
+  },
+  itemStyle: {
+    backgroundColor: 'white',
+    zIndex: 2,
+  },
 });
 export default Profile;

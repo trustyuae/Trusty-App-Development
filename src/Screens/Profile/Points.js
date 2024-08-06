@@ -74,7 +74,7 @@ const Points = () => {
     />
     
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <View style={{ marginTop: hp('1%'), marginLeft: wp('24%') }}>
+      <View style={{ marginTop: hp('1%'), marginLeft: wp('22%') }}>
         <Text
           style={{
             fontFamily: 'Product Sans Medium',
@@ -86,7 +86,7 @@ const Points = () => {
           You have earned
         </Text>
       </View>
-      <View style={{ marginTop: hp('1%'), marginLeft: wp('5%') }}>
+      <View style={{ marginTop: hp('1%'), marginLeft: wp('8%') }}>
         <Text
           style={{
             fontFamily: 'Product Sans',
