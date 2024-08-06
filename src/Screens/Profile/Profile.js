@@ -415,7 +415,7 @@ const Profile = () => {
                       // style={styles.dropdown}
                       dropDownStyle={styles.dropdown}
                       containerStyle={{
-                        height: openDropdown ? hp('31%') : 'auto',
+                        height: openDropdown ? hp('35%') : 'auto',
                       }}
                       textStyle={styles.dropdownText}
                       searchable={true}
