@@ -196,7 +196,6 @@ const Profile = () => {
     setSelectedCountry(country);
     const selected = currencies.find(item => item.name === country?.name);
     if (selected) {
-      console.log('selected---------->', selected.flag);
       setSelectedValue(selected.name);
       setCountry(selected.flag);
       setCurrency(selected.symbol);
@@ -212,7 +211,7 @@ const Profile = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
       <View>
-        <Account />
+        <Account  setEditable={setEditable} editable={editable}/>
       </View>
       <View style={{flex: 1, backgroundColor: globalColors.white}}>
         <View

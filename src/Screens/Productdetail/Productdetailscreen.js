@@ -281,7 +281,7 @@ export default function Productdetailscreen({route}) {
                           ) : (
                             <Image
                               source={Images.saveIconUnFill}
-                              style={styles.iconContainer}
+                              
                             />
                           )}
                         </TouchableOpacity>

@@ -14,7 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 
 
-const Account = ({setEditable}) => {
+const Account = ({setEditable,editable}) => {
   const dispatch = useDispatch();
   const {data} = useSelector(state => state.profile);
   const {items} = useSelector(state => state.wishlist);
@@ -31,7 +31,7 @@ const Account = ({setEditable}) => {
   }, [dispatch]);
 
   const handleClick = () => {
-   setEditable(true)
+  navigation.navigate('wishlist')
   };
   return (
     <SafeAreaView>
@@ -67,7 +67,7 @@ const Account = ({setEditable}) => {
         </View>
         <View style={styles.container}>
           <View style={{marginRight:wp('-2%')}}>
-          <Pressable onPress={handleClick}>
+          <Pressable onPress={()=>setEditable(!editable)}>
               <Image
                 style={styles.img}
                 source={Images.Editicon}
