@@ -67,7 +67,7 @@ const Points = () => {
         width: wp('12%'),
         position: 'absolute',
         top: hp('0.5%'), // Adjust as needed
-        left: wp('5%'), // Adjust as needed
+        left: wp('6%'), // Adjust as needed
         zIndex: 1,
       }}
       resizeMode="contain"
