@@ -179,7 +179,7 @@ const Profile = () => {
 
     const customer_id = await getUserId();
     try {
-      dispatch(updateProfile({customer_id, newData: updatedData}));
+      dispatch(updateProfile({customer_id, newData: updatedData}))
       setEditable(false);
     } catch (error) {
       console.log(error);
@@ -367,7 +367,6 @@ const Profile = () => {
                   </View>
                   <View style={{marginLeft: 'auto', marginRight: 5}}>
                     <Text
-                      // style={{textDecorationLine: 'underline'}}
                       style={{color: '#866528'}}
                       onPress={() => setModalVisible(true)}>
                       CHANGE?
@@ -393,6 +392,7 @@ const Profile = () => {
                     /> */}
 
                     <DropDownPicker
+                      placeholderStyle={{ color: '#888' }}
                       listMode="SCROLLVIEW"
                       style={styles.dropdown}
                       arrowIconContainerStyle={{display: 'none'}}
@@ -410,7 +410,7 @@ const Profile = () => {
                       setValue={setSelectedCountry}
                       setItems={setSelectedCountry}
                       onChangeValue={handleCountryChange}
-                      placeholder="Select a country"
+                      placeholder="Select Currency"
                       // style={styles.dropdown}
                       dropDownStyle={styles.dropdown}
                       containerStyle={{
@@ -607,6 +607,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   dropdown: {
+    marginTop: hp('-0.4%'),
     borderWidth: 0,
     width: wp('90%'),
     backgroundColor: 'white',

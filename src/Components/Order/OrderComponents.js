@@ -139,13 +139,13 @@ const styles = StyleSheet.create({
     color: globalColors.white,
     textAlign: 'center',
     fontSize: 12,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'product sans',
   },
   line: {
-    borderBottomColor: globalColors.inputBorder,
+    borderBottomColor: '#E6E6E6',
     borderBottomWidth: 1,
     marginVertical: 30,
-    paddingHorizontal:wp('5%')
+    marginHorizontal:wp('3%')
   },
 });
 export default OrderComponents;

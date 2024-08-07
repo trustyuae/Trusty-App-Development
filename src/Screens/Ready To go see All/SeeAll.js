@@ -1,165 +1,217 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Pressable, View, FlatList} from 'react-native';
-
+import React, {useEffect, useState, useCallback, useRef} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  FlatList,
+} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import {
+  fetchPaginatedProducts,
+  resetProducts,
+} from '../../Redux/Slice/paginatedProductSlice';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {fetchProducts} from '../../Redux/Slice/productSlice';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
+import Product from '../../Components/Product/Product';
+import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import {getToken} from '../../Utils/localstorage';
-import {SafeAreaView} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import {fetchRedyToGo} from '../../Redux/Slice/ready_to_go';
-import Readytogo from '../../Components/Ready To Go/Readytogo';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-const SeeAll = () => {
-  const navigation = useNavigation();
-
+const SeeAll = ({navigation}) => {
   const dispatch = useDispatch();
-  const {categories, categoryStatus, categoryError} = useSelector(
-    state => state.category,
-  );
   const {redytogoProducts, redytogoStatus, redytogoError} = useSelector(
     state => state.redytogo,
   );
-  const {products, status, error} = useSelector(state => state.product);
-  const {items, loading: wishlistLoading} = useSelector(
-    state => state.wishlist,
-  );
-  const [tokenData, setTokenData] = useState(null);
+  const paginatedProducts = redytogoProducts;
+  const paginatedStatus = true;
+  const {items} = useSelector(state => state.wishlist);
+  const [search, setSearch] = useState('');
   const [wishlist, setWishlist] = useState([]);
-
-  useEffect(() => {
-    data();
-    dispatch(fetchRedyToGo());
-    dispatch(fetchProducts());
-  }, [dispatch]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [loadingSearch, setLoadingSearch] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
-      data();
-      dispatch(fetchProducts());
-    }, [dispatch, tokenData]),
+      const token = getToken();
+      if (token) {
+        dispatch(fetchWishlist(token));
+      }
+      // dispatch(resetProducts());
+      // dispatch(fetchPaginatedProducts({page: 1}));
+      dispatch(fetchRedyToGo());
+    }, [dispatch]),
   );
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = await getToken();
-        if (token) {
-          setTokenData(token);
-          await dispatch(fetchWishlist(token));
-        }
-      } catch (error) {
-        console.log('Error retrieving data:', error);
-      }
-    };
-    fetchData();
-  }, [dispatch, getToken]);
-  const data = () => {
-    if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({id: item}));
-      const productIds = new Set(itemIdList.map(item => Number(item.id)));
-      const result = products.map(productItem => ({
-        ...productItem,
-        isWatchList: productIds.has(productItem.id),
-      }));
-      setWishlist(result);
-    } else if (wishlist) {
-      setWishlist(products);
+    setWishlist(updateWishlistWithFlags(paginatedProducts, items.Wishlist));
+  }, [paginatedProducts, items]);
+
+  const updateWishlistWithFlags = (products, wishlistItems) => {
+    if (!wishlistItems || wishlistItems.length === 0) {
+      return products;
     }
+    const wishlistIds = new Set(wishlistItems.map(item => Number(item)));
+    return products.map(product => ({
+      ...product,
+      isWatchList: wishlistIds.has(product.id),
+
+    }));
   };
 
-  useEffect(() => {
-    data();
-  }, [items, products, categories, tokenData]);
+  const renderProduct = ({item: product}) => (
+    <TouchableOpacity
+      key={product.id}
+      onPress={() =>
+        navigation.navigate('ProductDetail', {userId: product.id})
+      }>
+      <Product
+        uri={product?.images?.[0] || product?.image}
+        name={product?.name}
+        price={product?.price}
+        saved={product?.saved}
+        product_id={product?.id}
+        isWatchList={product?.isWatchList}
+      />
+    </TouchableOpacity>
+  );
+
+  const renderProducts = () => {
+    const dataToRender = search.trim().length > 0 ? searchResults : wishlist;
+
+    if (loadingSearch || paginatedStatus === 'loading') {
+      return (
+        <View style={{marginLeft: wp('1.5%')}}>
+          <SkeletonLoader count={6} />
+        </View>
+      );
+    }
+setTimeout(()=>{
+  if (dataToRender.length === 0) {
+    return (
+      <View style={styles.noRecordContainer}>
+        <Text style={styles.noRecordText}>No Record Found</Text>
+      </View>
+    );
+  }
+},200)
+   
+
+const update=dataToRender.filter((a,b)=>a.id==b.id)
+
+
+    
+
+    return (
+      <FlatList
+        data={dataToRender}
+        renderItem={renderProduct}
+        keyExtractor={item => item.id}
+        numColumns={2}
+        columnWrapperStyle={styles.productContainer}
+        ListFooterComponent={
+          search.trim().length === 0 &&
+          paginatedProducts.length > 0 && (
+            <TouchableOpacity
+              onPress={loadMoreProducts}
+              style={styles.loadMoreButton}>
+              <Text style={styles.loadMoreButtonText}>Load More</Text>
+            </TouchableOpacity>
+          )
+        }
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      />
+    );
+  };
+
+  const loadMoreProducts = () => {
+    dispatch(fetchPaginatedProducts({page}));
+  };
 
   return (
-    <GestureHandlerRootView>
-      <SafeAreaView>
-        <View style={styles.maincontainer}>
-          <FlatList
-            data={redytogoProducts}
-            renderItem={({item}) => (
-              <Pressable
-                key={item.id}
-                onPress={() =>
-                  navigation.navigate('ProductDetail', {
-                    userId: item.id,
-                  })
-                }>
-                <Readytogo
-                  key={item?.id}
-                  id={item?.id}
-                  uri={item?.images[0]}
-                  name={item?.name}
-                  price={item?.price}
-                  saved={item?.saved}
-                  product_id={item?.id}
-                  isWatchList={item?.isWatchList}
-                />
-              </Pressable>
-            )}
-            keyExtractor={item => item.id}
-            numColumns={2}
-          />
-        </View>
-      </SafeAreaView>
-    </GestureHandlerRootView>
+    <SafeAreaView style={styles.safeAreaView}>
+      <CustomStatusBar color={globalColors.headingBackground} />
+      <Icon
+        name="arrow-back"
+        size={25}
+        color="#333"
+        style={{marginLeft: 8}}
+        onPress={() => navigation.goBack()}
+      />
+      <View style={styles.container}>{renderProducts()}</View>
+    </SafeAreaView>
   );
 };
 
 export default SeeAll;
 
 const styles = StyleSheet.create({
-  maincontainer: {
-    paddingHorizontal: wp('1%'),
-    marginTop: hp('10%'),
-    flexDirection: 'row',
+  safeAreaView: {
+    flex: 1,
   },
-  name: {
-    fontFamily: 'Product Sans',
-    color: globalColors.black,
-    marginBottom: hp('0.5%'),
-    fontSize: 17,
-  },
-  image: {
-    borderRadius: 6,
-    width: wp('46%'),
-    height: hp('21%'),
-  },
-  saveImagea: {
-    position: 'absolute',
-    marginTop: wp('0.1%'),
-    marginLeft: wp('28%'),
-    padding: 12,
-    left: 15,
-  },
-  saveImage: {
-    width: 32,
-    resizeMode: 'contain',
-    padding: 8,
-    height: 32,
-  },
-  detailsContainer: {
-    marginTop: hp('1%'),
-    height: hp('10%'),
-    width: wp('46%'),
-    justifyContent: 'center',
+  productContainer: {
+    justifyContent: 'space-around',
   },
   container: {
+    padding: 5,
     flex: 1,
-    margin: wp('1%'),
-    marginTop: hp('3%'),
+    marginTop: hp('5%'),
   },
-  price: {
-    fontSize: 17,
-    fontWeight: '700',
-    fontFamily: 'Product Sans',
-    color: globalColors.black,
+  inputfield: {
+    backgroundColor: 'white',
+    margin: 10,
+    borderColor: '#DBCCC1',
+    borderWidth: 1,
+    padding: 7,
+    borderRadius: 20,
+    paddingLeft: 20,
+  },
+  custposition: {
+    position: 'relative',
+  },
+  cust_icon: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+  },
+  searchContainer: {
+    // marginVertical: 5,
+  },
+  noRecordContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noRecordText: {
+    fontFamily: 'Intrepid Regular',
+  },
+  loadMoreButton: {
+    backgroundColor: globalColors.black,
+    height: hp('4%'),
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: wp('25%'),
+    borderRadius: 5,
+    marginBottom: hp('6%'),
+    marginVertical: 10,
+    color: globalColors.white,
+    fontFamily: 'Intrepid Regular',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  loadMoreButtonText: {
+    fontSize: 14,
+    color: globalColors.white,
+    fontFamily: 'Intrepid Regular',
+    textAlign: 'center',
   },
 });
