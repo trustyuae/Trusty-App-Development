@@ -189,18 +189,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     // marginBottom: hp('2%'),
     overflow: 'hidden',
-    height: hp("42%"),
+    height: hp("32%"),
     // backgroundColor:'yellow'
   },
   imageContainer: {
     width: wp('30%'),
-      height: hp('30%'),
+      height: hp('18%'),
     position: 'relative',
     // backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
     marginTop: hp('2%'),
-    height: hp('5%'),
+    height: hp('10%'),
     width: wp('46%'),
     justifyContent: 'center',
   },
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     fontFamily: 'Product Sans',
     color: globalColors.black,
-     marginTop: wp('3%'),
+     marginTop: wp('5%'),
   },
   price: {
     fontSize: 18,
@@ -235,12 +235,12 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 6,
     width: wp('46%'),
-    height:hp('30%'),
+    height:hp('21%'),
   },
   dummy:{
     borderRadius: 6,
     width: wp('46%'),
-    height:hp('30%'),
+    height:hp('21%'),
   },
 
   heading: {

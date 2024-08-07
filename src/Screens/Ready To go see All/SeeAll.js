@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 5,
     flex: 1,
-    marginTop: hp('5%'),
+    marginTop:Platform.OS=='ios'?hp('2%'):hp('5%'),
   },
   noRecordContainer: {
     flex: 1,

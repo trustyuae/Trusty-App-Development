@@ -104,5 +104,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     fontFamily: 'Product Sans',
+    width:wp('30%')
   },
 });
