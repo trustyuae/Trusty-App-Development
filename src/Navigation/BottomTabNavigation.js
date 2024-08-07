@@ -117,7 +117,7 @@ const BottomTabNavigation = ({navigation}) => {
               focused?
               <Image
                 source={ProfileIconfilled}
-                style={{width: 25, height: 25}}
+                style={{width: 20, height: 20}}
                 resizeMode="contain"
               />:  <Image
               source={ProfileIcon}

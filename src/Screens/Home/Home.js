@@ -9,18 +9,14 @@ import {
   View,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Counter from '../../Components/Counter';
-import Category from '../../Components/Category';
+
 import {Images} from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import PreviewImage from '../../Components/Preview/PreviewImage';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import Product from '../../Components/Product/Product';
-import HeadingImage from '../../Components/Preview/HeadingImage';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Pressable} from 'react-native';
 import {fetchCategories} from '../../Redux/Slice/categorySlice';
@@ -29,7 +25,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
 import {getToken} from '../../Utils/localstorage';
 import {SafeAreaView} from 'react-native';
-import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import CategoryComoponent from '../../Components/Category/CategoryComoponent';
 import Button from '../../Components/Button';
@@ -162,10 +157,12 @@ const Home = () => {
   // console.log('inside home---->', products);
 
 
+
+
   useEffect(() => {
     data();
     dispatch(fetchRedyToGo());
-    // dispatch(fetchCategories());
+   dispatch(fetchCategories());
     dispatch(fetchProducts());
   }, [dispatch]);
 
@@ -277,7 +274,8 @@ const Home = () => {
             </View>
             {
               <CategoryComoponent
-                getData={getData}
+                 //getData={getData}
+                 getData={categories}
                 navigateToCategoryProducts={navigateToCategoryProducts}
               />
             }
