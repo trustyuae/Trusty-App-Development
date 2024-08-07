@@ -1,28 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Account, Cart, SignupPage, Watchlist} from '../Screens';
-import Home from '../Screens/Home/Home';
-import {
-  ProfileIcon,
-  HomeIcon,
-  SearchIcon,
-  BagIcon,
-  MenuIcon,
-} from '../Constants/Icons';
+import {ProfileIcon, HomeIcon, SearchIcon, BagIcon, HomeIconfilled, ProfileIconfilled} from '../Constants/Icons';
 
-import CategoryProducts from '../Screens/CategoryProducts';
-import Loginscreen from '../Screens/Login/Loginscreen';
 import HomeCustomeNavigation from './HomeCustomeNavigation';
 import LoginCustomeNavigation from './LoginCustomeNavigation';
 import Profile from '../Screens/Profile/Profile';
 import {getToken} from '../Utils/localstorage';
-import ProfileNavigations from './ProfileNavigations';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import CartScreen from '../Screens/Cart/CartScreen';
 import SearchScreen from '../Screens/search/SearchScreen';
-import Icon from 'react-native-vector-icons/Ionicons'; // Assuming you're using Ionicons for the back button icon
-import DrawerNavigation from './DrawerNavigation';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,21 +31,25 @@ const BottomTabNavigation = ({navigation}) => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarActiveTintColor: '#e91e63',
         headerShown: false,
         tabBarStyle: {backgroundColor: '#101010'},
-       
       })}>
       <Tab.Screen
         name="HomeCustomeNavigation"
         component={HomeCustomeNavigation}
         options={{
-          tabBarIcon: () => (
+          tabBarIcon: ({focused}) => (
+            focused?
             <Image
-              source={HomeIcon}
+              source={HomeIconfilled}
               style={{width: 25, height: 25}}
               resizeMode="contain"
-            />
+            />:  <Image
+            source={HomeIcon}
+            style={{width: 20, height: 20}}
+            resizeMode="contain"
+          />
+
           ),
           tabBarShowLabel: false,
         }}
@@ -66,12 +58,20 @@ const BottomTabNavigation = ({navigation}) => {
         name="Search"
         component={SearchScreen}
         options={{
-          tabBarIcon: () => (
+          tabBarIcon: ({focused}) => (
+            focused?
             <Image
               source={SearchIcon}
+              tintColor={"#866528"}
               style={{width: 20, height: 20}}
               resizeMode="contain"
-            />
+            />:  <Image
+            source={SearchIcon}
+          
+            style={{width: 20, height: 20}}
+            resizeMode="contain"
+          />
+
           ),
           tabBarShowLabel: false,
           headerLeft: () => (
@@ -84,36 +84,25 @@ const BottomTabNavigation = ({navigation}) => {
             />
           ),
         }}
-
-        // options={({ navigation }) => ({ // Pass navigation prop here
-        //   headerTransparent: true,
-        //   title: null,
-        //   headerStyle: {
-        //     backgroundColor: '#f6f1eb',
-        //   },
-        //   headerBackTitleVisible: false,
-        //   headerLeft: () => (
-        //     <Icon
-        //       name="arrow-back"
-        //       size={25}
-        //       color="#333"
-        //       style={{ marginLeft: 1 }}
-        //       onPress={() => navigation.goBack()}
-        //     />
-        //   ),
-        // })}
       />
 
       <Tab.Screen
         name="Bag"
         component={CartScreen}
         options={{
-          tabBarIcon: () => (
+          tabBarIcon: ({focused}) => (
+            focused?
             <Image
               source={BagIcon}
-              style={{width: 25, height: 25}}
+              style={{width: 20, height: 20}}
+              tintColor={"#866528"}
               resizeMode="contain"
-            />
+            />:  <Image
+            source={BagIcon}
+            style={{width: 20, height: 20}}
+            resizeMode="contain"
+          />
+
           ),
           tabBarShowLabel: false,
         }}
@@ -122,65 +111,22 @@ const BottomTabNavigation = ({navigation}) => {
       {isLoggedIn ? (
         <Tab.Screen
           name="Profile"
-          //component={ProfileNavigations}
           component={Profile}
-          // options={{
-          //   headerTransparent: true,
-          //   title: null,
-          //   headerStyle: {
-          //     backgroundColor: '#f6f1eb',
-          //   },
-          //   tabBarIcon: () => (
-          //     <Image
-          //       source={ProfileIcon}
-          //       style={{width: 15, height: 15}}
-          //       resizeMode="contain"
-          //     />
-          //   ),
-          //   tabBarShowLabel: false,
-          //   headerBackTitleVisible: false,
-          //   headerLeft: () => (
-          //     <Icon
-          //       name="arrow-back"
-          //       size={25}
-          //       color="#333" // Customize the color as needed
-          //       style={{marginLeft: -8}}
-          //       onPress={() => navigation.goBack()}
-          //     />
-          //   ),
-          // }}
-           options={{
-          //   headerTransparent: true,
-          //   title: null,
-          //    headerStyle: {
-          //     backgroundColor:'#f6f1eb',
-          //     zIndex:-1,
-          //   },
-          //   tabBarIcon: () => (
-          //     <Image
-          //       source={ProfileIcon}
-          //       style={{width: 15, height: 15}}
-          //       resizeMode="contain"
-          //     />
-          //   ),
-          //   tabBarShowLabel: false,
-          //   headerBackTitleVisible: false,
-          //   // headerLeft: () => (
-          //   //   <Icon
-          //   //     name="arrow-back"
-          //   //     size={25}
-          //   //     color="#333" // Customize the color as needed
-          //   //     style={{marginLeft: -8}}
-          //   //     onPress={() => navigation.goBack()}
-          //   //   />
-          //   // ),
-          tabBarIcon: () => (
-            <Image
-                  source={ProfileIcon}
-                  style={{width: 15, height: 15}}
-                  resizeMode="contain"
-                />),
-          tabBarShowLabel: false,
+          options={{
+            tabBarIcon: ({focused}) => (
+              focused?
+              <Image
+                source={ProfileIconfilled}
+                style={{width: 25, height: 25}}
+                resizeMode="contain"
+              />:  <Image
+              source={ProfileIcon}
+              style={{width: 20, height: 20}}
+              resizeMode="contain"
+            />
+  
+            ),
+            tabBarShowLabel: false,
           }}
         />
       ) : (
@@ -188,12 +134,18 @@ const BottomTabNavigation = ({navigation}) => {
           name="LoginCustomeNavigation"
           component={LoginCustomeNavigation}
           options={{
-            tabBarIcon: () => (
+            tabBarIcon: ({focused}) => (
+              focused?
               <Image
-                source={ProfileIcon}
-                style={{width: 20, height: 20}}
+                source={ProfileIconfilled}
+                style={{width: 25, height: 25}}
                 resizeMode="contain"
-              />
+              />:  <Image
+              source={ProfileIcon}
+              style={{width: 20, height: 20}}
+              resizeMode="contain"
+            />
+  
             ),
             tabBarShowLabel: false,
           }}

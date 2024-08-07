@@ -54,8 +54,8 @@ const Points = () => {
       height: hp('35%'),
       width: wp('93%'),
       zIndex: 1,
-      justifyContent: 'center', // Center content vertically
-      alignItems: 'center', // Center content horizontally
+      justifyContent: 'center', 
+      alignItems: 'center', 
     }}>
     
     <Animatable.Image
@@ -66,8 +66,8 @@ const Points = () => {
         height: hp('34%'),
         width: wp('12%'),
         position: 'absolute',
-        top: hp('0.5%'), // Adjust as needed
-        left: wp('6%'), // Adjust as needed
+        top: hp('0.5%'), 
+        left: wp('6%'), 
         zIndex: 1,
       }}
       resizeMode="contain"

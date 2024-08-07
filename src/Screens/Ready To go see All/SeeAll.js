@@ -140,13 +140,6 @@ const update=dataToRender.filter((a,b)=>a.id==b.id)
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <CustomStatusBar color={globalColors.headingBackground} />
-      <Icon
-        name="arrow-back"
-        size={25}
-        color="#333"
-        style={{marginLeft: 8}}
-        onPress={() => navigation.goBack()}
-      />
       <View style={styles.container}>{renderProducts()}</View>
     </SafeAreaView>
   );

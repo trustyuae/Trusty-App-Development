@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
   label: {
     textAlign: 'center',
     marginTop: 8,
+    fontSize: 16,
+    fontWeight: '400',
     fontFamily: 'Product Sans',
-    fontSize:14,
   },
 });
