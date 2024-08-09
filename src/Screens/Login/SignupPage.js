@@ -414,7 +414,6 @@ const SignupPage = () => {
             <View style={styles.inputSection}>
               <Text style={styles.headingInput}>Billing Information</Text>
 
-           
               <View style={styles.inputPicker}>
                 <SelectDropdown
                   data={countries}
@@ -605,14 +604,10 @@ const SignupPage = () => {
           />
 
           <View style={styles.footerContainer}>
-            <Text style={styles.footerText}>
-              Already have an account
-              <Text style={{fontFamily: 'San Francisco'}}> ?</Text>
-              <Text
-                style={styles.footerLink}
-                onPress={() => navigation.navigate('Login')}>
-                {''} Log in
-              </Text>
+            <Text
+              style={styles.footerLink}
+              onPress={() => navigation.navigate('Login')}>
+              Log in
             </Text>
           </View>
         </ScrollView>
@@ -712,16 +707,14 @@ const styles = StyleSheet.create({
     color: globalColors.buttonBackground,
     backgroundColor: globalColors.white,
   },
-  inputPicker: {
-    
-  },
+  inputPicker: {},
 
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
   },
   custbtn: {
-    backgroundColor: globalColors.buttonBackground,
+    backgroundColor: globalColors.black,
     padding: wp('3%'),
     borderRadius: 5,
   },
@@ -744,6 +737,14 @@ const styles = StyleSheet.create({
   },
   footerLink: {
     color: globalColors.backgroundLight,
+    borderColor: globalColors.lightgold,
+    marginVertical: 20,
+    textAlign: 'center',
+    borderWidth: 2,
+    padding: 10,
+    
+    borderRadius: 6,
+    fontWeight: '700',
   },
 
   //---------------------------------------------

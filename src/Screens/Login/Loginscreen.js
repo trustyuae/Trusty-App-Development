@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  ScrollView,
+  Image,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../Components/Button';
@@ -11,6 +18,8 @@ import {loginUser} from '../../Redux/Slice/loginslice';
 import {globalColors} from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import {Images} from '../../Constants/index';
+import {passwordIcon, emailIcon} from '../../Constants/Icons';
 
 const Loginscreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -91,46 +100,80 @@ const Loginscreen = ({navigation}) => {
   return (
     <ScrollView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+      <View style={{flex: 1}}>
+        <View>
+          <Image
+            style={{
+              flex: 0.5,
+              width: '100%',
+              resizeMode: 'contain',
+              height: hp('40%'),
+            }}
+            source={Images.loginImage}
+          />
+        </View>
 
-      <View>
         <View style={styles.logincontainer}>
-          <Text style={styles.headingtext}>Sign In</Text>
+          <Text style={styles.headingtext}>Login</Text>
 
           <View style={styles.custContainer}>
-            <TextInput
-              style={styles.inputfield}
-              placeholder="E-mail  *"
-              value={values.email}
-              onChangeText={text =>
-                setValues(prevValues => ({...prevValues, email: text}))
-              }
-            />
-            {errors.email !== '' && (
-              <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
-                {errors.email}
-              </Text>
-            )}
-            <View style={styles.custposition}>
-              <TextInput
-                style={styles.inputfield}
-                placeholder="Password  *"
-                value={values.password}
-                secureTextEntry={showPassword}
-                onChangeText={text =>
-                  setValues(prevValues => ({...prevValues, password: text}))
-                }
-              />
-              {errors.password !== '' && (
-                <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
-                  {errors.password}
-                </Text>
-              )}
-              <Icon
-                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                size={20}
-                style={styles.cust_icon}
-                onPress={() => setShowPassword(prevShow => !prevShow)}
-              />
+            <View style={styles.inputfieldboth}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  backgroundColor: globalColors.white,
+                  paddingHorizontal: 20,
+                }}>
+                <Image style={styles.icon} source={emailIcon}></Image>
+                <TextInput
+                  style={styles.inputfield}
+                  placeholder="EMAIL *"
+                  value={values.email}
+                  onChangeText={text =>
+                    setValues(prevValues => ({...prevValues, email: text}))
+                  }
+                />
+                {errors.email !== '' && (
+                  <Text
+                    style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+                    {errors.email}
+                  </Text>
+                )}
+              </View>
+              <View style={styles.separator} />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  backgroundColor: globalColors.white,
+                  paddingHorizontal: 20,
+                }}>
+                <Image
+                  style={styles.iconPassword}
+                  source={passwordIcon}></Image>
+                <TextInput
+                  style={styles.inputfield}
+                  placeholder="PASSWORD *"
+                  value={values.password}
+                  secureTextEntry={showPassword}
+                  onChangeText={text =>
+                    setValues(prevValues => ({...prevValues, password: text}))
+                  }
+                />
+                {errors.password !== '' && (
+                  <Text
+                    style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+                    {errors.password}
+                  </Text>
+                )}
+                {/* <Icon
+                  name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                  size={20}
+                  style={styles.cust_icon}
+                  onPress={() => setShowPassword(prevShow => !prevShow)}
+                /> */}
+              </View>
             </View>
 
             <Text
@@ -143,19 +186,20 @@ const Loginscreen = ({navigation}) => {
               stylesofbtn={styles.custbtn}
               styleoffont={styles.custfontstyle}
               handlepress={handlePress}
-              name={'Continue'}
+              name={'Login'}
               loading={loading}
             />
 
             <Text
               style={styles.createAccountText}
               onPress={() => navigation.navigate('Signup')}>
-              Create a new account
+              Create New Account
             </Text>
           </View>
-          <Text></Text>
         </View>
       </View>
+
+      {/* </View> */}
     </ScrollView>
   );
 };
@@ -164,31 +208,45 @@ export default Loginscreen;
 
 const styles = StyleSheet.create({
   logincontainer: {
-    margin: wp('3%'),
-    marginTop: hp('7%'),
-    fontFamily: 'Intrepid Regular',
+    // margin: wp('3%'),
+    // marginTop: hp('30%'),
+    fontFamily: 'Product Sans',
+    flex: 0.5,
   },
   headingtext: {
     color: globalColors.black,
     fontSize: wp('5%'),
+    textAlign: 'center',
     padding: wp('5%'),
-    fontWeight: '600',
-    fontSize: 22,
-    fontFamily: 'Intrepid Regular',
+    fontWeight: '700',
+    fontSize: 32,
+    fontFamily: 'Product Sans',
   },
   inputfield: {
     backgroundColor: globalColors.white,
-    borderWidth: 1,
-    height: hp('5.5%'),
-    borderRadius: 4,
 
-    marginBottom: hp('2%'),
-    fontFamily: 'Intrepid Regular',
-    fontSize: 16,
+    fontFamily: 'Product Sans',
+    fontSize: 14,
+    padding: 20,
+  },
+  icon: {
+    width: 18,
+    height: 16,
+  },
+  iconPassword: {
+    width: 18,
+    height: 21,
+  },
+  inputfieldboth: {
+    // borderWidth: 0.5,
+    borderRadius: hp('1%'),
     borderColor: globalColors.borderColor,
-    paddingHorizontal: wp('5%'),
-    borderRadius: 5,
-    padding: 10,
+  },
+  separator: {
+    borderWidth: 0.1,
+    alignSelf: 'center',
+    backgroundColor: '#dcdcdc',
+    width: '80%',
   },
   custContainer: {
     padding: wp('5%'),
@@ -199,20 +257,21 @@ const styles = StyleSheet.create({
     padding: wp('3%'),
 
     borderRadius: 5,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
   custfontstyle: {
     color: globalColors.white,
     textAlign: 'center',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
   custforgotpasstext: {
-    textAlign: 'right',
-    marginTop: hp('-0.5%'),
-    marginBottom: hp('4%'),
-    fontFamily: 'Intrepid Regular',
-    fontSize: 14,
-    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: hp('3.5%'),
+    marginBottom: hp('3.5%'),
+    fontFamily: 'Product Sans',
+    fontSize: 15,
+    textTransform: 'uppercase',
+    fontWeight: '400',
     color: 'black',
   },
   custposition: {
@@ -231,16 +290,23 @@ const styles = StyleSheet.create({
   },
   custfontstyle: {
     color: globalColors.white,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     fontSize: 16,
+    fontWeight: '700',
     textAlign: 'center',
   },
   createAccountText: {
     textAlign: 'center',
-    marginVertical: 15,
+    marginVertical: 20,
+    marginTop: hp('2%'),
+    borderWidth: 2,
+    padding: 10,
+    borderColor: globalColors.lightgold,
+    borderRadius: 6,
     fontSize: 16,
+    fontWeight: '700',
     color: globalColors.backgroundLight,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
   errorText: {
     color: globalColors.error,

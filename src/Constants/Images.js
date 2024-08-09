@@ -26,37 +26,39 @@ const Bottom = require('../Assets/Images/Bottom.png');
 const Jewellery = require('../Assets/Images/Jewellery.png');
 const Shoes_01 = require('../Assets/Images/Shoes_01.png');
 const Rectangle = require('../Assets/Images/Rectangle.png');
-const Shopping=require('../Assets/Images/Shopping.png')
-const Accessories=require('../Assets/Images/accessories.png')
-const Scarf=require("../Assets/Images/Scarfs.png")
-const Backarrow=require("../Assets/Images/backarrow.png")
-const Rating=require("../Assets/Images/rating.png")
-const Line=require("../Assets/Images/Line.png")
-const Musthavelogo=require("../Assets/Images/logomusthave.png")
-const Textimg=require("../Assets/Images/homescreenwriting.png")
-const Boy=require("../Assets/Images/Boy.png")
-const Man=require("../Assets/Images/Man.png")
-const Woman=require("../Assets/Images/women1x.png")
-const Bags=require("../Assets/Images/Bagsx.png")
-const Head=require("../Assets/Images/Heading.png")
-const Menu=require("../Assets/Images/Menu.png")
-const Catelog1=require("../Assets/Images/catelog1.png")
-const Catelog2=require("../Assets/Images/catelog2.png")
-const Catelog3=require("../Assets/Images/catelog3.png")
-const categories_Bag=require("../Assets/Images/Bags_img.webp")
-const categories_shoes=require("../Assets/Images/Shoes_imgs.webp")
-const sortarrow=require("../Assets/Images/sort.png")
-const sortlogo=require("../Assets/Images/Frame.png")
-const circle=require("../Assets/Images/Ellipse.png")
-const down=require("../Assets/Images/down.png")
-const closeicon=require("../Assets/Images/closeicon.png")
-const righticon=require("../Assets/Images/righticon.png")
-const Editicon=require("../Assets/Images/Editicon.png")
-const Detailview=require("../Assets/Images/Detailview.png")
-const Points=require("../Assets/Images/Points.png")
-const Star=require("../Assets/Images/Star.png")
-const Celebration=require("../Assets/Images/celebration.png")
-const Wishlist=require("../Assets/Images/Wishlist.png")
+const Shopping = require('../Assets/Images/Shopping.png');
+const Accessories = require('../Assets/Images/accessories.png');
+const Scarf = require('../Assets/Images/Scarfs.png');
+const Backarrow = require('../Assets/Images/backarrow.png');
+const Rating = require('../Assets/Images/rating.png');
+const Line = require('../Assets/Images/Line.png');
+const Musthavelogo = require('../Assets/Images/logomusthave.png');
+const Textimg = require('../Assets/Images/homescreenwriting.png');
+const Boy = require('../Assets/Images/Boy.png');
+const Man = require('../Assets/Images/Man.png');
+const Woman = require('../Assets/Images/women1x.png');
+const Bags = require('../Assets/Images/Bagsx.png');
+const Head = require('../Assets/Images/Heading.png');
+const Menu = require('../Assets/Images/Menu.png');
+const Catelog1 = require('../Assets/Images/catelog1.png');
+const Catelog2 = require('../Assets/Images/catelog2.png');
+const Catelog3 = require('../Assets/Images/catelog3.png');
+const categories_Bag = require('../Assets/Images/Bags_img.webp');
+const categories_shoes = require('../Assets/Images/Shoes_imgs.webp');
+const sortarrow = require('../Assets/Images/sort.png');
+const sortlogo = require('../Assets/Images/Frame.png');
+const circle = require('../Assets/Images/Ellipse.png');
+const down = require('../Assets/Images/down.png');
+const closeicon = require('../Assets/Images/closeicon.png');
+const righticon = require('../Assets/Images/righticon.png');
+const Editicon = require('../Assets/Images/Editicon.png');
+const Detailview = require('../Assets/Images/Detailview.png');
+const Points = require('../Assets/Images/Points.png');
+const Star = require('../Assets/Images/Star.png');
+const Celebration = require('../Assets/Images/celebration.png');
+const Wishlist = require('../Assets/Images/Wishlist.png');
+const loginImage = require('../Assets/Images/loginImage.png');
+const logoResetpage = require('../Assets/Images/SmalliconReset.png');
 export default {
   Wishlist,
   Celebration,
@@ -117,4 +119,6 @@ export default {
   ProfileIcon,
   whishlistIcon,
   saveIconUnFill3x,
+  loginImage,
+  logoResetpage,
 };

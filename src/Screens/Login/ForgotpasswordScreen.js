@@ -9,6 +9,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {postApi} from '../../Redux/Slice/postApiSlice';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import {globalColors} from '../../Assets/Theme/globalColors';
+import {Image} from 'react-native';
+import {emailIcon} from '../../Constants/Icons';
+import {Images} from '../../Constants/index';
 
 const ForgotpasswordScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -68,29 +71,49 @@ const ForgotpasswordScreen = ({navigation}) => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.logincontainer}>
+        <Image style={{alignSelf: 'center'}} source={Images.logoResetpage} />
         <Text style={styles.headingtext}>
-          Forget Your Password{' '}
-          <Text style={{fontFamily: 'San Francisco'}}>?</Text>{' '}
+          Forget Password
+          <Text
+            style={{
+              fontFamily: 'San Francisco',
+              fontWeight: '700',
+              fontSize: 24,
+            }}>
+            ?
+          </Text>{' '}
         </Text>
 
         <View style={styles.custContainer}>
           <Text
             style={{
-              fontWeight: '600',
-              fontFamily: 'Intrepid Regular',
+              fontWeight: '400',
+              fontFamily: 'Product Sans',
               fontSize: 14,
+              textAlign: 'center',
               color: globalColors.black,
+              letterSpacing: 0.7,
             }}>
-            Enter the email address associated with account and we will send you
-            a link to reset your password
+            Enter the email address associated with your account and we will
+            send you a link to reset your password
           </Text>
-
-          <TextInput
-            style={styles.inputfield}
-            placeholder="E-mail"
-            value={value.email}
-            onChangeText={text => handlechange('email', text)}
-          />
+          <View
+            style={{
+              marginTop: hp('5%'),
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: globalColors.white,
+              paddingHorizontal: 15,
+              paddingVertical: 4,
+            }}>
+            <Image style={styles.icon} source={emailIcon}></Image>
+            <TextInput
+              style={styles.inputfield}
+              placeholder="EMAIL"
+              value={value.email}
+              onChangeText={text => handlechange('email', text)}
+            />
+          </View>
           {errors && <Text style={styles.errorText}>{errors.email}</Text>}
 
           <Button
@@ -114,23 +137,25 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 0 : hp('8%'),
   },
   headingtext: {
-    fontSize: 20,
+    fontSize: 24,
     padding: 20,
-    fontFamily: 'Intrepid Regular',
+    textAlign: 'center',
+    fontWeight: '700',
+    fontFamily: 'Product Sans',
     color: globalColors.black,
     fontSize: 22,
   },
   inputfield: {
     backgroundColor: globalColors.white,
-    borderWidth: 1,
+    // borderWidth: 1,
     height: hp('5.5%'),
-    marginTop: hp('3%'),
-    fontFamily: 'Intrepid Regular',
-    marginBottom: hp('3%'),
-    paddingHorizontal: wp('5%'),
+    // marginTop: hp('3%'),
+    fontFamily: 'Product Sans',
+    // marginBottom: hp('3%'),
+    // paddingHorizontal: wp('5%'),
     borderColor: globalColors.borderColor,
     borderRadius: 5,
-    padding: 8,
+    padding: 10,
   },
   custContainer: {
     padding: 20,
@@ -140,18 +165,24 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.black,
     padding: wp('3%'),
     borderRadius: 5,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     fontSize: 16,
   },
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     fontSize: 16,
+    fontWeight: '700',
   },
   errorText: {
     color: globalColors.error,
-    marginTop: -24,
-    marginBottom: 20,
+    marginTop: 5,
+    fontFamily: 'Product Sans',
+    // marginBottom: 20,
+  },
+  icon: {
+    width: 18,
+    height: 16,
   },
 });
