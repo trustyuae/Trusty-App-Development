@@ -19,7 +19,7 @@ import {globalColors} from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
 import {Images} from '../../Constants/index';
-import {passwordIcon, emailIcon} from '../../Constants/Icons';
+import {passwordIcon, emailIcon, trustyIconWhite} from '../../Constants/Icons';
 
 const Loginscreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -109,8 +109,7 @@ const Loginscreen = ({navigation}) => {
               resizeMode: 'contain',
               height: hp('40%'),
             }}
-            source={Images.loginImage}
-          />
+            source={Images.loginImage}></Image>
         </View>
 
         <View style={styles.logincontainer}>
@@ -134,13 +133,12 @@ const Loginscreen = ({navigation}) => {
                     setValues(prevValues => ({...prevValues, email: text}))
                   }
                 />
-                {errors.email !== '' && (
-                  <Text
-                    style={{marginTop: -10, color: 'red', marginBottom: 10}}>
-                    {errors.email}
-                  </Text>
-                )}
               </View>
+              {errors.email !== '' && (
+                <Text style={{color: 'red', marginBottom: 10}}>
+                  {errors.email}
+                </Text>
+              )}
               <View style={styles.separator} />
               <View
                 style={{
@@ -161,12 +159,7 @@ const Loginscreen = ({navigation}) => {
                     setValues(prevValues => ({...prevValues, password: text}))
                   }
                 />
-                {errors.password !== '' && (
-                  <Text
-                    style={{marginTop: -10, color: 'red', marginBottom: 10}}>
-                    {errors.password}
-                  </Text>
-                )}
+
                 {/* <Icon
                   name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                   size={20}
@@ -174,6 +167,12 @@ const Loginscreen = ({navigation}) => {
                   onPress={() => setShowPassword(prevShow => !prevShow)}
                 /> */}
               </View>
+              {errors.password !== '' && (
+                <Text
+                  style={{color: 'red', marginTop: hp('1%'), marginBottom: 10}}>
+                  {errors.password}
+                </Text>
+              )}
             </View>
 
             <Text
@@ -227,6 +226,7 @@ const styles = StyleSheet.create({
 
     fontFamily: 'Product Sans',
     fontSize: 14,
+    fontWeight: '400',
     padding: 20,
   },
   icon: {
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   custContainer: {
     padding: wp('5%'),
-    marginTop: hp('-2%'),
+    // marginTop: hp('-2%'),
   },
   custbtn: {
     backgroundColor: 'black',
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     fontSize: 16,
     fontWeight: '700',
-    color: globalColors.backgroundLight,
+    color: globalColors.lightgold,
     fontFamily: 'Product Sans',
   },
   errorText: {

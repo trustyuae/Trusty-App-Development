@@ -23,5 +23,8 @@ export const globalColors = {
   gray: '#cccccc',
   error: 'red',
   skeleton: '#E0E0E0',
-  lightgold:"#866528"
+  lightgold: '#866528',
+  headingBackgroundLogin: '#F3E9DC',
+  textColorSignup: '#8B7C64',
+  borderColorlogin: '#C1B19D',
 };

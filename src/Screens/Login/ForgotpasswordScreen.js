@@ -60,7 +60,7 @@ const ForgotpasswordScreen = ({navigation}) => {
     if (validation()) {
       dispatch(postApi(value)).then(action => {
         if (postApi.fulfilled.match(action)) {
-          navigation.navigate('Login');
+          navigation.navigate('ResetPasswordLink');
         }
       });
     }
@@ -109,7 +109,7 @@ const ForgotpasswordScreen = ({navigation}) => {
             <Image style={styles.icon} source={emailIcon}></Image>
             <TextInput
               style={styles.inputfield}
-              placeholder="EMAIL"
+              placeholder="EMAIL *"
               value={value.email}
               onChangeText={text => handlechange('email', text)}
             />
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     color: globalColors.error,
     marginTop: 5,
     fontFamily: 'Product Sans',
-    // marginBottom: 20,
+    marginBottom: 20,
   },
   icon: {
     width: 18,

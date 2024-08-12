@@ -87,8 +87,9 @@ const SetNewPassword = () => {
           <Text
             style={{
               fontWeight: '600',
-              fontFamily: 'Intrepid Regular',
+              fontFamily: 'Product Sans',
               fontSize: 14,
+              textAlign: 'center',
               resizeMode: 'cover',
               color: globalColors.black,
             }}>
@@ -117,17 +118,19 @@ const SetNewPassword = () => {
                 </Text>
               )}
             </View>
+            <View style={styles.separator} />
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 backgroundColor: globalColors.white,
                 paddingHorizontal: 20,
+                // paddingVertical: 10,
               }}>
               <Image style={styles.iconPassword} source={passwordIcon}></Image>
               <TextInput
                 style={styles.inputfield}
-                placeholder="PASSWORD *"
+                placeholder="CONFIRM PASSWORD *"
                 // value={values.password}
                 // secureTextEntry={showPassword}
                 onChangeText={text =>
@@ -172,21 +175,21 @@ const styles = StyleSheet.create({
     padding: 20,
     textAlign: 'center',
     fontWeight: '700',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     color: globalColors.black,
     fontSize: 22,
   },
   inputfield: {
     backgroundColor: globalColors.white,
     // borderWidth: 1,
-    height: hp('5.5%'),
+    // height: hp('5.5%'),
     // marginTop: hp('3%'),
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     // marginBottom: hp('3%'),
     // paddingHorizontal: wp('5%'),
     borderColor: globalColors.borderColor,
-    borderRadius: 5,
-    padding: 10,
+    // borderRadius: 5,
+    padding: 20,
   },
   icon: {
     width: 18,
@@ -203,20 +206,20 @@ const styles = StyleSheet.create({
   inputfieldboth: {
     // padding: 10,
     marginTop: hp('4%'),
-    marginBottom: hp('4%'),
+    marginBottom: hp('2%'),
   },
   custbtn: {
     backgroundColor: globalColors.black,
     padding: wp('3%'),
     marginTop: hp('1%'),
     borderRadius: 5,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     fontSize: 16,
   },
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     fontSize: 16,
   },
   errorText: {
@@ -227,5 +230,12 @@ const styles = StyleSheet.create({
   icon: {
     width: 18,
     height: 16,
+  },
+  separator: {
+    borderWidth: 0.2,
+    alignSelf: 'center',
+    borderColor: globalColors.borderColorlogin,
+    // backgroundColor: globalColors.borderColorlogin,
+    width: '90%',
   },
 });
