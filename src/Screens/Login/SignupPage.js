@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,21 +11,22 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import SelectDropdown from 'react-native-select-dropdown';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Picker } from '@react-native-picker/picker';
-import { globalColors } from '../../Assets/Theme/globalColors';
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Picker} from '@react-native-picker/picker';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import MobileNo from '../../Components/MobileNo';
 import Button from '../../Components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { signupUser } from '../../Redux/Slice/authSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {signupUser} from '../../Redux/Slice/authSlice';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { Images } from '../../Constants';
+import {Images} from '../../Constants';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const SignupPage = () => {
   const navigation = useNavigation();
@@ -73,7 +74,7 @@ const SignupPage = () => {
     const phoneRegex = /^[0-9]{10}$/;
     return phoneRegex.test(phoneNumber);
   };
-  const { loading, error, user } = useSelector(state => state.auth);
+  const {loading, error, user} = useSelector(state => state.auth);
 
   const validateForm = () => {
     const newErrors = {};
@@ -115,7 +116,7 @@ const SignupPage = () => {
   };
 
   const validateField = (key, value) => {
-    const newErrors = { ...errors };
+    const newErrors = {...errors};
 
     switch (key) {
       case 'email':
@@ -180,7 +181,7 @@ const SignupPage = () => {
     if (key === 'phone' && value.length > 10) {
       return;
     }
-    setFormData(prevState => ({ ...prevState, [key]: value }));
+    setFormData(prevState => ({...prevState, [key]: value}));
     validateField(key, value);
   };
 
@@ -202,14 +203,16 @@ const SignupPage = () => {
   const handleSignup = () => {
     if (!validateForm()) return;
 
-    const address1 = `${formData.shippingAddress}${formData.shippingAddressContinued
-      ? ', ' + formData.shippingAddressContinued
-      : ''
-      }`;
-    const address2 = `${formData.billingAddress}${formData.billingAddressContinued
-      ? ', ' + formData.shippingAddressContinued
-      : ''
-      }`;
+    const address1 = `${formData.shippingAddress}${
+      formData.shippingAddressContinued
+        ? ', ' + formData.shippingAddressContinued
+        : ''
+    }`;
+    const address2 = `${formData.billingAddress}${
+      formData.billingAddressContinued
+        ? ', ' + formData.shippingAddressContinued
+        : ''
+    }`;
 
     const billingAddress = {
       address_1: address2,
@@ -267,7 +270,7 @@ const SignupPage = () => {
     setIsCheckbox(prevState => {
       const newCheckboxState = !prevState;
       if (newCheckboxState) {
-        const newErrors = { ...errors };
+        const newErrors = {...errors};
         delete newErrors.isCheckbox;
         setErrors(newErrors);
       } else {
@@ -280,17 +283,23 @@ const SignupPage = () => {
     });
   };
 
-  const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
+  const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
   return (
     <SafeAreaView style={styles.container}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-
+      <Icon
+        name="arrow-back"
+        size={25}
+        color="#333" // Customize the color as needed
+        style={{marginLeft: 10, marginTop: hp('5%')}}
+        onPress={() => navigation.navigate('Login')}
+      />
       <View style={styles.formContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Image
             style={{
               alignSelf: 'center',
-              marginTop: Platform.OS === 'ios' ? hp('1') : hp('4%'),
+              marginTop: Platform.OS === 'ios' ? hp('1') : hp('3%'),
               marginBottom: hp('1%'),
             }}
             source={Images.logoResetpage}
@@ -302,9 +311,9 @@ const SignupPage = () => {
             <View style={styles.headingInput}>
               <Text style={styles.formHeadingText}>Personal Information</Text>
             </View>
-            <View style={{ backgroundColor: globalColors.white }}>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: '30%' }}>
+            <View style={{backgroundColor: globalColors.white}}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{width: '30%'}}>
                   <SelectDropdown
                     data={emojisWithIcons}
                     onSelect={(selectedItem, index) => {
@@ -338,7 +347,7 @@ const SignupPage = () => {
                         <View
                           style={{
                             ...styles.dropdownItemStyle,
-                            ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                            ...(isSelected && {backgroundColor: '#D2D9DF'}),
                           }}>
                           <Text style={styles.dropdownItemTxtStyle}>
                             {item.title}
@@ -349,7 +358,7 @@ const SignupPage = () => {
                   />
                 </View>
 
-                <View style={{ width: '70%' }}>
+                <View style={{width: '70%'}}>
                   <TextInput
                     style={styles.input}
                     placeholder="FIRST NAME *"
@@ -376,7 +385,6 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="LAST NAME *"
                 placeholderTextColor={globalColors.textColorLogin}
-
                 value={formData.lastName}
                 onChangeText={text => handleChange('lastName', text)}
               />
@@ -388,7 +396,6 @@ const SignupPage = () => {
                 style={styles.input}
                 placeholder="EMAIL *"
                 placeholderTextColor={globalColors.textColorLogin}
-
                 value={formData.email}
                 onChangeText={text => handleChange('email', text)}
               />
@@ -425,7 +432,7 @@ const SignupPage = () => {
                   <Text style={styles.errorText}>{errors.password}</Text>
                 )}
                 <View style={styles.separator} />
-                <View style={{ backgroundColor: 'white' }}>
+                <View style={{backgroundColor: 'white'}}>
                   <MobileNo
                     selected={formData.selected}
                     setSelected={value => handleChange('selected', value)}
@@ -440,14 +447,18 @@ const SignupPage = () => {
             </View>
             {/* </View> */}
             {/* <View style={styles.inputSection}> */}
-            <View style={{ backgroundColor: globalColors.white, marginTop: hp('2%') }}>
+            <View
+              style={{
+                backgroundColor: globalColors.white,
+                marginTop: hp('2%'),
+              }}>
               <View style={styles.headingInput}>
                 <Text style={styles.formHeadingText}>Billing Information</Text>
               </View>
               <TextInput
                 style={styles.input}
-                placeholder="ADDRESS LINE 1 *" placeholderTextColor={globalColors.textColorLogin}
-
+                placeholder="ADDRESS LINE 1 *"
+                placeholderTextColor={globalColors.textColorLogin}
                 value={formData.billingAddress}
                 onChangeText={text => handleChange('billingAddress', text)}
               />
@@ -457,20 +468,20 @@ const SignupPage = () => {
               <View style={styles.separator} />
               <TextInput
                 style={styles.input}
-                placeholder="ADDRESS LINE 2" placeholderTextColor={globalColors.textColorLogin}
-
+                placeholder="ADDRESS LINE 2"
+                placeholderTextColor={globalColors.textColorLogin}
                 value={formData.billingAddressContinued}
                 onChangeText={text =>
-                  setFormData({ ...formData, billingAddressContinued: text })
+                  setFormData({...formData, billingAddressContinued: text})
                 }
               />
               <View style={styles.separator} />
               <View style={styles.inputPicker}>
-                <View style={{ width: '50%' }}>
+                <View style={{width: '50%'}}>
                   <TextInput
                     style={styles.input}
-                    placeholder="CITY/STATE *" placeholderTextColor={globalColors.textColorLogin}
-
+                    placeholder="CITY/STATE *"
+                    placeholderTextColor={globalColors.textColorLogin}
                     value={formData.billingCity}
                     onChangeText={text => handleChange('billingCity', text)}
                   />
@@ -479,12 +490,12 @@ const SignupPage = () => {
                   )}
                 </View>
                 <View style={styles.verticalLine} />
-                <View style={{ width: '50%' }}>
+                <View style={{width: '50%'}}>
                   <SelectDropdown
                     data={countries}
                     search
                     searchPlaceHolder="Search Country"
-                    searchInputStyle={{ fontFamily: 'Product Sans' }}
+                    searchInputStyle={{fontFamily: 'Product Sans'}}
                     onSelect={(selectedItem, index) => {
                       setFormData({
                         ...formData,
@@ -514,7 +525,7 @@ const SignupPage = () => {
                         <View
                           style={{
                             ...styles.dropdownItemStyle,
-                            ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                            ...(isSelected && {backgroundColor: '#D2D9DF'}),
                           }}>
                           <Text style={styles.dropdownItemTxtStyle}>
                             {item.label}
@@ -528,14 +539,18 @@ const SignupPage = () => {
             </View>
             {/* </View> */}
             {/* <View style={styles.inputSection}> */}
-            <View style={{ marginTop: hp('2%'), backgroundColor: globalColors.white }}>
+            <View
+              style={{
+                marginTop: hp('2%'),
+                backgroundColor: globalColors.white,
+              }}>
               <View style={styles.headingInput}>
                 <Text style={styles.formHeadingText}>Shipping Information</Text>
               </View>
               <TextInput
                 style={styles.input}
-                placeholder="ADDRESS LINE 1 *" placeholderTextColor={globalColors.textColorLogin}
-
+                placeholder="ADDRESS LINE 1 *"
+                placeholderTextColor={globalColors.textColorLogin}
                 value={formData.shippingAddress}
                 onChangeText={text => handleChange('shippingAddress', text)}
               />
@@ -545,20 +560,20 @@ const SignupPage = () => {
               <View style={styles.separator} />
               <TextInput
                 style={styles.input}
-                placeholder="ADDRESS LINE 2" placeholderTextColor={globalColors.textColorLogin}
-
+                placeholder="ADDRESS LINE 2"
+                placeholderTextColor={globalColors.textColorLogin}
                 value={formData.shippingAddressContinued}
                 onChangeText={text =>
-                  setFormData({ ...formData, shippingAddressContinued: text })
+                  setFormData({...formData, shippingAddressContinued: text})
                 }
               />
               <View style={styles.separator} />
               <View style={styles.inputPicker}>
-                <View style={{ width: '50%' }}>
+                <View style={{width: '50%'}}>
                   <TextInput
                     style={styles.input}
-                    placeholder="CITY/STATE *" placeholderTextColor={globalColors.textColorLogin}
-
+                    placeholder="CITY/STATE *"
+                    placeholderTextColor={globalColors.textColorLogin}
                     value={formData.shippingCity}
                     onChangeText={text => handleChange('shippingCity', text)}
                   />
@@ -567,12 +582,12 @@ const SignupPage = () => {
                   )}
                 </View>
                 <View style={styles.verticalLine} />
-                <View style={{ width: '50%' }}>
+                <View style={{width: '50%'}}>
                   <SelectDropdown
                     data={countries}
                     search
-                    searchPlaceHolder="Search Country" placeholderTextColor={globalColors.textColorLogin}
-
+                    searchPlaceHolder="Search Country"
+                    placeholderTextColor={globalColors.textColorLogin}
                     onSelect={(selectedItem, index) => {
                       setFormData({
                         ...formData,
@@ -602,7 +617,7 @@ const SignupPage = () => {
                         <View
                           style={{
                             ...styles.dropdownItemStyle,
-                            ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                            ...(isSelected && {backgroundColor: '#D2D9DF'}),
                           }}>
                           <Text style={styles.dropdownItemTxtStyle}>
                             {item.label}
@@ -625,13 +640,14 @@ const SignupPage = () => {
                 <View style={styles.CheckBoxContainer}>
                   {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
                 </View>
-                <View style={{ flex: 1 }}>
+                <View style={{flex: 1}}>
                   <Text
                     style={{
                       fontSize: 12,
                       fontWeight: '400',
                       // marginBottom: 5,
-                      fontFamily: 'Product Sans', flexWrap: 'wrap',
+                      fontFamily: 'Product Sans',
+                      flexWrap: 'wrap',
                       color: globalColors.black,
                     }}>
                     I agree to receive information by email about offers,
@@ -644,7 +660,8 @@ const SignupPage = () => {
                       fontFamily: 'Product Sans',
                       fontSize: 12,
                       fontWeight: '400',
-                      marginBottom: hp('1%'), flexWrap: 'wrap',
+                      marginBottom: hp('1%'),
+                      flexWrap: 'wrap',
                     }}>
                     Read more
                   </Text>
@@ -664,7 +681,7 @@ const SignupPage = () => {
                       General Terms and Conditions of Use
                     </Text>
                     and that your data will be processed in compliance with the
-                    <Text style={{ color: globalColors.lightgold }}>
+                    <Text style={{color: globalColors.lightgold}}>
                       {' '}
                       Privacy Policy
                     </Text>{' '}
@@ -703,7 +720,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: globalColors.headingBackground,
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
     fontFamily: 'Product Sans',
   },
@@ -720,7 +737,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: wp('14%'),
     marginTop: wp('3%'),
-    color: globalColors.textColorLogin
+    color: globalColors.textColorLogin,
   },
   errorInput: {
     borderColor: 'red',
@@ -740,8 +757,8 @@ const styles = StyleSheet.create({
     // width: 'auto',
     paddingLeft: 25,
     paddingRight: 25,
-    // padding: 25,
-    marginTop: hp('3.5%'),
+    marginBottom: hp('5%'),
+    
   },
   formHeadingText: {
     padding: wp('2%'),
@@ -794,7 +811,7 @@ const styles = StyleSheet.create({
     paddingLeft: wp('7%'),
     fontSize: 14,
     fontWeight: '400',
-    // marginBottom: hp('1.5%'),  
+    // marginBottom: hp('1.5%'),
     color: globalColors.buttonBackground,
     backgroundColor: globalColors.white,
   },

@@ -1,17 +1,17 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Loginscreen from '../Screens/Login/Loginscreen';
 import ForgotpasswordScreen from '../Screens/Login/ForgotpasswordScreen';
-import { SignupPage } from '../Screens';
+import {SignupPage} from '../Screens';
 import Icon from 'react-native-vector-icons/Ionicons'; // Assuming you're using Ionicons for the back button icon
 
 const Stack = createNativeStackNavigator();
 
-const LoginCustomeNavigation = ({ navigation }) => {
+const LoginCustomeNavigation = ({navigation}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        options={{ headerShown: false }}
+        options={{headerShown: false}}
         name={'Login'}
         component={Loginscreen}
       />
@@ -32,7 +32,7 @@ const LoginCustomeNavigation = ({ navigation }) => {
               name="arrow-back"
               size={25}
               color="#333" // Customize the color as needed
-              style={{ marginLeft: 1 }}
+              style={{marginLeft: 1}}
               onPress={() => navigation.navigate('Login')}
             />
           ),
@@ -44,6 +44,7 @@ const LoginCustomeNavigation = ({ navigation }) => {
         options={{
           headerTransparent: true,
           title: null,
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#f6f1eb',
           },
@@ -53,7 +54,7 @@ const LoginCustomeNavigation = ({ navigation }) => {
               name="arrow-back"
               size={25}
               color="#333" // Customize the color as needed
-              style={{ marginLeft: 1 }}
+              style={{marginLeft: 1}}
               onPress={() => navigation.navigate('Login')}
             />
           ),
