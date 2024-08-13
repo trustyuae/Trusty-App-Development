@@ -5,25 +5,26 @@ import {
   TextInput,
   ScrollView,
   Image,
+  SafeAreaView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../Components/Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
-import {loginUser} from '../../Redux/Slice/loginslice';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../Redux/Slice/loginslice';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
-import {Images} from '../../Constants/index';
-import {passwordIcon, emailIcon, trustyIconWhite} from '../../Constants/Icons';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import { Images } from '../../Constants/index';
+import { passwordIcon, emailIcon, trustyIconWhite } from '../../Constants/Icons';
 
-const Loginscreen = ({navigation}) => {
+const Loginscreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {loading, error, userData} = useSelector(state => state?.user);
+  const { loading, error, userData } = useSelector(state => state?.user);
   const [showPassword, setShowPassword] = useState(true);
   const [errors, setErrors] = useState({
     email: '',
@@ -33,7 +34,7 @@ const Loginscreen = ({navigation}) => {
   useEffect(() => {
     if (userData) {
       const data = async () => {
-        await dispatch(fetchWishlist({tokenData: userData.jwt_token})); // Use the token from userData
+        await dispatch(fetchWishlist({ tokenData: userData.jwt_token })); // Use the token from userData
       };
       data();
       navigation.navigate('Home');
@@ -59,13 +60,13 @@ const Loginscreen = ({navigation}) => {
 
   const validation = () => {
     if (!values.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Email Is Required' }));
       return;
     } else if (!validateEmail(values.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid Email' }));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
     }
 
     if (!values.password) {
@@ -81,13 +82,13 @@ const Loginscreen = ({navigation}) => {
       }));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, password: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, password: '' }));
     }
     return true;
   };
 
   const handlePress = () => {
-    const {email, password} = values;
+    const { email, password } = values;
     const ChangeKey = {
       username: email,
       password: password,
@@ -99,104 +100,116 @@ const Loginscreen = ({navigation}) => {
 
   return (
     <ScrollView>
-      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-      <View style={{flex: 1}}>
-        <View>
-          <Image
-            style={{
-              flex: 0.5,
-              width: '100%',
-              resizeMode: 'contain',
-              height: hp('40%'),
-            }}
-            source={Images.loginImage}></Image>
-        </View>
+      <SafeAreaView>
+        <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+        <View style={{ flex: 1 }}>
+          <View>
+            <Image
+              style={{
+                flex: 0.5,
+                width: '100%',
+                resizeMode: 'contain',
+                height: hp('40%'),
+              }}
+              source={Images.loginImage}></Image>
+            <Icon
+              name="arrow-back"
+              size={25}
+              color={globalColors.white}
+              style={{ position: 'absolute', top: 10, left: 8 }}
+              onPress={() => navigation.goBack()}
+            />
+          </View>
 
-        <View style={styles.logincontainer}>
-          <Text style={styles.headingtext}>Login</Text>
+          <View style={styles.logincontainer}>
+            <Text style={styles.headingtext}>Login</Text>
 
-          <View style={styles.custContainer}>
-            <View style={styles.inputfieldboth}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: globalColors.white,
-                  paddingHorizontal: 20,
-                }}>
-                <Image style={styles.icon} source={emailIcon}></Image>
-                <TextInput
-                  style={styles.inputfield}
-                  placeholder="EMAIL *"
-                  value={values.email}
-                  onChangeText={text =>
-                    setValues(prevValues => ({...prevValues, email: text}))
-                  }
-                />
-              </View>
-              {errors.email !== '' && (
-                <Text style={{color: 'red', marginBottom: 10}}>
-                  {errors.email}
-                </Text>
-              )}
-              <View style={styles.separator} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: globalColors.white,
-                  paddingHorizontal: 20,
-                }}>
-                <Image
-                  style={styles.iconPassword}
-                  source={passwordIcon}></Image>
-                <TextInput
-                  style={styles.inputfield}
-                  placeholder="PASSWORD *"
-                  value={values.password}
-                  secureTextEntry={showPassword}
-                  onChangeText={text =>
-                    setValues(prevValues => ({...prevValues, password: text}))
-                  }
-                />
+            <View style={styles.custContainer}>
+              <View style={styles.inputfieldboth}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundColor: globalColors.white,
+                    paddingHorizontal: 20,
+                  }}>
+                  <Image style={styles.icon} source={emailIcon}></Image>
+                  <TextInput
+                    style={styles.inputfield}
+                    placeholder="EMAIL *" placeholderTextColor={globalColors.textColorLogin}
 
-                {/* <Icon
+                    value={values.email}
+                    onChangeText={text =>
+                      setValues(prevValues => ({ ...prevValues, email: text }))
+                    }
+                  />
+                </View>
+                {errors.email !== '' && (
+                  <Text style={{ color: 'red', marginBottom: 10, marginLeft: wp('5%') }}>
+                    {errors.email}
+                  </Text>
+                )}
+                <View style={styles.separator} />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundColor: globalColors.white,
+                    paddingHorizontal: 20,
+                  }}>
+                  <Image
+                    style={styles.iconPassword}
+                    source={passwordIcon}></Image>
+                  <TextInput
+                    style={styles.inputfield}
+                    placeholder="PASSWORD *" placeholderTextColor={globalColors.textColorLogin}
+
+                    value={values.password}
+                    secureTextEntry={showPassword}
+                    onChangeText={text =>
+                      setValues(prevValues => ({ ...prevValues, password: text }))
+                    }
+                  />
+
+                  {/* <Icon
                   name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                   size={20}
                   style={styles.cust_icon}
                   onPress={() => setShowPassword(prevShow => !prevShow)}
                 /> */}
+                </View>
+                {errors.password !== '' && (
+                  <Text
+                    style={{ color: 'red', marginTop: hp('1%'), marginBottom: 2, marginLeft: wp('5%') }}>
+                    {errors.password}
+                  </Text>
+                )}
               </View>
-              {errors.password !== '' && (
-                <Text
-                  style={{color: 'red', marginTop: hp('1%'), marginBottom: 10}}>
-                  {errors.password}
-                </Text>
-              )}
+
+              <Text
+                style={styles.custforgotpasstext}
+                onPress={() => navigation.navigate('Forgotpassword')}>
+                Forgot Password ?
+              </Text>
+
+              <Button
+                stylesofbtn={styles.custbtn}
+                styleoffont={styles.custfontstyle}
+                handlepress={handlePress}
+                name={'Login'}
+                loading={loading}
+              />
+
+              <Text
+                style={styles.createAccountText}
+                onPress={() => navigation.navigate('Signup')}>
+                Create New Account
+              </Text>
             </View>
-
-            <Text
-              style={styles.custforgotpasstext}
-              onPress={() => navigation.navigate('Forgotpassword')}>
-              Forgot Password ?
-            </Text>
-
-            <Button
-              stylesofbtn={styles.custbtn}
-              styleoffont={styles.custfontstyle}
-              handlepress={handlePress}
-              name={'Login'}
-              loading={loading}
-            />
-
-            <Text
-              style={styles.createAccountText}
-              onPress={() => navigation.navigate('Signup')}>
-              Create New Account
-            </Text>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
+
 
       {/* </View> */}
     </ScrollView>
@@ -241,11 +254,13 @@ const styles = StyleSheet.create({
     // borderWidth: 0.5,
     borderRadius: hp('1%'),
     borderColor: globalColors.borderColor,
+    backgroundColor: globalColors.white
   },
   separator: {
-    borderWidth: 0.1,
+    borderWidth: 0.5,
+    borderColor: 'rgba(193, 177, 157, 1)',
     alignSelf: 'center',
-    backgroundColor: '#dcdcdc',
+    // backgroundColor: '#dcdcdc',
     width: '80%',
   },
   custContainer: {

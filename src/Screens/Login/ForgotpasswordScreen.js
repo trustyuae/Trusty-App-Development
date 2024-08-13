@@ -1,21 +1,21 @@
-import {StyleSheet, Text, View, TextInput, SafeAreaView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View, TextInput, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Button from '../../Components/Button';
-import {useDispatch, useSelector} from 'react-redux';
-import {postApi} from '../../Redux/Slice/postApiSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { postApi } from '../../Redux/Slice/postApiSlice';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Image} from 'react-native';
-import {emailIcon} from '../../Constants/Icons';
-import {Images} from '../../Constants/index';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Image } from 'react-native';
+import { emailIcon } from '../../Constants/Icons';
+import { Images } from '../../Constants/index';
 
-const ForgotpasswordScreen = ({navigation}) => {
+const ForgotpasswordScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {loading, error, postData} = useSelector(state => state.post);
+  const { loading, error, postData } = useSelector(state => state.post);
 
   useEffect(() => {
     if (!error) {
@@ -35,7 +35,7 @@ const ForgotpasswordScreen = ({navigation}) => {
   });
 
   const handlechange = (key, value) => {
-    setValues(pre => ({...pre, [key]: value}));
+    setValues(pre => ({ ...pre, [key]: value }));
   };
 
   const validateEmail = email => {
@@ -45,13 +45,13 @@ const ForgotpasswordScreen = ({navigation}) => {
 
   const validation = () => {
     if (!value.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Email Is Required' }));
       return;
     } else if (!validateEmail(value.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid Email' }));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
     }
     return true;
   };
@@ -71,7 +71,7 @@ const ForgotpasswordScreen = ({navigation}) => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.logincontainer}>
-        <Image style={{alignSelf: 'center'}} source={Images.logoResetpage} />
+        <Image style={{ alignSelf: 'center' }} source={Images.logoResetpage} />
         <Text style={styles.headingtext}>
           Forget Password
           <Text
@@ -110,6 +110,7 @@ const ForgotpasswordScreen = ({navigation}) => {
             <TextInput
               style={styles.inputfield}
               placeholder="EMAIL *"
+              placeholderTextColor={globalColors.textColorLogin}
               value={value.email}
               onChangeText={text => handlechange('email', text)}
             />
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   inputfield: {
     backgroundColor: globalColors.white,
     // borderWidth: 1,
-    height: hp('5.5%'),
+    height: hp('6.5%'),
     // marginTop: hp('3%'),
     fontFamily: 'Product Sans',
     // marginBottom: hp('3%'),

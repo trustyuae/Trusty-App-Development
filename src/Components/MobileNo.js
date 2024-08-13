@@ -1,12 +1,12 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import CountryCodeDropdownPicker from 'react-native-dropdown-country-picker';
-import {globalColors} from '../Assets/Theme/globalColors';
+import { globalColors } from '../Assets/Theme/globalColors';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-const MobileNo = ({selected, setSelected, setCountry, phone, setPhone}) => {
+const MobileNo = ({ selected, setSelected, setCountry, phone, setPhone }) => {
   return (
     <View style={{}}>
       <CountryCodeDropdownPicker
@@ -15,6 +15,8 @@ const MobileNo = ({selected, setSelected, setCountry, phone, setPhone}) => {
         setCountryDetails={setCountry}
         phone={phone}
         setPhone={setPhone}
+
+        inputPlaceholder={'Your placeholder'}
         countryCodeTextStyles={{
           fontSize: 13,
           paddingTop: hp('0.6%'),
@@ -22,11 +24,17 @@ const MobileNo = ({selected, setSelected, setCountry, phone, setPhone}) => {
           paddingLeft: hp('0.6%'),
           paddingRight: hp('0.6%'),
 
+
           // height: hp('5.5%'),
           alignItems: 'center',
           // borderColor: globalColors.white,
         }}
-        countryCodeContainerStyles={{}}
+        countryCodeContainerStyles={{
+          marginLeft: wp('5%'),
+          borderColor: globalColors.white,
+
+        }}
+
         // countryCodeTextStyles={{backgroundColor: globalColors.white}}
         // dropdownStyles={{backgroundColor: 'red'}}
         phoneStyles={{
@@ -38,7 +46,7 @@ const MobileNo = ({selected, setSelected, setCountry, phone, setPhone}) => {
           height: hp('5.5%'),
           fontSize: 14,
         }}
-        // style={{padding: 10}}
+      // style={{ padding: 10 }}
       />
     </View>
   );

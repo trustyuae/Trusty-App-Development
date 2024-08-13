@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,16 +12,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {useDispatch, useSelector} from 'react-redux';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import Button from '../../Components/Button';
-import {Images} from '../../Constants';
-import {emailIcon, passwordIcon} from '../../Constants/Icons';
+import { Images } from '../../Constants';
+import { emailIcon, passwordIcon } from '../../Constants/Icons';
 
 const SetNewPassword = () => {
   const dispatch = useDispatch();
-  const {loading, error, postData} = useSelector(state => state.post);
+  const { loading, error, postData } = useSelector(state => state.post);
 
   useEffect(() => {
     if (!error) {
@@ -41,7 +41,7 @@ const SetNewPassword = () => {
   });
 
   const handlechange = (key, value) => {
-    setValues(pre => ({...pre, [key]: value}));
+    setValues(pre => ({ ...pre, [key]: value }));
   };
 
   const validateEmail = email => {
@@ -51,13 +51,13 @@ const SetNewPassword = () => {
 
   const validation = () => {
     if (!value.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Email Is Required' }));
       return;
     } else if (!validateEmail(value.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid Email' }));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
     }
     return true;
   };
@@ -77,10 +77,10 @@ const SetNewPassword = () => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.logincontainer}>
-        <Image style={{alignSelf: 'center'}} source={Images.logoResetpage} />
+        <Image style={{ alignSelf: 'center' }} source={Images.logoResetpage} />
         <Text style={styles.headingtext}>
           Set New Password
-          <Text style={{fontFamily: 'San Francisco'}}>?</Text>{' '}
+          <Text style={{ fontFamily: 'San Francisco' }}>?</Text>{' '}
         </Text>
 
         <View style={styles.custContainer}>
@@ -107,13 +107,14 @@ const SetNewPassword = () => {
               <TextInput
                 style={styles.inputfield}
                 placeholder="PASSWORD *"
+                placeholderTextColor={globalColors.textColorLogin}
                 // value={values.email}
                 onChangeText={text =>
-                  setValues(prevValues => ({...prevValues, email: text}))
+                  setValues(prevValues => ({ ...prevValues, email: text }))
                 }
               />
               {errors.email !== '' && (
-                <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+                <Text style={{ marginTop: -10, color: 'red', marginBottom: 10 }}>
                   {errors.email}
                 </Text>
               )}
@@ -131,14 +132,15 @@ const SetNewPassword = () => {
               <TextInput
                 style={styles.inputfield}
                 placeholder="CONFIRM PASSWORD *"
+                placeholderTextColor={globalColors.textColorLogin}
                 // value={values.password}
                 // secureTextEntry={showPassword}
                 onChangeText={text =>
-                  setValues(prevValues => ({...prevValues, password: text}))
+                  setValues(prevValues => ({ ...prevValues, password: text }))
                 }
               />
               {errors.password !== '' && (
-                <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+                <Text style={{ marginTop: -10, color: 'red', marginBottom: 10 }}>
                   {errors.password}
                 </Text>
               )}
@@ -232,10 +234,10 @@ const styles = StyleSheet.create({
     height: 16,
   },
   separator: {
-    borderWidth: 0.2,
+    borderWidth: 0.5,
     alignSelf: 'center',
-    borderColor: globalColors.borderColorlogin,
+    borderColor: 'rgba(193, 177, 157, 1)',
     // backgroundColor: globalColors.borderColorlogin,
-    width: '90%',
+    width: '80%',
   },
 });

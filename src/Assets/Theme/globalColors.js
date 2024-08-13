@@ -27,4 +27,5 @@ export const globalColors = {
   headingBackgroundLogin: '#F3E9DC',
   textColorSignup: '#8B7C64',
   borderColorlogin: '#C1B19D',
+  textColorLogin: '#666666'
 };
