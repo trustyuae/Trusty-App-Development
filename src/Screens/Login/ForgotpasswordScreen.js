@@ -1,21 +1,44 @@
-import { StyleSheet, Text, View, TextInput, SafeAreaView } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  SafeAreaView,
+  Linking,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Button from '../../Components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { postApi } from '../../Redux/Slice/postApiSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {postApi} from '../../Redux/Slice/postApiSlice';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
-import { Image } from 'react-native';
-import { emailIcon } from '../../Constants/Icons';
-import { Images } from '../../Constants/index';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import {Image} from 'react-native';
+import {emailIcon} from '../../Constants/Icons';
+import {Images} from '../../Constants/index';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const ForgotpasswordScreen = ({ navigation }) => {
+const ForgotpasswordScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const { loading, error, postData } = useSelector(state => state.post);
+  const {loading, error, postData} = useSelector(state => state.post);
+
+  const openGmailApp = async () => {
+    const gmailUrl = 'https://gmail.app.goo.gl';
+
+    try {
+      const supported = await Linking.canOpenURL(gmailUrl);
+      if (supported) {
+        await Linking.openURL(gmailUrl);
+      } else {
+        console.log('Gmail app is not installed');
+      }
+    } catch (err) {
+      console.error('An error occurred', err);
+    }
+  };
 
   useEffect(() => {
     if (!error) {
@@ -35,7 +58,7 @@ const ForgotpasswordScreen = ({ navigation }) => {
   });
 
   const handlechange = (key, value) => {
-    setValues(pre => ({ ...pre, [key]: value }));
+    setValues(pre => ({...pre, [key]: value}));
   };
 
   const validateEmail = email => {
@@ -45,13 +68,13 @@ const ForgotpasswordScreen = ({ navigation }) => {
 
   const validation = () => {
     if (!value.email) {
-      setErrors(prevErrors => ({ ...prevErrors, email: 'Email Is Required' }));
+      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
       return;
     } else if (!validateEmail(value.email)) {
-      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid Email' }));
+      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
       return;
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
+      setErrors(prevErrors => ({...prevErrors, email: ''}));
     }
     return true;
   };
@@ -60,6 +83,7 @@ const ForgotpasswordScreen = ({ navigation }) => {
     if (validation()) {
       dispatch(postApi(value)).then(action => {
         if (postApi.fulfilled.match(action)) {
+          openGmailApp();
           navigation.navigate('ResetPasswordLink');
         }
       });
@@ -71,7 +95,14 @@ const ForgotpasswordScreen = ({ navigation }) => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.logincontainer}>
-        <Image style={{ alignSelf: 'center' }} source={Images.logoResetpage} />
+        <Icon
+          name="arrow-back"
+          size={25}
+          color="#333" // Customize the color as needed
+          style={{marginLeft: 10}}
+          onPress={() => navigation.navigate('Login')}
+        />
+        <Image style={{alignSelf: 'center'}} source={Images.logoResetpage} />
         <Text style={styles.headingtext}>
           Forget Password
           <Text
@@ -83,7 +114,6 @@ const ForgotpasswordScreen = ({ navigation }) => {
             ?
           </Text>{' '}
         </Text>
-
         <View style={styles.custContainer}>
           <Text
             style={{
@@ -135,7 +165,7 @@ export default ForgotpasswordScreen;
 const styles = StyleSheet.create({
   logincontainer: {
     margin: hp('2%'),
-    marginTop: Platform.OS === 'ios' ? 0 : hp('8%'),
+    marginTop: Platform.OS === 'ios' ? 0 : hp('2%'),
   },
   headingtext: {
     fontSize: 24,
@@ -150,6 +180,8 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.white,
     // borderWidth: 1,
     height: hp('6.5%'),
+    alignSelf: 'center',
+    width: '90%',
     // marginTop: hp('3%'),
     fontFamily: 'Product Sans',
     // marginBottom: hp('3%'),
@@ -168,6 +200,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontFamily: 'Product Sans',
     fontSize: 16,
+    marginTop: hp('-3%'),
   },
   custfontstyle: {
     color: 'white',

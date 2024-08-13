@@ -6,25 +6,26 @@ import {
   ScrollView,
   Image,
   SafeAreaView,
+  ImageBackground,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../../Components/Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../Redux/Slice/loginslice';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginUser} from '../../Redux/Slice/loginslice';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
-import { Images } from '../../Constants/index';
-import { passwordIcon, emailIcon, trustyIconWhite } from '../../Constants/Icons';
+import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import {Images} from '../../Constants/index';
+import {passwordIcon, emailIcon, trustyIconWhite} from '../../Constants/Icons';
 
-const Loginscreen = ({ navigation }) => {
+const Loginscreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const { loading, error, userData } = useSelector(state => state?.user);
+  const {loading, error, userData} = useSelector(state => state?.user);
   const [showPassword, setShowPassword] = useState(true);
   const [errors, setErrors] = useState({
     email: '',
@@ -34,7 +35,7 @@ const Loginscreen = ({ navigation }) => {
   useEffect(() => {
     if (userData) {
       const data = async () => {
-        await dispatch(fetchWishlist({ tokenData: userData.jwt_token })); // Use the token from userData
+        await dispatch(fetchWishlist({tokenData: userData.jwt_token})); // Use the token from userData
       };
       data();
       navigation.navigate('Home');
@@ -60,13 +61,13 @@ const Loginscreen = ({ navigation }) => {
 
   const validation = () => {
     if (!values.email) {
-      setErrors(prevErrors => ({ ...prevErrors, email: 'Email Is Required' }));
+      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
       return;
     } else if (!validateEmail(values.email)) {
-      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid Email' }));
+      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
       return;
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
+      setErrors(prevErrors => ({...prevErrors, email: ''}));
     }
 
     if (!values.password) {
@@ -82,13 +83,13 @@ const Loginscreen = ({ navigation }) => {
       }));
       return;
     } else {
-      setErrors(prevErrors => ({ ...prevErrors, password: '' }));
+      setErrors(prevErrors => ({...prevErrors, password: ''}));
     }
     return true;
   };
 
   const handlePress = () => {
-    const { email, password } = values;
+    const {email, password} = values;
     const ChangeKey = {
       username: email,
       password: password,
@@ -101,8 +102,9 @@ const Loginscreen = ({ navigation }) => {
   return (
     <ScrollView>
       <SafeAreaView>
-        <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-        <View style={{ flex: 1 }}>
+        <CustomStatusBar
+          color={globalColors.headingBackground}></CustomStatusBar>
+        <View style={{flex: 1}}>
           <View>
             <Image
               style={{
@@ -116,7 +118,7 @@ const Loginscreen = ({ navigation }) => {
               name="arrow-back"
               size={25}
               color={globalColors.white}
-              style={{ position: 'absolute', top: 10, left: 8 }}
+              style={{position: 'absolute', top: hp('4%'), left: 8}}
               onPress={() => navigation.goBack()}
             />
           </View>
@@ -136,16 +138,21 @@ const Loginscreen = ({ navigation }) => {
                   <Image style={styles.icon} source={emailIcon}></Image>
                   <TextInput
                     style={styles.inputfield}
-                    placeholder="EMAIL *" placeholderTextColor={globalColors.textColorLogin}
-
+                    placeholder="EMAIL *"
+                    placeholderTextColor={globalColors.textColorLogin}
                     value={values.email}
                     onChangeText={text =>
-                      setValues(prevValues => ({ ...prevValues, email: text }))
+                      setValues(prevValues => ({...prevValues, email: text}))
                     }
                   />
                 </View>
                 {errors.email !== '' && (
-                  <Text style={{ color: 'red', marginBottom: 10, marginLeft: wp('5%') }}>
+                  <Text
+                    style={{
+                      color: 'red',
+                      marginBottom: 10,
+                      marginLeft: wp('5%'),
+                    }}>
                     {errors.email}
                   </Text>
                 )}
@@ -162,12 +169,12 @@ const Loginscreen = ({ navigation }) => {
                     source={passwordIcon}></Image>
                   <TextInput
                     style={styles.inputfield}
-                    placeholder="PASSWORD *" placeholderTextColor={globalColors.textColorLogin}
-
+                    placeholder="PASSWORD *"
+                    placeholderTextColor={globalColors.textColorLogin}
                     value={values.password}
                     secureTextEntry={showPassword}
                     onChangeText={text =>
-                      setValues(prevValues => ({ ...prevValues, password: text }))
+                      setValues(prevValues => ({...prevValues, password: text}))
                     }
                   />
 
@@ -180,7 +187,12 @@ const Loginscreen = ({ navigation }) => {
                 </View>
                 {errors.password !== '' && (
                   <Text
-                    style={{ color: 'red', marginTop: hp('1%'), marginBottom: 2, marginLeft: wp('5%') }}>
+                    style={{
+                      color: 'red',
+                      marginTop: hp('1%'),
+                      marginBottom: 2,
+                      marginLeft: wp('5%'),
+                    }}>
                     {errors.password}
                   </Text>
                 )}
@@ -210,7 +222,6 @@ const Loginscreen = ({ navigation }) => {
         </View>
       </SafeAreaView>
 
-
       {/* </View> */}
     </ScrollView>
   );
@@ -236,7 +247,7 @@ const styles = StyleSheet.create({
   },
   inputfield: {
     backgroundColor: globalColors.white,
-
+    width: '100%',
     fontFamily: 'Product Sans',
     fontSize: 14,
     fontWeight: '400',
@@ -254,7 +265,7 @@ const styles = StyleSheet.create({
     // borderWidth: 0.5,
     borderRadius: hp('1%'),
     borderColor: globalColors.borderColor,
-    backgroundColor: globalColors.white
+    backgroundColor: globalColors.white,
   },
   separator: {
     borderWidth: 0.5,

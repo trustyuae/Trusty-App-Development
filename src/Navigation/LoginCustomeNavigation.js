@@ -22,20 +22,21 @@ const LoginCustomeNavigation = ({navigation}) => {
         options={{
           headerTransparent: true,
           title: null,
+          headerShown: false,
           headerStyle: {
             backgroundColor: '#f6f1eb',
           },
           headerBackTitleVisible: false,
 
-          headerLeft: () => (
-            <Icon
-              name="arrow-back"
-              size={25}
-              color="#333" // Customize the color as needed
-              style={{marginLeft: 1}}
-              onPress={() => navigation.navigate('Login')}
-            />
-          ),
+          // headerLeft: () => (
+          //   <Icon
+          //     name="arrow-back"
+          //     size={25}
+          //     color="#333" // Customize the color as needed
+          //     style={{marginLeft: 1}}
+          //     onPress={() => navigation.navigate('Login')}
+          //   />
+          // ),
         }}
       />
       <Stack.Screen
