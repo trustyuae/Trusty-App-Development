@@ -20,6 +20,7 @@ import {Image} from 'react-native';
 import {emailIcon} from '../../Constants/Icons';
 import {Images} from '../../Constants/index';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Toast from 'react-native-toast-message';
 
 const ForgotpasswordScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -83,8 +84,14 @@ const ForgotpasswordScreen = ({navigation}) => {
     if (validation()) {
       dispatch(postApi(value)).then(action => {
         if (postApi.fulfilled.match(action)) {
-          openGmailApp();
-          navigation.navigate('ResetPasswordLink');
+          // openGmailApp();
+          Toast.show({
+            type: 'success',
+            text1: 'Reset mail send Successful',
+            position: 'bottom',
+            visibilityTime: 1000,
+          });
+          // navigation.navigate('ResetPasswordLink');
         }
       });
     }

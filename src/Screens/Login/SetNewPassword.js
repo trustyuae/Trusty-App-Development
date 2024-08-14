@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   SafeAreaView,
+  Share,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -18,29 +19,33 @@ import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import Button from '../../Components/Button';
 import {Images} from '../../Constants';
 import {emailIcon, passwordIcon} from '../../Constants/Icons';
+import {postApiChangePassword} from '../../Redux/Slice/postApiSlice';
 
 const SetNewPassword = () => {
   const dispatch = useDispatch();
   const {loading, error, postData} = useSelector(state => state.post);
 
-  useEffect(() => {
-    if (!error) {
-      setValues({
-        email: '',
-        password: '',
-      });
-    }
-  }, [postData]);
+  // useEffect(() => {
+  //   if (!error) {
+  //     setValues({
+  //       email: '',
+  //       password: '',
+  //     });
+  //   }
+  // }, [postData]);
 
   const [value, setValues] = useState({
-    email: '',
+    password: '',
+    confirmPassword: '',
+    token: 'C2Zot0IRmyILZUDFd7Mc',
   });
 
   const [errors, setErrors] = useState({
-    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
-  const handlechange = (key, value) => {
+  const handleChange = (key, value) => {
     setValues(pre => ({...pre, [key]: value}));
   };
 
@@ -49,24 +54,38 @@ const SetNewPassword = () => {
     return re.test(email);
   };
 
-  const validation = () => {
-    if (!value.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
-      return;
-    } else if (!validateEmail(value.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
-      return;
+  const validateForm = () => {
+    let valid = true;
+
+    if (!value.password) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        password: 'Password is required',
+      }));
+      valid = false;
     } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
+      setErrors(prevErrors => ({...prevErrors, password: ''}));
     }
-    return true;
+
+    if (value.password !== value.confirmPassword) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        confirmPassword: 'Passwords do not match',
+      }));
+      valid = false;
+    } else {
+      setErrors(prevErrors => ({...prevErrors, confirmPassword: ''}));
+    }
+
+    return valid;
   };
 
   const handlepress = () => {
-    if (validation()) {
-      dispatch(postApi(value)).then(action => {
-        if (postApi.fulfilled.match(action)) {
-          navigation.navigate('ResetPasswordLink');
+    if (validateForm()) {
+      console.log('value', value);
+      dispatch(postApiChangePassword(value)).then(action => {
+        if (postApiChangePassword.fulfilled.match(action)) {
+          navigation.navigate('login');
         }
       });
     }
@@ -108,17 +127,15 @@ const SetNewPassword = () => {
                 style={styles.inputfield}
                 placeholder="PASSWORD *"
                 placeholderTextColor={globalColors.textColorLogin}
-                // value={values.email}
-                onChangeText={text =>
-                  setValues(prevValues => ({...prevValues, email: text}))
-                }
+                value={value.password}
+                onChangeText={text => handleChange('password', text)}
               />
-              {errors.email !== '' && (
-                <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
-                  {errors.email}
-                </Text>
-              )}
             </View>
+            {errors.password !== '' && (
+              <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+                {errors.password}
+              </Text>
+            )}
             <View style={styles.separator} />
             <View
               style={{
@@ -133,15 +150,19 @@ const SetNewPassword = () => {
                 style={styles.inputfield}
                 placeholder="CONFIRM PASSWORD *"
                 placeholderTextColor={globalColors.textColorLogin}
-                // value={values.password}
-                // secureTextEntry={showPassword}
-                onChangeText={text =>
-                  setValues(prevValues => ({...prevValues, password: text}))
-                }
+                value={value.confirmPassword}
+                onChangeText={text => handleChange('confirmPassword', text)}
+                secureTextEntry
               />
-              {errors.password !== '' && (
-                <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
-                  {errors.password}
+              {errors.confirmPassword !== '' && (
+                <Text
+                  style={{
+                    marginTop: -30,
+                    color: 'red',
+                    marginBottom: 10,
+                    marginLeft: wp('-55%'),
+                  }}>
+                  {errors.confirmPassword}
                 </Text>
               )}
               {/* <Icon

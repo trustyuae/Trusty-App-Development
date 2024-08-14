@@ -17,11 +17,20 @@ import Wishlist from '../Screens/wishlist/wishlist.js';
 import Productdetailscreen from '../Screens/Productdetail/Productdetailscreen.js';
 import OrderTrackingScreen from '../Screens/OrderTrackingScreen.js';
 import SetNewPassword from '../Screens/Login/SetNewPassword.js';
+import {Linking} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = ({navigation}) => {
+  const linking = {
+    prefixes: ['trustyuae.com://', 'https://trustyuae.com/'],
+    config: {
+      screens: {
+        ResetPasswordLink: 'ResetPasswordLink',
+      },
+    },
+  };
   return (
-    <NavigationContainer theme={Theme}>
+    <NavigationContainer theme={Theme} linking={linking}>
       <Stack.Navigator initialRouteName="Main">
         <Stack.Screen
           name="splash"

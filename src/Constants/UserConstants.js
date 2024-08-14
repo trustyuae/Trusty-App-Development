@@ -8,7 +8,9 @@ export const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT';
 
 export const POST_API = 'POST_API';
 
-export const PARTNER_PERFECT="PARTNER_PERFECT"
+export const POST_API_change = 'POST_API_change';
+
+export const PARTNER_PERFECT = 'PARTNER_PERFECT';
 
 export const USER_SIGNUP_REQUEST = 'USER_SIGNUP_REQUEST';
 
