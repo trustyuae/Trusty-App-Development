@@ -36,6 +36,7 @@ import SkeletonLoaderProfile from '../../Components/Loader/SkeletonLoaderProfile
 import Account from '../../Components/Account/Account.js';
 import Order from './Order.js';
 import Points from './Points.js';
+import Gifts from './Gifts.js';
 import CountryFlag from 'react-native-country-flag';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {transparent} from 'react-native-paper/lib/typescript/styles/themes/v2/colors.js';
@@ -179,7 +180,7 @@ const Profile = () => {
 
     const customer_id = await getUserId();
     try {
-      dispatch(updateProfile({customer_id, newData: updatedData}))
+      dispatch(updateProfile({customer_id, newData: updatedData}));
       setEditable(false);
     } catch (error) {
       console.log(error);
@@ -502,6 +503,7 @@ const Profile = () => {
         {activetab == 'ORDER' && <Order />}
 
         {activetab == 'POINTS' && <Points />}
+        {activetab == 'GIFTS' && <Gifts />}
       </View>
     </KeyboardAvoidingView>
   );

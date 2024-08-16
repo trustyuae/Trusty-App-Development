@@ -8,6 +8,7 @@ import {
   Image,
   SafeAreaView,
   Share,
+  Linking,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -37,7 +38,7 @@ const SetNewPassword = () => {
   const [value, setValues] = useState({
     password: '',
     confirmPassword: '',
-    token: 'C2Zot0IRmyILZUDFd7Mc',
+    token: '',
   });
 
   const [errors, setErrors] = useState({
@@ -45,14 +46,42 @@ const SetNewPassword = () => {
     confirmPassword: '',
   });
 
+  useEffect(() => {
+    const handleDeepLink = event => {
+      const url = event.url;
+      const token = url.split('token=')[1];
+      if (token) {
+        setValues(prevValues => ({...prevValues, token}));
+        console.log('Token from URL:', token);
+      }
+    };
+
+    Linking.addEventListener('url', handleDeepLink);
+
+    // Handle the case when the app is opened with a deep link
+    Linking.getInitialURL().then(url => {
+      if (url) {
+        const token = url.split('token=')[1];
+        if (token) {
+          setValues(prevValues => ({...prevValues, token}));
+          console.log('Token from URL:', token);
+        }
+      }
+    });
+
+    return () => {
+      Linking.removeEventListener('url', handleDeepLink);
+    };
+  }, []);
+
   const handleChange = (key, value) => {
     setValues(pre => ({...pre, [key]: value}));
   };
 
-  const validateEmail = email => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
+  // const validateEmail = email => {
+  //   const re = /\S+@\S+\.\S+/;
+  //   return re.test(email);
+  // };
 
   const validateForm = () => {
     let valid = true;
@@ -85,7 +114,7 @@ const SetNewPassword = () => {
       console.log('value', value);
       dispatch(postApiChangePassword(value)).then(action => {
         if (postApiChangePassword.fulfilled.match(action)) {
-          navigation.navigate('login');
+          navigation.navigate('Login');
         }
       });
     }
@@ -132,7 +161,13 @@ const SetNewPassword = () => {
               />
             </View>
             {errors.password !== '' && (
-              <Text style={{marginTop: -10, color: 'red', marginBottom: 10}}>
+              <Text
+                style={{
+                  marginTop: -10,
+                  marginLeft: wp('5%'),
+                  color: 'red',
+                  marginBottom: 10,
+                }}>
                 {errors.password}
               </Text>
             )}

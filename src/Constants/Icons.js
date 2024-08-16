@@ -23,7 +23,7 @@ export const Plus = require('../Assets/Icons/plus.png');
 export const minus = require('../Assets/Icons/minus.png');
 export const emailIcon = require('../Assets/Icons/EmailIcon.png');
 export const passwordIcon = require('../Assets/Icons/passwordIcon.png');
-
+export const GiftImg = require('../Assets/Icons/GiftImage.png');
 //*************************************************Exported Images**********************
 
 export const ProductIMG = require('../Assets/Images/ProductImg.png');

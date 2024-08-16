@@ -177,7 +177,7 @@ const AppNavigations = ({navigation}) => {
                 size={25}
                 color="#333"
                 style={{marginLeft: 1}}
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('Forgotpassword')}
               />
             ),
           })}

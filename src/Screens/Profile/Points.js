@@ -46,72 +46,70 @@ const Points = () => {
             <Text style={styles.cust_text}>join now for exclusive perks!</Text>
           </View>
 
-          <View style={{ marginBottom: hp('10%') }}>
-  <ImageBackground
-    source={Images.Points}
-    resizeMode="contain"
-    style={{
-      height: hp('35%'),
-      width: wp('93%'),
-      zIndex: 1,
-      justifyContent: 'center', 
-      alignItems: 'center', 
-    }}>
-    
-    <Animatable.Image
-      source={Images.Star}
-      animation="swing"
-      duration={2000}
-      style={{
-        height: hp('34%'),
-        width: wp('12%'),
-        position: 'absolute',
-        top: hp('0.5%'), 
-        left: wp('6%'), 
-        zIndex: 1,
-      }}
-      resizeMode="contain"
-    />
-    
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <View style={{ marginTop: hp('1%'), marginLeft: wp('22%') }}>
-        <Text
-          style={{
-            fontFamily: 'Product Sans Medium',
-            fontSize: 22,
-            color: globalColors.black,
-            fontWeight: '600',
-            zIndex: 2,
-          }}>
-          You have earned
-        </Text>
-      </View>
-      <View style={{ marginTop: hp('1%'), marginLeft: wp('8%') }}>
-        <Text
-          style={{
-            fontFamily: 'Product Sans',
-            fontSize: 22,
-            color: '#D42A57',
-            fontWeight: '700',
-            zIndex: 2,
-          }}>
-          3499
-        </Text>
-        <Text
-          style={{
-            fontFamily: 'Product Sans',
-            fontSize: 22,
-            color: '#D42A57',
-            fontWeight: '700',
-            zIndex: 2,
-          }}>
-          Points
-        </Text>
-      </View>
-    </View>
-  </ImageBackground>
-</View>
+          <View style={{marginBottom: hp('10%')}}>
+            <ImageBackground
+              source={Images.Points}
+              resizeMode="contain"
+              style={{
+                height: hp('35%'),
+                width: wp('93%'),
+                zIndex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Animatable.Image
+                source={Images.Star}
+                animation="swing"
+                duration={2000}
+                style={{
+                  height: hp('34%'),
+                  width: wp('12%'),
+                  position: 'absolute',
+                  top: hp('0.5%'),
+                  left: wp('6%'),
+                  zIndex: 1,
+                }}
+                resizeMode="contain"
+              />
 
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{marginTop: hp('1%'), marginLeft: wp('22%')}}>
+                  <Text
+                    style={{
+                      fontFamily: 'Product Sans Medium',
+                      fontSize: 22,
+                      color: globalColors.black,
+                      fontWeight: '600',
+                      zIndex: 2,
+                    }}>
+                    You have earned
+                  </Text>
+                </View>
+                <View style={{marginTop: hp('1%'), marginLeft: wp('8%')}}>
+                  <Text
+                    style={{
+                      fontFamily: 'Product Sans',
+                      fontSize: 22,
+                      color: '#D42A57',
+                      fontWeight: '700',
+                      zIndex: 2,
+                    }}>
+                    3499
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: 'Product Sans',
+                      fontSize: 22,
+                      color: '#D42A57',
+                      fontWeight: '700',
+                      zIndex: 2,
+                    }}>
+                    Points
+                  </Text>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -122,8 +120,8 @@ export default Points;
 
 const styles = StyleSheet.create({
   conatiner: {
-     marginTop: Platform.OS === 'ios' ? hp('3%') : hp('12%'),
-   // marginTop: hp('3%'),
+    marginTop: Platform.OS === 'ios' ? hp('3%') : hp('12%'),
+    // marginTop: hp('3%'),
   },
   cust_text: {
     color: '#797978',

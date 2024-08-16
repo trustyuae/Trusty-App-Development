@@ -96,7 +96,7 @@ const postApiSlice = createSlice({
         Toast.show({
           type: 'error',
           position: 'bottom',
-          text1: 'Invalid Credentials' || state.error,
+          text1: 'Please Resend The Mail once Again..' || state.error,
           visibilityTime: 2000,
         });
       });
