@@ -16,7 +16,7 @@ export const globalColors = {
   borderColor: '#dbccc1',
   darkGray: '#444444',
   lightGray: '#D8D8D8',
-  lightGreen: '#86D973',
+  lightGreen: '#4BDF27',
   darkBrown: '#4B4746',
   blue: 'blue',
   lightOrange: '#d8ccc1',
@@ -27,5 +27,7 @@ export const globalColors = {
   headingBackgroundLogin: '#F3E9DC',
   textColorSignup: '#8B7C64',
   borderColorlogin: '#C1B19D',
-  textColorLogin: '#666666'
+  textColorLogin: '#666666',
+  lightPink: '#D42A57',
+  lightWhite: '#808080',
 };

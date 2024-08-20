@@ -100,7 +100,7 @@ const Loginscreen = ({navigation}) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <SafeAreaView>
         <CustomStatusBar
           color={globalColors.headingBackground}></CustomStatusBar>
@@ -178,12 +178,12 @@ const Loginscreen = ({navigation}) => {
                     }
                   />
 
-                  {/* <Icon
-                  name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                  size={20}
-                  style={styles.cust_icon}
-                  onPress={() => setShowPassword(prevShow => !prevShow)}
-                /> */}
+                  <Icon
+                    name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                    size={20}
+                    style={styles.cust_icon}
+                    onPress={() => setShowPassword(prevShow => !prevShow)}
+                  />
                 </View>
                 {errors.password !== '' && (
                   <Text
@@ -305,9 +305,9 @@ const styles = StyleSheet.create({
   },
   cust_icon: {
     position: 'absolute',
-    right: wp('2.5%'),
+    right: wp('12%'),
     color: globalColors.buttonBackground,
-    top: hp('1.5%'),
+    // top: hp('1.5%'),
   },
   custbtn: {
     backgroundColor: 'black',

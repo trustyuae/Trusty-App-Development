@@ -119,7 +119,7 @@ const ForgotpasswordScreen = ({navigation}) => {
               fontSize: 24,
             }}>
             ?
-          </Text>{' '}
+          </Text>
         </Text>
         <View style={styles.custContainer}>
           <Text

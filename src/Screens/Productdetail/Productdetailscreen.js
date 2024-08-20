@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   SafeAreaView,
+  Pressable,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -33,7 +34,17 @@ import {
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
 import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoaderProductDetails';
-import {NoImg} from '../../Constants/Icons';
+import {
+  certifiedIcon,
+  deliveryIcon,
+  minusIcon,
+  NoImg,
+  plusIcon,
+  returnExchangeIcon,
+  shareIcon,
+} from '../../Constants/Icons';
+import ProductRelated from '../../Components/Product/ProductRelated';
+import ButtonAddToCart from '../../Components/ButtonAddToCart';
 
 export default function Productdetailscreen({route}) {
   const scrollViewRef = useRef();
@@ -54,7 +65,29 @@ export default function Productdetailscreen({route}) {
   const [size, setSize] = useState([]);
   const [wishlistId, setWishListId] = useState();
   const [isWishlist, setIsWishlist] = useState(isWatchList);
+  const [quantity, setQuantity] = useState(1);
 
+  const initialText =
+    'Choose your favorites garment size that is two inches more than your body measurement. e.g:- for bust size -36 inch, select garment size - Medium (M). There might be slight variation in the actual color of the product due to different screen';
+  const additionalText =
+    " Here is the additional information that appears when 'Read More' is clicked. It can include more details about the product, size chart, and other relevant information.";
+
+  const [showMore, setShowMore] = useState(false);
+
+  const toggleShowMore = () => {
+    setShowMore(!showMore);
+  };
+
+  // Combine initial and additional text based on state
+  const displayedText = showMore ? initialText + additionalText : initialText;
+
+  const handleIncrement = () => {
+    setQuantity(prevQuantity => prevQuantity + 1);
+  };
+
+  const handleDecrement = () => {
+    setQuantity(prevQuantity => (prevQuantity > 0 ? prevQuantity - 1 : 0));
+  };
   useEffect(() => {
     dispatch(fetchById(id));
   }, [id]);
@@ -233,12 +266,12 @@ export default function Productdetailscreen({route}) {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <SafeAreaView style={{marginTop: hp('-7%')}}>
-        <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {loading ? (
             <SkeletonLoaderProductDetails />
           ) : (
             <>
-              <View>
+              <View style={{backgroundColor: globalColors.white}}>
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   ref={scrollViewRef}>
@@ -257,7 +290,6 @@ export default function Productdetailscreen({route}) {
                         resizeMode="cover"></Image>
                     )}
                   </View>
-
                   <View style={styles.custcontainer}>
                     <View
                       style={{
@@ -267,48 +299,86 @@ export default function Productdetailscreen({route}) {
                       <View>
                         <Text
                           style={{
-                            color: globalColors.darkGray,
-                            fontWeight: '500',
+                            color: globalColors.black,
+                            fontWeight: '400',
+                            fontSize: 22,
                             marginBottom: 2,
                           }}>
                           {responseData?.name}
                         </Text>
                       </View>
-                      <View>
-                        <TouchableOpacity onPress={toggleSaved}>
-                          {isWishlist ? (
-                            <Image source={Images.saveIconFill} />
-                          ) : (
+                      <View
+                        style={{
+                          position: 'relative',
+                          flexDirection: 'row',
+                          top: hp(-'50'),
+                          // alignContent: 'flex-end',
+                        }}>
+                        <View style={{marginRight: wp('2%')}}>
+                          <TouchableOpacity onPress={toggleSaved}>
+                            {isWishlist ? (
+                              <Image source={Images.saveIconFill} />
+                            ) : (
+                              <Image source={Images.saveIconUnFill} />
+                            )}
+                          </TouchableOpacity>
+                        </View>
+                        <View
+                          style={{
+                            backgroundColor: 'white',
+                            borderRadius: 50,
+                            padding: 5,
+                            overflow: 'hidden',
+                          }}>
+                          <TouchableOpacity>
+                            {/* <Text>sdfds</Text> */}
                             <Image
-                              source={Images.saveIconUnFill}
-                              
-                            />
-                          )}
-                        </TouchableOpacity>
+                              style={{
+                                width: 21,
+                                height: 21,
+                                resizeMode: 'contain',
+                              }}
+                              source={shareIcon}></Image>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </View>
-                    <Text style={styles.custAEDtext}>
-                      AED {responseData?.price}
-                    </Text>
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={styles.custAEDtext}>
+                        AED {responseData?.price}
+                      </Text>
+                      <Text style={styles.custAEDregularPrice}>
+                        AED {responseData?.regular_price}
+                      </Text>
+                    </View>
                     <View
-                      style={{
-                        borderBottomWidth: 1,
-                        borderColor: globalColors.lightGray,
-                      }}>
+                    // style={{
+                    //   borderBottomWidth: 1,
+                    //   borderColor: globalColors.lightGray,
+                    // }}
+                    >
                       <Text
                         style={{
                           color: globalColors.lightGreen,
-                          marginBottom: '10',
+                          marginBottom: 10,
                         }}>
                         {responseData?.stock_status}
                       </Text>
                     </View>
+                    <TouchableOpacity onPress={toggleShowMore}>
+                      <Text style={styles.descrpation}>
+                        {displayedText}
 
-                    {responseData?.type == 'variable' ? (
+                        <Text style={styles.readMore}>
+                          {showMore ? ' Read Less' : ' Read More'}
+                        </Text>
+                      </Text>
+                    </TouchableOpacity>
+                    {/* {responseData?.type == 'variable' ? (
                       <Accordion
                         Size={size}
                         Color={color}
-                        Description={responseData?.description}
+                        // Description={responseData?.description}
                         setChange={setChange}
                         changeColor={changeColor.toUpperCase()}
                         changeSize={changeSize}
@@ -318,36 +388,119 @@ export default function Productdetailscreen({route}) {
                       <Accordion
                         Size={[]}
                         Color={[]}
-                        Description={responseData?.description}
+                        // Description={responseData?.description}
                         setChange={setChange}
                         changeColor={changeColor}
                         changeSize={changeSize}
                         setChangeSize={setChangeSize}
                       />
-                    )}
+                    )} */}
+                    <View
+                      style={{
+                        backgroundColor: globalColors.headingBackground,
+                        flexDirection: 'row',
+                        borderRadius: 10,
+                        paddingTop: hp('2%'),
+                        padding: hp('2%'),
+                        paddingBottom: hp('2%'),
+                        flex: 1,
+                        justifyContent: 'space-between',
+                      }}>
+                      <View style={{alignItems: 'center'}}>
+                        <Image source={deliveryIcon}></Image>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            gap: 1,
+                            marginTop: hp('2.5%'),
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              alignItems: 'center',
+                              fontFamily: '400',
+                              fontFamily: 'Product Sans',
+                            }}>
+                            Free Delivery
+                          </Text>
+                          <View
+                            style={{
+                              width: 1,
+                              height: '100%',
+                              backgroundColor: globalColors.lightPink,
+                              left: 10,
+                              top: 0,
+                            }}
+                          />
+                        </View>
+                      </View>
+                      <View style={{alignItems: 'center'}}>
+                        <Image source={returnExchangeIcon}></Image>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            gap: 1,
+                            marginTop: hp('2%'),
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              textAlign: 'center',
+                              fontFamily: '400',
+                              fontFamily: 'Product Sans',
+                            }}>
+                            7 Days return & exchange
+                          </Text>
+                          <View
+                            style={{
+                              width: 1,
+                              height: '100%',
+                              backgroundColor: globalColors.lightPink,
+                              left: 10,
+                              top: 0,
+                            }}
+                          />
+                        </View>
+                      </View>
+                      <View style={{alignItems: 'center'}}>
+                        <Image source={certifiedIcon}></Image>
+                        <View style={{marginTop: hp('2%')}}>
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              alignItems: 'center',
+                              fontFamily: '400',
+                              fontFamily: 'Product Sans',
+                            }}>
+                            Top Brand
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
                   </View>
-                  <View
-                    style={{
-                      borderTopWidth: 1,
-                      borderColor: globalColors.inputBorder,
-                    }}>
+                  <View>
                     <Text
                       style={{
-                        textAlign: 'center',
+                        textAlign: 'left',
                         marginTop: 20,
+                        marginLeft: wp('4%'),
                         fontSize: 20,
-                        color: globalColors.darkBrown,
-                        fontFamily: 'Intrepid Regular',
+                        color: globalColors.black,
+                        fontWeight: '700',
+                        fontFamily: 'Product Sans',
                       }}>
-                      The Perfect Partner
+                      Related Products
                     </Text>
-                    <View style={styles.productContainer}>
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      style={styles.productContainer}>
                       {wishlistrelated
                         ?.map((product, key) => (
-                          <View key={key}>
+                          <View key={key} style={{paddingLeft: 10}}>
                             <TouchableOpacity
                               onPress={() => handleproduct(product?.id)}>
-                              <Product
+                              <ProductRelated
                                 key={product?.id}
                                 uri={product?.images[0]?.src}
                                 name={product?.name}
@@ -359,21 +512,69 @@ export default function Productdetailscreen({route}) {
                             </TouchableOpacity>
                           </View>
                         ))
-                        .slice(0, 4)}
-                    </View>
+                        .slice(0, 6)}
+                    </ScrollView>
                   </View>
                 </ScrollView>
-                <Button
-                  stylesofbtn={styles.custbtn}
-                  styleoffont={styles.custfontstyle}
-                  handlepress={handlepress}
-                  name={'Add To Cart'}
-                  loading={load}
-                />
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    backgroundColor: globalColors.headingBackground,
+                  }}>
+                  <View
+                    style={{
+                      alignItems: 'flex-end',
+
+                      height: hp('12%'),
+                      justifyContent: 'center',
+                    }}>
+                    <ButtonAddToCart
+                      stylesofbtn={styles.custbtn}
+                      styleoffont={styles.custfontstyle}
+                      handlepress={handlepress}
+                      image={'ds'}
+                      name={'Add To Cart'}
+                      loading={load}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      backgroundColor: globalColors.headingBackground,
+                      paddingHorizontal: 10,
+                      position: 'absolute',
+                      // bottom: -1,
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                      }}>
+                      <Pressable onPress={handleDecrement}>
+                        <Image source={minusIcon}></Image>
+                      </Pressable>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: '700',
+                            color: globalColors.darkGray,
+                            fontFamily: 'Product Sans',
+                            marginHorizontal: 20,
+                          }}>
+                          {/* {Item.quantity} */}
+                          {quantity}
+                        </Text>
+                      </View>
+                      <Pressable onPress={handleIncrement}>
+                        <Image source={plusIcon}></Image>
+                      </Pressable>
+                    </View>
+                  </View>
+                </View>
               </View>
             </>
           )}
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </GestureHandlerRootView>
   );
@@ -394,38 +595,66 @@ const styles = StyleSheet.create({
     marginBottom: hp('0.5%'),
   },
   custAEDtext: {
-    color: globalColors.productPriceText,
+    color: globalColors.black,
+    fontSize: 18,
+    fontWeight: '700',
+    marginLeft: 5,
+    marginTop: 5,
+  },
+  descrpation: {
+    color: globalColors.black,
+    fontSize: 16,
+    fontWeight: '400',
+    fontFamily: 'Product Sans',
+    marginLeft: 5,
+    marginTop: 5,
+    marginBottom: hp('4%'),
+  },
+  custAEDregularPrice: {
+    color: globalColors.lightWhite,
+    textDecorationLine: 'line-through',
+    fontSize: 18,
+    fontWeight: '400',
     marginLeft: 5,
     marginTop: 5,
   },
   custbtn: {
     backgroundColor: globalColors.black,
-    padding: 5,
-    marginHorizontal: 110,
+    padding: hp('2%'),
+    width: wp('55%'),
+    // marginHorizontal: 110,
     borderRadius: 5,
-    marginVertical: 0,
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
+    // marginVertical: 0,
+    // position: 'absolute',
+    // bottom: 20,
+    // left: 20,
     right: 20,
   },
   custfontstyle: {
     textAlign: 'center',
+    marginLeft: 10,
+    fontSize: 16,
     color: globalColors.white,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
+    fontWeight: '700',
   },
   productContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     gap: 5,
     paddingVertical: wp('1%'),
     marginTop: hp('1%'),
-    marginBottom: hp('7%'),
+    // marginBottom: hp('7%'),
   },
   iconContainer: {
     height: 18,
     width: 15,
+  },
+  readMore: {
+    color: globalColors.black,
+    fontSize: 16,
+    fontWeight: '500',
   },
   loader: {
     flex: 1,
@@ -438,5 +667,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  delivarySection: {
+    backgroundColor: globalColors.headingBackground,
   },
 });

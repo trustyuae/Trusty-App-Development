@@ -23,119 +23,83 @@ const Accordion = ({
 
   console.log(Color);
 
-
   return (
     <List.Section>
-      <List.Accordion
-        title={`Size:${changeSize}`}
-        titleStyle={{color: globalColors.darkGray}}
-        expanded={expandedSize}
+      <View
         style={{
           backgroundColor: globalColors.headingBackground,
-          paddingTop: -5,
-          borderBottomWidth: expandedSize ? 0 : 1,
-          borderBottomColor: globalColors.lightGray,
-          fontFamily: 'Intrepid Regular',
-        }}
-        onPress={() => setExpandedSize(!expandedSize)}>
-        {expandedSize && (
-          <>
-            <View style={styles.custView}>
-              {Size?.map((item, key) => (
-                <Pressable onPress={() => setChangeSize(item)}>
-                  <View key={key} style={[styles.custcontainer]}>
-                    <Text style={styles.custboldtext}>{item}</Text>
-                  </View>
-                </Pressable>
-              ))}
-            </View>
-
-            <View style={styles.custBorder} />
-          </>
-        )}
-      </List.Accordion>
-
-      <List.Accordion
-        title={`Color:${changeColor}`}
-        titleStyle={{color: globalColors.darkGray}}
-        expanded={expandedimg}
-        style={{
-          backgroundColor: globalColors.headingBackground,
-          paddingTop: -5,
-          borderBottomWidth: expandedimg ? 0 : 1,
-          borderBottomColor: globalColors.lightGray,
-        }}
-        onPress={() => setExpandedimg(!expandedimg)}>
-        {expandedimg && (
-          <>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}>
+          // flexDirection: 'row',
+          // alignSelf: 'center',
+        }}>
+        <List.Accordion
+          title={`Size:${changeSize}`}
+          titleStyle={{color: globalColors.darkGray}}
+          expanded={expandedSize}
+          style={{
+            backgroundColor: globalColors.headingBackground,
+            paddingTop: -5,
+            borderBottomWidth: expandedSize ? 0 : 1,
+            borderBottomColor: globalColors.lightGray,
+            fontFamily: 'Product Sans',
+          }}
+          onPress={() => setExpandedSize(!expandedSize)}>
+          {expandedSize && (
+            <>
               <View style={styles.custView}>
-                {Color?.map((item, key) => (
-                  <View key={key}>
-                    <Pressable onPress={() => setChange(item)}>
-                      <View style={{marginVertical: 7, marginLeft: 20}}>
-                        <View
-                          style={{
-                            width: 30,
-                            height: 30,
-                            borderRadius: 15,
-                            backgroundColor: `${item?.toLowerCase()}`,
-                          }}
-                        />
-                      </View>
-                    </Pressable>
-                  </View>
+                {Size?.map((item, key) => (
+                  <Pressable onPress={() => setChangeSize(item)}>
+                    <View key={key} style={[styles.custcontainer]}>
+                      <Text style={styles.custboldtext}>{item}</Text>
+                    </View>
+                  </Pressable>
                 ))}
               </View>
-            </ScrollView>
-            <View style={styles.custBorder} />
-          </>
-        )}
-      </List.Accordion>
 
-      <List.Accordion
-        titleStyle={{color: globalColors.darkGray}}
-        title="Product details"
-        expanded={expandedproductDetail}
-        style={{
-          backgroundColor: globalColors.headingBackground,
-          paddingTop: -5,
-          borderBottomWidth: expandedproductDetail ? 0 : 1,
-          borderBottomColor: globalColors.lightGray,
-        }}
-        onPress={() => setProductDetail(!expandedproductDetail)}>
-        {expandedproductDetail && (
-          <>
-            <View style={styles.custView}>
-              <Text> {stripHTMLTags(Description)}</Text>
-            </View>
-            <View style={styles.custBorder} />
-          </>
-        )}
-      </List.Accordion>
+              <View style={styles.custBorder} />
+            </>
+          )}
+        </List.Accordion>
 
-      <List.Accordion
-        titleStyle={{color: globalColors.darkGray}}
-        title="Delivery And Returns"
-        expanded={expandedproductreturn}
-        style={{
-          backgroundColor: globalColors.headingBackground,
-          paddingTop: -5,
-        }}
-        onPress={() => setProductReturn(!expandedproductreturn)}>
-        {expandedproductreturn && (
-          <>
-            <View style={styles.custView}>
-              <Text>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-              </Text>
-            </View>
-            <View style={styles.custBorder} />
-          </>
-        )}
-      </List.Accordion>
+        <List.Accordion
+          title={`Color:${changeColor}`}
+          titleStyle={{color: globalColors.darkGray}}
+          expanded={expandedimg}
+          style={{
+            backgroundColor: globalColors.headingBackground,
+            paddingTop: -5,
+            borderBottomWidth: expandedimg ? 0 : 1,
+            borderBottomColor: globalColors.lightGray,
+          }}
+          onPress={() => setExpandedimg(!expandedimg)}>
+          {expandedimg && (
+            <>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                <View style={styles.custView}>
+                  {Color?.map((item, key) => (
+                    <View key={key}>
+                      <Pressable onPress={() => setChange(item)}>
+                        <View style={{marginVertical: 7, marginLeft: 20}}>
+                          <View
+                            style={{
+                              width: 30,
+                              height: 30,
+                              borderRadius: 15,
+                              backgroundColor: `${item?.toLowerCase()}`,
+                            }}
+                          />
+                        </View>
+                      </Pressable>
+                    </View>
+                  ))}
+                </View>
+              </ScrollView>
+              {/* <View style={styles.custBorder} /> */}
+            </>
+          )}
+        </List.Accordion>
+      </View>
     </List.Section>
   );
 };
@@ -155,7 +119,7 @@ const styles = StyleSheet.create({
     gap: 20,
     paddingLeft: 20,
     marginTop: -6,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     flexWrap: 'wrap',
   },
   custBorder: {
@@ -166,7 +130,7 @@ const styles = StyleSheet.create({
   custboldtext: {
     textAlign: 'center',
     color: globalColors.darkGray,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
   circle: {
     width: 100,
