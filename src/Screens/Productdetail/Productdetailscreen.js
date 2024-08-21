@@ -46,14 +46,14 @@ import {
 import ProductRelated from '../../Components/Product/ProductRelated';
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
 
-export default function Productdetailscreen({route}) {
+export default function Productdetailscreen({ route }) {
   const scrollViewRef = useRef();
   const navigation = useNavigation();
-  const {userId, isWatchList} = route?.params;
+  const { userId, isWatchList } = route?.params;
   const dispatch = useDispatch();
-  const {loading, error, responseData} = useSelector(state => state?.getById);
-  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
-  const {items} = useSelector(state => state.wishlist);
+  const { loading, error, responseData } = useSelector(state => state?.getById);
+  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
+  const { items } = useSelector(state => state.wishlist);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
@@ -265,7 +265,7 @@ export default function Productdetailscreen({route}) {
     <GestureHandlerRootView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-      <SafeAreaView style={{marginTop: hp('-7%')}}>
+      <SafeAreaView style={{ marginTop: hp('-8%') }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {loading ? (
             <SkeletonLoaderProductDetails />
@@ -456,7 +456,7 @@ export default function Productdetailscreen({route}) {
                               width: 1,
                               height: '100%',
                               backgroundColor: globalColors.lightPink,
-                              left: 10,
+                              left: wp('1%'),
                               top: 0,
                             }}
                           />

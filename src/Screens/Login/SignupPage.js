@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,24 +11,28 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import SelectDropdown from 'react-native-select-dropdown';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Picker} from '@react-native-picker/picker';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { Picker } from '@react-native-picker/picker';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import MobileNo from '../../Components/MobileNo';
 import Button from '../../Components/Button';
-import {useDispatch, useSelector} from 'react-redux';
-import {signupUser} from '../../Redux/Slice/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { signupUser } from '../../Redux/Slice/authSlice';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {Images} from '../../Constants';
+import { Images } from '../../Constants';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PhoneInput from 'react-native-phone-number-input';
+import { KeyboardAvoidingView } from 'react-native';
 
 const SignupPage = () => {
+  const [phoneInput, setPhoneInput] = useState(null);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [show, setShow] = useState(true);
@@ -46,7 +50,8 @@ const SignupPage = () => {
     selectedCountry: '',
     selectedTitle: '',
     phone: '',
-    selected: '+91',
+    countryCode: '+1',
+    selected: '+971',
     billingAddress: '',
     billingAddressContinued: '',
     billingCity: '',
@@ -71,10 +76,10 @@ const SignupPage = () => {
 
   const isValidPhoneNumber = phoneNumber => {
     // Regular expression for phone number validation
-    const phoneRegex = /^[0-9]{10}$/;
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/;
     return phoneRegex.test(phoneNumber);
   };
-  const {loading, error, user} = useSelector(state => state.auth);
+  const { loading, error, user } = useSelector(state => state.auth);
 
   const validateForm = () => {
     const newErrors = {};
@@ -116,7 +121,7 @@ const SignupPage = () => {
   };
 
   const validateField = (key, value) => {
-    const newErrors = {...errors};
+    const newErrors = { ...errors };
 
     switch (key) {
       case 'email':
@@ -178,12 +183,22 @@ const SignupPage = () => {
     setSelectedCountry(value);
   };
   const handleChange = (key, value) => {
-    if (key === 'phone' && value.length > 10) {
+    if (key === 'phone' && value.length > 15) {
       return;
     }
-    setFormData(prevState => ({...prevState, [key]: value}));
+    setFormData(prevState => ({ ...prevState, [key]: value }));
     validateField(key, value);
   };
+  const handlePhoneChange = (formattedValue, country) => {
+    // Extract the phone number and country code
+    const countryCode = country?.callingCode ? `+${country.callingCode}` : '';
+    setFormData({
+      ...formData,
+      phone: formattedValue,
+      countryCode: countryCode,
+    });
+  };
+
 
   useEffect(() => {
     fetch(
@@ -203,16 +218,14 @@ const SignupPage = () => {
   const handleSignup = () => {
     if (!validateForm()) return;
 
-    const address1 = `${formData.shippingAddress}${
-      formData.shippingAddressContinued
-        ? ', ' + formData.shippingAddressContinued
-        : ''
-    }`;
-    const address2 = `${formData.billingAddress}${
-      formData.billingAddressContinued
-        ? ', ' + formData.shippingAddressContinued
-        : ''
-    }`;
+    const address1 = `${formData.shippingAddress}${formData.shippingAddressContinued
+      ? ', ' + formData.shippingAddressContinued
+      : ''
+      }`;
+    const address2 = `${formData.billingAddress}${formData.billingAddressContinued
+      ? ', ' + formData.shippingAddressContinued
+      : ''
+      }`;
 
     const billingAddress = {
       address_1: address2,
@@ -270,7 +283,7 @@ const SignupPage = () => {
     setIsCheckbox(prevState => {
       const newCheckboxState = !prevState;
       if (newCheckboxState) {
-        const newErrors = {...errors};
+        const newErrors = { ...errors };
         delete newErrors.isCheckbox;
         setErrors(newErrors);
       } else {
@@ -283,436 +296,464 @@ const SignupPage = () => {
     });
   };
 
-  const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
+  const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
   return (
     <SafeAreaView style={styles.container}>
-      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
-      <Icon
-        name="arrow-back"
-        size={25}
-        color="#333" // Customize the color as needed
-        style={{marginLeft: 10, marginTop: hp('5%')}}
-        onPress={() => navigation.navigate('Login')}
-      />
-      <View style={styles.formContainer}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Image
-            style={{
-              alignSelf: 'center',
-              marginTop: Platform.OS === 'ios' ? hp('1') : hp('3%'),
-              marginBottom: hp('1%'),
-            }}
-            source={Images.logoResetpage}
-          />
-          <Text style={styles.title}>Create An Account</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
 
-          <View style={styles.inputContainer}>
-            {/* <View style={styles.inputSection}> */}
-            <View style={styles.headingInput}>
-              <Text style={styles.formHeadingText}>Personal Information</Text>
-            </View>
-            <View style={{backgroundColor: globalColors.white}}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{width: '30%'}}>
-                  <SelectDropdown
-                    data={emojisWithIcons}
-                    onSelect={(selectedItem, index) => {
-                      setFormData({
-                        ...formData,
-                        selectedTitle: selectedItem.title,
-                      });
-                    }}
-                    renderButton={(selectedItem, isOpen) => {
-                      return (
-                        <View style={styles.dropdownButtonStyle}>
-                          <Text
-                            style={{
-                              fontFamily: 'Product Sans',
-                              fontSize: 14,
-                              fontWeight: 'bold',
-                              marginLeft: wp('5%'),
-                              color: globalColors.buttonBackground, // fontStyle: globalColors.buttonBackground,
-                            }}>
-                            {selectedItem?.title || 'TITLE'}
-                          </Text>
-                          <Icon
-                            name={isOpen ? 'chevron-up' : 'chevron-down'}
-                            style={styles.dropdownButtonArrowStyle}
-                          />
-                        </View>
-                      );
-                    }}
-                    renderItem={(item, index, isSelected) => {
-                      return (
-                        <View
-                          style={{
-                            ...styles.dropdownItemStyle,
-                            ...(isSelected && {backgroundColor: '#D2D9DF'}),
-                          }}>
-                          <Text style={styles.dropdownItemTxtStyle}>
-                            {item.title}
-                          </Text>
-                        </View>
-                      );
-                    }}
-                  />
-                </View>
+      >
+        <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+        <Icon
+          name="arrow-back"
+          size={25}
+          color="#333" // Customize the color as needed
+          style={{ marginLeft: 10, marginTop: hp('1%'), marginBottom: wp('1%') }}
+          onPress={() => navigation.navigate('Login')}
+        />
+        <View style={styles.formContainer}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Image
+              style={{
+                alignSelf: 'center',
+                marginTop: Platform.OS === 'ios' ? hp('1') : hp('3%'),
+                marginBottom: hp('1%'),
+              }}
+              source={Images.logoResetpage}
+            />
+            <Text style={styles.title}>Create An Account</Text>
 
-                <View style={{width: '70%'}}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="FIRST NAME *"
-                    placeholderTextColor={globalColors.textColorLogin}
-                    value={formData.firstName}
-                    onChangeText={text => handleChange('firstName', text)}
-                  />
-                  {errors.firstName && (
-                    <Text
-                      style={{
-                        color: 'red',
-                        fontSize: 12,
-                        // marginTop: hp('1%'),
-                        marginBottom: hp('1.5%'),
-                        marginLeft: wp('-20%'),
-                      }}>
-                      {errors.firstName}
-                    </Text>
-                  )}
-                </View>
+            <View style={styles.inputContainer}>
+              {/* <View style={styles.inputSection}> */}
+              <View style={styles.headingInput}>
+                <Text style={styles.formHeadingText}>Personal Information</Text>
               </View>
-              <View style={styles.separator} />
-              <TextInput
-                style={styles.input}
-                placeholder="LAST NAME *"
-                placeholderTextColor={globalColors.textColorLogin}
-                value={formData.lastName}
-                onChangeText={text => handleChange('lastName', text)}
-              />
-              {errors.lastName && (
-                <Text style={styles.errorText}>{errors.lastName}</Text>
-              )}
-              <View style={styles.separator} />
-              <TextInput
-                style={styles.input}
-                placeholder="EMAIL *"
-                placeholderTextColor={globalColors.textColorLogin}
-                value={formData.email}
-                onChangeText={text => handleChange('email', text)}
-              />
-              <View style={styles.separator} />
-              {errors.email && (
-                <Text style={styles.errorText}>{errors.email}</Text>
-              )}
-              <View style={styles.custposition}>
+              <View style={{ backgroundColor: globalColors.white }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ width: '30%' }}>
+                    <SelectDropdown
+                      data={emojisWithIcons}
+                      onSelect={(selectedItem, index) => {
+                        setFormData({
+                          ...formData,
+                          selectedTitle: selectedItem.title,
+                        });
+                      }}
+                      renderButton={(selectedItem, isOpen) => {
+                        return (
+                          <View style={styles.dropdownButtonStyle}>
+                            <Text
+                              style={{
+                                fontFamily: 'Product Sans',
+                                fontSize: 14,
+                                fontWeight: 'bold',
+                                // marginLeft: wp('5%'),
+                                color: globalColors.buttonBackground, // fontStyle: globalColors.buttonBackground,
+                              }}>
+                              {selectedItem?.title || 'TITLE'}
+                            </Text>
+                            <Icon
+                              name={isOpen ? 'chevron-up' : 'chevron-down'}
+                              style={styles.dropdownButtonArrowStyleTitle}
+                            />
+                          </View>
+                        );
+                      }}
+                      renderItem={(item, index, isSelected) => {
+                        return (
+                          <View
+                            style={{
+                              ...styles.dropdownItemStyle,
+                              ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                            }}>
+                            <Text style={styles.dropdownItemTxtStyle}>
+                              {item.title}
+                            </Text>
+                          </View>
+                        );
+                      }}
+                    />
+                  </View>
+
+                  <View style={{ width: '70%' }}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="FIRST NAME *"
+                      placeholderTextColor={globalColors.textColorLogin}
+                      value={formData.firstName}
+                      onChangeText={text => handleChange('firstName', text)}
+                    />
+                    {errors.firstName && (
+                      <Text
+                        style={{
+                          color: 'red',
+                          fontSize: 12,
+                          // marginTop: hp('1%'),
+                          marginBottom: hp('1.5%'),
+                          marginLeft: wp('-20%'),
+                        }}>
+                        {errors.firstName}
+                      </Text>
+                    )}
+                  </View>
+                </View>
+                <View style={styles.separator} />
                 <TextInput
                   style={styles.input}
-                  placeholder="PASSWORD *"
+                  placeholder="LAST NAME *"
                   placeholderTextColor={globalColors.textColorLogin}
-                  value={formData.password}
-                  secureTextEntry={show ? true : false}
-                  onChangeText={text => handleChange('password', text)}
+                  value={formData.lastName}
+                  onChangeText={text => handleChange('lastName', text)}
                 />
-                <View></View>
-                {show ? (
-                  <Icon
-                    name="eye-off-outline"
-                    size={20}
-                    style={styles.cust_icon}
-                    onPress={() => setShow(false)}
-                  />
-                ) : (
-                  <Icon
-                    name="eye-outline"
-                    size={20}
-                    style={styles.cust_icon}
-                    onPress={() => setShow(true)}
-                  />
-                )}
-                {errors.password && (
-                  <Text style={styles.errorText}>{errors.password}</Text>
+                {errors.lastName && (
+                  <Text style={styles.errorText}>{errors.lastName}</Text>
                 )}
                 <View style={styles.separator} />
-                <View style={{backgroundColor: 'white'}}>
-                  <MobileNo
+                <TextInput
+                  style={styles.input}
+                  placeholder="EMAIL *"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.email}
+                  onChangeText={text => handleChange('email', text)}
+                />
+                <View style={styles.separator} />
+                {errors.email && (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                )}
+                <View style={styles.custposition}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="PASSWORD *"
+                    placeholderTextColor={globalColors.textColorLogin}
+                    value={formData.password}
+                    secureTextEntry={show ? true : false}
+                    onChangeText={text => handleChange('password', text)}
+                  />
+                  <View></View>
+                  {show ? (
+                    <Icon
+                      name="eye-off-outline"
+                      size={20}
+                      style={styles.cust_icon}
+                      onPress={() => setShow(false)}
+                    />
+                  ) : (
+                    <Icon
+                      name="eye-outline"
+                      size={20}
+                      style={styles.cust_icon}
+                      onPress={() => setShow(true)}
+                    />
+                  )}
+                  {errors.password && (
+                    <Text style={styles.errorText}>{errors.password}</Text>
+                  )}
+                  <View style={styles.separator} />
+                  <PhoneInput
+                    ref={setPhoneInput}
+                    defaultCode="AE"
+                    placeholder={'PHONE NUMBER'}
+
+                    placeholderTextColor={globalColors.textColorLogin}
+                    containerStyle={{ backgroundColor: globalColors.white, paddingHorizontal: wp('3%'), }}
+                    textContainerStyle={{ backgroundColor: globalColors.white, color: 'red' }}
+                    textInputStyle={{ fontFamily: 'Product Sans', fontSize: 14, fontWeight: '400', backgroundColor: globalColors.white }}
+                    onChangeFormattedText={text => handleChange('phone', text)}
+                    // onChangeCountry={(country) => handlePhoneChange(formData.phone, country)}
+                    value={formData.phone}
+                  />
+                  {errors.phone && (
+                    <Text style={styles.errorText}>{errors.phone}</Text>
+                  )}
+                  <View style={{ backgroundColor: 'white' }}>
+
+                    {/* <MobileNo
                     selected={formData.selected}
                     setSelected={value => handleChange('selected', value)}
                     setCountry={handleCountryChange}
                     phone={formData.phone}
-                    setPhone={text => handleChange('phone', text)}></MobileNo>
-                </View>
-                {errors.phone && (
+                    setPhone={text => handleChange('phone', text)}></MobileNo> */}
+                  </View>
+                  {/* {errors.phone && (
                   <Text style={styles.errorText}>{errors.phone}</Text>
-                )}
-              </View>
-            </View>
-            {/* </View> */}
-            {/* <View style={styles.inputSection}> */}
-            <View
-              style={{
-                backgroundColor: globalColors.white,
-                marginTop: hp('2%'),
-              }}>
-              <View style={styles.headingInput}>
-                <Text style={styles.formHeadingText}>Billing Information</Text>
-              </View>
-              <TextInput
-                style={styles.input}
-                placeholder="ADDRESS LINE 1 *"
-                placeholderTextColor={globalColors.textColorLogin}
-                value={formData.billingAddress}
-                onChangeText={text => handleChange('billingAddress', text)}
-              />
-              {errors.billingAddress && (
-                <Text style={styles.errorText}>{errors.billingAddress}</Text>
-              )}
-              <View style={styles.separator} />
-              <TextInput
-                style={styles.input}
-                placeholder="ADDRESS LINE 2"
-                placeholderTextColor={globalColors.textColorLogin}
-                value={formData.billingAddressContinued}
-                onChangeText={text =>
-                  setFormData({...formData, billingAddressContinued: text})
-                }
-              />
-              <View style={styles.separator} />
-              <View style={styles.inputPicker}>
-                <View style={{width: '50%'}}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="CITY/STATE *"
-                    placeholderTextColor={globalColors.textColorLogin}
-                    value={formData.billingCity}
-                    onChangeText={text => handleChange('billingCity', text)}
-                  />
-                  {errors.billingCity && (
-                    <Text style={styles.errorText}>{errors.billingCity}</Text>
-                  )}
-                </View>
-                <View style={styles.verticalLine} />
-                <View style={{width: '50%'}}>
-                  <SelectDropdown
-                    data={countries}
-                    search
-                    searchPlaceHolder="Search Country"
-                    searchInputStyle={{fontFamily: 'Product Sans'}}
-                    onSelect={(selectedItem, index) => {
-                      setFormData({
-                        ...formData,
-                        selectedCountry: selectedItem.label,
-                      });
-                    }}
-                    renderButton={(selectedItem, isOpen) => {
-                      return (
-                        <View style={styles.dropdownButtonStyle}>
-                          <Text
-                            style={{
-                              fontFamily: 'Product Sans',
-                              fontSize: 14,
-                              color: globalColors.buttonBackground,
-                            }}>
-                            {selectedItem?.label || 'COUNTRY *'}
-                          </Text>
-                          <Icon
-                            name={isOpen ? 'chevron-up' : 'chevron-down'}
-                            style={styles.dropdownButtonArrowStyle}
-                          />
-                        </View>
-                      );
-                    }}
-                    renderItem={(item, index, isSelected) => {
-                      return (
-                        <View
-                          style={{
-                            ...styles.dropdownItemStyle,
-                            ...(isSelected && {backgroundColor: '#D2D9DF'}),
-                          }}>
-                          <Text style={styles.dropdownItemTxtStyle}>
-                            {item.label}
-                          </Text>
-                        </View>
-                      );
-                    }}
-                  />
+                )} */}
                 </View>
               </View>
-            </View>
-            {/* </View> */}
-            {/* <View style={styles.inputSection}> */}
-            <View
-              style={{
-                marginTop: hp('2%'),
-                backgroundColor: globalColors.white,
-              }}>
-              <View style={styles.headingInput}>
-                <Text style={styles.formHeadingText}>Shipping Information</Text>
-              </View>
-              <TextInput
-                style={styles.input}
-                placeholder="ADDRESS LINE 1 *"
-                placeholderTextColor={globalColors.textColorLogin}
-                value={formData.shippingAddress}
-                onChangeText={text => handleChange('shippingAddress', text)}
-              />
-              {errors.shippingAddress && (
-                <Text style={styles.errorText}>{errors.shippingAddress}</Text>
-              )}
-              <View style={styles.separator} />
-              <TextInput
-                style={styles.input}
-                placeholder="ADDRESS LINE 2"
-                placeholderTextColor={globalColors.textColorLogin}
-                value={formData.shippingAddressContinued}
-                onChangeText={text =>
-                  setFormData({...formData, shippingAddressContinued: text})
-                }
-              />
-              <View style={styles.separator} />
-              <View style={styles.inputPicker}>
-                <View style={{width: '50%'}}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="CITY/STATE *"
-                    placeholderTextColor={globalColors.textColorLogin}
-                    value={formData.shippingCity}
-                    onChangeText={text => handleChange('shippingCity', text)}
-                  />
-                  {errors.shippingCity && (
-                    <Text style={styles.errorText}>{errors.shippingCity}</Text>
-                  )}
-                </View>
-                <View style={styles.verticalLine} />
-                <View style={{width: '50%'}}>
-                  <SelectDropdown
-                    data={countries}
-                    search
-                    searchPlaceHolder="Search Country"
-                    placeholderTextColor={globalColors.textColorLogin}
-                    onSelect={(selectedItem, index) => {
-                      setFormData({
-                        ...formData,
-                        selectedCountry: selectedItem.label,
-                      });
-                    }}
-                    renderButton={(selectedItem, isOpen) => {
-                      return (
-                        <View style={styles.dropdownButtonStyle}>
-                          <Text
-                            style={{
-                              fontFamily: 'Product Sans',
-                              fontSize: 14,
-                              color: globalColors.buttonBackground,
-                            }}>
-                            {selectedItem?.label || 'COUNTRY *'}
-                          </Text>
-                          <Icon
-                            name={isOpen ? 'chevron-up' : 'chevron-down'}
-                            style={styles.dropdownButtonArrowStyle}
-                          />
-                        </View>
-                      );
-                    }}
-                    renderItem={(item, index, isSelected) => {
-                      return (
-                        <View
-                          style={{
-                            ...styles.dropdownItemStyle,
-                            ...(isSelected && {backgroundColor: '#D2D9DF'}),
-                          }}>
-                          <Text style={styles.dropdownItemTxtStyle}>
-                            {item.label}
-                          </Text>
-                        </View>
-                      );
-                    }}
-                  />
-                </View>
-              </View>
-            </View>
-            {/* </View> */}
-            <Pressable onPress={handleCheckboxPress}>
+              {/* </View> */}
+              {/* <View style={styles.inputSection}> */}
               <View
                 style={{
-                  flexDirection: 'row',
-                  marginBottom: hp('1.5%'),
+                  backgroundColor: globalColors.white,
                   marginTop: hp('2%'),
                 }}>
-                <View style={styles.CheckBoxContainer}>
-                  {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
+                <View style={styles.headingInput}>
+                  <Text style={styles.formHeadingText}>Billing Information</Text>
                 </View>
-                <View style={{flex: 1}}>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: '400',
-                      // marginBottom: 5,
-                      fontFamily: 'Product Sans',
-                      flexWrap: 'wrap',
-                      color: globalColors.black,
-                    }}>
-                    I agree to receive information by email about offers,
-                    services, products and events from Trusty or other group
-                    companies, in accordance with the Privacy Policy.
-                  </Text>
-                  <Text
-                    style={{
-                      color: globalColors.lightgold,
-                      fontFamily: 'Product Sans',
-                      fontSize: 12,
-                      fontWeight: '400',
-                      marginBottom: hp('1%'),
-                      flexWrap: 'wrap',
-                    }}>
-                    Read more
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: 'Product Sans',
-                      fontSize: 12,
-                      fontWeight: '400',
-                      color: globalColors.black,
-                    }}>
-                    By creating an account, you agree to accept the{' '}
+                <TextInput
+                  style={styles.input}
+                  placeholder="ADDRESS LINE 1 *"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.billingAddress}
+                  onChangeText={text => handleChange('billingAddress', text)}
+                />
+                {errors.billingAddress && (
+                  <Text style={styles.errorText}>{errors.billingAddress}</Text>
+                )}
+                <View style={styles.separator} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="ADDRESS LINE 2"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.billingAddressContinued}
+                  onChangeText={text =>
+                    setFormData({ ...formData, billingAddressContinued: text })
+                  }
+                />
+                <View style={styles.separator} />
+                {/* <View style={styles.inputPicker}> */}
+                {/* <View style={{ width: '50%' }}> */}
+                <TextInput
+                  style={styles.input}
+                  placeholder="CITY/STATE *"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.billingCity}
+                  onChangeText={text => handleChange('billingCity', text)}
+                />
+                {errors.billingCity && (
+                  <Text style={styles.errorText}>{errors.billingCity}</Text>
+                )}
+                {/* </View> */}
+                {/* <View style={styles.verticalLine} /> */}
+                <View style={styles.separator} />
+                {/* <View style={{ width: '50%' }}> */}
+                <SelectDropdown
+                  data={countries}
+                  search
+                  searchPlaceHolder="Search Country"
+                  searchInputStyle={{ fontFamily: 'Product Sans' }}
+                  onSelect={(selectedItem, index) => {
+                    setFormData({
+                      ...formData,
+                      selectedCountry: selectedItem.label,
+                    });
+                  }}
+                  renderButton={(selectedItem, isOpen) => {
+                    return (
+                      <View style={styles.dropdownButtonStyle}>
+                        <Text
+                          style={{
+                            fontFamily: 'Product Sans',
+                            fontSize: 14,
+                            color: globalColors.buttonBackground,
+                          }}>
+                          {selectedItem?.label || 'COUNTRY *'}
+                        </Text>
+                        <Icon
+                          name={isOpen ? 'chevron-up' : 'chevron-down'}
+                          style={styles.dropdownButtonArrowStyle}
+                        />
+                      </View>
+                    );
+                  }}
+                  renderItem={(item, index, isSelected) => {
+                    return (
+                      <View
+                        style={{
+                          ...styles.dropdownItemStyle,
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                        }}>
+                        <Text style={styles.dropdownItemTxtStyle}>
+                          {item.label}
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
+                {/* </View> */}
+                {/* </View> */}
+              </View>
+              {/* </View> */}
+              {/* <View style={styles.inputSection}> */}
+              <View
+                style={{
+                  marginTop: hp('2%'),
+                  backgroundColor: globalColors.white,
+                }}>
+                <View style={styles.headingInput}>
+                  <Text style={styles.formHeadingText}>Shipping Information</Text>
+                </View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="ADDRESS LINE 1 *"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.shippingAddress}
+                  onChangeText={text => handleChange('shippingAddress', text)}
+                />
+                {errors.shippingAddress && (
+                  <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+                )}
+                <View style={styles.separator} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="ADDRESS LINE 2"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.shippingAddressContinued}
+                  onChangeText={text =>
+                    setFormData({ ...formData, shippingAddressContinued: text })
+                  }
+                />
+                <View style={styles.separator} />
+                <View style={styles.inputPicker}>
+                  <View style={{ width: '50%' }}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="CITY/STATE *"
+                      placeholderTextColor={globalColors.textColorLogin}
+                      value={formData.shippingCity}
+                      onChangeText={text => handleChange('shippingCity', text)}
+                    />
+                    {errors.shippingCity && (
+                      <Text style={styles.errorText}>{errors.shippingCity}</Text>
+                    )}
+                  </View>
+                  {/* <View style={styles.verticalLine} /> */}
+                  <View style={styles.separator} />
+                  {/* <View style={{ width: '50%' }}> */}
+                  <SelectDropdown
+                    data={countries}
+                    search
+                    searchPlaceHolder="Search Country"
+                    placeholderTextColor={globalColors.textColorLogin}
+                    onSelect={(selectedItem, index) => {
+                      setFormData({
+                        ...formData,
+                        selectedCountry: selectedItem.label,
+                      });
+                    }}
+                    renderButton={(selectedItem, isOpen) => {
+                      return (
+                        <View style={styles.dropdownButtonStyle}>
+                          <Text
+                            style={{
+                              fontFamily: 'Product Sans',
+                              fontSize: 14,
+                              color: globalColors.buttonBackground,
+                            }}>
+                            {selectedItem?.label || 'COUNTRY *'}
+                          </Text>
+                          <Icon
+                            name={isOpen ? 'chevron-up' : 'chevron-down'}
+                            style={styles.dropdownButtonArrowStyle}
+                          />
+                        </View>
+                      );
+                    }}
+                    renderItem={(item, index, isSelected) => {
+                      return (
+                        <View
+                          style={{
+                            ...styles.dropdownItemStyle,
+                            ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                          }}>
+                          <Text style={styles.dropdownItemTxtStyle}>
+                            {item.label}
+                          </Text>
+                        </View>
+                      );
+                    }}
+                  />
+                  {/* </View> */}
+                </View>
+              </View>
+              {/* </View> */}
+              <Pressable onPress={handleCheckboxPress}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginBottom: hp('1.5%'),
+                    marginTop: hp('2%'),
+                  }}>
+                  <View style={styles.CheckBoxContainer}>
+                    {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: '400',
+                        // marginBottom: 5,
+                        fontFamily: 'Product Sans',
+                        flexWrap: 'wrap',
+                        color: globalColors.black,
+                      }}>
+                      I agree to receive information by email about offers,
+                      services, products and events from Trusty or other group
+                      companies, in accordance with the Privacy Policy.
+                    </Text>
                     <Text
                       style={{
                         color: globalColors.lightgold,
-                        resizeMode: 'cover',
+                        fontFamily: 'Product Sans',
+                        fontSize: 12,
+                        fontWeight: '400',
+                        marginBottom: hp('1%'),
+                        flexWrap: 'wrap',
                       }}>
-                      General Terms and Conditions of Use
+                      Read more
                     </Text>
-                    and that your data will be processed in compliance with the
-                    <Text style={{color: globalColors.lightgold}}>
-                      {' '}
-                      Privacy Policy
-                    </Text>{' '}
-                    of Trusty.
-                  </Text>
+                    <Text
+                      style={{
+                        fontFamily: 'Product Sans',
+                        fontSize: 12,
+                        fontWeight: '400',
+                        color: globalColors.black,
+                      }}>
+                      By creating an account, you agree to accept the{' '}
+                      <Text
+                        style={{
+                          color: globalColors.lightgold,
+                          resizeMode: 'cover',
+                        }}>
+                        General Terms and Conditions of Use
+                      </Text>
+                      and that your data will be processed in compliance with the
+                      <Text style={{ color: globalColors.lightgold }}>
+                        {' '}
+                        Privacy Policy
+                      </Text>{' '}
+                      of Trusty.
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </Pressable>
-            {errors.isCheckbox && (
-              <Text style={styles.errorText}>{errors.isCheckbox}</Text>
-            )}
-          </View>
+              </Pressable>
+              {errors.isCheckbox && (
+                <Text style={styles.errorText}>{errors.isCheckbox}</Text>
+              )}
+            </View>
 
-          <Button
-            stylesofbtn={styles.custbtn}
-            styleoffont={styles.custfontstyle}
-            handlepress={handleSignup}
-            name={'Create account'}
-            loading={loading}
-          />
+            <Button
+              stylesofbtn={styles.custbtn}
+              styleoffont={styles.custfontstyle}
+              handlepress={handleSignup}
+              name={'Create account'}
+              loading={loading}
+            />
 
-          {/* <View style={styles.footerContainer}> */}
-          <Text
-            style={styles.footerLink}
-            onPress={() => navigation.navigate('Login')}>
-            Log in
-          </Text>
-          {/* </View> */}
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text
+                style={styles.footerLink}
+              >
+                Log in
+              </Text>
+            </TouchableOpacity>
+
+          </ScrollView>
+        </View >
+      </KeyboardAvoidingView >
+    </SafeAreaView >
+
   );
 };
 
@@ -736,7 +777,7 @@ const styles = StyleSheet.create({
   cust_icon: {
     position: 'absolute',
     right: wp('14%'),
-    marginTop: wp('3%'),
+    marginTop: wp('4%'),
     color: globalColors.textColorLogin,
   },
   errorInput: {
@@ -755,10 +796,11 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     // width: 'auto',
-    paddingLeft: 25,
-    paddingRight: 25,
-    marginBottom: hp('5%'),
-    
+    paddingLeft: wp('5%'),
+    paddingRight: wp('5%'),
+    paddingBottom: hp('5%'),
+    // marginBottom: hp('5%'),
+
   },
   formHeadingText: {
     padding: wp('2%'),
@@ -808,7 +850,7 @@ const styles = StyleSheet.create({
     // borderRadius: 4,
     fontFamily: 'Product Sans',
     // textTransform: 'uppercase',
-    paddingLeft: wp('7%'),
+    paddingLeft: hp('3%'),
     fontSize: 14,
     fontWeight: '400',
     // marginBottom: hp('1.5%'),
@@ -816,7 +858,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.white,
   },
   inputPicker: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     width: 'auto',
   },
 
@@ -869,7 +911,7 @@ const styles = StyleSheet.create({
   },
   footerLink: {
     textAlign: 'center',
-    marginVertical: 20,
+    marginVertical: hp('5%'),
     marginTop: hp('2%'),
     borderWidth: 2,
     padding: 10,
@@ -890,8 +932,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.white,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: wp('2%'),
-    // borderLeftWidth: 1,
+    paddingHorizontal: hp('3%'),
     borderColor: globalColors.inputBorder,
     // marginBottom: hp('1.5%'),
   },
@@ -902,8 +943,12 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   dropdownButtonArrowStyle: {
-    fontSize: wp('6%'),
-    marginLeft: 3,
+    fontSize: wp('5%'),
+    paddingHorizontal: wp('42%')
+  },
+  dropdownButtonArrowStyleTitle: {
+    fontSize: wp('5%'),
+    paddingHorizontal: wp('2%')
   },
   dropdownButtonIconStyle: {
     fontSize: wp('3.1%'),
@@ -960,14 +1005,14 @@ const styles = StyleSheet.create({
     // marginTop: 10,
     borderWidth: 0.2,
     alignSelf: 'center',
-    height: '50%', // Height of the line
+    // height: '50%', // Height of the line
   },
   separator: {
     borderWidth: 0.5,
     borderColor: 'rgba(193, 177, 157, 1)',
     alignSelf: 'center',
     // backgroundColor: globalColors.borderColorlogin,
-    width: '80%',
+    width: '85%',
   },
 });
 

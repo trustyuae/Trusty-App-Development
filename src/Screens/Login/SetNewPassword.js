@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,17 +14,17 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {useDispatch, useSelector} from 'react-redux';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import Button from '../../Components/Button';
-import {Images} from '../../Constants';
-import {emailIcon, passwordIcon} from '../../Constants/Icons';
-import {postApiChangePassword} from '../../Redux/Slice/postApiSlice';
+import { Images } from '../../Constants';
+import { emailIcon, passwordIcon } from '../../Constants/Icons';
+import { postApiChangePassword } from '../../Redux/Slice/postApiSlice';
 
 const SetNewPassword = () => {
   const dispatch = useDispatch();
-  const {loading, error, postData} = useSelector(state => state.post);
+  const { loading, error, postData } = useSelector(state => state.post);
 
   // useEffect(() => {
   //   if (!error) {
@@ -51,7 +51,7 @@ const SetNewPassword = () => {
       const url = event.url;
       const token = url.split('token=')[1];
       if (token) {
-        setValues(prevValues => ({...prevValues, token}));
+        setValues(prevValues => ({ ...prevValues, token }));
         console.log('Token from URL:', token);
       }
     };
@@ -63,7 +63,7 @@ const SetNewPassword = () => {
       if (url) {
         const token = url.split('token=')[1];
         if (token) {
-          setValues(prevValues => ({...prevValues, token}));
+          setValues(prevValues => ({ ...prevValues, token }));
           console.log('Token from URL:', token);
         }
       }
@@ -75,7 +75,7 @@ const SetNewPassword = () => {
   }, []);
 
   const handleChange = (key, value) => {
-    setValues(pre => ({...pre, [key]: value}));
+    setValues(pre => ({ ...pre, [key]: value }));
   };
 
   // const validateEmail = email => {
@@ -93,7 +93,7 @@ const SetNewPassword = () => {
       }));
       valid = false;
     } else {
-      setErrors(prevErrors => ({...prevErrors, password: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, password: '' }));
     }
 
     if (value.password !== value.confirmPassword) {
@@ -103,7 +103,7 @@ const SetNewPassword = () => {
       }));
       valid = false;
     } else {
-      setErrors(prevErrors => ({...prevErrors, confirmPassword: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, confirmPassword: '' }));
     }
 
     return valid;
@@ -125,10 +125,10 @@ const SetNewPassword = () => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.logincontainer}>
-        <Image style={{alignSelf: 'center'}} source={Images.logoResetpage} />
+        <Image style={{ alignSelf: 'center' }} source={Images.logoResetpage} />
         <Text style={styles.headingtext}>
           Set New Password
-          <Text style={{fontFamily: 'San Francisco'}}>?</Text>{' '}
+          <Text style={{ fontFamily: 'San Francisco' }}>?</Text>{' '}
         </Text>
 
         <View style={styles.custContainer}>
@@ -280,6 +280,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Product Sans',
     fontSize: 16,
+    fontWeight: '700'
   },
   errorText: {
     color: globalColors.error,

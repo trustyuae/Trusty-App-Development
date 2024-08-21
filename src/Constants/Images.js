@@ -58,6 +58,8 @@ const Star = require('../Assets/Images/Star.png');
 const Celebration = require('../Assets/Images/celebration.png');
 const Wishlist = require('../Assets/Images/Wishlist.png');
 const loginImage = require('../Assets/Images/loginImage.png');
+const loginImage4x = require('../Assets/Images/loginimage4x.png');
+
 const logoResetpage = require('../Assets/Images/SmalliconReset.png');
 export default {
   Wishlist,
@@ -120,5 +122,5 @@ export default {
   whishlistIcon,
   saveIconUnFill3x,
   loginImage,
-  logoResetpage,
+  logoResetpage, loginImage4x
 };

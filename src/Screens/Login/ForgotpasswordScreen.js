@@ -6,25 +6,25 @@ import {
   SafeAreaView,
   Linking,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Button from '../../Components/Button';
-import {useDispatch, useSelector} from 'react-redux';
-import {postApi} from '../../Redux/Slice/postApiSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { postApi } from '../../Redux/Slice/postApiSlice';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Image} from 'react-native';
-import {emailIcon} from '../../Constants/Icons';
-import {Images} from '../../Constants/index';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Image } from 'react-native';
+import { emailIcon } from '../../Constants/Icons';
+import { Images } from '../../Constants/index';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-toast-message';
 
-const ForgotpasswordScreen = ({navigation}) => {
+const ForgotpasswordScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const {loading, error, postData} = useSelector(state => state.post);
+  const { loading, error, postData } = useSelector(state => state.post);
 
   const openGmailApp = async () => {
     const gmailUrl = 'https://gmail.app.goo.gl';
@@ -59,7 +59,7 @@ const ForgotpasswordScreen = ({navigation}) => {
   });
 
   const handlechange = (key, value) => {
-    setValues(pre => ({...pre, [key]: value}));
+    setValues(pre => ({ ...pre, [key]: value }));
   };
 
   const validateEmail = email => {
@@ -69,13 +69,13 @@ const ForgotpasswordScreen = ({navigation}) => {
 
   const validation = () => {
     if (!value.email) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Email Is Required'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Email Is Required' }));
       return;
     } else if (!validateEmail(value.email)) {
-      setErrors(prevErrors => ({...prevErrors, email: 'Invalid Email'}));
+      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid Email' }));
       return;
     } else {
-      setErrors(prevErrors => ({...prevErrors, email: ''}));
+      setErrors(prevErrors => ({ ...prevErrors, email: '' }));
     }
     return true;
   };
@@ -106,10 +106,10 @@ const ForgotpasswordScreen = ({navigation}) => {
           name="arrow-back"
           size={25}
           color="#333" // Customize the color as needed
-          style={{marginLeft: 10}}
+          style={{ marginLeft: 10 }}
           onPress={() => navigation.navigate('Login')}
         />
-        <Image style={{alignSelf: 'center'}} source={Images.logoResetpage} />
+        <Image style={{ alignSelf: 'center' }} source={Images.logoResetpage} />
         <Text style={styles.headingtext}>
           Forget Password
           <Text
@@ -140,8 +140,8 @@ const ForgotpasswordScreen = ({navigation}) => {
               flexDirection: 'row',
               alignItems: 'center',
               backgroundColor: globalColors.white,
-              paddingHorizontal: 15,
-              paddingVertical: 4,
+              paddingHorizontal: wp('4%'),
+              // paddingVertical: 4,
             }}>
             <Image style={styles.icon} source={emailIcon}></Image>
             <TextInput
@@ -163,7 +163,7 @@ const ForgotpasswordScreen = ({navigation}) => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
@@ -171,12 +171,12 @@ export default ForgotpasswordScreen;
 
 const styles = StyleSheet.create({
   logincontainer: {
-    margin: hp('2%'),
+    // margin: hp('2%'),
     marginTop: Platform.OS === 'ios' ? 0 : hp('2%'),
   },
   headingtext: {
     fontSize: 24,
-    padding: 20,
+    padding: hp('3%'),
     textAlign: 'center',
     fontWeight: '700',
     fontFamily: 'Product Sans',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   inputfield: {
     backgroundColor: globalColors.white,
     // borderWidth: 1,
-    height: hp('6.5%'),
+    // height: hp('6.5%'),
     alignSelf: 'center',
     width: '90%',
     // marginTop: hp('3%'),
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: wp('5%'),
     borderColor: globalColors.borderColor,
     borderRadius: 5,
-    padding: 10,
+    padding: hp('2.5%'),
   },
   custContainer: {
     padding: 20,
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontFamily: 'Product Sans',
     fontSize: 16,
-    marginTop: hp('-3%'),
+    marginTop: hp('-1%'),
   },
   custfontstyle: {
     color: 'white',
