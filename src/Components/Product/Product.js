@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Pressable,
@@ -11,20 +11,20 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants/index';
-import {useDispatch, useSelector} from 'react-redux';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants/index';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addToWishlist,
   fetchWishlist,
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
-import {getToken} from '../../Utils/localstorage';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { getToken } from '../../Utils/localstorage';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import {NoImg} from '../../Constants/Icons';
+import { NoImg } from '../../Constants/Icons';
 
-const Product = ({uri, name, price, product_id, isWatchList,img,description}) => {
+const Product = ({ uri, name, price, product_id, isWatchList, img, description }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -74,7 +74,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
       if (saved) {
         try {
           // await dispatch(fetchWishlist(tokenData));
-          await dispatch(removeFromWishlist({product_id, tokenData}));
+          await dispatch(removeFromWishlist({ product_id, tokenData }));
           setSaved(false);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -83,7 +83,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
       } else {
         try {
           // await dispatch(fetchWishlist(tokenData));
-          await dispatch(addToWishlist({product_id, tokenData}));
+          await dispatch(addToWishlist({ product_id, tokenData }));
           setSaved(true);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -108,17 +108,17 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {uri? (
-       <View>
-          <Image
-            style={styles.image}
-            source={{
-              uri:uri,
-            }}
-            // source={img}
-            resizeMode="cover"
-          /> 
-       </View>
+        {uri ? (
+          <View>
+            <Image
+              style={styles.image}
+              source={{
+                uri: uri,
+              }}
+              // source={img}
+              resizeMode="cover"
+            />
+          </View>
 
         ) : (
           <Image source={NoImg} style={styles.dummy} resizeMode="cover" />
@@ -132,7 +132,7 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
       </View>
 
       <View style={styles.detailsContainer}>
-       
+
 
         {/* <View
           style={{
@@ -168,9 +168,9 @@ const Product = ({uri, name, price, product_id, isWatchList,img,description}) =>
 
         {/* <Text style={styles.name}>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</Text> */}
         <Text style={styles.name}>{name}</Text>
-       { price?
-        <Text style={styles.price}>{price} AED</Text>: <Text style={styles.price}>200 AED</Text>
-       }
+        {price ?
+          <Text style={styles.price}>{price} AED</Text> : <Text style={styles.price}>200 AED</Text>
+        }
       </View>
     </View>
   );
@@ -186,15 +186,15 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     // marginHorizontal: wp('1%'),
-    borderRadius: 5,
+    borderRadius: 6,
     // marginBottom: hp('2%'),
     overflow: 'hidden',
     height: hp("32%"),
     // backgroundColor:'yellow'
   },
   imageContainer: {
-    width: wp('30%'),
-      height: hp('18%'),
+    width: wp('32%'),
+    height: hp('18%'),
     position: 'relative',
     // backgroundColor: globalColors.productBackground,
   },
@@ -205,19 +205,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   name: {
-    width:wp("44%"),
-    fontSize: 17,
+    width: wp("44%"),
+    fontSize: 18,
     textTransform: 'capitalize',
-    fontFamily: 'Product Sans',
-    color: globalColors.black,
-     marginTop: wp('5%'),
+    fontFamily: 'Intrepid Regular',
+    fontWeight: '400',
+    paddingHorizontal: wp('2%'),
+    color: globalColors.newTextColorProduct,
+    marginTop: hp('2%'),
   },
   price: {
     fontSize: 18,
-     marginTop: wp('1%'),
-    fontFamily: 'Product Sans',
-    fontWeight: '700',
-    color: globalColors.black,
+    marginTop: wp('1%'),
+    fontFamily: 'Intrepid Regular',
+    paddingHorizontal: wp('2%'),
+    fontWeight: '300',
+    color: globalColors.productPriceText,
   },
   saveImagea: {
     position: 'absolute',
@@ -233,14 +236,16 @@ const styles = StyleSheet.create({
     height: 32,
   },
   image: {
-    borderRadius: 6,
+    // borderRadius: wp("1%"),
+    borderRadius: 5,
     width: wp('46%'),
-    height:hp('21%'),
+    height: hp('21%'),
   },
-  dummy:{
-    borderRadius: 6,
+  dummy: {
+    // borderRadius: 6,
+    borderRadius: 5,
     width: wp('46%'),
-    height:hp('21%'),
+    height: hp('21%'),
   },
 
   heading: {

@@ -24,6 +24,7 @@ import ProductViewToCartSlice from '../Slice/car_slice/withoulogin/ViewProdcutca
 import CouponDetailCartSlice from '../Slice/car_slice/coupon/couponcart';
 import searchProductSlice from '../Slice/searchProductSlice';
 import paginatedProductSlice from '../Slice/paginatedProductSlice';
+import signatureSelectionsSlice from '../Slice/signatureSelections'
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -52,8 +53,8 @@ const rootReducer = combineReducers({
   ProductViewToCart: ProductViewToCartSlice,
   CouponDetail: CouponDetailCartSlice,
   searchProduct: searchProductSlice,
-  paginatedProducts: paginatedProductSlice
-
+  paginatedProducts: paginatedProductSlice,
+  signatureSelectionsSlice: signatureSelectionsSlice
 });
 
 export default rootReducer;

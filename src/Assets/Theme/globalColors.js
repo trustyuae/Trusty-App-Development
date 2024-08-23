@@ -30,4 +30,6 @@ export const globalColors = {
   textColorLogin: '#666666',
   lightPink: '#D42A57',
   lightWhite: '#808080',
+  newTextColor: '#4b4746',
+  newTextColorProduct: '#252423'
 };

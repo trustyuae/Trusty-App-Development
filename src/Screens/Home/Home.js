@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -10,28 +10,29 @@ import {
   Image,
 } from 'react-native';
 
-import {Images} from '../../Constants/index';
+import { Images } from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import Product from '../../Components/Product/Product';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Pressable} from 'react-native';
-import {fetchCategories} from '../../Redux/Slice/categorySlice';
-import {fetchProducts} from '../../Redux/Slice/productSlice';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
-import {getToken} from '../../Utils/localstorage';
-import {SafeAreaView} from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Pressable } from 'react-native';
+import { fetchCategories } from '../../Redux/Slice/categorySlice';
+import { fetchProducts } from '../../Redux/Slice/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
+import { getToken } from '../../Utils/localstorage';
+import { SafeAreaView } from 'react-native';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 import CategoryComoponent from '../../Components/Category/CategoryComoponent';
 import Button from '../../Components/Button';
-import {fetchRedyToGo} from '../../Redux/Slice/ready_to_go';
+import { fetchRedyToGo } from '../../Redux/Slice/ready_to_go';
 import Readytogo from '../../Components/Ready To Go/Readytogo';
-import {ImageBackground} from 'react-native';
+import { ImageBackground } from 'react-native';
 import SkeletonLoaderHomeimg from '../../Components/Loader/SkeletonLoaderHomeimg';
+import { getSignatureSelectionsData } from '../../Redux/Slice/signatureSelections';
 
 const categoriesx = [
   {
@@ -103,13 +104,28 @@ const DummyData = [
 let getData = [
   {
     id: 16,
-    img: Images.categories_Bag,
-    label: 'Bags',
+    img: 'https://trustyuae.com/wp-content/uploads/2024/08/B174438D-10E1-4BAC-861E-CE048B9D24BC-scaled.webp',
+    name: 'Bags',
   },
   {
     id: 17,
-    img: Images.categories_shoes,
-    label: 'Shoes',
+    img: 'https://trustyuae.com/wp-content/uploads/2024/08/Photoroom_20240802_163138.jpeg',
+    name: 'Shoes',
+  },
+  {
+    id: 182,
+    img: 'https://trustyuae.com/wp-content/uploads/2024/08/Photoroom_20240802_172622.jpeg',
+    name: 'Travel Bags',
+  },
+  {
+    id: 298,
+    img: 'https://trustyuae.com/wp-content/uploads/2024/08/tote-profile.webp',
+    name: 'Tote Bags',
+  },
+  {
+    id: 22,
+    img: 'https://trustyuae.com/wp-content/uploads/2024/08/IMG_7785-1.webp',
+    name: 'SMALL LEATHER GOODS',
   },
   // {
   //   id: 3,
@@ -141,29 +157,36 @@ const Home = () => {
   const [newWitchList, setNewWitchList] = useState([]);
   const dispatch = useDispatch();
   // const categoryStatus = false;
-  const {categories, categoryStatus, categoryError} = useSelector(
+  const { categories, categoryStatus, categoryError } = useSelector(
     state => state.category,
-  ); // Select category state from Redux store
-  const {redytogoProducts, redytogoStatus, redytogoError} = useSelector(
+  );
+  const signatureSelectionsProducts = useSelector(
+    state => state?.signatureSelectionsSlice?.signatureSelectionsData
+  );
+  const { redytogoProducts, redytogoStatus, redytogoError } = useSelector(
     state => state.redytogo,
   );
-  const {products, status, error} = useSelector(state => state.product);
-  const {items, loading: wishlistLoading} = useSelector(
+  const { products, status, error } = useSelector(state => state.product);
+  const { items, loading: wishlistLoading } = useSelector(
     state => state.wishlist,
   );
   const [tokenData, setTokenData] = useState(null);
   // const [wishlist, setWishlist] = useState([]);
-  const [wishlist, setWishlist] = useState([items].map(item => ({id: item})));
+  const [wishlist, setWishlist] = useState([items].map(item => ({ id: item })));
   // console.log('inside home---->', products);
 
 
 
 
   useEffect(() => {
-    data();
-    dispatch(fetchRedyToGo());
-   dispatch(fetchCategories());
-    dispatch(fetchProducts());
+    const fetchData = async () => {
+      data();
+      dispatch(fetchRedyToGo());
+      dispatch(fetchCategories());
+      dispatch(getSignatureSelectionsData());
+      dispatch(fetchProducts());
+    };
+    fetchData();
   }, [dispatch]);
 
   useFocusEffect(
@@ -206,7 +229,7 @@ const Home = () => {
   }, [dispatch, getToken]);
   const data = () => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({id: item}));
+      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const productIds = new Set(itemIdList.map(item => Number(item.id)));
       const result = products.map(productItem => ({
         ...productItem,
@@ -230,7 +253,7 @@ const Home = () => {
   //   dispatch(fetchWishlist(tokenData));
   // }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
-    navigation.navigate('CategoryProducts', {category, products});
+    navigation.navigate('CategoryProducts', { category, products });
     // console.log("products",category);
   };
   const previewimages = {
@@ -248,7 +271,7 @@ const Home = () => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: globalColors.statusBar}}>
+    <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
       <View style={styles.container}>
         {/* <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar> */}
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
@@ -261,7 +284,7 @@ const Home = () => {
               tintColor={globalColors.black}
             />
           }>
-          <View style={{paddingHorizontal: wp('2%')}}>
+          <View style={{ paddingHorizontal: wp('2%') }}>
             <View
               style={{
                 justifyContent: 'center',
@@ -274,16 +297,16 @@ const Home = () => {
             </View>
             {
               <CategoryComoponent
-                 //getData={getData}
-                 getData={categories}
+                // getData={getData}
+                getData={categories}
                 navigateToCategoryProducts={navigateToCategoryProducts}
               />
             }
 
-            <View style={{marginHorizontal: 5, margin: 15}}>
+            <View style={{ marginHorizontal: 5, margin: 15 }}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <Text style={styles.customheading}>Ready to go</Text>
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Text style={[styles.customheading]}>Ready to go</Text>
 
                 <Text
                   onPress={() => navigation.navigate('SeeAll')}
@@ -291,7 +314,7 @@ const Home = () => {
                     color: 'black',
                     fontSize: 14,
                     fontWeight: '600',
-                    fontFamily: 'Product Sans',
+                    fontFamily: 'Intrepid Regular',
                     top: 10,
                   }}>
                   SEE ALL
@@ -338,7 +361,7 @@ const Home = () => {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
                 {redytogoStatus === 'loading' ? (
-                  <View style={{marginLeft: wp('2.5%')}}>
+                  <View style={{ marginLeft: wp('2.5%') }}>
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (
@@ -346,7 +369,7 @@ const Home = () => {
                     .slice(startIndex, startIndex + 10)
                     .map(product => (
                       <>
-                       
+
                         <Pressable
                           key={product.id}
                           onPress={() =>
@@ -371,9 +394,9 @@ const Home = () => {
               </ScrollView>
             </View>
           </View>
-          <View style={{backgroundColor: 'white'}}>
-            <View style={{marginTop: 20}}>
-              <View style={{flexDirection: 'row'}}>
+          <View style={{ backgroundColor: globalColors.headingBackground }}>
+            <View style={{ marginTop: 20 }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={[styles.customheading, styles.custommargin]}>
                   MUST HAVE
                 </Text>
@@ -381,9 +404,9 @@ const Home = () => {
                   source={Images.Musthavelogo}
                   height={30}
                   width={30}
-                  style={{margin: 6}}></Image>
+                  style={{ margin: 6 }}></Image>
               </View>
-              <View style={{marginTop: -20, marginBottom: 10}}>
+              <View style={{ marginTop: -20, marginBottom: 10 }}>
                 <Text style={[styles.customheading, styles.custommargin]}>
                   FOR{' '}
                   <Text style={[styles.customheading, styles.Custcolor]}>
@@ -427,7 +450,8 @@ const Home = () => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   flexWrap: 'wrap',
-                  paddingHorizontal: 10,
+                  paddingHorizontal: 11,
+                  // gap: 8
                   // marginTop: 20,
                   // marginLeft: 2,
                   // columnGap: 10,
@@ -476,48 +500,43 @@ const Home = () => {
                     <SkeletonLoader count={4} />
                   </View>
                 ) : (
-                  wishlist.filter(product => {
-                      return product?.categories?.some(category =>
-                       
-                        category.slug.includes('bags-women'),
-                      );
-                    }).slice(startIndex, startIndex + 4).map(product => (
-                      <Pressable
-                        key={product?.id}
-                        onPress={() =>
-                          navigation.navigate('ProductDetail', {
-                            userId: product.id,
-                            isWatchList: product?.isWatchList,
-                          })
-                        }>
-                        {/* Console log for debugging */}
-                        {/* {console.log("product image URL:", product?.images[1]?.src)} */}
+                  signatureSelectionsProducts.map(product => (
+                    <Pressable
+                      key={product?.id}
+                      onPress={() =>
+                        navigation.navigate('ProductDetail', {
+                          userId: product.id,
+                          isWatchList: product?.isWatchList,
+                        })
+                      }>
+                      {/* Console log for debugging */}
+                      {/* {console.log("product image URL:", product?.images[1]?.src)} */}
 
-                        {product.images && product.images.length > 0 ? (
-                          <>
-                            <Product
-                              key={product?.id}
-                              uri={product?.images[0]?.src}
-                              name={product?.name}
-                              price={product?.price}
-                              saved={product?.saved}
-                              product_id={product?.id}
-                              isWatchList={product?.isWatchList}
-                            />
-                          </>
-                        ) : (
+                      {product.image && product.image.length > 0 ? (
+                        <>
                           <Product
                             key={product?.id}
-                            uri={false}
+                            uri={product?.image}
                             name={product?.name}
                             price={product?.price}
                             saved={product?.saved}
                             product_id={product?.id}
                             isWatchList={product?.isWatchList}
                           />
-                        )}
-                      </Pressable>
-                    ))
+                        </>
+                      ) : (
+                        <Product
+                          key={product?.id}
+                          uri={false}
+                          name={product?.name}
+                          price={product?.price}
+                          saved={product?.saved}
+                          product_id={product?.id}
+                          isWatchList={product?.isWatchList}
+                        />
+                      )}
+                    </Pressable>
+                  ))
                 )}
                 {/* </View> */}
               </View>
@@ -541,13 +560,13 @@ const Home = () => {
             </View>
 
             {/* <HeadingImage /> */}
-            <View style={{alignSelf: 'center', marginTop: -10}}>
+            <View style={{ alignSelf: 'center', marginTop: -10 }}>
               {imageLoaded && <SkeletonLoaderHomeimg />}
               <ImageBackground
                 style={styles.containerimgbackgr}
                 source={Images.HeadingImage}
                 onLoad={() => setImageLoaded(false)}
-             >
+              >
                 <Image
                   style={styles.imageContainer}
                   source={Images.Textimg}></Image>
@@ -579,10 +598,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   customheading: {
-    fontWeight: '700',
+    fontWeight: '800',
     fontSize: 24,
     color: 'black',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   productContainer: {
     flexWrap: 'wrap',
@@ -644,13 +663,14 @@ const styles = StyleSheet.create({
     padding: 7,
     marginVertical: 20,
     width: 120,
-    borderRadius: 6,
+    borderRadius: 4,
   },
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
+    fontSize: 16,
     fontWeight: '600',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   containerimgbackgr: {
     width: wp('100%'),

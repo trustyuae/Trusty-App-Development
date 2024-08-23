@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
-import {Images} from '../../Constants';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
-import {Text} from 'react-native-paper';
-import {ScrollView} from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { Images } from '../../Constants';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import { Text } from 'react-native-paper';
+import { ScrollView } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -43,16 +43,25 @@ import {
 //   // },
 // ];
 
-const CategoryComponent = ({getData, navigateToCategoryProducts}) => {
-  // const updated = getData.map((data) => ({
-  //   img: data.img,
-  //   // id: categories.find((item) => item.label == data.label)?.id,
-  //   id: data.id,
-  //   label: data.label
-  // }))
+const CategoryComponent = ({ getData, navigateToCategoryProducts }) => {
+  console.log(getData);
+  const updated = getData.map(data => ({
+    img: data.img,
+    // id: categories.find(item => item.label == data.label)?.id,
+    id: data.id,
+    label: data.label,
+  }));
 
   const handleCategoryClick = categoryId => {
     navigateToCategoryProducts(categoryId);
+  };
+
+  const getImageSource = img => {
+    if (typeof img === 'string' && img.startsWith('http')) {
+      return { uri: img };
+    }
+
+    return img;
   };
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -62,9 +71,9 @@ const CategoryComponent = ({getData, navigateToCategoryProducts}) => {
             key={item.id}
             onPress={() => handleCategoryClick(item)}>
             <View style={styles.imageContainer}>
-              <Image source={{uri: item?.image?.src}} style={styles.image} />
+              <Image source={{ uri: item?.image?.Image }} style={styles.image} />
             </View>
-            <Text style={styles.label}>{item?.slug}</Text>
+            <Text style={styles.label}>{item?.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -78,9 +87,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingLeft: wp('1%'),
+    paddingLeft: wp('0.5%'),
+    paddingRight: wp('1%'),
     paddingBottom: 16,
-    gap: 13,
+    gap: wp('5.5%'),
   },
   imageContainer: {
     justifyContent: 'center',
@@ -98,12 +108,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   label: {
-    textTransform:'capitalize',
+    textTransform: 'capitalize',
     textAlign: 'center',
     marginTop: 8,
-    fontSize: 16,
+    fontSize: 19,
     fontWeight: '400',
-    fontFamily: 'Product Sans',
-    width:wp('30%')
+    color: globalColors.newTextColor,
+    fontFamily: 'Intrepid Regular',
+    // flexWrap: 'wrap'
   },
 });

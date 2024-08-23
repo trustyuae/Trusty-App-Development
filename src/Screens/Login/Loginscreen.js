@@ -67,10 +67,8 @@ const Loginscreen = ({ navigation }) => {
     if (!values.email) {
       setErrors(prevErrors => ({ ...prevErrors, email: 'Email Is Required' }));
       return;
-    } else if (!validateEmail(values.email)) {
-      setErrors(prevErrors => ({ ...prevErrors, email: 'Invalid Email' }));
-      return;
-    } else {
+    }
+    else {
       setErrors(prevErrors => ({ ...prevErrors, email: '' }));
     }
 

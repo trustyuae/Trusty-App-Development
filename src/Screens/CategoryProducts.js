@@ -42,7 +42,7 @@ const CategoryProducts = ({ navigation }) => {
   const { items } = useSelector(state => state.wishlist);
   const [refreshing, setRefreshing] = React.useState(false);
   const [page, setPage] = useState(1);
-  const [msg,setMsg]=useState();
+  const [msg, setMsg] = useState();
 
 
 
@@ -131,11 +131,11 @@ const CategoryProducts = ({ navigation }) => {
   const emojisWithIcons = [''];
   const emojisWithIcons1 = [''];
 
-  setTimeout(()=>{
-    if(wishlist.length<=0){
-     setMsg("No Product")
+  setTimeout(() => {
+    if (wishlist.length <= 0) {
+      setMsg("No Product")
     }
-     },5000)
+  }, 5000)
 
   return (
     <SafeAreaView>
@@ -285,12 +285,12 @@ const CategoryProducts = ({ navigation }) => {
               //   color={globalColors.black}
               //   style={{ marginTop: '50%' }}
               // />
-              <View style={{ marginLeft: 10 }}>
+              <View style={{}}>
                 <SkeletonLoader count={6} />
               </View>
             ) : status === 'failed' ? (
               <Text style={styles.errorText}>Error: {error}</Text>
-            )  : (wishlist.length>0?
+            ) : (wishlist.length > 0 ?
               wishlist.map(product => (
                 <TouchableOpacity
                   key={product.id}
@@ -310,7 +310,7 @@ const CategoryProducts = ({ navigation }) => {
                     isWatchList={product?.isWatchList}
                   />
                 </TouchableOpacity>
-              )):(<Text>{msg}</Text>)
+              )) : (<Text>{msg}</Text>)
             )}
           </View>
 
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    paddingHorizontal: 8,
+    paddingHorizontal: 11,
   },
   TextHeading: {
     fontSize: 10,

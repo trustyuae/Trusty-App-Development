@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Pressable,
@@ -11,20 +11,20 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants/index';
-import {useDispatch, useSelector} from 'react-redux';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants/index';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addToWishlist,
   fetchWishlist,
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
-import {getToken} from '../../Utils/localstorage';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { getToken } from '../../Utils/localstorage';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import {NoImg} from '../../Constants/Icons';
+import { NoImg } from '../../Constants/Icons';
 
-const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id}) => {
+const Readytogo = ({ uri, name, price, product_id, isWatchList, img, description, id }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -74,7 +74,7 @@ const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id
       if (saved) {
         try {
           // await dispatch(fetchWishlist(tokenData));
-          await dispatch(removeFromWishlist({product_id, tokenData}));
+          await dispatch(removeFromWishlist({ product_id, tokenData }));
           setSaved(false);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -83,7 +83,7 @@ const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id
       } else {
         try {
           // await dispatch(fetchWishlist(tokenData));
-          await dispatch(addToWishlist({product_id, tokenData}));
+          await dispatch(addToWishlist({ product_id, tokenData }));
           setSaved(true);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -110,17 +110,17 @@ const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id
       <View >
 
 
-        {uri? (
-       <View>
-          <Image
-            style={styles.image}
-            source={{
-              uri:uri,
-            }}
-            // source={img}
-            resizeMode="cover"
-          /> 
-       </View>
+        {uri ? (
+          <View>
+            <Image
+              style={styles.image}
+              source={{
+                uri: uri,
+              }}
+              // source={img}
+              resizeMode="cover"
+            />
+          </View>
 
         ) : (
           <Image source={NoImg} style={styles.dummy} resizeMode="contain" />
@@ -133,14 +133,14 @@ const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id
         </Pressable>
       </View>
 
-      <View style={{width: 160, marginTop: hp('1%')}}>
+      <View style={{ marginTop: hp('2%') }}>
         <Text style={styles.custom}>{name}</Text>
-        <Text style={styles.custtext}>{price} AED</Text>
+        <Text style={styles.custtext}>{price || 0} AED</Text>
         {id === 1 ? (
           <View
-            style={{flexDirection: 'row', marginTop: -10, marginBottom: 30}}>
-            <Text style={{textDecorationLine: 'line-through'}}>1840 AED </Text>
-            <Text style={{color: globalColors.lightgold}}> (50%)</Text>
+            style={{ flexDirection: 'row', marginTop: -10, marginBottom: 30 }}>
+            <Text style={{ textDecorationLine: 'line-through' }}>1840 AED </Text>
+            <Text style={{ color: globalColors.lightgold }}> (50%)</Text>
           </View>
         ) : null}
       </View>
@@ -149,13 +149,14 @@ const Readytogo = ({uri, name, price, product_id, isWatchList,img,description,id
 };
 
 const styles = StyleSheet.create({
-    custtext: {
-        color: globalColors.black,
-        marginVertical: 10,
-        fontSize: 16,
-        fontFamily: 'Product Sans',
-        fontWeight: '700'
-      },
+  custtext: {
+    color: globalColors.productPriceText,
+    // marginVertical: 10,
+    fontSize: 18,
+    paddingHorizontal: wp('2%'),
+    fontFamily: 'Intrepid Regular',
+    // fontWeight: '700'
+  },
   centercontainer: {
     flex: 1,
     justifyContent: 'center',
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'yellow'
   },
   imageContainer: {
-    borderRadius: hp('2%'),
+    // borderRadius: hp('2%'),
     width: wp('30%'),
     height: hp('30%'),
     resizeMode: 'contain',
@@ -181,21 +182,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   name: {
-    width:wp("44%"),
-    fontSize: 17,
+    width: wp("44%"),
+    fontSize: 18,
     fontWeight: '400',
     textTransform: 'capitalize',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     color: globalColors.black,
-   fontWeight: '600',
-     marginTop: wp('5%'),
+    fontWeight: '600',
+    marginTop: wp('5%'),
   },
   price: {
     color: globalColors.black,
-     fontWeight:"700",
-    marginVertical: 10,
+    fontWeight: "700",
+    // marginVertical: 10,
     fontSize: 16,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   saveImagea: {
     position: 'absolute',
@@ -211,27 +212,28 @@ const styles = StyleSheet.create({
     height: 32,
   },
   image: {
-    borderRadius: hp('2%'),
+    borderRadius: 5,
     width: wp('46%'),
-     height: hp('25%'),
+    height: hp('21%'),
     resizeMode: 'contain',
   },
-  dummy:{
-    borderRadius: 6,
+  dummy: {
+    borderRadius: 5,
     width: wp('46%'),
-    height:hp('21%'),
+    height: hp('21%'),
   },
 
   heading: {
     color: globalColors.lightgold,
     marginTop: hp('6%'),
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   custom: {
-    color: globalColors.black,
-    fontSize: 16,
+    color: globalColors.newTextColorProduct,
+    fontSize: 18,
     fontWeight: '400',
-    fontFamily: 'Product Sans',
+    paddingHorizontal: wp('2%'),
+    fontFamily: 'Intrepid Regular',
   },
 });
 
