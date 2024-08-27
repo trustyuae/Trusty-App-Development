@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   Pressable,
@@ -11,18 +11,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants/index';
-import {useDispatch, useSelector} from 'react-redux';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants/index';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addToWishlist,
   fetchWishlist,
   removeFromWishlist,
 } from '../../Redux/Slice/wishlistSlice';
-import {getToken} from '../../Utils/localstorage';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { getToken } from '../../Utils/localstorage';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import {NoImg} from '../../Constants/Icons';
+import { NoImg } from '../../Constants/Icons';
 
 const ProductRelated = ({
   uri,
@@ -82,7 +82,7 @@ const ProductRelated = ({
       if (saved) {
         try {
           // await dispatch(fetchWishlist(tokenData));
-          await dispatch(removeFromWishlist({product_id, tokenData}));
+          await dispatch(removeFromWishlist({ product_id, tokenData }));
           setSaved(false);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -91,7 +91,7 @@ const ProductRelated = ({
       } else {
         try {
           // await dispatch(fetchWishlist(tokenData));
-          await dispatch(addToWishlist({product_id, tokenData}));
+          await dispatch(addToWishlist({ product_id, tokenData }));
           setSaved(true);
           // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
@@ -160,20 +160,20 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     // marginHorizontal: wp('1%'),
     borderRadius: 5,
-    marginRight: 5,
+    // marginRight: 5,
     // marginBottom: hp('2%'),
     overflow: 'hidden',
-    height: hp('40%'),
+    height: hp("32%"),
     // backgroundColor:'yellow'
   },
   imageContainer: {
-    width: wp('30%'),
+    width: wp('32%'),
     height: hp('18%'),
     position: 'relative',
     // backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
-    marginTop: hp('8%'),
+    marginTop: hp('2%'),
     marginBottom: 5,
     height: hp('10%'),
     width: wp('46%'),
@@ -184,16 +184,20 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     textTransform: 'capitalize',
-    fontFamily: 'Product Sans',
-    color: globalColors.black,
-    marginTop: wp('5%'),
+    fontFamily: 'Intrepid Regular',
+    color: globalColors.newTextColorProduct,
+    marginTop: hp('2%'),
+    paddingHorizontal: wp('2%'),
+
   },
   price: {
     fontSize: 18,
     marginTop: wp('1%'),
-    fontFamily: 'Product Sans',
-    fontWeight: '700',
-    color: globalColors.black,
+    fontFamily: 'Intrepid Regular',
+    fontWeight: '300',
+    paddingHorizontal: wp('2%'),
+
+    color: globalColors.productPriceText,
   },
   saveImagea: {
     position: 'absolute',
@@ -211,10 +215,10 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 6,
     width: wp('46%'),
-    height: hp('25%'),
+    height: hp('21%'),
   },
   dummy: {
-    borderRadius: 6,
+    borderRadius: 5,
     width: wp('46%'),
     height: hp('21%'),
   },

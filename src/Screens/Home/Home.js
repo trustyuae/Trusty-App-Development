@@ -448,10 +448,10 @@ const Home = () => {
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  justifyContent: 'center', alignItems: 'center',
                   flexWrap: 'wrap',
-                  paddingHorizontal: 11,
-                  // gap: 8
+                  // marginHorizontal: 5,
+                  gap: 10
                   // marginTop: 20,
                   // marginLeft: 2,
                   // columnGap: 10,
