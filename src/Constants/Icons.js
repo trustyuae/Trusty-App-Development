@@ -30,6 +30,8 @@ export const plusIcon = require('../Assets/Icons/PlusIcon.png');
 export const certifiedIcon = require('../Assets/Icons/certifiedIcon.png');
 export const returnExchangeIcon = require('../Assets/Icons/returnExchangeIcon.png');
 export const deliveryIcon = require('../Assets/Icons/deliveryIcon.png');
+export const callIcon = require('../Assets/Icons/callIcon.png');
+export const checkIcon = require('../Assets/Icons/checkIconThankyouPage.png');
 
 //*************************************************Exported Images**********************
 
@@ -46,3 +48,5 @@ export const Sliver = require('../Assets/Images/Sliver.png');
 export const Gift = require('../Assets/Images/gifts.png');
 export const NoImg = require('../Assets/Images/productBackground.png');
 export const trustyIconWhite = require('../Assets/Icons/trustyIconWhite.png');
+export const deleteImg = require('../Assets/Images/delete.png');
+

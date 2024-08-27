@@ -31,5 +31,7 @@ export const globalColors = {
   lightPink: '#D42A57',
   lightWhite: '#808080',
   newTextColor: '#4b4746',
-  newTextColorProduct: '#252423'
+  newTextColorProduct: '#252423',
+  cartProductTextColor: '#7B7977',
+  mediumGray: '#999999'
 };

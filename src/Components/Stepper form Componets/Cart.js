@@ -6,28 +6,29 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import {NoImg} from '../../Constants/Icons';
+import { NoImg, callIcon, deleteImg, emailIcon } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
-import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
-import {getToken, getUserId} from '../../Utils/localstorage';
-import {fetchProfile} from '../../Redux/Slice/profileSlice';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
+import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
+import { getToken, getUserId } from '../../Utils/localstorage';
+import { fetchProfile } from '../../Redux/Slice/profileSlice';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
+import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import SkeletonLoaderOrder from '../Loader/SkeletonLoaderOrder';
-import {CouponDetail} from '../../Redux/Slice/car_slice/coupon/couponcart';
+import { CouponDetail } from '../../Redux/Slice/car_slice/coupon/couponcart';
 import debounce from 'lodash/debounce';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const Cart = ({
   count,
@@ -37,14 +38,14 @@ const Cart = ({
   scrollViewRef,
 }) => {
   const dispatch = useDispatch();
-  const {erros, loading, viewcartdata} = useSelector(
+  const { erros, loading, viewcartdata } = useSelector(
     state => state?.ViewToCart,
   );
-  const {coupon, load, iserrors} = useSelector(state => state.CouponDetail);
+  const { coupon, load, iserrors } = useSelector(state => state.CouponDetail);
   const state = useSelector(state => state?.ProductView);
-  const {deteltedData} = useSelector(state => state?.DeleteToCart);
-  const {isloading} = useSelector(state => state?.OrderToCart);
-  const {data} = useSelector(state => state?.profile);
+  const { deteltedData } = useSelector(state => state?.DeleteToCart);
+  const { isloading } = useSelector(state => state?.OrderToCart);
+  const { data } = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState([]);
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -177,7 +178,7 @@ const Cart = ({
       if (cartData?.length > 0) {
         setOrderDetail(cartData);
         setTotal(totalSum);
-        scrollViewRef.current.scrollTo({y: 0, animated: true});
+        scrollViewRef.current.scrollTo({ y: 0, animated: true });
         setCount(count + 1);
       } else {
         Toast.show({
@@ -237,7 +238,7 @@ const Cart = ({
   };
 
   return (
-    <SafeAreaView style={{position: 'relative'}}>
+    <SafeAreaView style={{ position: 'relative' }}>
       <Icon
         name={'arrow-left'}
         size={25}
@@ -258,7 +259,7 @@ const Cart = ({
         <View style={styles.custborder} />
 
         {loading ? (
-          <View style={{padding: 10}}>
+          <View style={{ padding: 10 }}>
             <SkeletonLoaderOrder count={1} />
           </View>
         ) : (
@@ -269,70 +270,31 @@ const Cart = ({
                   marginVertical: 15,
                   flexDirection: 'row',
                   gap: 10,
-                  position:'relative',
+                  position: 'relative',
                 }}>
-                <Icon
-                  name={'close'}
+                {/* <Icon
+                  name={'delete'}
                   size={20}
                   color="black"
                   style={{
                     position: 'absolute',
                     right: 0,
                   }}
-                  onPress={() => handleRemove(Item)}></Icon>
+                  onPress={() => handleRemove(Item)}></Icon> */}
+                <Image style={{
+                  position: 'absolute',
+                  top: hp('7%'),
+                  right: 0,
+                  height: 24,
+                  width: 24
+                }} source={deleteImg}></Image>
 
-                <View
-                  style={{
-                    backgroundColor: globalColors.white,
-                    paddingVertical: 2,
-                    position: 'absolute',
-                    bottom: -8,
-                    right: 0,
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                    }}>
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: 20,
-                          color: globalColors.darkGray,
-                          marginLeft: 7,
-                        }}
-                        onPress={() => handleDecrease(Item.key)}>
-                        -
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: 20,
-                          color: globalColors.darkGray,
-                          fontFamily: 'Intrepid Regular',
-                          marginHorizontal: 30,
-                        }}>
-                        {Item.quantity}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontSize: 20,
-                          color: globalColors.darkGray,
-                          marginRight: 7,
-                        }}
-                        onPress={() => handleIncrease(Item.key)}>
-                        +
-                      </Text>
-                    </View>
-                  </View>
-                </View>
+
 
                 <View>
                   {Item.product_image ? (
                     <Image
-                      source={{uri: Item?.product_image}}
+                      source={{ uri: Item?.product_image }}
                       style={styles.imageStyle}
                     />
                   ) : (
@@ -347,47 +309,108 @@ const Cart = ({
                   <Text
                     style={{
                       color: globalColors.black,
-                      fontFamily: 'Intrepid Regular',
+                      fontFamily: 'Product Sans',
+                      fontSize: 16,
+                      fontWeight: '700'
                     }}>
                     {Item.product_name}
                   </Text>
-                  <Text
-                    style={{
-                      marginVertical: 2,
-                      color: globalColors.buttonBackground,
-                      fontFamily: 'Intrepid Regular',
-                    }}>
-                    {Item.product_price} AED
-                  </Text>
+
                   <Text
                     style={{
                       marginVertical: 3,
-                      color: globalColors.black,
-                      fontFamily: 'Intrepid Regular',
+                      color: globalColors.cartProductTextColor,
+                      fontFamily: 'Product Sans',
+                      fontSize: 14,
+                      fontWeight: '400'
                     }}>
                     Color :{' '}
-                    <Text style={{color: globalColors.buttonBackground}}>
+                    <Text style={{ color: globalColors.black }}>
                       {Item?.mod_attributes?.color}
                     </Text>
                   </Text>
                   <Text
                     style={{
-                      color: globalColors.black,
-                      fontFamily: 'Intrepid Regular',
+                      color: globalColors.cartProductTextColor,
+                      fontFamily: 'Product Sans',
                     }}>
                     Size :{' '}
-                    <Text style={{color: globalColors.buttonBackground}}>
+                    <Text style={{ color: globalColors.black }}>
                       {Item?.mod_attributes?.size}
                     </Text>
                   </Text>
+                  <View
+                    style={{
+                      backgroundColor: globalColors.white,
+                      paddingVertical: 2,
+                      // position: 'absolute',
+                      bottom: -8,
+                      // right: 0,
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        // backgroundColor: 'red',
+                        // width: 30
+                      }}>
+                      <View >
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            color: globalColors.darkGray,
+                            marginLeft: 7,
+                          }}
+                          onPress={() => handleDecrease(Item.key)}>
+                          <Icon name={'chevron-down'}
+                            size={25}
+                            color="black"></Icon>
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            color: globalColors.darkGray,
+                            fontFamily: 'Product Sans',
+
+                            marginHorizontal: 30,
+                          }}>
+                          {Item.quantity}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            color: globalColors.darkGray,
+                            marginRight: 7,
+                          }}
+                          onPress={() => handleIncrease(Item.key)}>
+                          <Icon name={'chevron-up'}
+                            size={25}
+                            color="black"></Icon>
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                  <Text
+                    style={{
+                      marginVertical: wp('4%'),
+                      color: globalColors.black,
+                      fontFamily: 'Product Sans',
+                      paddingLeft: wp('2%'),
+                      fontSize: 16,
+                      fontWeight: '700'
+                    }}>
+                    {Item.product_price} AED
+                  </Text>
                 </View>
-                <View></View>
               </View>
             ))}
           </View>
         )}
 
-        <View style={styles.custborder} />
+        {/* <View style={styles.custborder} />
 
         <View
           style={{
@@ -397,7 +420,7 @@ const Cart = ({
           }}>
           <Text style={styles.custText}>SUBTOTAL</Text>
           <Text>{totalSum} AED</Text>
-        </View>
+        </View> */}
 
         <View style={styles.custborder} />
 
@@ -410,7 +433,7 @@ const Cart = ({
                 marginVertical: 10,
               }}>
               <Text style={styles.custText}>COUPON</Text>
-              <Text style={{fontFamily: 'Intrepid Regular'}}>
+              <Text style={{ fontFamily: 'Intrepid Regular' }}>
                 {viewcartdata?.coupon_status}
               </Text>
             </View>
@@ -430,50 +453,238 @@ const Cart = ({
           </>
         ) : null}
 
-        <View style={{marginVertical: 10}}>
-          <Text style={styles.custText}>SHIPPING</Text>
-          <Text style={{marginTop: 5, fontFamily: 'Intrepid Regular'}}>
-            Delivery fees Cash on Arrival 30 AED
-          </Text>
-          <Text style={{marginTop: 5, fontFamily: 'Intrepid Regular'}}>
-            Shipping options will be updated during Checkout
-          </Text>
+        <View style={{
+          marginVertical: 10, marginBottom: hp('3%'),
+        }}>
+          <Text style={{
+            color: globalColors.black,
+            fontSize: 16,
+            fontWeight: 400,
+          }}>Shipping</Text>
+          <View>
+            <View style={{
+              color: globalColors.black,
+              backgroundColor: globalColors.headingBackgroundLogin,
+              fontWeight: '800',
+              fontSize: 14,
+              marginTop: hp('1%'),
+              fontFamily: 'Product Sans',
+            }}>
+              <Text style={{
+                marginLeft: wp(2),
+                fontFamily: 'Product Sans',
+                fontSize: 12,
+                fontWeight: '700',
+                color: globalColors.textColorSignup,
+                padding: 3
+              }}>
+                Enter your address to view shipping options.
+              </Text>
+            </View>
+            {/* <Text style={{ marginTop: 5, fontFamily: 'Intrepid Regular' }}>
+              Shipping options will be updated during Checkout
+            </Text> */}
+            <View style={{ backgroundColor: globalColors.white, }}>
+              <TextInput
+                placeholder='CITY'
+                placeholderTextColor={globalColors.textColorLogin}
+                style={styles.inputfield}
+              >
+              </TextInput>
+              <View style={styles.separator} />
+
+              <SelectDropdown
+                // data={countries}
+                search
+                searchPlaceHolder="Search Country"
+                searchInputStyle={{ fontFamily: 'Product Sans' }}
+                onSelect={(selectedItem, index) => {
+                  setFormData({
+                    ...formData,
+                    selectedCountry: selectedItem.label,
+                  });
+                }}
+                renderButton={(selectedItem, isOpen) => {
+                  return (
+                    <View style={styles.dropdownButtonStyle}>
+                      <Text
+                        style={{
+                          fontFamily: 'Product Sans',
+                          fontSize: 14,
+                          color: globalColors.buttonBackground,
+                        }}>
+                        {selectedItem?.label || 'COUNTRY *'}
+                      </Text>
+                      <Icon
+                        name={isOpen ? 'chevron-up' : 'chevron-down'}
+                        style={styles.dropdownButtonArrowStyle}
+                      />
+                    </View>
+                  );
+                }}
+                renderItem={(item, index, isSelected) => {
+                  return (
+                    <View
+                      style={{
+                        ...styles.dropdownItemStyle,
+                        ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                      }}>
+                      <Text style={styles.dropdownItemTxtStyle}>
+                        {item.label}
+                      </Text>
+                    </View>
+                  );
+                }}
+              />
+              <View style={styles.separator} />
+
+              <Text
+                style={styles.createAccountText}
+              >
+                Calculate
+              </Text>
+            </View>
+
+          </View>
         </View>
 
-        <View style={styles.custborder} />
+
+
+
+
+
+      </View>
+      <View style={{ backgroundColor: globalColors.white, paddingLeft: wp('3%'), paddingRight: wp('3%') }}>
+        <View style={{ marginVertical: 10, flexDirection: 'row' }}>
+          <Text style={
+            // [styles.custText, styles.custmargin]
+            {
+              color: globalColors.black,
+              fontSize: 16,
+              fontWeight: 400,
+            }
+          }>
+            Discount Code          </Text>
+          {/* <TextInput
+            value={discount}
+            onChangeText={text => setDiscount(text)}
+            type="text"
+            placeholder="Coupon code"
+            style={styles.custInput}></TextInput> */}
+
+        </View>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          flex: 1,
+          justifyContent: 'space-between',
+          borderRadius: 7,
+          padding: hp('3%'),
+          backgroundColor: globalColors.headingBackground
+        }}>
+          <Text>COUPON CODE</Text>
+          <Button
+            stylesofbtn={styles.custbtn}
+            styleoffont={[styles.custfontstyle, { color: globalColors.lightgold }]}
+            name={'Apply'}
+            handlepress={handlepress}
+            loading={load}
+          />
+        </View>
+
 
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: 10,
+            marginTop: hp('1%'),
+            marginBottom: hp('1%'),
           }}>
           <Text style={styles.custText}>TOTAL </Text>
-          <Text>{viewcartdata?.discount_sub_total} AED</Text>
+          <Text style={[styles.custText, { color: globalColors.lightgold }]}>{viewcartdata?.discount_sub_total} AED</Text>
         </View>
-
         <View style={styles.custborder} />
 
-        <View style={{marginVertical: 10}}>
-          <Text style={[styles.custText, styles.custmargin]}>
-            DISCOUNT CODE
-          </Text>
-          <TextInput
-            value={discount}
-            onChangeText={text => setDiscount(text)}
-            type="text"
-            placeholder="Coupon code"
-            style={styles.custInput}></TextInput>
+        <View style={{
+          flexDirection: 'row', justifyContent: 'space-between', marginTop: hp('2%'),
+          marginBottom: hp('2%')
+        }}>
+          <Text style={{
+            fontSize: 16,
+            fontFamily: '400', fontFamily: 'Product Sans',
+          }}>Customer Service</Text>
+          <View style={{
+            flexDirection: 'column',
+            alignItems: 'flex-end'
+          }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{
+                fontSize: 12,
+                fontFamily: '700',
+                fontFamily: 'Product Sans',
+                color: globalColors.textColorSignup,
+                textAlign: 'right'
+              }}>Mon - Fri</Text>
+              <Text style={{
+                fontFamily: '700',
+                fontSize: 12,
+                textAlign: 'right',
+                fontFamily: 'Product Sans',
+              }}> 8am - 9pm EST</Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{
+                fontFamily: '700',
+                fontSize: 12,
+                fontFamily: 'Product Sans',
+                color: globalColors.textColorSignup,
+
+              }}>Sat </Text>
+              <Text style={{
+                fontFamily: '700',
+                fontSize: 12,
+                fontFamily: 'Product Sans',
+              }}> 10am - 9pm EST</Text>
+            </View>
+          </View>
+
         </View>
 
-        <Button
-          stylesofbtn={styles.custbtn}
-          styleoffont={styles.custfontstyle}
-          name={'Apply'}
-          handlepress={handlepress}
-          loading={load}
-        />
+        <View style={styles.infocontanier}>
+          <Image source={callIcon}
+            style={{ height: 15, width: 15 }}
+            resizeMode="contain"></Image>
+          <Text style={{
+            marginLeft: wp('3%'), fontSize: 16,
+            fontFamily: '400', fontFamily: 'Product Sans',
 
+          }}>Call</Text>
+          <Text style={{
+            flex: 1,
+            fontSize: 16,
+            fontFamily: '700',
+            textAlign: 'right', fontFamily: 'Product Sans',
+
+          }}>+91 9898787889</Text>
+        </View>
+
+        <View style={styles.infocontanier}>
+          <Image source={emailIcon}
+            style={{ height: 15, width: 15 }}
+            resizeMode="contain"></Image>
+          <Text style={{
+            marginLeft: wp('3%'), fontSize: 16,
+            fontFamily: '400', fontFamily: 'Product Sans',
+
+          }}>Email</Text>
+          <Text style={{
+            flex: 1,
+            fontFamily: 'Product Sans',
+            textAlign: 'right',
+            fontSize: 16,
+            fontFamily: '700',
+          }}>dummyemail@contact.in</Text>
+        </View>
         <Button
           stylesofbtn={styles.custcheckoutbtn}
           styleoffont={styles.custfontstyle}
@@ -490,8 +701,8 @@ export default Cart;
 
 const styles = StyleSheet.create({
   imageStyle: {
-    height: 100,
-    width: 90,
+    height: 120,
+    width: 130,
   },
   container: {
     marginHorizontal: wp('3%'),
@@ -499,17 +710,18 @@ const styles = StyleSheet.create({
   },
   custText: {
     color: globalColors.black,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: '700',
     marginVertical: 5,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
   custborder: {
     borderWidth: 0.8,
-    marginTop: hp('1%'),
+    // marginTop: hp('1%'),
     borderColor: globalColors.inputBorder,
   },
   custInput: {
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
     backgroundColor: globalColors.white,
     borderWidth: 1,
     borderColor: globalColors.gray,
@@ -518,24 +730,86 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   custbtn: {
-    backgroundColor: globalColors.darkGray,
+    backgroundColor: globalColors.headingBackground,
     padding: 7,
-    marginHorizontal: 90,
-    marginVertical: 20,
+    borderWidth: 2,
+    padding: 10,
+    borderColor: globalColors.lightgold,
     borderRadius: 5,
   },
   custfontstyle: {
     color: globalColors.white,
+    fontSize: 16,
+    fontWeight: '700',
     textAlign: 'center',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
   custmargin: {
     marginBottom: 10,
   },
   custcheckoutbtn: {
     backgroundColor: globalColors.black,
-    padding: 7,
+    padding: 12,
     marginVertical: 20,
     borderRadius: 5,
+  },
+  infocontanier: {
+    flexDirection: 'row',
+    backgroundColor: globalColors.headingBackground,
+    marginTop: hp('2%'),
+    padding: 10,
+    borderRadius: 5,
+    alignContent: 'center'
+  },
+  inputfield: {
+    backgroundColor: globalColors.white,
+    width: '100%',
+    fontFamily: 'Product Sans',
+    fontSize: 14,
+    fontWeight: '400',
+    padding: hp('3%'),
+  },
+  createAccountText: {
+    textAlign: 'center',
+    marginVertical: 20,
+    marginHorizontal: 20,
+    marginTop: hp('2%'),
+    borderWidth: 2,
+    padding: 10,
+    borderColor: globalColors.lightgold,
+    borderRadius: 6,
+    fontSize: 16,
+    fontWeight: '700',
+    color: globalColors.lightgold,
+    fontFamily: 'Product Sans',
+  }, dropdownButtonStyle: {
+    // height: 50,
+    height: hp('6.5%'),
+    fontSize: wp('3.1%'),
+    backgroundColor: globalColors.white,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: hp('3%'),
+    borderColor: globalColors.inputBorder,
+    // marginBottom: hp('1.5%'),
+  },
+  dropdownButtonArrowStyle: {
+    fontSize: wp('5%'),
+    paddingHorizontal: wp('42%')
+  },
+  dropdownItemTxtStyle: {
+    flex: 1,
+    fontFamily: 'Product Sans',
+
+    fontSize: wp('3.1%'),
+    fontWeight: '500',
+    // color: '#151E26',
+  },
+  separator: {
+    borderWidth: 0.5,
+    borderColor: 'rgba(193, 177, 157, 1)',
+    alignSelf: 'center',
+    // backgroundColor: globalColors.borderColorlogin,
+    width: '85%',
   },
 });
