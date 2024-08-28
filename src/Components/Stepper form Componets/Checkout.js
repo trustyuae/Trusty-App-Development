@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Modal,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import {
   CartImg,
@@ -16,43 +17,45 @@ import {
   ProductIMG,
 } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {List} from 'react-native-paper';
-import {useCallback, useEffect, useState} from 'react';
+import { List } from 'react-native-paper';
+import { useCallback, useEffect, useState } from 'react';
 import ModalComponent from '../Model/Modalcomopnet';
-import {useDispatch, useSelector} from 'react-redux';
-import {OrderDetail} from '../../Redux/Slice/car_slice/orderdeatails';
-import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
-import {Alert} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
-import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
-import {getUserId} from '../../Utils/localstorage';
-import {fetchProfile} from '../../Redux/Slice/profileSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { OrderDetail } from '../../Redux/Slice/car_slice/orderdeatails';
+import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
+import { Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { orderToCart } from '../../Redux/Slice/car_slice/placeordercart';
+import { getUserId } from '../../Utils/localstorage';
+import { fetchProfile } from '../../Redux/Slice/profileSlice';
 import Toast from 'react-native-toast-message';
-import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
+import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import {
   GestureHandlerRootView,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
-import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
+import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
 import debounce from 'lodash/debounce';
+import SelectDropdown from 'react-native-select-dropdown';
+import PhoneInput from 'react-native-phone-number-input';
 
-const Checkout = ({count, setCount, setGetorderDetail}) => {
-  const {viewcartdata} = useSelector(state => state?.ViewToCart);
+const Checkout = ({ count, setCount, setGetorderDetail }) => {
+  const { viewcartdata } = useSelector(state => state?.ViewToCart);
   const [expanded, setExpanded] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const {data, loading, error} = useSelector(state => state?.profile);
+  const { data, loading, error } = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState(viewcartdata?.cartData);
-  const {deteltedData} = useSelector(state => state?.DeleteToCart);
-  const {orderData, iserror, isloading} = useSelector(
+  const { deteltedData } = useSelector(state => state?.DeleteToCart);
+  const { orderData, iserror, isloading } = useSelector(
     state => state?.OrderToCart,
   );
   const [customerid, setCustomerID] = useState();
@@ -251,9 +254,41 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
     }
   };
 
+  //-------------   new. -------
+  const [errors, setErrors] = useState({});
+  const [isCheckbox, setIsCheckbox] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [show, setShow] = useState(true);
+  const [phoneInput, setPhoneInput] = useState(null);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    addressContinued: '',
+    city: '',
+    selectedCountry: '',
+    selectedTitle: '',
+    phone: '',
+    countryCode: '+1',
+    selected: '+971',
+    billingAddress: '',
+    billingAddressContinued: '',
+    billingCity: '',
+    shippingAddress: '',
+    shippingAddressContinued: '',
+    shippingCity: '',
+  });
+
+
+  const handleCheckboxPress = () => {
+    setIsCheckbox(prevState => !prevState);
+  };
+
   return (
-    <GestureHandlerRootView>
-      <SafeAreaView style={{position: 'relative'}}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <SafeAreaView style={{ position: 'relative' }}>
         <Icon
           name={'arrow-left'}
           size={25}
@@ -267,7 +302,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
         <CustomStatusBar
           color={globalColors.headingBackground}></CustomStatusBar>
 
-        <View style={styles.container}>
+        {/* <View style={styles.container}>
           <Text style={styles.custText}>DELIVERY</Text>
 
           <View style={styles.custborder} />
@@ -494,72 +529,318 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
           </List.Section>
 
           <View style={styles.custborder} />
+        </View> */}
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 5,
-            }}>
-            <Text style={styles.custText}>SUBTOTAL</Text>
-            <Text>{totalSum} AED</Text>
+        <View style={styles.container}>
+
+          <View>
+            <Text style={styles.textheading}>Billing details</Text>
           </View>
-
-          <View style={styles.custborder} />
-
-          {viewcartdata?.coupon_status ? (
-            <>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: 5,
-                }}>
-                <Text style={styles.custText}>DISCOUNT PERCENTAGE</Text>
-                <Text>{viewcartdata?.discount_percentage}% </Text>
+          <View style={styles.headingInput}>
+            <Text style={styles.formHeadingText}>Personal Information</Text>
+          </View>
+          <View style={{ backgroundColor: globalColors.white }}>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ width: '30%' }}>
+                <SelectDropdown
+                  // data={emojisWithIcons}
+                  onSelect={(selectedItem, index) => {
+                    setFormData({
+                      ...formData,
+                      selectedTitle: selectedItem.title,
+                    });
+                  }}
+                  renderButton={(selectedItem, isOpen) => {
+                    return (
+                      <View style={styles.dropdownButtonStyle}>
+                        <Text
+                          style={{
+                            fontFamily: 'Product Sans',
+                            fontSize: 14,
+                            fontWeight: 'bold',
+                            // marginLeft: wp('5%'),
+                            color: globalColors.buttonBackground, // fontStyle: globalColors.buttonBackground,
+                          }}>
+                          {selectedItem?.title || 'TITLE'}
+                        </Text>
+                        <Icon
+                          name={isOpen ? 'chevron-up' : 'chevron-down'}
+                          style={styles.dropdownButtonArrowStyleTitle}
+                        />
+                      </View>
+                    );
+                  }}
+                  renderItem={(item, index, isSelected) => {
+                    return (
+                      <View
+                        style={{
+                          ...styles.dropdownItemStyle,
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                        }}>
+                        <Text style={styles.dropdownItemTxtStyle}>
+                          {item.title}
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
               </View>
-              <View style={styles.custborder} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginVertical: 5,
-                }}>
-                <Text style={styles.custText}>SAVE</Text>
-                <Text>{viewcartdata?.discount_amount} AED </Text>
+
+              <View style={{ width: '70%' }}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="FIRST NAME *"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.firstName}
+                  onChangeText={text => handleChange('firstName', text)}
+                />
+                {errors.firstName && (
+                  <Text
+                    style={{
+                      color: 'red',
+                      fontSize: 12,
+                      // marginTop: hp('1%'),
+                      marginBottom: hp('1.5%'),
+                      marginLeft: wp('-20%'),
+                    }}>
+                    {errors.firstName}
+                  </Text>
+                )}
               </View>
-              <View style={styles.custborder} />
-            </>
-          ) : null}
+            </View>
+            <View style={styles.separator} />
+            <TextInput
+              style={styles.input}
+              placeholder="LAST NAME *"
+              placeholderTextColor={globalColors.textColorLogin}
+              value={formData.lastName}
+              onChangeText={text => handleChange('lastName', text)}
+            />
+            {errors.lastName && (
+              <Text style={styles.errorText}>{errors.lastName}</Text>
+            )}
 
+
+            <View style={styles.custposition}>
+              <View style={styles.separator} />
+              <PhoneInput
+                ref={setPhoneInput}
+                defaultCode="AE"
+                placeholder={'PHONE NUMBER'}
+
+                placeholderTextColor={globalColors.textColorLogin}
+                containerStyle={{ backgroundColor: globalColors.white, paddingHorizontal: wp('3%'), }}
+                textContainerStyle={{ backgroundColor: globalColors.white, color: 'red' }}
+                textInputStyle={{ fontFamily: 'Product Sans', fontSize: 14, fontWeight: '400', backgroundColor: globalColors.white }}
+                onChangeFormattedText={text => handleChange('phone', text)}
+                // onChangeCountry={(country) => handlePhoneChange(formData.phone, country)}
+                value={formData.phone}
+              />
+              {errors.phone && (
+                <Text style={styles.errorText}>{errors.phone}</Text>
+              )}
+              <View style={{ backgroundColor: 'white' }}>
+
+                {/* <MobileNo
+                    selected={formData.selected}
+                    setSelected={value => handleChange('selected', value)}
+                    setCountry={handleCountryChange}
+                    phone={formData.phone}
+                    setPhone={text => handleChange('phone', text)}></MobileNo> */}
+              </View>
+              {/* {errors.phone && (
+                  <Text style={styles.errorText}>{errors.phone}</Text>
+                )} */}
+            </View>
+          </View>
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginVertical: 5,
+              marginTop: hp('2%'),
+              backgroundColor: globalColors.white,
+              borderRadius: 5
             }}>
-            <Text style={styles.custText}>SHIPPING</Text>
-            <Text>0 AED</Text>
+            <View style={styles.headingInput}>
+              <Text style={styles.formHeadingText}>Shipping Information</Text>
+            </View>
+            <TextInput
+              style={styles.input}
+              placeholder="ADDRESS LINE 1 *"
+              placeholderTextColor={globalColors.textColorLogin}
+              value={formData.shippingAddress}
+              onChangeText={text => handleChange('shippingAddress', text)}
+            />
+            {errors.shippingAddress && (
+              <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+            )}
+            <View style={styles.separator} />
+            <TextInput
+              style={styles.input}
+              placeholder="ADDRESS LINE 2"
+              placeholderTextColor={globalColors.textColorLogin}
+              value={formData.shippingAddressContinued}
+              onChangeText={text =>
+                setFormData({ ...formData, shippingAddressContinued: text })
+              }
+            />
+            <View style={styles.separator} />
+            <View style={styles.inputPicker}>
+              <View style={{ width: '50%' }}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="CITY/STATE *"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.shippingCity}
+                  onChangeText={text => handleChange('shippingCity', text)}
+                />
+                {errors.shippingCity && (
+                  <Text style={styles.errorText}>{errors.shippingCity}</Text>
+                )}
+              </View>
+              {/* <View style={styles.verticalLine} /> */}
+              <View style={styles.separator} />
+              {/* <View style={{ width: '50%' }}> */}
+              <SelectDropdown
+                data={countries}
+                search
+                searchPlaceHolder="Search Country"
+                placeholderTextColor={globalColors.textColorLogin}
+                onSelect={(selectedItem, index) => {
+                  setFormData({
+                    ...formData,
+                    selectedCountry: selectedItem.label,
+                  });
+                }}
+                renderButton={(selectedItem, isOpen) => {
+                  return (
+                    <View style={styles.dropdownButtonStyle}>
+                      <Text
+                        style={{
+                          fontFamily: 'Product Sans',
+                          fontSize: 14,
+                          color: globalColors.buttonBackground,
+                        }}>
+                        {selectedItem?.label || 'COUNTRY *'}
+                      </Text>
+                      <Icon
+                        name={isOpen ? 'chevron-up' : 'chevron-down'}
+                        style={styles.dropdownButtonArrowStyle}
+                      />
+                    </View>
+                  );
+                }}
+                renderItem={(item, index, isSelected) => {
+                  return (
+                    <View
+                      style={{
+                        ...styles.dropdownItemStyle,
+                        ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                      }}>
+                      <Text style={styles.dropdownItemTxtStyle}>
+                        {item.label}
+                      </Text>
+                    </View>
+                  );
+                }}
+              />
+              <View style={styles.separator} />
+
+              <Pressable onPress={handleCheckboxPress}>
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    // marginBottom: hp('1.5%'),
+                    marginLeft: hp('3%'),
+                    width: '50%',
+                    height: hp('6.5%'),
+                    // marginTop: hp('2%'),
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+                  <View style={styles.CheckBoxContainer}>
+                    {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
+                  </View>
+                  <Text>Same billing address</Text>
+                </View>
+              </Pressable>
+              {/* </View> */}
+            </View>
+          </View>
+        </View>
+
+
+        <View style={{ backgroundColor: globalColors.white, padding: wp('4%') }}>
+          <Text style={styles.textheading}
+          >
+            Summery
+          </Text>
+          <View style={{ backgroundColor: globalColors.headingBackground, padding: wp('3%'), borderRadius: 5 }}>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                // marginVertical: 5,
+              }}>
+              <Text style={styles.custText}>SUBTOTAL</Text>
+              <Text>{totalSum} AED</Text>
+            </View>
+
+            {/* <View style={styles.custborder} /> */}
+
+            {viewcartdata?.coupon_status ? (
+              <>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 5,
+                  }}>
+                  <Text style={styles.custText}>DISCOUNT PERCENTAGE</Text>
+                  <Text>{viewcartdata?.discount_percentage}% </Text>
+                </View>
+                <View style={styles.custborder} />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginVertical: 5,
+                  }}>
+                  <Text style={styles.custText}>SAVE</Text>
+                  <Text>{viewcartdata?.discount_amount} AED </Text>
+                </View>
+                <View style={styles.custborder} />
+              </>
+            ) : null}
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginVertical: 5,
+              }}>
+              <Text style={styles.custText}>SHIPPING</Text>
+              <Text>0 AED</Text>
+            </View>
+
+            {/* <View style={styles.custborder} /> */}
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginVertical: 5,
+              }}>
+              <Text style={styles.custText}>TAXES</Text>
+              <Text>{viewcartdata?.total_tax} AED</Text>
+            </View>
           </View>
 
-          <View style={styles.custborder} />
-
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginVertical: 5,
-            }}>
-            <Text style={styles.custText}>TAXES</Text>
-            <Text>{viewcartdata?.total_tax} AED</Text>
-          </View>
-
-          <View style={styles.custborder} />
-
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              marginTop: wp('5%'),
               marginVertical: 5,
             }}>
             <Text style={styles.custText}>TOTAL</Text>
@@ -569,7 +850,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
           <Button
             stylesofbtn={styles.custcheckoutbtn}
             styleoffont={styles.custfontstyle}
-            name={'Confirm And Pay'}
+            name={'Confirm'}
             handlepress={handleConfirmpay}
             loading={isloading}
           />
@@ -582,7 +863,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
           data={data}
         />
       </SafeAreaView>
-    </GestureHandlerRootView>
+    </ScrollView>
   );
 };
 
@@ -598,9 +879,10 @@ const styles = StyleSheet.create({
   },
   custText: {
     color: globalColors.black,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: '700',
     marginVertical: 5,
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
   },
   custborder: {
     borderWidth: 0.8,
@@ -625,15 +907,133 @@ const styles = StyleSheet.create({
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: 'Product Sans',
+    fontSize: 16,
+    fontWeight: '700'
   },
   custmargin: {
     marginBottom: 10,
   },
   custcheckoutbtn: {
     backgroundColor: globalColors.black,
-    padding: 7,
+    padding: 12,
     marginVertical: 20,
     borderRadius: 5,
   },
+
+
+  // -------------  new 
+  container: {
+    paddingLeft: wp('5%'),
+    paddingRight: wp('5%'),
+    paddingBottom: hp('5%'),
+    marginTop: wp('4%')
+  },
+  headingInput: {
+    color: globalColors.black,
+
+    backgroundColor: globalColors.headingBackgroundLogin,
+    fontWeight: '800',
+    fontSize: 14,
+    fontFamily: 'Product Sans',
+  },
+  formHeadingText: {
+    padding: wp('2%'),
+    fontSize: 12,
+    fontWeight: '800',
+    fontFamily: 'Product Sans',
+    color: globalColors.textColorSignup,
+  },
+  input: {
+    height: hp('6.5%'),
+    // borderWidth: 1,
+    // borderColor: globalColors.inputBorder,
+    // borderRadius: 4,
+    fontFamily: 'Product Sans',
+    // textTransform: 'uppercase',
+    paddingLeft: hp('3%'),
+    fontSize: 14,
+    fontWeight: '400',
+    // marginBottom: hp('1.5%'),
+    color: globalColors.buttonBackground,
+    backgroundColor: globalColors.white,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    // marginTop: hp('1%'),
+    marginBottom: hp('1.5%'),
+    marginLeft: wp('6%'),
+  },
+  separator: {
+    borderWidth: 0.5,
+    borderColor: 'rgba(193, 177, 157, 1)',
+    alignSelf: 'center',
+    // backgroundColor: globalColors.borderColorlogin,
+    width: '85%',
+  },
+  dropdownButtonStyle: {
+    // height: 50,
+    height: hp('6.5%'),
+    fontSize: wp('3.1%'),
+    backgroundColor: globalColors.white,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: hp('3%'),
+    borderColor: globalColors.inputBorder,
+    // marginBottom: hp('1.5%'),
+  },
+  dropdownButtonArrowStyle: {
+    fontSize: wp('5%'),
+    paddingHorizontal: wp('42%')
+  }, dropdownButtonIconStyle: {
+    fontSize: wp('3.1%'),
+    marginRight: 8,
+  },
+  dropdownMenuStyle: {
+    backgroundColor: '#E9ECEF',
+    borderRadius: 8,
+  },
+  dropdownItemStyle: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+    fontFamily: 'Product Sans',
+
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  dropdownItemTxtStyle: {
+    flex: 1,
+    fontFamily: 'Product Sans',
+
+    fontSize: wp('3.1%'),
+    fontWeight: '500',
+    // color: '#151E26',
+  },
+  dropdownItemIconStyle: {
+    fontSize: wp('3.1%'),
+    marginRight: 8,
+  },
+  CheckBoxContainer: {
+    width: wp('4.5%'),
+    height: wp('4.5%'),
+    borderWidth: 1,
+    borderRadius: wp('1.2%'),
+    backgroundColor: globalColors.white,
+    marginRight: wp('4%'),
+  },
+  checkedMark: {
+    color: globalColors.white,
+    backgroundColor: globalColors.lightgold,
+
+  },
+  textheading: {
+    fontSize: 16,
+    fontFamily: 'Product Sans',
+    marginBottom: wp('3%'),
+    color: globalColors.black,
+    fontWeight: '400'
+  }
 });

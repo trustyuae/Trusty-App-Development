@@ -27,9 +27,9 @@ export const GiftImg = require('../Assets/Icons/GiftImage.png');
 export const shareIcon = require('../Assets/Icons/shareIcon.png');
 export const minusIcon = require('../Assets/Icons/MinusIcon.png');
 export const plusIcon = require('../Assets/Icons/PlusIcon.png');
-export const certifiedIcon = require('../Assets/Icons/certifiedIcon.png');
-export const returnExchangeIcon = require('../Assets/Icons/returnExchangeIcon.png');
-export const deliveryIcon = require('../Assets/Icons/deliveryIcon.png');
+export const certifiedIcon = require('../Assets/Icons/certificateIcon.png');
+export const returnExchangeIcon = require('../Assets/Icons/return&exchangeIcon.png');
+export const deliveryIcon = require('../Assets/Icons/Free_DeliveryIcon.png');
 export const callIcon = require('../Assets/Icons/callIcon.png');
 export const checkIcon = require('../Assets/Icons/checkIconThankyouPage.png');
 
@@ -49,4 +49,6 @@ export const Gift = require('../Assets/Images/gifts.png');
 export const NoImg = require('../Assets/Images/productBackground.png');
 export const trustyIconWhite = require('../Assets/Icons/trustyIconWhite.png');
 export const deleteImg = require('../Assets/Images/delete.png');
+export const Dummyproduct3 = require('../Assets/Images/ProductDummy3.png');
+
 

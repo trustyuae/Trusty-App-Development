@@ -402,86 +402,48 @@ export default function Productdetailscreen({ route }) {
                         setChangeSize={setChangeSize}
                       />
                     )}
-                    <View
-                      style={{
-                        backgroundColor: globalColors.headingBackground,
-                        flexDirection: 'row',
-                        borderRadius: 10,
-                        paddingTop: hp('2%'),
-                        padding: hp('2%'),
-                        paddingBottom: hp('2%'),
-                        flex: 1,
-                        justifyContent: 'space-between',
-                      }}>
-                      <View style={{ alignItems: 'center' }}>
-                        <Image source={deliveryIcon}></Image>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            gap: 1,
-                            marginTop: hp('2.5%'),
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 14,
-                              alignItems: 'center',
-                              fontFamily: '400',
-                              fontFamily: 'Product Sans',
-                            }}>
-                            Free Delivery
-                          </Text>
-                          <View
-                            style={{
-                              width: 1,
-                              height: '100%',
-                              backgroundColor: globalColors.lightPink,
-                              left: 10,
-                              top: 0,
-                            }}
-                          />
-                        </View>
+                    <View style={styles.iconParentContainer}>
+                      <View style={styles.iconContainer}>
+                        <Image
+                          source={certifiedIcon}
+                          style={{ height: 42, width: 35, marginBottom: wp('5%') }}
+                          resizeMode="contain">
+                        </Image>
+                        <Text style={styles.bottomContainerText}>Free                   delivery</Text>
                       </View>
-                      <View style={{ alignItems: 'center' }}>
-                        <Image source={returnExchangeIcon}></Image>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            gap: 1,
-                            marginTop: hp('2%'),
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 14,
-                              textAlign: 'center',
-                              fontFamily: '400',
-                              fontFamily: 'Product Sans',
-                            }}>
-                            7 Days return & exchange
-                          </Text>
-                          <View
-                            style={{
-                              width: 1,
-                              height: '100%',
-                              backgroundColor: globalColors.lightPink,
-                              left: wp('1%'),
-                              top: 0,
-                            }}
-                          />
-                        </View>
+                      <View
+                        style={{
+                          width: 1,
+                          height: '40%',
+                          backgroundColor: globalColors.textColorSignup,
+                          left: wp('1%'),
+                          top: 0,
+                        }}
+                      />
+                      <View style={styles.iconContainer}>
+                        <Image
+                          source={returnExchangeIcon}
+                          style={{ height: 42, width: 35, marginBottom: wp('5%') }}
+                          resizeMode="contain">
+                        </Image>
+                        <Text style={styles.bottomContainerText}>7 Days Returns & exchanges</Text>
                       </View>
-                      <View style={{ alignItems: 'center' }}>
-                        <Image source={certifiedIcon}></Image>
-                        <View style={{ marginTop: hp('2%') }}>
-                          <Text
-                            style={{
-                              fontSize: 14,
-                              alignItems: 'center',
-                              fontFamily: '400',
-                              fontFamily: 'Product Sans',
-                            }}>
-                            Top Brand
-                          </Text>
-                        </View>
+                      <View
+                        style={{
+                          width: 1,
+                          height: '40%',
+                          backgroundColor: globalColors.textColorSignup,
+                          left: wp('1%'),
+                          top: 0,
+                        }}
+                      />
+                      <View style={styles.iconContainer}>
+                        <Image
+                          source={deliveryIcon}
+                          style={{ height: 42, width: 35, marginBottom: wp('5%') }}
+                          resizeMode="contain">
+                        </Image>
+                        <Text style={styles.bottomContainerText}> top                       brand    </Text>
                       </View>
                     </View>
                   </View>
@@ -678,4 +640,22 @@ const styles = StyleSheet.create({
   delivarySection: {
     backgroundColor: globalColors.headingBackground,
   },
+  iconParentContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-around',
+    paddingVertical: hp('1%')
+  },
+  bottomContainerText: {
+    fontFamily: 'Product Sans',
+    fontSize: 12,
+    fontWeight: '700',
+    textAlign: 'center',
+    textTransform: 'capitalize',
+  },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  }
 });

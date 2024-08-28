@@ -6,7 +6,7 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import { NoImg, callIcon, deleteImg, emailIcon } from '../../Constants/Icons';
+import { NoImg, callIcon, certifiedIcon, deleteImg, deliveryIcon, emailIcon, returnExchangeIcon } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StyleSheet } from 'react-native';
 import Button from '../Button';
@@ -283,7 +283,7 @@ const Cart = ({
                   onPress={() => handleRemove(Item)}></Icon> */}
                 <Image style={{
                   position: 'absolute',
-                  top: hp('7%'),
+                  top: hp('8.3%'),
                   right: 0,
                   height: 24,
                   width: 24
@@ -395,7 +395,8 @@ const Cart = ({
                   </View>
                   <Text
                     style={{
-                      marginVertical: wp('4%'),
+                      // marginVertical: wp('4%'),
+                      marginTop:wp('4%'),
                       color: globalColors.black,
                       fontFamily: 'Product Sans',
                       paddingLeft: wp('2%'),
@@ -406,7 +407,10 @@ const Cart = ({
                   </Text>
                 </View>
               </View>
+              
             ))}
+                    <View style={styles.custborder} />
+
           </View>
         )}
 
@@ -422,7 +426,6 @@ const Cart = ({
           <Text>{totalSum} AED</Text>
         </View> */}
 
-        <View style={styles.custborder} />
 
         {viewcartdata?.coupon_status ? (
           <>
@@ -430,7 +433,7 @@ const Cart = ({
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginVertical: 10,
+                // marginVertical: 10,
               }}>
               <Text style={styles.custText}>COUPON</Text>
               <Text style={{ fontFamily: 'Intrepid Regular' }}>
@@ -476,7 +479,9 @@ const Cart = ({
                 fontSize: 12,
                 fontWeight: '700',
                 color: globalColors.textColorSignup,
-                padding: 3
+                padding: 3,
+                textTransform: 'uppercase',
+
               }}>
                 Enter your address to view shipping options.
               </Text>
@@ -485,13 +490,8 @@ const Cart = ({
               Shipping options will be updated during Checkout
             </Text> */}
             <View style={{ backgroundColor: globalColors.white, }}>
-              <TextInput
-                placeholder='CITY'
-                placeholderTextColor={globalColors.textColorLogin}
-                style={styles.inputfield}
-              >
-              </TextInput>
-              <View style={styles.separator} />
+
+              {/* <View style={styles.separator} /> */}
 
               <SelectDropdown
                 // data={countries}
@@ -513,7 +513,7 @@ const Cart = ({
                           fontSize: 14,
                           color: globalColors.buttonBackground,
                         }}>
-                        {selectedItem?.label || 'COUNTRY *'}
+                        {selectedItem?.label || 'SELECT A COUNTRY'}
                       </Text>
                       <Icon
                         name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -537,7 +537,13 @@ const Cart = ({
                 }}
               />
               <View style={styles.separator} />
-
+              <TextInput
+                placeholder='CITY'
+                placeholderTextColor={globalColors.textColorLogin}
+                style={styles.inputfield}
+              >
+              </TextInput>
+              <View style={styles.separator} />
               <Text
                 style={styles.createAccountText}
               >
@@ -554,7 +560,7 @@ const Cart = ({
 
 
       </View>
-      <View style={{ backgroundColor: globalColors.white, paddingLeft: wp('3%'), paddingRight: wp('3%') }}>
+      <View style={{ backgroundColor: globalColors.white, paddingLeft: wp('4%'), paddingRight: wp('4%') }}>
         <View style={{ marginVertical: 10, flexDirection: 'row' }}>
           <Text style={
             // [styles.custText, styles.custmargin]
@@ -579,7 +585,7 @@ const Cart = ({
           flex: 1,
           justifyContent: 'space-between',
           borderRadius: 7,
-          padding: hp('3%'),
+          padding: hp('2.5%'),
           backgroundColor: globalColors.headingBackground
         }}>
           <Text>COUPON CODE</Text>
@@ -611,7 +617,7 @@ const Cart = ({
         }}>
           <Text style={{
             fontSize: 16,
-            fontFamily: '400', fontFamily: 'Product Sans',
+            fontWeight: '400', fontFamily: 'Product Sans',
           }}>Customer Service</Text>
           <View style={{
             flexDirection: 'column',
@@ -620,13 +626,13 @@ const Cart = ({
             <View style={{ flexDirection: 'row' }}>
               <Text style={{
                 fontSize: 12,
-                fontFamily: '700',
+                fontWeight: '400',
                 fontFamily: 'Product Sans',
                 color: globalColors.textColorSignup,
                 textAlign: 'right'
               }}>Mon - Fri</Text>
               <Text style={{
-                fontFamily: '700',
+                fontWeight: '400',
                 fontSize: 12,
                 textAlign: 'right',
                 fontFamily: 'Product Sans',
@@ -634,14 +640,14 @@ const Cart = ({
             </View>
             <View style={{ flexDirection: 'row' }}>
               <Text style={{
-                fontFamily: '700',
+                fontWeight: '400',
                 fontSize: 12,
                 fontFamily: 'Product Sans',
                 color: globalColors.textColorSignup,
 
               }}>Sat </Text>
               <Text style={{
-                fontFamily: '700',
+                fontWeight: '400',
                 fontSize: 12,
                 fontFamily: 'Product Sans',
               }}> 10am - 9pm EST</Text>
@@ -662,7 +668,7 @@ const Cart = ({
           <Text style={{
             flex: 1,
             fontSize: 16,
-            fontFamily: '700',
+            fontWeight: '700',
             textAlign: 'right', fontFamily: 'Product Sans',
 
           }}>+91 9898787889</Text>
@@ -674,7 +680,7 @@ const Cart = ({
             resizeMode="contain"></Image>
           <Text style={{
             marginLeft: wp('3%'), fontSize: 16,
-            fontFamily: '400', fontFamily: 'Product Sans',
+            fontWeight: '400', fontFamily: 'Product Sans',
 
           }}>Email</Text>
           <Text style={{
@@ -682,8 +688,53 @@ const Cart = ({
             fontFamily: 'Product Sans',
             textAlign: 'right',
             fontSize: 16,
-            fontFamily: '700',
+            fontWeight: '700',
           }}>dummyemail@contact.in</Text>
+        </View>
+
+        <View style={styles.iconParentContainer}>
+          <View style={styles.iconContainer}>
+            <Image
+              source={certifiedIcon}
+              style={{ height: 42, width: 35, marginBottom: wp('5%') }}
+              resizeMode="contain">
+            </Image>
+            <Text style={styles.bottomContainerText}>Free standard delivery</Text>
+          </View>
+          <View
+            style={{
+              width: 1,
+              height: '40%',
+              backgroundColor: globalColors.textColorSignup,
+              left: wp('1%'),
+              top: 0,
+            }}
+          />
+          <View style={styles.iconContainer}>
+            <Image
+              source={returnExchangeIcon}
+              style={{ height: 42, width: 35, marginBottom: wp('5%') }}
+              resizeMode="contain">
+            </Image>
+            <Text style={styles.bottomContainerText}>Returns & exchanges</Text>
+          </View>
+          <View
+            style={{
+              width: 1,
+              height: '40%',
+              backgroundColor: globalColors.textColorSignup,
+              left: wp('1%'),
+              top: 0,
+            }}
+          />
+          <View style={styles.iconContainer}>
+            <Image
+              source={deliveryIcon}
+              style={{ height: 42, width: 35, marginBottom: wp('5%') }}
+              resizeMode="contain">
+            </Image>
+            <Text style={styles.bottomContainerText}> shop         securely    </Text>
+          </View>
         </View>
         <Button
           stylesofbtn={styles.custcheckoutbtn}
@@ -693,7 +744,7 @@ const Cart = ({
           loading={isloading}
         />
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
@@ -705,14 +756,14 @@ const styles = StyleSheet.create({
     width: 130,
   },
   container: {
-    marginHorizontal: wp('3%'),
+    marginHorizontal: wp('5%'),
     marginTop: hp('2%'),
   },
   custText: {
     color: globalColors.black,
     fontSize: 16,
-    fontWeight: '700',
-    marginVertical: 5,
+    fontWeight: '400',
+    marginBottom: hp('2%'),
     fontFamily: 'Product Sans',
   },
   custborder: {
@@ -750,7 +801,8 @@ const styles = StyleSheet.create({
   custcheckoutbtn: {
     backgroundColor: globalColors.black,
     padding: 12,
-    marginVertical: 20,
+    // marginVertical: 20,
+    marginBottom: 25,
     borderRadius: 5,
   },
   infocontanier: {
@@ -812,4 +864,22 @@ const styles = StyleSheet.create({
     // backgroundColor: globalColors.borderColorlogin,
     width: '85%',
   },
+  iconParentContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-around',
+    paddingVertical: hp('3%')
+  },
+  bottomContainerText: {
+    fontFamily: 'Product Sans',
+    fontSize: 12,
+    fontWeight: '700',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+  },
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  }
 });

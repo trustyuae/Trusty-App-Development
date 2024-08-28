@@ -1,64 +1,64 @@
-import { useFocusEffect } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
-import StepIndicator from 'react-native-step-indicator';
+import { View, Text } from 'react-native';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import {
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
-const customStyles = {
-
-
-  stepIndicatorSize: 15,
-  currentStepIndicatorSize: 15,
-  separatorStrokeWidth: 2,
-  currentStepStrokeWidth: 2,
-  stepStrokeCurrentColor: '#444444',
-  stepStrokeWidth: 2,
-  stepStrokeFinishedColor: '#444444',
-  stepStrokeUnFinishedColor: '#444444',
-  separatorFinishedColor: '#444444',
-  separatorUnFinishedColor: '#aaaaaa',
-  stepIndicatorFinishedColor: '#444444',
-  stepIndicatorUnFinishedColor: '#f6f1eb',
-  stepIndicatorCurrentColor: '#444444',
-  stepIndicatorLabelFontSize: 0,
-  currentStepIndicatorLabelFontSize: 0,
-  stepIndicatorLabelCurrentColor: 'transparent',
-  stepIndicatorLabelFinishedColor: 'transparent',
-  stepIndicatorLabelUnFinishedColor: 'transparent',
-  labelColor: '#999999',
-  labelSize: 13,
-  currentStepLabelColor: '#7eaec4',
-};
-
-const StepperComponet = ({ labels, count, stepCount }) => {
+const StepperComponent = ({ labels, count }) => {
   const [currentPosition, setCurrentPosition] = useState(0);
+
   useEffect(() => {
     setCurrentPosition(count);
   }, [count]);
 
-  const onPageChange = position => {
-    setCurrentPosition(position);
+  const getBackgroundColor = (position) => {
+    return count === position ? globalColors.lightgold : '#fff';
   };
 
-  const renderLabel = ({ position, stepStatus, label, currentPosition }) => {
-    return (
-      <SafeAreaView style={{ alignItems: 'center', margin: -48 }}>
-        <Text
-          style={{ color: position === currentPosition ? '#262525' : '#676766' }}>
-          {label}
-        </Text>
-      </SafeAreaView>
-    );
+  const getTextColor = (position) => {
+    return count === position ? globalColors.white : globalColors.textColorLogin;
+  };
+
+   const getTextweight = (position) => {
+    return count === position ? '700' : '400';
   };
 
   return (
-    <StepIndicator
-      customStyles={customStyles}
-      currentPosition={currentPosition}
-      labels={labels}
-      stepCount={stepCount}
-      renderLabel={renderLabel}
-    />
+    <View style={{
+      marginLeft: wp('4%'),
+      marginRight: wp('4%'),
+      borderRadius: 10,
+      backgroundColor: 'white',
+      flexDirection: 'row',
+      overflow: 'hidden',
+      alignSelf: 'center',
+    }}>
+      {labels.map((label, index) => (
+        <View
+          key={index}
+          style={{
+            flex: 1,
+            backgroundColor: getBackgroundColor(index),
+            paddingVertical: wp('3%'),
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 10, 
+              borderColor: globalColors.lightgold,
+            borderWidth: count === index ? 2 : 0,
+          }}>
+          <Text
+            style={{
+              color: getTextColor(index),
+              fontWeight: getTextweight(index),
+              fontSize: 16, 
+            }}>
+            {label}
+          </Text>
+        </View>
+      ))}
+    </View>
   );
 };
 
-export default StepperComponet;
+export default StepperComponent;
