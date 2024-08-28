@@ -283,7 +283,7 @@ const Cart = ({
                   onPress={() => handleRemove(Item)}></Icon> */}
                 <Image style={{
                   position: 'absolute',
-                  top: hp('8.3%'),
+                  top: hp('7.8%'),
                   right: 0,
                   height: 24,
                   width: 24
@@ -396,7 +396,7 @@ const Cart = ({
                   <Text
                     style={{
                       // marginVertical: wp('4%'),
-                      marginTop:wp('4%'),
+                      marginTop: wp('4%'),
                       color: globalColors.black,
                       fontFamily: 'Product Sans',
                       paddingLeft: wp('2%'),
@@ -407,9 +407,9 @@ const Cart = ({
                   </Text>
                 </View>
               </View>
-              
+
             ))}
-                    <View style={styles.custborder} />
+            <View style={styles.custborder} />
 
           </View>
         )}
@@ -603,8 +603,8 @@ const Cart = ({
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: hp('1%'),
-            marginBottom: hp('1%'),
+            marginTop: hp('3%'),
+            // marginBottom: hp('1%'),
           }}>
           <Text style={styles.custText}>TOTAL </Text>
           <Text style={[styles.custText, { color: globalColors.lightgold }]}>{viewcartdata?.discount_sub_total} AED</Text>
@@ -763,7 +763,7 @@ const styles = StyleSheet.create({
     color: globalColors.black,
     fontSize: 16,
     fontWeight: '400',
-    marginBottom: hp('2%'),
+    marginBottom: hp('3%'),
     fontFamily: 'Product Sans',
   },
   custborder: {

@@ -844,7 +844,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               marginVertical: 5,
             }}>
             <Text style={styles.custText}>TOTAL</Text>
-            <Text>{viewcartdata?.total_price} AED</Text>
+            <Text style={[styles.custText, { color: globalColors.lightgold }]}>{viewcartdata?.total_price} AED</Text>
           </View>
 
           <Button
@@ -942,6 +942,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     fontFamily: 'Product Sans',
+    textTransform: 'uppercase',
     color: globalColors.textColorSignup,
   },
   input: {
