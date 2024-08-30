@@ -18,10 +18,10 @@ export const fetchProfile = createAsyncThunk(
         },
       );
 
-      
+
       return response.data;
     } catch (error) {
-    
+
       return thunkAPI.rejectWithValue(error.response.data);
     }
   },
@@ -30,6 +30,7 @@ export const fetchProfile = createAsyncThunk(
 export const updateProfile = createAsyncThunk(
   'profile/updateProfile',
   async ({ customer_id, newData }, thunkAPI) => {
+    console.log("---customer_id--->", customer_id)
     try {
       const response = await axios.put(
         `${baseURL}/wc/v3/customers/${customer_id}`,
@@ -48,7 +49,7 @@ export const updateProfile = createAsyncThunk(
         visibilityTime: 3000,
         autoHide: true,
       });
-
+      console.log('----%%%%%%%%%--->', response.data)
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

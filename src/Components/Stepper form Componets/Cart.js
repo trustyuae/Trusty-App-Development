@@ -456,9 +456,9 @@ const Cart = ({
           </>
         ) : null}
 
-        <View style={{
+        {/* <View style={{
           marginVertical: 10, marginBottom: hp('3%'),
-        }}>
+         }}>
           <Text style={{
             color: globalColors.black,
             fontSize: 16,
@@ -478,6 +478,7 @@ const Cart = ({
                 fontFamily: 'Product Sans',
                 fontSize: 12,
                 fontWeight: '700',
+                borderRadius: 5,
                 color: globalColors.textColorSignup,
                 padding: 3,
                 textTransform: 'uppercase',
@@ -486,15 +487,12 @@ const Cart = ({
                 Enter your address to view shipping options.
               </Text>
             </View>
-            {/* <Text style={{ marginTop: 5, fontFamily: 'Intrepid Regular' }}>
-              Shipping options will be updated during Checkout
-            </Text> */}
+           
             <View style={{ backgroundColor: globalColors.white, }}>
 
-              {/* <View style={styles.separator} /> */}
 
               <SelectDropdown
-                // data={countries}
+                data={countries}
                 search
                 searchPlaceHolder="Search Country"
                 searchInputStyle={{ fontFamily: 'Product Sans' }}
@@ -552,12 +550,22 @@ const Cart = ({
             </View>
 
           </View>
-        </View>
+        </View> */}
 
 
 
-
-
+        <Text style={{
+          color: globalColors.black,
+          fontSize: 16,
+          fontWeight: 400, fontFamily: 'Product Sans',
+          marginVertical: 10
+        }}>Shipping</Text>
+        <Text style={{
+          fontSize: 14,
+          marginBottom: wp('2%'),
+          marginLeft: wp('10%'),
+          fontWeight: 400, fontFamily: 'Product Sans',
+        }}>Shipping cost will be calculate during check out.</Text>
 
       </View>
       <View style={{ backgroundColor: globalColors.white, paddingLeft: wp('4%'), paddingRight: wp('4%') }}>
@@ -588,7 +596,12 @@ const Cart = ({
           padding: hp('2.5%'),
           backgroundColor: globalColors.headingBackground
         }}>
-          <Text>COUPON CODE</Text>
+          <TextInput
+            value={discount}
+            onChangeText={text => setDiscount(text)}
+            type="text"
+            placeholder="Coupon code"
+            style={styles.custInput}></TextInput>
           <Button
             stylesofbtn={styles.custbtn}
             styleoffont={[styles.custfontstyle, { color: globalColors.lightgold }]}
@@ -613,7 +626,7 @@ const Cart = ({
 
         <View style={{
           flexDirection: 'row', justifyContent: 'space-between', marginTop: hp('2%'),
-          marginBottom: hp('2%')
+          // marginBottom: hp('2%')
         }}>
           <Text style={{
             fontSize: 16,
@@ -707,7 +720,7 @@ const Cart = ({
               height: '40%',
               backgroundColor: globalColors.textColorSignup,
               left: wp('1%'),
-              top: 0,
+              top: wp('-5%'),
             }}
           />
           <View style={styles.iconContainer}>
@@ -724,7 +737,7 @@ const Cart = ({
               height: '40%',
               backgroundColor: globalColors.textColorSignup,
               left: wp('1%'),
-              top: 0,
+              top: wp('-5%'),
             }}
           />
           <View style={styles.iconContainer}>
@@ -763,7 +776,7 @@ const styles = StyleSheet.create({
     color: globalColors.black,
     fontSize: 16,
     fontWeight: '400',
-    marginBottom: hp('3%'),
+    marginBottom: hp('2%'),
     fontFamily: 'Product Sans',
   },
   custborder: {
@@ -777,6 +790,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: globalColors.gray,
     paddingHorizontal: 20,
+    width: wp('40%'),
     borderRadius: 5,
     paddingVertical: 8,
   },
@@ -811,6 +825,7 @@ const styles = StyleSheet.create({
     marginTop: hp('2%'),
     padding: 10,
     borderRadius: 5,
+    alignItems: 'center',
     alignContent: 'center'
   },
   inputfield: {
@@ -868,7 +883,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'space-around',
-    paddingVertical: hp('3%')
+    paddingVertical: hp('3%'),
+    alignItems: 'center'
   },
   bottomContainerText: {
     fontFamily: 'Product Sans',

@@ -33,6 +33,7 @@ import Readytogo from '../../Components/Ready To Go/Readytogo';
 import { ImageBackground } from 'react-native';
 import SkeletonLoaderHomeimg from '../../Components/Loader/SkeletonLoaderHomeimg';
 import { getSignatureSelectionsData } from '../../Redux/Slice/signatureSelections';
+import { fontFamily } from '../../Assets/Theme/fontFamily';
 
 const categoriesx = [
   {
@@ -314,7 +315,7 @@ const Home = () => {
                     color: 'black',
                     fontSize: 14,
                     fontWeight: '600',
-                    fontFamily: 'Intrepid Regular',
+                    fontFamily: fontFamily.fontFamilyIntrepid,
                     top: 10,
                   }}>
                   SEE ALL
@@ -601,7 +602,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     fontSize: 24,
     color: 'black',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: fontFamily.fontFamilyIntrepid,
   },
   productContainer: {
     flexWrap: 'wrap',
@@ -628,7 +629,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     textAlign: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: fontFamily.fontFamilyIntrepid,
     fontWeight: '600',
     fontSize: 22,
     marginTop: hp('2%'),
@@ -670,7 +671,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: '600',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: fontFamily.fontFamilyIntrepid,
   },
   containerimgbackgr: {
     width: wp('100%'),
@@ -689,7 +690,7 @@ const styles = StyleSheet.create({
   MainHeading: {
     fontWeight: '500',
     textAlign: 'center',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: fontFamily.fontFamilyIntrepid,
     fontSize: 17,
     color: globalColors.white,
   },
@@ -698,7 +699,7 @@ const styles = StyleSheet.create({
     width: wp('70%'),
     height: hp('10%'),
     textAlign: 'center',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: fontFamily.fontFamilyIntrepid,
     margin: 'auto',
     color: globalColors.white,
   },

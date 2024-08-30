@@ -68,7 +68,7 @@ const CartScreen = () => {
         <View>
           {count == 2 ? null : (
             <View style={{ marginTop: 90 }}>
-              <StepperComponet labels={labels} count={count} stepCount={3} />
+              <StepperComponet labels={labels} count={count} setCount={setCount} stepCount={3} />
             </View>
           )}
           {renderContent()}
