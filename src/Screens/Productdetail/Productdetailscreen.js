@@ -409,7 +409,7 @@ export default function Productdetailscreen({ route }) {
                           style={{ height: 42, width: 35, marginBottom: wp('5%') }}
                           resizeMode="contain">
                         </Image>
-                        <Text style={styles.bottomContainerText}>Free                   delivery</Text>
+                        <Text style={styles.bottomContainerText}>Free{'                              '}delivery</Text>
                       </View>
                       <View
                         style={{
@@ -443,7 +443,7 @@ export default function Productdetailscreen({ route }) {
                           style={{ height: 42, width: 35, marginBottom: wp('5%') }}
                           resizeMode="contain">
                         </Image>
-                        <Text style={styles.bottomContainerText}> top                       brand    </Text>
+                        <Text style={styles.bottomContainerText}> top{'                              '}brand    </Text>
                       </View>
                     </View>
                   </View>
@@ -466,7 +466,9 @@ export default function Productdetailscreen({ route }) {
                       style={styles.productContainer}>
                       {wishlistrelated
                         ?.map((product, key) => (
-                          <View key={key} style={{ paddingLeft: hp('1%') }}>
+                          <View key={key} style={{
+                            paddingHorizontal: wp('1.5%'), justifyContent: 'space-between', flexWrap: 'wrap',
+                          }}>
                             <TouchableOpacity
                               onPress={() => handleproduct(product?.id)}>
                               <ProductRelated
@@ -610,7 +612,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     // justifyContent: 'center',
-    gap: 5,
+    gap: 15,
     paddingVertical: wp('1%'),
     marginTop: hp('1%'),
     // marginBottom: hp('7%'),

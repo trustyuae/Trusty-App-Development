@@ -496,7 +496,7 @@ const Home = () => {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                       flexWrap: 'wrap',
-                      paddingHorizontal: 2,
+                      paddingHorizontal: 2, marginLeft: wp('2.5%')
                     }}>
                     <SkeletonLoader count={4} />
                   </View>

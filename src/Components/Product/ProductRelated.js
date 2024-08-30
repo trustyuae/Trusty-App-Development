@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   name: {
     width: wp('44%'),
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: '400',
     textTransform: 'capitalize',
     fontFamily: 'Intrepid Regular',

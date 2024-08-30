@@ -46,6 +46,7 @@ import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
 import debounce from 'lodash/debounce';
 import SelectDropdown from 'react-native-select-dropdown';
 import PhoneInput from 'react-native-phone-number-input';
+import FloatingLabelInput from '../FloatingLabelInput';
 
 const Checkout = ({ count, setCount, setGetorderDetail }) => {
   const { viewcartdata } = useSelector(state => state?.ViewToCart);
@@ -255,6 +256,9 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     }
   };
 
+  console.log("cartData&&&&&&&&&&------->", cartData)
+  console.log("viewcartdata&&&&&&&&&&------->", viewcartdata)
+
   //-------------   new. -------
   const [errors, setErrors] = useState({});
   const [isCheckbox, setIsCheckbox] = useState(false);
@@ -286,6 +290,31 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     shippingAddressContinued: data?.shipping?.address_2,
     shippingCity: data?.shipping?.city,
   });
+  // const [formData, setFormData] = useState({
+  //   email: '',
+  //   password: '',
+  //   firstName: '',
+  //   lastName: '',
+  //   address: '',
+  //   addressContinued: '',
+  //   city: '',
+  //   billingAddressContinued: '',
+
+  //   selectedCountry: '',
+  //   selectedTitle: '',
+  //   phone: '',
+  //   countryCode: '+1',
+  //   selected: '+971',
+  //   billingAddress: '',
+
+  //   billingCity: '',
+
+  //   firstNameShipping: '',
+  //   lastNameShipping: '',
+  //   shippingAddress: '',
+  //   shippingAddressContinued: '',
+  //   shippingCity: '',
+  // });
 
   useEffect(() => {
     fetch(
@@ -369,7 +398,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
 
   const handleCheckboxPress = () => {
     setStateUpdate(!stateUpdate);
-    // handleUpdateData()
+    handleUpdateData()
     setIsCheckbox(prevState => !prevState);
   };
   const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
@@ -675,35 +704,27 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               </View>
 
               <View style={{ width: '70%' }}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="FIRST NAME *"
-                  placeholderTextColor={globalColors.textColorLogin}
+                <FloatingLabelInput
+                  label="FIRST NAME *"
                   value={formData.firstName}
                   onChangeText={text => handleChange('firstName', text)}
                 />
-                {errors.firstName && (
-                  <Text
-                    style={{
-                      color: 'red',
-                      fontSize: 12,
-                      // marginTop: hp('1%'),
-                      marginBottom: hp('1.5%'),
-                      marginLeft: wp('-20%'),
-                    }}>
-                    {errors.firstName}
-                  </Text>
-                )}
               </View>
             </View>
             <View style={styles.separator} />
-            <TextInput
+
+            <FloatingLabelInput
+              label="LAST NAME *"
+              value={formData.lastName}
+              onChangeText={text => handleChange('lastName', text)}
+            />
+            {/* <TextInput
               style={styles.input}
               placeholder="LAST NAME *"
               placeholderTextColor={globalColors.textColorLogin}
               value={formData.lastName}
               onChangeText={text => handleChange('lastName', text)}
-            />
+            /> */}
             {errors.lastName && (
               <Text style={styles.errorText}>{errors.lastName}</Text>
             )}
@@ -741,19 +762,29 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 )} */}
             </View>
             <View style={styles.separator} />
-
-            <TextInput
+            <FloatingLabelInput
+              label="ADDRESS LINE 1 *"
+              value={formData.address}
+              onChangeText={text => handleChange('address', text)}
+            />
+            {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 1 *"
               placeholderTextColor={globalColors.textColorLogin}
               value={formData.address}
               onChangeText={text => handleChange('address', text)}
-            />
+            /> */}
             {errors.address && (
               <Text style={styles.errorText}>{errors.address}</Text>
             )}
             <View style={styles.separator} />
-            <TextInput
+
+            <FloatingLabelInput
+              label="ADDRESS LINE 2 *"
+              value={formData.billingAddressContinued}
+              onChangeText={text => handleChange('billingAddressContinued', text)}
+            />
+            {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 2"
               placeholderTextColor={globalColors.textColorLogin}
@@ -761,17 +792,22 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               onChangeText={text =>
                 setFormData({ ...formData, billingAddressContinued: text })
               }
-            />
+            /> */}
             <View style={styles.separator} />
             <View style={styles.inputPicker}>
               <View style={{ width: '50%' }}>
-                <TextInput
+                <FloatingLabelInput
+                  label="CITY/STATE *"
+                  value={formData.billingCity}
+                  onChangeText={text => handleChange('billingCity', text)}
+                />
+                {/* <TextInput
                   style={styles.input}
                   placeholder="CITY/STATE *"
                   placeholderTextColor={globalColors.textColorLogin}
                   value={formData.billingCity}
                   onChangeText={text => handleChange('billingCity', text)}
-                />
+                /> */}
                 {errors.billingCity && (
                   <Text style={styles.errorText}>{errors.billingCity}</Text>
                 )}
@@ -870,13 +906,19 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               <Text style={styles.formHeadingText}>shipping Information</Text>
             </View>
             <View style={{ width: '70%' }}>
-              <TextInput
+              <FloatingLabelInput
+                label="FIRST NAME *"
+                value={formData.firstNameShipping}
+                onChangeText={text => handleChange('firstNameShipping', text)}
+              />
+              {/* <TextInput
                 style={styles.input}
                 placeholder="FIRST NAME *"
                 placeholderTextColor={globalColors.textColorLogin}
                 value={formData.firstNameShipping}
                 onChangeText={text => handleChange('firstNameShipping', text)}
-              />
+              /> */}
+
               {errors.firstNameShipping && (
                 <Text
                   style={{
@@ -891,10 +933,15 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               )}
             </View>
             <View style={styles.separator} />
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="LAST NAME *"
               placeholderTextColor={globalColors.textColorLogin}
+              value={formData.lastNameShipping}
+              onChangeText={text => handleChange('lastNameShipping', text)}
+            /> */}
+            <FloatingLabelInput
+              label="LAST NAME *"
               value={formData.lastNameShipping}
               onChangeText={text => handleChange('lastNameShipping', text)}
             />
@@ -903,10 +950,15 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
             )}
             <View style={styles.separator} />
 
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 1 *"
               placeholderTextColor={globalColors.textColorLogin}
+              value={formData.shippingAddress}
+              onChangeText={text => handleChange('shippingAddress', text)}
+            /> */}
+            <FloatingLabelInput
+              label="ADDRESS LINE 1 *"
               value={formData.shippingAddress}
               onChangeText={text => handleChange('shippingAddress', text)}
             />
@@ -914,7 +966,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               <Text style={styles.errorText}>{errors.shippingAddress}</Text>
             )}
             <View style={styles.separator} />
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 2"
               placeholderTextColor={globalColors.textColorLogin}
@@ -922,14 +974,24 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               onChangeText={text =>
                 setFormData({ ...formData, shippingAddressContinued: text })
               }
+            /> */}
+            <FloatingLabelInput
+              label="ADDRESS LINE 2 *"
+              value={formData.shippingAddressContinued}
+              onChangeText={text => handleChange('shippingAddressContinued', text)}
             />
             <View style={styles.separator} />
             {/* <View style={styles.inputPicker}> */}
             {/* <View style={{ width: '50%' }}> */}
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="CITY/STATE *"
               placeholderTextColor={globalColors.textColorLogin}
+              value={formData.shippingCity}
+              onChangeText={text => handleChange('shippingCity', text)}
+            /> */}
+            <FloatingLabelInput
+              label="CITY/STATE *"
               value={formData.shippingCity}
               onChangeText={text => handleChange('shippingCity', text)}
             />
@@ -999,6 +1061,23 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
           </Text>
           <View style={{ backgroundColor: globalColors.headingBackground, padding: wp('3%'), borderRadius: 5 }}>
 
+            {cartData?.map(item => (
+              <View>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  // marginVertical: 5,
+                }}>
+                  <Text style={styles.custText}>{item?.product_name}</Text>
+                  <Text>{item?.product_price * item?.quantity}{' '}AED</Text>
+
+                </View>
+                <Text style={{ fontSize: 10, fontWeight: '400', backgroundColor: globalColors.white, width: wp('9%'), marginBottom: wp('1%') }}>{item?.quantity}{' '}item</Text>
+              </View>
+
+            )
+            )
+            }
             <View
               style={{
                 flexDirection: 'row',
@@ -1036,7 +1115,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               </>
             ) : null}
 
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -1044,11 +1123,11 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               }}>
               <Text style={styles.custText}>SHIPPING</Text>
               <Text>0 AED</Text>
-            </View>
+            </View> */}
 
             {/* <View style={styles.custborder} /> */}
 
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -1056,7 +1135,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               }}>
               <Text style={styles.custText}>TAXES</Text>
               <Text>{viewcartdata?.total_tax} AED</Text>
-            </View>
+            </View> */}
           </View>
 
           <View
