@@ -26,13 +26,19 @@ const ButtonAddToCart = ({
       {loading ? (
         <ActivityIndicator size="small" color={globalColors.white} />
       ) : (
-        <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'center',
+            justifyContent: 'space-between',
+            gap: 5,
+          }}>
           <Image
             source={BagIcon}
             style={{
               width: wp('4%'),
               alignSelf: 'center',
-              height: hp('2.5%'),
+              height: hp('2%'),
             }}></Image>
           <Text style={styleoffont}>{name}</Text>
         </View>

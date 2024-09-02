@@ -1,67 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { View } from 'react-native';
-import { useFocusEffect, useRoute } from '@react-navigation/native';
+import {View} from 'react-native';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { globalColors } from '../Assets/Theme/globalColors';
+import {globalColors} from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   fetchCategoryProducts,
   fetchProducts,
   resetCategoryProducts,
 } from '../Redux/Slice/productSlice';
-import { fetchWishlist } from '../Redux/Slice/wishlistSlice';
-import { getToken } from '../Utils/localstorage';
+import {fetchWishlist} from '../Redux/Slice/wishlistSlice';
+import {getToken} from '../Utils/localstorage';
 import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
-import { RefreshControl } from 'react-native';
+import {RefreshControl} from 'react-native';
 import SkeletonLoader from '../Components/Loader/SkeletonLoader';
 
-
-const CategoryProducts = ({ navigation }) => {
+const CategoryProducts = ({navigation}) => {
   const route = useRoute();
-  const { category } = route.params;
+  const {category} = route.params;
   // const [productss, setProducts] = useState([]);
   const dispatch = useDispatch();
   const [wishlist, setWishlist] = useState([]);
   const [tokenData, setTokenData] = useState(null);
-  const { categoryProducts, status, error } = useSelector(state => state.product);
-  const { items } = useSelector(state => state.wishlist);
+  const {categoryProducts, status, error} = useSelector(state => state.product);
+  const {items} = useSelector(state => state.wishlist);
   const [refreshing, setRefreshing] = React.useState(false);
   const [page, setPage] = useState(1);
   const [msg, setMsg] = useState();
-
-
-
-
-
 
   // useEffect(() => {
   //   dispatch(fetchCategoryProducts({ categoryId: category.id, page: 1 }));
   //   refreshWishlist();
   // }, [dispatch, category.id]);
 
-
-
   // const loadMoreProducts = () => {
   //   const nextPage = page + 1;
   //   dispatch(fetchCategoryProducts({ categoryId: category.id, page: nextPage }));
   //   setPage(nextPage);
   // };
-
 
   useEffect(() => {
     fetchData();
@@ -71,14 +63,15 @@ const CategoryProducts = ({ navigation }) => {
     try {
       const token = await getToken();
       if (token) {
-        await dispatch(fetchWishlist({ tokenData: token }));
+        await dispatch(fetchWishlist({tokenData: token}));
       }
-      await dispatch(fetchCategoryProducts({ categoryId: category.id, page: page }));
+      await dispatch(
+        fetchCategoryProducts({categoryId: category.id, page: page}),
+      );
     } catch (error) {
       console.log('Error fetching data:', error);
     }
   };
-
 
   useEffect(() => {
     dispatch(resetCategoryProducts());
@@ -86,7 +79,7 @@ const CategoryProducts = ({ navigation }) => {
   }, [category]);
 
   const refreshWishlist = () => {
-    const itemIdList = items?.Wishlist?.map(item => ({ id: item }));
+    const itemIdList = items?.Wishlist?.map(item => ({id: item}));
     const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
     const result = categoryProducts.map(productItem => ({
       ...productItem,
@@ -105,6 +98,17 @@ const CategoryProducts = ({ navigation }) => {
     setPage(nextPage);
   };
 
+  const handleEndReached = () => {
+    if (status !== 'loading' && wishlist.length >= 10) {
+      loadMoreProducts();
+    }
+  };
+
+  useEffect(() => {
+    if (wishlist.length <= 0) {
+      setMsg('No Product');
+    }
+  }, [wishlist]);
   // useFocusEffect(
   //   React.useCallback(() => {
   //     dispatch(fetchCategoryProducts({ categoryId: category.id }));
@@ -113,11 +117,32 @@ const CategoryProducts = ({ navigation }) => {
 
   //   }, [dispatch, category.id])
   // );
+  const renderProduct = ({item}) => (
+    <TouchableOpacity
+      key={item.id}
+      onPress={() =>
+        navigation.navigate('ProductDetail', {
+          userId: item.id,
+          isWatchList: item?.isWatchList,
+        })
+      }>
+      <Product
+        uri={item?.images?.[0]?.src}
+        name={item?.name}
+        price={item?.price}
+        saved={item?.saved}
+        product_id={item?.id}
+        isWatchList={item?.isWatchList}
+      />
+    </TouchableOpacity>
+  );
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     dispatch(resetCategoryProducts());
-    await dispatch(fetchCategoryProducts({ categoryId: category.id, page: page }));
+    await dispatch(
+      fetchCategoryProducts({categoryId: category.id, page: page}),
+    );
     await dispatch(fetchWishlist(tokenData));
     refreshWishlist();
     setRefreshing(false);
@@ -133,23 +158,20 @@ const CategoryProducts = ({ navigation }) => {
 
   setTimeout(() => {
     if (wishlist.length <= 0) {
-      setMsg("No Product")
+      setMsg('No Product');
     }
-  }, 5000)
+  }, 5000);
 
   return (
     <SafeAreaView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
           refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
-          }
-        >
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
           {/* <Text style={styles.TextHeading}>Women</Text> */}
 
           <View
@@ -183,7 +205,7 @@ const CategoryProducts = ({ navigation }) => {
             }}>
             <SelectDropdown
               data={emojisWithIcons1}
-              onSelect={(selectedItem, index) => { }}
+              onSelect={(selectedItem, index) => {}}
               // style={{marginLeft: 0}}
               renderButton={(selectedItem, isOpen) => {
                 return (
@@ -208,7 +230,7 @@ const CategoryProducts = ({ navigation }) => {
                   <View
                     style={{
                       ...styles.dropdownItemStyle,
-                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                      ...(isSelected && {backgroundColor: '#D2D9DF'}),
                     }}>
                     <Text
                       style={{
@@ -251,7 +273,7 @@ const CategoryProducts = ({ navigation }) => {
                   <SafeAreaView
                     style={{
                       ...styles.dropdownItemStyle,
-                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                      ...(isSelected && {backgroundColor: '#D2D9DF'}),
                     }}>
                     <Text
                       style={{
@@ -278,7 +300,7 @@ const CategoryProducts = ({ navigation }) => {
               marginTop: 10,
             }}
           />
-          <View style={styles.productContainer}>
+          {/* <View style={styles.productContainer}>
             {status === 'loading' ? (
               // <ActivityIndicator
               //   size="large"
@@ -290,7 +312,7 @@ const CategoryProducts = ({ navigation }) => {
               </View>
             ) : status === 'failed' ? (
               <Text style={styles.errorText}>Error: {error}</Text>
-            ) : (wishlist.length > 0 ?
+            ) : wishlist.length > 0 ? (
               wishlist.map(product => (
                 <TouchableOpacity
                   key={product.id}
@@ -310,18 +332,52 @@ const CategoryProducts = ({ navigation }) => {
                     isWatchList={product?.isWatchList}
                   />
                 </TouchableOpacity>
-              )) : (<Text>{msg}</Text>)
+              ))
+            ) : (
+              <Text>{msg}</Text>
             )}
           </View>
 
           {wishlist.length >= 10 && (
-            <TouchableOpacity onPress={loadMoreProducts} style={styles.loadMoreButton}>
+            <TouchableOpacity
+              onPress={loadMoreProducts}
+              style={styles.loadMoreButton}>
               <Text style={styles.loadMoreButtonText}>Load More</Text>
             </TouchableOpacity>
-          )}
+          )} */}
+
+          <FlatList
+            data={wishlist}
+            renderItem={renderProduct}
+            keyExtractor={item => item.id.toString()}
+            ListEmptyComponent={
+              status === 'loading' ? (
+                <SkeletonLoader count={6} />
+              ) : (
+                <Text style={styles.errorText}>{msg || error}</Text>
+              )
+            }
+            ListFooterComponent={
+              status === 'loading' ? (
+                <View>
+                  <ActivityIndicator
+                    size="large"
+                    color={globalColors.black}
+                    style={{marginVertical: 20, justifyContent: 'center'}}
+                  />
+                </View>
+              ) : null
+            }
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.5}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            contentContainerStyle={styles.productContainer}
+          />
         </ScrollView>
       </View>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };
 

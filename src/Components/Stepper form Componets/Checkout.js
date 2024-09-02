@@ -17,46 +17,46 @@ import {
   ProductIMG,
 } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { List } from 'react-native-paper';
-import { useCallback, useEffect, useState } from 'react';
+import {List} from 'react-native-paper';
+import {useCallback, useEffect, useState} from 'react';
 import ModalComponent from '../Model/Modalcomopnet';
-import { useDispatch, useSelector } from 'react-redux';
-import { OrderDetail } from '../../Redux/Slice/car_slice/orderdeatails';
-import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
-import { Alert } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import { orderToCart } from '../../Redux/Slice/car_slice/placeordercart';
-import { getUserId } from '../../Utils/localstorage';
-import { fetchProfile, updateProfile } from '../../Redux/Slice/profileSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {OrderDetail} from '../../Redux/Slice/car_slice/orderdeatails';
+import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
+import {Alert} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
+import {getUserId} from '../../Utils/localstorage';
+import {fetchProfile, updateProfile} from '../../Redux/Slice/profileSlice';
 import Toast from 'react-native-toast-message';
-import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
+import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import {
   GestureHandlerRootView,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
-import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
+import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
 import debounce from 'lodash/debounce';
 import SelectDropdown from 'react-native-select-dropdown';
 import PhoneInput from 'react-native-phone-number-input';
 import FloatingLabelInput from '../FloatingLabelInput';
 
-const Checkout = ({ count, setCount, setGetorderDetail }) => {
-  const { viewcartdata } = useSelector(state => state?.ViewToCart);
+const Checkout = ({count, setCount, setGetorderDetail}) => {
+  const {viewcartdata} = useSelector(state => state?.ViewToCart);
   const [expanded, setExpanded] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector(state => state?.profile);
+  const {data, loading, error} = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState(viewcartdata?.cartData);
-  const { deteltedData } = useSelector(state => state?.DeleteToCart);
-  const { orderData, iserror, isloading } = useSelector(
+  const {deteltedData} = useSelector(state => state?.DeleteToCart);
+  const {orderData, iserror, isloading} = useSelector(
     state => state?.OrderToCart,
   );
   const [customerid, setCustomerID] = useState();
@@ -256,8 +256,8 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     }
   };
 
-  console.log("cartData&&&&&&&&&&------->", cartData)
-  console.log("viewcartdata&&&&&&&&&&------->", viewcartdata)
+  console.log('cartData&&&&&&&&&&------->', cartData);
+  console.log('viewcartdata&&&&&&&&&&------->', viewcartdata);
 
   //-------------   new. -------
   const [errors, setErrors] = useState({});
@@ -277,7 +277,8 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     selectedCountry: data?.billing?.country,
     selectedTitle: '',
     phone: data?.billing?.phone,
-    countryCode: data?.billing?.country_code || '+1',    selected: '+971',
+    countryCode: data?.billing?.country_code || '+1',
+    selected: '+971',
     billingAddress: '',
 
     billingCity: data?.billing?.city,
@@ -288,7 +289,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     selectedCountryShipping: data?.shipping?.country,
     shippingAddressContinued: data?.shipping?.address_2,
     shippingCity: data?.shipping?.city,
-    phoneShipping: data.shipping.phone
+    phoneShipping: data.shipping.phone,
   });
   // const [formData, setFormData] = useState({
   //   email: '',
@@ -316,8 +317,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
   //   shippingCity: '',
   // });
 
-
-  console.log('formData-------->', formData)
+  console.log('formData-------->', formData);
   const isValidPassword = password => {
     return password.length >= 4;
   };
@@ -333,10 +333,8 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     return phoneRegex.test(phoneNumber);
   };
 
-
   const validateForm = () => {
     const newErrors = {};
-
 
     if (!formData.firstName.trim())
       newErrors.firstName = 'First name is required';
@@ -357,15 +355,14 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     if (!formData.billingCity.trim())
       newErrors.billingCity = 'Billing city is required';
 
-
-
-
     if (!formData.firstNameShipping.trim())
       newErrors.firstNameShipping = 'First name shipping is required';
     else if (!isValidName(formData.firstNameShipping))
-      newErrors.firstNameShipping = 'First name shipping should contain only letters';
+      newErrors.firstNameShipping =
+        'First name shipping should contain only letters';
 
-    if (!formData.lastNameShipping.trim()) newErrors.lastNameShipping = 'Last name is required';
+    if (!formData.lastNameShipping.trim())
+      newErrors.lastNameShipping = 'Last name is required';
     else if (!isValidName(formData.lastNameShipping))
       newErrors.lastNameShipping = 'Last name should contain only letters';
 
@@ -378,10 +375,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-
-
-
 
   useEffect(() => {
     fetch(
@@ -398,14 +391,11 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     if (key === 'phone' && value.length > 15) {
       return;
     }
-    setFormData(prevState => ({ ...prevState, [key]: value }));
+    setFormData(prevState => ({...prevState, [key]: value}));
     // validateField(key, value);
   };
 
-
-
   const handleUpdateData = async () => {
-
     if (!validateForm()) {
       Alert.alert('Validation Failed', 'Please correct the errors in the form');
       return;
@@ -419,6 +409,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
       city: formData.billingCity,
       phone: formData.phone,
       country: formData.selectedCountry,
+      countryCode: formData.countryCode,
     };
 
     const shippingAddress = {
@@ -430,7 +421,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
       phone: formData.phoneShipping,
       country: formData.selectedCountryShipping,
     };
-
 
     const userData = {
       // title: formData.selectedTitle,
@@ -444,29 +434,27 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     };
     const customer_id = await getUserId();
 
-    console.log("userData*************", userData)
+    console.log('userData*************', userData);
 
     try {
-      await dispatch(updateProfile({ customer_id, newData: userData }));
+      await dispatch(updateProfile({customer_id, newData: userData}));
       // onClose();
       setStateUpdate(!stateUpdate);
     } catch (error) {
       console.log(error);
     }
-  }
-
-
+  };
 
   const handleCheckboxPress = () => {
     setStateUpdate(!stateUpdate);
-    handleUpdateData()
+    handleUpdateData();
     setIsCheckbox(prevState => !prevState);
   };
-  const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
+  const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <SafeAreaView style={{ position: 'relative' }}>
+      <SafeAreaView style={{position: 'relative'}}>
         <Icon
           name={'arrow-left'}
           size={25}
@@ -710,16 +698,15 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
         </View> */}
 
         <View style={styles.container}>
-
           <View>
             <Text style={styles.textheading}>Billing details</Text>
           </View>
           <View style={styles.headingInput}>
             <Text style={styles.formHeadingText}>Personal Information</Text>
           </View>
-          <View style={{ backgroundColor: globalColors.white, borderRadius: 5 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ width: '30%' }}>
+          <View style={{backgroundColor: globalColors.white, borderRadius: 5}}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: '30%'}}>
                 <SelectDropdown
                   data={emojisWithIcons}
                   onSelect={(selectedItem, index) => {
@@ -753,7 +740,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                       <View
                         style={{
                           ...styles.dropdownItemStyle,
-                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                          ...(isSelected && {backgroundColor: '#D2D9DF'}),
                         }}>
                         <Text style={styles.dropdownItemTxtStyle}>
                           {item.title}
@@ -764,7 +751,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 />
               </View>
 
-              <View style={{ width: '70%' }}>
+              <View style={{width: '70%'}}>
                 <FloatingLabelInput
                   label="FIRST NAME *"
                   value={formData.firstName}
@@ -790,27 +777,40 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               <Text style={styles.errorText}>{errors.lastName}</Text>
             )}
 
-
             <View style={styles.custposition}>
               <View style={styles.separator} />
               <PhoneInput
                 ref={setPhoneInput}
                 defaultCode="AE"
                 placeholder={'PHONE NUMBER'}
-
+                onChangeText={text => {
+                  handleChange('phone', text);
+                }}
                 placeholderTextColor={globalColors.textColorLogin}
-                containerStyle={{ backgroundColor: globalColors.white, paddingHorizontal: wp('3%'), }}
-                textContainerStyle={{ backgroundColor: globalColors.white, color: 'red' }}
-                textInputStyle={{ fontFamily: 'Product Sans', fontSize: 14, fontWeight: '400', backgroundColor: globalColors.white }}
-                onChangeFormattedText={text => handleChange('phone', text)}
-                onChangeCountry={(country) => handleChange('countryCode', country.callingCode)}
+                containerStyle={{
+                  backgroundColor: globalColors.white,
+                  paddingHorizontal: wp('3%'),
+                }}
+                textContainerStyle={{
+                  backgroundColor: globalColors.white,
+                  color: 'red',
+                }}
+                textInputStyle={{
+                  fontFamily: 'Product Sans',
+                  fontSize: 14,
+                  fontWeight: '400',
+                  backgroundColor: globalColors.white,
+                }}
+                // onChangeFormattedText={text => handleChange('phone', text)}
+                onChangeCountry={country =>
+                  handleChange('countryCode', country.callingCode)
+                }
                 value={formData.phone}
               />
               {errors.phone && (
                 <Text style={styles.errorText}>{errors.phone}</Text>
               )}
-              <View style={{ backgroundColor: 'white' }}>
-
+              <View style={{backgroundColor: 'white'}}>
                 {/* <MobileNo
                     selected={formData.selected}
                     setSelected={value => handleChange('selected', value)}
@@ -843,7 +843,9 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
             <FloatingLabelInput
               label="ADDRESS LINE 2 *"
               value={formData.billingAddressContinued}
-              onChangeText={text => handleChange('billingAddressContinued', text)}
+              onChangeText={text =>
+                handleChange('billingAddressContinued', text)
+              }
             />
             {/* <TextInput
               style={styles.input}
@@ -856,7 +858,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
             /> */}
             <View style={styles.separator} />
             <View style={styles.inputPicker}>
-              <View style={{ width: '50%' }}>
+              <View style={{width: '50%'}}>
                 <FloatingLabelInput
                   label="CITY/STATE *"
                   value={formData.billingCity}
@@ -886,8 +888,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                     ...formData,
                     selectedCountry: selectedItem.label,
                   });
-                }
-                }
+                }}
                 renderButton={(selectedItem, isOpen) => {
                   return (
                     <View style={styles.dropdownButtonStyle}>
@@ -911,7 +912,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                     <View
                       style={{
                         ...styles.dropdownItemStyle,
-                        ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                        ...(isSelected && {backgroundColor: '#D2D9DF'}),
                       }}>
                       <Text style={styles.dropdownItemTxtStyle}>
                         {item.label}
@@ -923,7 +924,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               <View style={styles.separator} />
 
               <Pressable onPress={handleCheckboxPress}>
-
                 <View
                   style={{
                     flexDirection: 'row',
@@ -931,17 +931,20 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                     marginLeft: hp('3%'),
                     height: hp('6.5%'),
                     // marginTop: hp('2%'),
-                    alignItems: 'center'
+                    alignItems: 'center',
                   }}>
                   <View style={styles.CheckBoxContainer}>
                     {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
                   </View>
-                  <Text style={{
-                    fontSize: 14,
-                    fontWeight: '400',
-                    textTransform: 'uppercase',
-                    color: globalColors.buttonBackground,
-                  }}>ship to different address</Text>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      color: globalColors.buttonBackground,
+                    }}>
+                    ship to different address
+                  </Text>
                 </View>
               </Pressable>
               {/* </View> */}
@@ -951,29 +954,29 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
             style={{
               marginTop: hp('2%'),
               backgroundColor: globalColors.white,
-              borderRadius: 5
+              borderRadius: 5,
             }}>
             {/* <View style={styles.headingInput}>
               <Text style={styles.formHeadingText}>Shipping Information</Text>
             </View> */}
-
           </View>
-          {isCheckbox && (<View
-            style={{
-              backgroundColor: globalColors.white,
-              marginTop: hp('2%'),
-              borderRadius: 5
-            }}>
-            <View style={styles.headingInput}>
-              <Text style={styles.formHeadingText}>shipping Information</Text>
-            </View>
-            <View style={{ width: '70%' }}>
-              <FloatingLabelInput
-                label="FIRST NAME *"
-                value={formData.firstNameShipping}
-                onChangeText={text => handleChange('firstNameShipping', text)}
-              />
-              {/* <TextInput
+          {isCheckbox && (
+            <View
+              style={{
+                backgroundColor: globalColors.white,
+                marginTop: hp('2%'),
+                borderRadius: 5,
+              }}>
+              <View style={styles.headingInput}>
+                <Text style={styles.formHeadingText}>shipping Information</Text>
+              </View>
+              <View style={{width: '70%'}}>
+                <FloatingLabelInput
+                  label="FIRST NAME *"
+                  value={formData.firstNameShipping}
+                  onChangeText={text => handleChange('firstNameShipping', text)}
+                />
+                {/* <TextInput
                 style={styles.input}
                 placeholder="FIRST NAME *"
                 placeholderTextColor={globalColors.textColorLogin}
@@ -981,54 +984,54 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 onChangeText={text => handleChange('firstNameShipping', text)}
               /> */}
 
-              {errors.firstNameShipping && (
-                <Text
-                  style={{
-                    color: 'red',
-                    fontSize: 12,
-                    // marginTop: hp('1%'),
-                    marginBottom: hp('1.5%'),
-                    marginLeft: wp('-20%'),
-                  }}>
-                  {errors.firstNameShipping}
-                </Text>
-              )}
-            </View>
-            <View style={styles.separator} />
-            {/* <TextInput
+                {errors.firstNameShipping && (
+                  <Text
+                    style={{
+                      color: 'red',
+                      fontSize: 12,
+                      // marginTop: hp('1%'),
+                      marginBottom: hp('1.5%'),
+                      marginLeft: wp('-20%'),
+                    }}>
+                    {errors.firstNameShipping}
+                  </Text>
+                )}
+              </View>
+              <View style={styles.separator} />
+              {/* <TextInput
               style={styles.input}
               placeholder="LAST NAME *"
               placeholderTextColor={globalColors.textColorLogin}
               value={formData.lastNameShipping}
               onChangeText={text => handleChange('lastNameShipping', text)}
             /> */}
-            <FloatingLabelInput
-              label="LAST NAME *"
-              value={formData.lastNameShipping}
-              onChangeText={text => handleChange('lastNameShipping', text)}
-            />
-            {errors.lastNameShipping && (
-              <Text style={styles.errorText}>{errors.lastNameShipping}</Text>
-            )}
-            <View style={styles.separator} />
+              <FloatingLabelInput
+                label="LAST NAME *"
+                value={formData.lastNameShipping}
+                onChangeText={text => handleChange('lastNameShipping', text)}
+              />
+              {errors.lastNameShipping && (
+                <Text style={styles.errorText}>{errors.lastNameShipping}</Text>
+              )}
+              <View style={styles.separator} />
 
-            {/* <TextInput
+              {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 1 *"
               placeholderTextColor={globalColors.textColorLogin}
               value={formData.shippingAddress}
               onChangeText={text => handleChange('shippingAddress', text)}
             /> */}
-            <FloatingLabelInput
-              label="ADDRESS LINE 1 *"
-              value={formData.shippingAddress}
-              onChangeText={text => handleChange('shippingAddress', text)}
-            />
-            {errors.shippingAddress && (
-              <Text style={styles.errorText}>{errors.shippingAddress}</Text>
-            )}
-            <View style={styles.separator} />
-            {/* <TextInput
+              <FloatingLabelInput
+                label="ADDRESS LINE 1 *"
+                value={formData.shippingAddress}
+                onChangeText={text => handleChange('shippingAddress', text)}
+              />
+              {errors.shippingAddress && (
+                <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+              )}
+              <View style={styles.separator} />
+              {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 2"
               placeholderTextColor={globalColors.textColorLogin}
@@ -1037,109 +1040,115 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 setFormData({ ...formData, shippingAddressContinued: text })
               }
             /> */}
-            <FloatingLabelInput
-              label="ADDRESS LINE 2 *"
-              value={formData.shippingAddressContinued}
-              onChangeText={text => handleChange('shippingAddressContinued', text)}
-            />
-            <View style={styles.separator} />
-            {/* <View style={styles.inputPicker}> */}
-            {/* <View style={{ width: '50%' }}> */}
-            {/* <TextInput
+              <FloatingLabelInput
+                label="ADDRESS LINE 2 *"
+                value={formData.shippingAddressContinued}
+                onChangeText={text =>
+                  handleChange('shippingAddressContinued', text)
+                }
+              />
+              <View style={styles.separator} />
+              {/* <View style={styles.inputPicker}> */}
+              {/* <View style={{ width: '50%' }}> */}
+              {/* <TextInput
               style={styles.input}
               placeholder="CITY/STATE *"
               placeholderTextColor={globalColors.textColorLogin}
               value={formData.shippingCity}
               onChangeText={text => handleChange('shippingCity', text)}
             /> */}
-            <FloatingLabelInput
-              label="CITY/STATE *"
-              value={formData.shippingCity}
-              onChangeText={text => handleChange('shippingCity', text)}
-            />
-            {errors.shippingCity && (
-              <Text style={styles.errorText}>{errors.shippingCity}</Text>
-            )}
-            {/* </View> */}
-            {/* <View style={styles.verticalLine} /> */}
-            <View style={styles.separator} />
-            {/* <View style={{ width: '50%' }}> */}
-            <SelectDropdown
-              data={countries}
-              search
-              searchPlaceHolder="Search Country"
-              searchInputStyle={{ fontFamily: 'Product Sans' }}
-              onSelect={(selectedItem, index) => {
-                setFormData({
-                  ...formData,
-                  selectedCountryShipping: selectedItem.label,
-                });
-              }}
-              renderButton={(selectedItem, isOpen) => {
-                return (
-                  <View style={styles.dropdownButtonStyle}>
-                    <Text
+              <FloatingLabelInput
+                label="CITY/STATE *"
+                value={formData.shippingCity}
+                onChangeText={text => handleChange('shippingCity', text)}
+              />
+              {errors.shippingCity && (
+                <Text style={styles.errorText}>{errors.shippingCity}</Text>
+              )}
+              {/* </View> */}
+              {/* <View style={styles.verticalLine} /> */}
+              <View style={styles.separator} />
+              {/* <View style={{ width: '50%' }}> */}
+              <SelectDropdown
+                data={countries}
+                search
+                searchPlaceHolder="Search Country"
+                searchInputStyle={{fontFamily: 'Product Sans'}}
+                onSelect={(selectedItem, index) => {
+                  setFormData({
+                    ...formData,
+                    selectedCountryShipping: selectedItem.label,
+                  });
+                }}
+                renderButton={(selectedItem, isOpen) => {
+                  return (
+                    <View style={styles.dropdownButtonStyle}>
+                      <Text
+                        style={{
+                          fontFamily: 'Product Sans',
+                          fontSize: 14,
+                          color: globalColors.buttonBackground,
+                        }}>
+                        {formData.selectedCountryShipping || 'COUNTRY *'}
+                      </Text>
+                      <Icon
+                        name={isOpen ? 'chevron-up' : 'chevron-down'}
+                        style={styles.dropdownButtonArrowStyle}
+                      />
+                    </View>
+                  );
+                }}
+                renderItem={(item, index, isSelected) => {
+                  return (
+                    <View
                       style={{
-                        fontFamily: 'Product Sans',
-                        fontSize: 14,
-                        color: globalColors.buttonBackground,
+                        ...styles.dropdownItemStyle,
+                        ...(isSelected && {backgroundColor: '#D2D9DF'}),
                       }}>
-                      {formData.selectedCountryShipping || 'COUNTRY *'}
-                    </Text>
-                    <Icon
-                      name={isOpen ? 'chevron-up' : 'chevron-down'}
-                      style={styles.dropdownButtonArrowStyle}
-                    />
-                  </View>
-                );
-              }}
-              renderItem={(item, index, isSelected) => {
-                return (
-                  <View
-                    style={{
-                      ...styles.dropdownItemStyle,
-                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
-                    }}>
-                    <Text style={styles.dropdownItemTxtStyle}>
-                      {item.label}
-                    </Text>
-                  </View>
-                );
-              }}
-            />
-            {/* </View> */}
-            {/* </View> */}
-          </View>)
-
-          }
-
+                      <Text style={styles.dropdownItemTxtStyle}>
+                        {item.label}
+                      </Text>
+                    </View>
+                  );
+                }}
+              />
+              {/* </View> */}
+              {/* </View> */}
+            </View>
+          )}
         </View>
 
-
-        <View style={{ backgroundColor: globalColors.white, padding: wp('4%') }}>
-          <Text style={styles.textheading}
-          >
-            Summery
-          </Text>
-          <View style={{ backgroundColor: globalColors.headingBackground, padding: wp('3%'), borderRadius: 5 }}>
-
+        <View style={{backgroundColor: globalColors.white, padding: wp('4%')}}>
+          <Text style={styles.textheading}>Summery</Text>
+          <View
+            style={{
+              backgroundColor: globalColors.headingBackground,
+              padding: wp('3%'),
+              borderRadius: 5,
+            }}>
             {cartData?.map(item => (
               <View>
-                <View style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  // marginVertical: 5,
-                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    // marginVertical: 5,
+                  }}>
                   <Text style={styles.custText}>{item?.product_name}</Text>
-                  <Text>{item?.product_price * item?.quantity}{' '}AED</Text>
-
+                  <Text>{item?.product_price * item?.quantity} AED</Text>
                 </View>
-                <Text style={{ fontSize: 10, fontWeight: '400', backgroundColor: globalColors.white, width: wp('9%'), marginBottom: wp('1%') }}>{item?.quantity}{' '}item</Text>
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: '400',
+                    backgroundColor: globalColors.white,
+                    width: wp('9%'),
+                    marginBottom: wp('1%'),
+                  }}>
+                  {item?.quantity} item
+                </Text>
               </View>
-
-            )
-            )
-            }
+            ))}
             <View
               style={{
                 flexDirection: 'row',
@@ -1208,7 +1217,9 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               marginVertical: 5,
             }}>
             <Text style={styles.custText}>TOTAL</Text>
-            <Text style={[styles.custText, { color: globalColors.lightgold }]}>{viewcartdata?.total_price} AED</Text>
+            <Text style={[styles.custText, {color: globalColors.lightgold}]}>
+              {viewcartdata?.total_price} AED
+            </Text>
           </View>
 
           <Button
@@ -1273,7 +1284,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Product Sans',
     fontSize: 16,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   custmargin: {
     marginBottom: 10,
@@ -1285,13 +1296,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
-
-  // -------------  new 
+  // -------------  new
   container: {
     paddingLeft: wp('5%'),
     paddingRight: wp('5%'),
     paddingBottom: hp('5%'),
-    marginTop: wp('4%')
+    marginTop: wp('4%'),
   },
   headingInput: {
     color: globalColors.black,
@@ -1350,7 +1360,7 @@ const styles = StyleSheet.create({
   },
   dropdownButtonArrowStyle: {
     fontSize: wp('5%'),
-    paddingHorizontal: wp('10%')
+    paddingHorizontal: wp('10%'),
   },
   dropdownButtonIconStyle: {
     fontSize: wp('3.1%'),
@@ -1384,7 +1394,7 @@ const styles = StyleSheet.create({
   },
   dropdownButtonArrowStyleTitle: {
     fontSize: wp('5%'),
-    paddingHorizontal: wp('2%')
+    paddingHorizontal: wp('2%'),
   },
   CheckBoxContainer: {
     width: wp('4.5%'),
@@ -1397,13 +1407,12 @@ const styles = StyleSheet.create({
   checkedMark: {
     color: globalColors.white,
     backgroundColor: globalColors.lightgold,
-
   },
   textheading: {
     fontSize: 16,
     fontFamily: 'Product Sans',
     marginBottom: wp('3%'),
     color: globalColors.black,
-    fontWeight: '400'
-  }
+    fontWeight: '400',
+  },
 });
