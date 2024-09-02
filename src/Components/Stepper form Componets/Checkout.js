@@ -274,12 +274,10 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     addressContinued: data?.billing?.address_2,
     city: data?.billing?.city,
     billingAddressContinued: data?.billing?.address_2,
-
-    selectedCountry: data?.shipping?.country,
+    selectedCountry: data?.billing?.country,
     selectedTitle: '',
     phone: data?.billing?.phone,
-    countryCode: '+1',
-    selected: '+971',
+    countryCode: data?.billing?.country_code || '+1',    selected: '+971',
     billingAddress: '',
 
     billingCity: data?.billing?.city,
@@ -287,8 +285,10 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     firstNameShipping: data?.shipping?.first_name,
     lastNameShipping: data?.shipping?.last_name,
     shippingAddress: data?.shipping?.address_1,
+    selectedCountryShipping: data?.shipping?.country,
     shippingAddressContinued: data?.shipping?.address_2,
     shippingCity: data?.shipping?.city,
+    phoneShipping: data.shipping.phone
   });
   // const [formData, setFormData] = useState({
   //   email: '',
@@ -316,6 +316,73 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
   //   shippingCity: '',
   // });
 
+
+  console.log('formData-------->', formData)
+  const isValidPassword = password => {
+    return password.length >= 4;
+  };
+
+  const isValidName = name => {
+    const nameRegex = /^[a-z ,.'-]+$/i;
+    return nameRegex.test(name);
+  };
+
+  const isValidPhoneNumber = phoneNumber => {
+    // Regular expression for phone number validation
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+    return phoneRegex.test(phoneNumber);
+  };
+
+
+  const validateForm = () => {
+    const newErrors = {};
+
+
+    if (!formData.firstName.trim())
+      newErrors.firstName = 'First name is required';
+    else if (!isValidName(formData.firstName))
+      newErrors.firstName = 'First name should contain only letters';
+
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+    else if (!isValidName(formData.lastName))
+      newErrors.lastName = 'Last name should contain only letters';
+
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    else if (!isValidPhoneNumber(formData.phone))
+      newErrors.phone = 'Please enter a valid phone number';
+
+    if (!formData.address.trim())
+      newErrors.address = 'Billing address is required';
+
+    if (!formData.billingCity.trim())
+      newErrors.billingCity = 'Billing city is required';
+
+
+
+
+    if (!formData.firstNameShipping.trim())
+      newErrors.firstNameShipping = 'First name shipping is required';
+    else if (!isValidName(formData.firstNameShipping))
+      newErrors.firstNameShipping = 'First name shipping should contain only letters';
+
+    if (!formData.lastNameShipping.trim()) newErrors.lastNameShipping = 'Last name is required';
+    else if (!isValidName(formData.lastNameShipping))
+      newErrors.lastNameShipping = 'Last name should contain only letters';
+
+    if (!formData.shippingAddress.trim())
+      newErrors.shippingAddress = 'Shipping address is required';
+    if (!formData.shippingCity.trim())
+      newErrors.shippingCity = 'Shipping city is required';
+    // if (!isCheckbox) newErrors.isCheckbox = 'Please check the above mark';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+
+
+
+
   useEffect(() => {
     fetch(
       'https://valid.layercode.workers.dev/list/countries?format=select&flags=true&value=code',
@@ -323,10 +390,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
       .then(response => response.json())
       .then(data => {
         setCountries(data.countries);
-        setFormData(prevState => ({
-          ...prevState,
-          selectedCountry: data.userSelectValue,
-        }));
       })
       .catch(error => console.error('Error fetching countries:', error));
   }, []);
@@ -343,14 +406,10 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
 
   const handleUpdateData = async () => {
 
-    const address1 = `${formData.shippingAddress}${formData.shippingAddressContinued
-      ? ', ' + formData.shippingAddressContinued
-      : ''
-      }`;
-    const address2 = `${formData.billingAddress}${formData.billingAddressContinued
-      ? ', ' + formData.shippingAddressContinued
-      : ''
-      }`;
+    if (!validateForm()) {
+      Alert.alert('Validation Failed', 'Please correct the errors in the form');
+      return;
+    }
 
     const billingAddress = {
       first_name: formData.firstName,
@@ -358,7 +417,8 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
       address_1: formData.address,
       address_2: formData.billingAddressContinued,
       city: formData.billingCity,
-      // country: formData.selectedCountry,
+      phone: formData.phone,
+      country: formData.selectedCountry,
     };
 
     const shippingAddress = {
@@ -367,7 +427,8 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
       address_1: formData.shippingAddress,
       address_2: formData.shippingAddressContinued,
       city: formData.shippingCity,
-      // country: formData.selectedCountry,
+      phone: formData.phoneShipping,
+      country: formData.selectedCountryShipping,
     };
 
 
@@ -742,7 +803,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 textContainerStyle={{ backgroundColor: globalColors.white, color: 'red' }}
                 textInputStyle={{ fontFamily: 'Product Sans', fontSize: 14, fontWeight: '400', backgroundColor: globalColors.white }}
                 onChangeFormattedText={text => handleChange('phone', text)}
-                // onChangeCountry={(country) => handlePhoneChange(formData.phone, country)}
+                onChangeCountry={(country) => handleChange('countryCode', country.callingCode)}
                 value={formData.phone}
               />
               {errors.phone && (
@@ -825,7 +886,8 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                     ...formData,
                     selectedCountry: selectedItem.label,
                   });
-                }}
+                }
+                }
                 renderButton={(selectedItem, isOpen) => {
                   return (
                     <View style={styles.dropdownButtonStyle}>
@@ -835,7 +897,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                           fontSize: 14,
                           color: globalColors.buttonBackground,
                         }}>
-                        {selectedItem?.label || 'COUNTRY *'}
+                        {formData.selectedCountry || 'COUNTRY *'}
                       </Text>
                       <Icon
                         name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -1010,7 +1072,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               onSelect={(selectedItem, index) => {
                 setFormData({
                   ...formData,
-                  selectedCountry: selectedItem.label,
+                  selectedCountryShipping: selectedItem.label,
                 });
               }}
               renderButton={(selectedItem, isOpen) => {
@@ -1022,7 +1084,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                         fontSize: 14,
                         color: globalColors.buttonBackground,
                       }}>
-                      {selectedItem?.label || 'COUNTRY *'}
+                      {formData.selectedCountryShipping || 'COUNTRY *'}
                     </Text>
                     <Icon
                       name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -1288,8 +1350,9 @@ const styles = StyleSheet.create({
   },
   dropdownButtonArrowStyle: {
     fontSize: wp('5%'),
-    paddingHorizontal: wp('42%')
-  }, dropdownButtonIconStyle: {
+    paddingHorizontal: wp('10%')
+  },
+  dropdownButtonIconStyle: {
     fontSize: wp('3.1%'),
     marginRight: 8,
   },
@@ -1318,6 +1381,10 @@ const styles = StyleSheet.create({
   dropdownItemIconStyle: {
     fontSize: wp('3.1%'),
     marginRight: 8,
+  },
+  dropdownButtonArrowStyleTitle: {
+    fontSize: wp('5%'),
+    paddingHorizontal: wp('2%')
   },
   CheckBoxContainer: {
     width: wp('4.5%'),
