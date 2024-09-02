@@ -14,7 +14,7 @@ const api = axios.create({
 });
 
 export const fetchProducts = createAsyncThunk('product', async () => {
-   const response = await api.get('/wc/v3/products');
+  const response = await api.get('/wc/v3/products');
   // const response = await api.get('/custom-category-products/v1/all-category-products');
   return response.data;
 });
@@ -23,7 +23,7 @@ export const fetchCategoryProducts = createAsyncThunk(
   'product/fetchCategoryProducts',
   async ({ categoryId, page }, { getState, rejectWithValue }) => {
     try {
-       const response = await api.get(`/wc/v3/products?category=${categoryId}&per_page=100&page=${page}`);
+      const response = await api.get(`/wc/v3/products?category=${categoryId}&per_page=20&page=${page}`);
       // const response = await axios.get(`${baseURL}/custom-bags-category/v1/bags-category-products`);
       return response.data;
     } catch (error) {
@@ -41,7 +41,7 @@ const productSlice = createSlice({
     categoryProducts: [],
     status: 'idle',
     error: null,
-    currentPage: 1, 
+    currentPage: 1,
     totalProducts: 0,
   },
   reducers: {

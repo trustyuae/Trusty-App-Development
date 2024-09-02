@@ -17,17 +17,17 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import {Images} from '../../Constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {useEffect, useRef, useState} from 'react';
-import {fetchById} from '../../Redux/Slice/SingleProductslice';
-import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
-import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
-import {getToken} from '../../Utils/localstorage';
-import {useNavigation} from '@react-navigation/native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { Images } from '../../Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { fetchById } from '../../Redux/Slice/SingleProductslice';
+import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
+import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
+import { getToken } from '../../Utils/localstorage';
+import { useNavigation } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import {
   addToWishlist,
   fetchWishlist,
@@ -208,13 +208,13 @@ export default function Productdetailscreen({ route }) {
   };
 
   const handleproduct = id => {
-    scrollViewRef.current.scrollTo({y: 0, animated: true});
+    scrollViewRef.current.scrollTo({ y: 0, animated: true });
     setId(id);
   };
 
   useEffect(() => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({id: item}));
+      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
 
       setWishListId(itemIdListids);
@@ -235,13 +235,13 @@ export default function Productdetailscreen({ route }) {
       try {
         if (isWishlist) {
           // await dispatch(fetchWishlist(tokenData));
-          dispatch(removeFromWishlist({product_id: userId, tokenData}));
+          dispatch(removeFromWishlist({ product_id: userId, tokenData }));
           dispatch(fetchWishlist(tokenData));
           setIsWishlist(false);
         } else {
           // dispatch(fetchWishlist(tokenData));
 
-          dispatch(addToWishlist({product_id: userId, tokenData}));
+          dispatch(addToWishlist({ product_id: userId, tokenData }));
           dispatch(fetchWishlist(tokenData));
           setIsWishlist(true);
         }
@@ -265,13 +265,13 @@ export default function Productdetailscreen({ route }) {
     <GestureHandlerRootView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-      <SafeAreaView style={{marginTop: hp('-8%')}}>
-        <View style={{marginBottom: hp('8')}}>
+      <SafeAreaView style={{ marginTop: hp('-8%') }}>
+        <View style={{ marginBottom: hp('8') }}>
           {loading ? (
             <SkeletonLoaderProductDetails />
           ) : (
             <>
-              <View style={{backgroundColor: globalColors.white}}>
+              <View style={{ backgroundColor: globalColors.white }}>
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   ref={scrollViewRef}>
@@ -314,7 +314,7 @@ export default function Productdetailscreen({ route }) {
                           top: hp(-'50'),
                           // alignContent: 'flex-end',
                         }}>
-                        <View style={{marginRight: wp('2%')}}>
+                        <View style={{ marginRight: wp('2%') }}>
                           <TouchableOpacity onPress={toggleSaved}>
                             {isWishlist ? (
                               <Image source={Images.saveIconFill} />
@@ -343,7 +343,7 @@ export default function Productdetailscreen({ route }) {
                         </View>
                       </View>
                     </View>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{ flexDirection: 'row' }}>
                       <Text style={styles.custAEDtext}>
                         AED {responseData?.price}
                       </Text>
@@ -615,7 +615,7 @@ const styles = StyleSheet.create({
     padding: 10,
     // marginHorizontal: 110,
     borderRadius: 5,
-    marginVertical: -5,
+    // marginVertical: -5,
     position: 'absolute',
     bottom: 15,
     left: 15,
@@ -624,6 +624,7 @@ const styles = StyleSheet.create({
   custfontstyle: {
     textAlign: 'center',
     color: globalColors.white,
+    fontWeight: '700',
     fontFamily: 'Intrepid Regular',
   },
   productContainer: {

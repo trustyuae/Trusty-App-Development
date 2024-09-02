@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,38 +8,38 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {View} from 'react-native';
-import {useFocusEffect, useRoute} from '@react-navigation/native';
+import { View } from 'react-native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../Assets/Theme/globalColors';
+import { globalColors } from '../Assets/Theme/globalColors';
 import Product from '../Components/Product/Product';
-import {ScrollView} from 'react-native';
+import { ScrollView } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchCategoryProducts,
   fetchProducts,
   resetCategoryProducts,
 } from '../Redux/Slice/productSlice';
-import {fetchWishlist} from '../Redux/Slice/wishlistSlice';
-import {getToken} from '../Utils/localstorage';
+import { fetchWishlist } from '../Redux/Slice/wishlistSlice';
+import { getToken } from '../Utils/localstorage';
 import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
-import {RefreshControl} from 'react-native';
+import { RefreshControl } from 'react-native';
 import SkeletonLoader from '../Components/Loader/SkeletonLoader';
 
-const CategoryProducts = ({navigation}) => {
+const CategoryProducts = ({ navigation }) => {
   const route = useRoute();
-  const {category} = route.params;
+  const { category } = route.params;
   // const [productss, setProducts] = useState([]);
   const dispatch = useDispatch();
   const [wishlist, setWishlist] = useState([]);
   const [tokenData, setTokenData] = useState(null);
-  const {categoryProducts, status, error} = useSelector(state => state.product);
-  const {items} = useSelector(state => state.wishlist);
+  const { categoryProducts, status, error } = useSelector(state => state.product);
+  const { items } = useSelector(state => state.wishlist);
   const [refreshing, setRefreshing] = React.useState(false);
   const [page, setPage] = useState(1);
   const [msg, setMsg] = useState();
@@ -63,10 +63,10 @@ const CategoryProducts = ({navigation}) => {
     try {
       const token = await getToken();
       if (token) {
-        await dispatch(fetchWishlist({tokenData: token}));
+        await dispatch(fetchWishlist({ tokenData: token }));
       }
       await dispatch(
-        fetchCategoryProducts({categoryId: category.id, page: page}),
+        fetchCategoryProducts({ categoryId: category.id, page: page }),
       );
     } catch (error) {
       console.log('Error fetching data:', error);
@@ -79,7 +79,7 @@ const CategoryProducts = ({navigation}) => {
   }, [category]);
 
   const refreshWishlist = () => {
-    const itemIdList = items?.Wishlist?.map(item => ({id: item}));
+    const itemIdList = items?.Wishlist?.map(item => ({ id: item }));
     const productIds = new Set(itemIdList?.map(item => Number(item?.id)));
     const result = categoryProducts.map(productItem => ({
       ...productItem,
@@ -117,7 +117,7 @@ const CategoryProducts = ({navigation}) => {
 
   //   }, [dispatch, category.id])
   // );
-  const renderProduct = ({item}) => (
+  const renderProduct = ({ item }) => (
     <TouchableOpacity
       key={item.id}
       onPress={() =>
@@ -141,7 +141,7 @@ const CategoryProducts = ({navigation}) => {
     setRefreshing(true);
     dispatch(resetCategoryProducts());
     await dispatch(
-      fetchCategoryProducts({categoryId: category.id, page: page}),
+      fetchCategoryProducts({ categoryId: category.id, page: page }),
     );
     await dispatch(fetchWishlist(tokenData));
     refreshWishlist();
@@ -205,7 +205,7 @@ const CategoryProducts = ({navigation}) => {
             }}>
             <SelectDropdown
               data={emojisWithIcons1}
-              onSelect={(selectedItem, index) => {}}
+              onSelect={(selectedItem, index) => { }}
               // style={{marginLeft: 0}}
               renderButton={(selectedItem, isOpen) => {
                 return (
@@ -230,7 +230,7 @@ const CategoryProducts = ({navigation}) => {
                   <View
                     style={{
                       ...styles.dropdownItemStyle,
-                      ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
                     }}>
                     <Text
                       style={{
@@ -273,7 +273,7 @@ const CategoryProducts = ({navigation}) => {
                   <SafeAreaView
                     style={{
                       ...styles.dropdownItemStyle,
-                      ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
                     }}>
                     <Text
                       style={{
@@ -300,7 +300,7 @@ const CategoryProducts = ({navigation}) => {
               marginTop: 10,
             }}
           />
-          {/* <View style={styles.productContainer}>
+          <View style={styles.productContainer}>
             {status === 'loading' ? (
               // <ActivityIndicator
               //   size="large"
@@ -344,9 +344,9 @@ const CategoryProducts = ({navigation}) => {
               style={styles.loadMoreButton}>
               <Text style={styles.loadMoreButtonText}>Load More</Text>
             </TouchableOpacity>
-          )} */}
+          )}
 
-          <FlatList
+          {/* <FlatList
             data={wishlist}
             renderItem={renderProduct}
             keyExtractor={item => item.id.toString()}
@@ -363,18 +363,18 @@ const CategoryProducts = ({navigation}) => {
                   <ActivityIndicator
                     size="large"
                     color={globalColors.black}
-                    style={{marginVertical: 20, justifyContent: 'center'}}
+                    style={{ marginVertical: 20, justifyContent: 'center' }}
                   />
                 </View>
               ) : null
             }
             onEndReached={handleEndReached}
-            onEndReachedThreshold={0.5}
+            onEndReachedThreshold={1}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             contentContainerStyle={styles.productContainer}
-          />
+          /> */}
         </ScrollView>
       </View>
     </SafeAreaView>
