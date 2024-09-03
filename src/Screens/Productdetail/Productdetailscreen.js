@@ -17,17 +17,17 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import { Images } from '../../Constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
-import { fetchById } from '../../Redux/Slice/SingleProductslice';
-import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
-import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
-import { getToken } from '../../Utils/localstorage';
-import { useNavigation } from '@react-navigation/native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {Images} from '../../Constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect, useRef, useState} from 'react';
+import {fetchById} from '../../Redux/Slice/SingleProductslice';
+import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
+import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
+import {getToken} from '../../Utils/localstorage';
+import {useNavigation} from '@react-navigation/native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import {
   addToWishlist,
   fetchWishlist,
@@ -46,14 +46,14 @@ import {
 import ProductRelated from '../../Components/Product/ProductRelated';
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
 
-export default function Productdetailscreen({ route }) {
+export default function Productdetailscreen({route}) {
   const scrollViewRef = useRef();
   const navigation = useNavigation();
-  const { userId, isWatchList } = route?.params;
+  const {userId, isWatchList} = route?.params;
   const dispatch = useDispatch();
-  const { loading, error, responseData } = useSelector(state => state?.getById);
-  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
-  const { items } = useSelector(state => state.wishlist);
+  const {loading, error, responseData} = useSelector(state => state?.getById);
+  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
+  const {items} = useSelector(state => state.wishlist);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
@@ -62,6 +62,7 @@ export default function Productdetailscreen({ route }) {
   const [wishlistrelated, setWishlistRelated] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [color, setColor] = useState([]);
+  const [colorMeta, setColorMeta] = useState('');
   const [size, setSize] = useState([]);
   const [wishlistId, setWishListId] = useState();
   const [isWishlist, setIsWishlist] = useState(isWatchList);
@@ -129,6 +130,11 @@ export default function Productdetailscreen({ route }) {
   const attributes = {};
 
   useEffect(() => {
+    console.log('====>responseData', responseData);
+    const metaData = responseData?.meta_data;
+    const hardwareMeta = metaData?.find(meta => meta?.key === 'Hardware');
+    setColorMeta(hardwareMeta?.value);
+    // console.log('Hardware----->', hardwareMeta.value);
     responseData?.attributes?.forEach(attribute => {
       if (attribute.name.toLowerCase() === 'size') {
         if (typeof changeSize === 'string') {
@@ -160,25 +166,25 @@ export default function Productdetailscreen({ route }) {
     };
 
     if (isLoggedIn) {
-      if (responseData?.type == 'simple' || responseData?.price == '') {
-        Alert.alert(
-          '',
-          'This product does not have a price or  it should be simple type. Please check.',
-        );
-        setLoding(false);
-        return;
-      }
+      // if (responseData?.type == 'simple' || responseData?.price == '') {
+      //   Alert.alert(
+      //     '',
+      //     'This product does not have a price or  it should be simple type. Please check.',
+      //   );
+      //   setLoding(false);
+      //   return;
+      // }
 
-      if (changeSize == '' && changeColor == '') {
-        Alert.alert('', 'Make sure you selected size and color');
-        setLoding(false);
-        return;
-      }
-      if (!changeSize && size) {
-        Alert.alert('', 'Make sure you selected size');
-        setLoding(false);
-        return;
-      }
+      // if (changeSize == '' && changeColor == '') {
+      //   Alert.alert('', 'Make sure you selected size and color');
+      //   setLoding(false);
+      //   return;
+      // }
+      // if (!changeSize && size) {
+      //   Alert.alert('', 'Make sure you selected size');
+      //   setLoding(false);
+      //   return;
+      // }
       // if (!changeColor && color) {
       //   Alert.alert('', 'Make sure you selected color');
       //   setLoding(false);
@@ -189,7 +195,7 @@ export default function Productdetailscreen({ route }) {
           setLoding(false);
           setChange('');
           setChangeSize('');
-          navigation.navigate('Cart');
+          // navigation.navigate('Cart');
         }
       });
     } else {
@@ -208,13 +214,13 @@ export default function Productdetailscreen({ route }) {
   };
 
   const handleproduct = id => {
-    scrollViewRef.current.scrollTo({ y: 0, animated: true });
+    scrollViewRef.current.scrollTo({y: 0, animated: true});
     setId(id);
   };
 
   useEffect(() => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
+      const itemIdList = items.Wishlist?.map(item => ({id: item}));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
 
       setWishListId(itemIdListids);
@@ -235,13 +241,13 @@ export default function Productdetailscreen({ route }) {
       try {
         if (isWishlist) {
           // await dispatch(fetchWishlist(tokenData));
-          dispatch(removeFromWishlist({ product_id: userId, tokenData }));
+          dispatch(removeFromWishlist({product_id: userId, tokenData}));
           dispatch(fetchWishlist(tokenData));
           setIsWishlist(false);
         } else {
           // dispatch(fetchWishlist(tokenData));
 
-          dispatch(addToWishlist({ product_id: userId, tokenData }));
+          dispatch(addToWishlist({product_id: userId, tokenData}));
           dispatch(fetchWishlist(tokenData));
           setIsWishlist(true);
         }
@@ -266,12 +272,12 @@ export default function Productdetailscreen({ route }) {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <SafeAreaView style={{}}>
-        <View style={{ marginBottom: hp('8') }}>
+        <View style={{marginBottom: hp('8')}}>
           {loading ? (
             <SkeletonLoaderProductDetails />
           ) : (
             <>
-              <View style={{ backgroundColor: globalColors.white }}>
+              <View style={{backgroundColor: globalColors.white}}>
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   ref={scrollViewRef}>
@@ -314,7 +320,7 @@ export default function Productdetailscreen({ route }) {
                           top: hp(-'50'),
                           // alignContent: 'flex-end',
                         }}>
-                        <View style={{ marginRight: wp('2%') }}>
+                        <View style={{marginRight: wp('2%')}}>
                           <TouchableOpacity onPress={toggleSaved}>
                             {isWishlist ? (
                               <Image source={Images.saveIconFill} />
@@ -343,7 +349,7 @@ export default function Productdetailscreen({ route }) {
                         </View>
                       </View>
                     </View>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{flexDirection: 'row'}}>
                       <Text style={styles.custAEDtext}>
                         AED {responseData?.price}
                       </Text>
@@ -388,6 +394,7 @@ export default function Productdetailscreen({ route }) {
                       <Accordion
                         Size={size}
                         Color={color}
+                        colorMeta={colorMeta}
                         // Description={responseData?.description}
                         setChange={setChange}
                         changeColor={changeColor.toUpperCase()}
@@ -398,6 +405,7 @@ export default function Productdetailscreen({ route }) {
                       <Accordion
                         Size={[]}
                         Color={[]}
+                        colorMeta={colorMeta}
                         // Description={responseData?.description}
                         setChange={setChange}
                         changeColor={changeColor}

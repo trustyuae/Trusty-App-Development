@@ -36,7 +36,7 @@ const ButtonAddToCart = ({
           <Image
             source={BagIcon}
             style={{
-              width: wp('4%'),
+              width: wp('3.5%'),
               alignSelf: 'center',
               height: hp('2%'),
             }}></Image>
