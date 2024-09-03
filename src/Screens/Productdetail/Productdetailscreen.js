@@ -265,7 +265,7 @@ export default function Productdetailscreen({ route }) {
     <GestureHandlerRootView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-      <SafeAreaView style={{ marginTop: hp('-8%') }}>
+      <SafeAreaView style={{}}>
         <View style={{ marginBottom: hp('8') }}>
           {loading ? (
             <SkeletonLoaderProductDetails />
