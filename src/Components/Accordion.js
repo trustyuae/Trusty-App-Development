@@ -28,72 +28,31 @@ const Accordion = ({
     return html.replace(/<[^>]*>?/gm, '');
   };
   const data = colorMeta?.split(',')[1];
+  const hasSizeValues = Array.isArray(Size) && Size.length > 0;
+  const hasColorMeta = colorMeta && colorMeta.trim() !== '';
 
   return (
     <List.Section>
-      <View
-        style={{
-          backgroundColor: globalColors.headingBackground,
-          // flexDirection: 'row',
-          // alignSelf: 'center',
-        }}>
-        {Size === '' ? (
+      <View style={{ backgroundColor: globalColors.headingBackground }}>
+        {/* Color Section */}
+        {!hasSizeValues && colorMeta ? (
           <Text
             style={{
               marginLeft: wp('2.5%'),
               padding: wp('5%'),
               fontSize: 14,
               color: globalColors.black,
-            }}>{`Color: ${data}`}</Text>
-        ) : (
-          <List.Accordion
-            title={`Color: ${Color}`}
-            titleStyle={{ color: globalColors.darkGray }}
-            expanded={expandedimg}
-            style={{
-              backgroundColor: globalColors.headingBackground,
-              paddingTop: -5,
-              borderBottomWidth: expandedimg ? 0 : 1,
-              borderBottomColor: globalColors.lightGray,
             }}
-            onPress={() => setExpandedimg(!expandedimg)}>
-            {expandedimg && (
-              <>
-                <ScrollView
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}>
-                  <View style={styles.custView}>
-                    {Color?.map((item, key) => (
-                      <View key={key}>
-                        <Pressable
-                          onPress={() => {
-                            setChange(item), setSelectedColor(item);
-                          }}>
-                          <View style={{ marginVertical: 7, marginLeft: 20 }}>
-                            <View
-                              style={{
-                                width: 30,
-                                height: 30,
-                                borderRadius: 15,
-                                backgroundColor: `${item?.toLowerCase()}`,
-                              }}
-                            />
-                          </View>
-                        </Pressable>
-                      </View>
-                    ))}
-                  </View>
-                </ScrollView>
-                {/* <View style={styles.custBorder} /> */}
-              </>
-            )}
-          </List.Accordion>
-        )}
+          >
+            {`Color :  ${data}`}
+          </Text>
+        ) : null}
 
-        {Size ? (
+        {/* Size Section */}
+        {hasSizeValues ? (
           <List.Accordion
-            title={`Size:  ${changeSize}`}
-            titleStyle={{ color: globalColors.darkGray }}
+            title={`Size :  ${changeSize}`}
+            titleStyle={{ color: '#5546DC' }}
             expanded={expandedSize}
             style={{
               backgroundColor: globalColors.headingBackground,
@@ -102,39 +61,39 @@ const Accordion = ({
               borderBottomColor: globalColors.lightGray,
               fontFamily: 'Product Sans',
             }}
-            onPress={() => setExpandedSize(!expandedSize)}>
+            onPress={() => setExpandedSize(!expandedSize)}
+          >
             {expandedSize && (
               <>
                 <View style={styles.custView}>
-                  {Size?.map((item, key) => (
+                  {Size.map((item, key) => (
                     <Pressable
                       key={key}
                       onPress={() => {
                         setSelectedSize(item);
                         setChangeSize(item);
-                      }}>
+                      }}
+                    >
                       <View
                         style={[
                           styles.custcontainer,
-
                           selectedSize === item && styles.selectedSize,
-                        ]}>
+                        ]}
+                      >
                         <Text style={styles.custboldtext}>{item}</Text>
                       </View>
                     </Pressable>
                   ))}
                 </View>
-
                 <View style={styles.custBorder} />
               </>
             )}
           </List.Accordion>
-        ) : (
-          ''
-        )}
+        ) : null}
       </View>
     </List.Section>
   );
+
 };
 
 export default Accordion;

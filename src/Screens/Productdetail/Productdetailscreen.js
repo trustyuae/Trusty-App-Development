@@ -17,17 +17,17 @@ import Accordion from '../../Components/Accordion';
 import Button from '../../Components/Button';
 import MyCarousel from '../../Components/MyCarousel';
 import Product from '../../Components/Product/Product';
-import {Images} from '../../Constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {useEffect, useRef, useState} from 'react';
-import {fetchById} from '../../Redux/Slice/SingleProductslice';
-import {PartnerPerfect} from '../../Redux/Slice/perfectpatnerSlice';
-import {addToCart} from '../../Redux/Slice/car_slice/addtocart';
-import {getToken} from '../../Utils/localstorage';
-import {useNavigation} from '@react-navigation/native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { Images } from '../../Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { fetchById } from '../../Redux/Slice/SingleProductslice';
+import { PartnerPerfect } from '../../Redux/Slice/perfectpatnerSlice';
+import { addToCart } from '../../Redux/Slice/car_slice/addtocart';
+import { getToken } from '../../Utils/localstorage';
+import { useNavigation } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import {
   addToWishlist,
   fetchWishlist,
@@ -46,14 +46,14 @@ import {
 import ProductRelated from '../../Components/Product/ProductRelated';
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
 
-export default function Productdetailscreen({route}) {
+export default function Productdetailscreen({ route }) {
   const scrollViewRef = useRef();
   const navigation = useNavigation();
-  const {userId, isWatchList} = route?.params;
+  const { userId, isWatchList } = route?.params;
   const dispatch = useDispatch();
-  const {loading, error, responseData} = useSelector(state => state?.getById);
-  const {errormessage, partner} = useSelector(state => state?.PatnerGet);
-  const {items} = useSelector(state => state.wishlist);
+  const { loading, error, responseData } = useSelector(state => state?.getById);
+  const { errormessage, partner } = useSelector(state => state?.PatnerGet);
+  const { items } = useSelector(state => state.wishlist);
   const [changeColor, setChange] = useState('');
   const [saved, setSaved] = useState(isWatchList);
   const [id, setId] = useState(userId);
@@ -79,6 +79,7 @@ export default function Productdetailscreen({route}) {
     setShowMore(!showMore);
   };
 
+
   // Combine initial and additional text based on state
   const displayedText = showMore ? initialText + additionalText : initialText;
 
@@ -97,6 +98,9 @@ export default function Productdetailscreen({route}) {
     dispatch(fetchById(userId));
   }, [userId]);
   useEffect(() => {
+    const metaData = responseData?.meta_data;
+    const hardwareMeta = metaData?.find(meta => meta?.key === 'Hardware');
+    setColorMeta(hardwareMeta?.value);
     responseData?.attributes?.forEach(attribute => {
       if (attribute.name.toLowerCase() === 'size') {
         setSize(
@@ -131,9 +135,6 @@ export default function Productdetailscreen({route}) {
 
   useEffect(() => {
     console.log('====>responseData', responseData);
-    const metaData = responseData?.meta_data;
-    const hardwareMeta = metaData?.find(meta => meta?.key === 'Hardware');
-    setColorMeta(hardwareMeta?.value);
     // console.log('Hardware----->', hardwareMeta.value);
     responseData?.attributes?.forEach(attribute => {
       if (attribute.name.toLowerCase() === 'size') {
@@ -190,6 +191,13 @@ export default function Productdetailscreen({route}) {
       //   setLoding(false);
       //   return;
       // }
+      const requiresSize = size && size.length > 0;
+
+      if (requiresSize && !changeSize) {
+        Alert.alert('', 'Please select a size.');
+        setLoding(false);
+        return;
+      }
       dispatch(addToCart(data)).then(action => {
         if (addToCart.fulfilled.match(action)) {
           setLoding(false);
@@ -214,13 +222,13 @@ export default function Productdetailscreen({route}) {
   };
 
   const handleproduct = id => {
-    scrollViewRef.current.scrollTo({y: 0, animated: true});
+    scrollViewRef.current.scrollTo({ y: 0, animated: true });
     setId(id);
   };
 
   useEffect(() => {
     if (items.Wishlist) {
-      const itemIdList = items.Wishlist?.map(item => ({id: item}));
+      const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const itemIdListids = new Set(itemIdList.map(item => Number(item.id)));
 
       setWishListId(itemIdListids);
@@ -241,13 +249,13 @@ export default function Productdetailscreen({route}) {
       try {
         if (isWishlist) {
           // await dispatch(fetchWishlist(tokenData));
-          dispatch(removeFromWishlist({product_id: userId, tokenData}));
+          dispatch(removeFromWishlist({ product_id: userId, tokenData }));
           dispatch(fetchWishlist(tokenData));
           setIsWishlist(false);
         } else {
           // dispatch(fetchWishlist(tokenData));
 
-          dispatch(addToWishlist({product_id: userId, tokenData}));
+          dispatch(addToWishlist({ product_id: userId, tokenData }));
           dispatch(fetchWishlist(tokenData));
           setIsWishlist(true);
         }
@@ -272,12 +280,12 @@ export default function Productdetailscreen({route}) {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <SafeAreaView style={{}}>
-        <View style={{marginBottom: hp('8')}}>
+        <View style={{ marginBottom: hp('8') }}>
           {loading ? (
             <SkeletonLoaderProductDetails />
           ) : (
             <>
-              <View style={{backgroundColor: globalColors.white}}>
+              <View style={{ backgroundColor: globalColors.white }}>
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   ref={scrollViewRef}>
@@ -320,7 +328,7 @@ export default function Productdetailscreen({route}) {
                           top: hp(-'50'),
                           // alignContent: 'flex-end',
                         }}>
-                        <View style={{marginRight: wp('2%')}}>
+                        <View style={{ marginRight: wp('2%') }}>
                           <TouchableOpacity onPress={toggleSaved}>
                             {isWishlist ? (
                               <Image source={Images.saveIconFill} />
@@ -349,7 +357,7 @@ export default function Productdetailscreen({route}) {
                         </View>
                       </View>
                     </View>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{ flexDirection: 'row' }}>
                       <Text style={styles.custAEDtext}>
                         AED {responseData?.price}
                       </Text>
@@ -375,21 +383,22 @@ export default function Productdetailscreen({route}) {
                     >
                       <Text
                         style={{
-                          color: globalColors.lightGreen,
+                          color: '#5546DC',
                           marginBottom: 10,
+                          fontSize: 14,
                         }}>
                         {responseData?.stock_status}
                       </Text>
                     </View>
-                    <TouchableOpacity onPress={toggleShowMore}>
+                    {/* <TouchableOpacity onPress={toggleShowMore}>
                       <Text style={styles.descrpation}>
-                        {displayedText}
+                        {responseData?.description}
 
                         <Text style={styles.readMore}>
                           {showMore ? ' Read Less' : ' Read More'}
                         </Text>
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {responseData?.type == 'variable' ? (
                       <Accordion
                         Size={size}

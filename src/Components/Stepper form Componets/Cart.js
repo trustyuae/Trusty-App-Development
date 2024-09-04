@@ -247,7 +247,7 @@ const Cart = ({
 
   return (
     <SafeAreaView style={{ position: 'relative' }}>
-      <Icon
+      {/* <Icon
         name={'arrow-left'}
         size={25}
         color="black"
@@ -256,7 +256,9 @@ const Cart = ({
           left: 10,
           top: -85,
         }}
-        onPress={() => navigation.goBack()}></Icon>
+        onPress={() => navigation.goBack()}>
+
+      </Icon> */}
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.container}>
@@ -901,13 +903,15 @@ const Cart = ({
             <Text style={styles.bottomContainerText}> shop         securely    </Text>
           </View>
         </View>
-        <Button
-          stylesofbtn={styles.custcheckoutbtn}
-          styleoffont={styles.custfontstyle}
-          name={'Checkout'}
-          handlepress={handleCheckout}
-          loading={isloading}
-        />
+        <View style={{ position: 'fixed', }}>
+          <Button
+            stylesofbtn={styles.custcheckoutbtn}
+            styleoffont={styles.custfontstyle}
+            name={'Checkout'}
+            handlepress={handleCheckout}
+            loading={isloading}
+          />
+        </View>
       </View>
     </SafeAreaView >
   );
