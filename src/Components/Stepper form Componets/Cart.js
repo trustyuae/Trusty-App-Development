@@ -29,6 +29,7 @@ import SkeletonLoaderOrder from '../Loader/SkeletonLoaderOrder';
 import { CouponDetail } from '../../Redux/Slice/car_slice/coupon/couponcart';
 import debounce from 'lodash/debounce';
 import SelectDropdown from 'react-native-select-dropdown';
+import { Images } from '../../Constants';
 
 const Cart = ({
   count,
@@ -51,6 +52,8 @@ const Cart = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigation();
   const [discount, setDiscount] = useState();
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isWishlist, setIsWishlist] = useState(false)
 
   useEffect(() => {
     const fetch = async () => {
@@ -95,6 +98,11 @@ const Cart = ({
     },
     [viewcartdata],
   );
+
+  const handleRemoveItem = (item) => {
+    setSelectedItem(item.key);
+
+  };
 
   const debouncedUpdateCart = useCallback(
     debounce(async selectedItem => {
@@ -271,6 +279,8 @@ const Cart = ({
                   flexDirection: 'row',
                   gap: 10,
                   position: 'relative',
+                  transform: [{ translateX: selectedItem === Item.key ? -40 : 0 }],
+                  transition: 'transform 0.3s ease',
                 }}>
                 {/* <Icon
                   name={'delete'}
@@ -281,15 +291,25 @@ const Cart = ({
                     right: 0,
                   }}
                   onPress={() => handleRemove(Item)}></Icon> */}
-                <Image style={{
+                {/* <Image style={{
                   position: 'absolute',
                   top: hp('7.8%'),
                   right: 0,
                   height: 24,
                   width: 24
-                }} source={deleteImg}></Image>
+                }} source={deleteImg}></Image> */}
 
+                <Icon
+                  name={'close'}
+                  size={20}
+                  color="black"
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                  }}
+                  onPress={() => handleRemoveItem(Item)}>
 
+                </Icon>
 
                 <View>
                   {Item.product_image ? (
@@ -305,18 +325,20 @@ const Cart = ({
                     />
                   )}
                 </View>
-                <View>
+                <View >
                   <Text
                     style={{
                       color: globalColors.black,
                       fontFamily: 'Product Sans',
                       fontSize: 16,
+                      width: wp('42%'),
+                      marginBottom: wp('5%'),
                       fontWeight: '700'
                     }}>
                     {Item.product_name}
                   </Text>
 
-                  <Text
+                  {/* <Text
                     style={{
                       marginVertical: 3,
                       color: globalColors.cartProductTextColor,
@@ -328,8 +350,23 @@ const Cart = ({
                     <Text style={{ color: globalColors.black }}>
                       {Item?.mod_attributes?.color}
                     </Text>
-                  </Text>
-                  <Text
+                  </Text> */}
+                  {
+                    Item.mod_attributes.color ? (<Text
+                      style={{
+                        marginVertical: 3,
+                        color: globalColors.cartProductTextColor,
+                        fontFamily: 'Product Sans',
+                        fontSize: 14,
+                        fontWeight: '400'
+                      }}>
+                      Color :{' '}
+                      <Text style={{ color: globalColors.black }}>
+                        {Item?.mod_attributes?.color}
+                      </Text>
+                    </Text>) : ''
+                  }
+                  {/* <Text
                     style={{
                       color: globalColors.cartProductTextColor,
                       fontFamily: 'Product Sans',
@@ -338,8 +375,91 @@ const Cart = ({
                     <Text style={{ color: globalColors.black }}>
                       {Item?.mod_attributes?.size}
                     </Text>
-                  </Text>
+                  </Text> */}
+                  {
+                    Item.mod_attributes.size ? (
+                      <Text
+                        style={{
+                          color: globalColors.cartProductTextColor,
+                          fontFamily: 'Product Sans',
+                        }}>
+                        Size :{' '}
+                        <Text style={{ color: globalColors.black }}>
+                          {Item?.mod_attributes?.size}
+                        </Text>
+                      </Text>
+                    ) : <View style={{ marginTop: wp('1%') }} />
+                  }
                   <View
+                    style={{
+                      // backgroundColor: globalColors.white,
+                      paddingVertical: 2,
+                      // position: 'absolute',
+                      bottom: -8,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      right: 0,
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            color: globalColors.darkGray,
+                            // marginLeft: 17,
+                          }}
+                          onPress={() => handleDecrease(Item.key)}>
+                          -
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            color: globalColors.darkGray,
+                            fontFamily: 'Intrepid Regular',
+                            marginHorizontal: 20,
+                            padding: 4,
+                            backgroundColor: globalColors.white
+                          }}>
+                          {Item.quantity}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            color: globalColors.darkGray,
+                            // marginRight: 7,
+                          }}
+                          onPress={() => handleIncrease(Item.key)}>
+                          +
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          // marginVertical: wp('4%'),
+                          // marginTop: wp('4%'),
+                          color: globalColors.black,
+                          fontFamily: 'Product Sans',
+                          paddingLeft: wp('4%'),
+                          fontSize: 16,
+                          fontWeight: '700'
+                        }}>
+                        {Item.product_price} AED
+                      </Text>
+                    </View>
+
+                  </View>
+
+
+                  {/* <View
                     style={{
                       backgroundColor: globalColors.white,
                       paddingVertical: 2,
@@ -392,25 +512,57 @@ const Cart = ({
                         </Text>
                       </View>
                     </View>
-                  </View>
-                  <Text
-                    style={{
-                      // marginVertical: wp('4%'),
-                      marginTop: wp('4%'),
-                      color: globalColors.black,
-                      fontFamily: 'Product Sans',
-                      paddingLeft: wp('2%'),
-                      fontSize: 16,
-                      fontWeight: '700'
-                    }}>
-                    {Item.product_price} AED
-                  </Text>
+                  </View> */}
+
                 </View>
+                {
+                  selectedItem === Item.key && (
+                    <View style={{ width: '100%', flexDirection: 'row' }}>
+                      <View style={{
+                        width: '12%',
+                        backgroundColor: '#D6852A',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                        {isWishlist ? (
+                          <Pressable onPress={toggleSaved}>
+                            <Image source={Images.saveIconFill} />
+                          </Pressable>
+                        ) : (
+                          <Image source={Images.saveIconUnFill} />
+                        )}
+                      </View>
+                      <View style={{
+                        width: '12%',
+                        backgroundColor: globalColors.black,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                        <Icon
+                          name={'close'}
+                          size={30}
+                          color="white"
+                          style={{
+                            // position: 'absolute',
+                            right: 0,
+                          }}
+                          onPress={() => handleRemove(Item)}>
+
+                        </Icon>
+                        <Text style={{
+                          fontSize: 8,
+                          fontFamily: 'Product Sans',
+                          color: globalColors.white
+                        }}>Remove</Text>
+                      </View>
+                    </View>
+                  )
+                }
+
               </View>
 
             ))}
             <View style={styles.custborder} />
-
           </View>
         )}
 

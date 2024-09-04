@@ -1,7 +1,7 @@
-import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
-import {useState} from 'react';
-import {List} from 'react-native-paper';
-import {globalColors} from '../Assets/Theme/globalColors';
+import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { List } from 'react-native-paper';
+import { globalColors } from '../Assets/Theme/globalColors';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -27,7 +27,7 @@ const Accordion = ({
   const stripHTMLTags = html => {
     return html.replace(/<[^>]*>?/gm, '');
   };
-  const data = colorMeta.split(',')[1];
+  const data = colorMeta?.split(',')[1];
 
   return (
     <List.Section>
@@ -47,8 +47,8 @@ const Accordion = ({
             }}>{`Color: ${data}`}</Text>
         ) : (
           <List.Accordion
-            title={`Color: ${data}`}
-            titleStyle={{color: globalColors.darkGray}}
+            title={`Color: ${Color}`}
+            titleStyle={{ color: globalColors.darkGray }}
             expanded={expandedimg}
             style={{
               backgroundColor: globalColors.headingBackground,
@@ -69,7 +69,7 @@ const Accordion = ({
                           onPress={() => {
                             setChange(item), setSelectedColor(item);
                           }}>
-                          <View style={{marginVertical: 7, marginLeft: 20}}>
+                          <View style={{ marginVertical: 7, marginLeft: 20 }}>
                             <View
                               style={{
                                 width: 30,
@@ -93,7 +93,7 @@ const Accordion = ({
         {Size ? (
           <List.Accordion
             title={`Size:  ${changeSize}`}
-            titleStyle={{color: globalColors.darkGray}}
+            titleStyle={{ color: globalColors.darkGray }}
             expanded={expandedSize}
             style={{
               backgroundColor: globalColors.headingBackground,
