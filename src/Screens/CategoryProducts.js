@@ -30,6 +30,7 @@ import { getToken } from '../Utils/localstorage';
 import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
 import { RefreshControl } from 'react-native';
 import SkeletonLoader from '../Components/Loader/SkeletonLoader';
+import ProductCategory from '../Components/Product/ProductCategory';
 
 const CategoryProducts = ({ navigation }) => {
   const route = useRoute();
@@ -118,6 +119,7 @@ const CategoryProducts = ({ navigation }) => {
   //   }, [dispatch, category.id])
   // );
   const renderProduct = ({ item }) => (
+    // console.log("==========item====>",item),
     <TouchableOpacity
       key={item.id}
       onPress={() =>
@@ -126,8 +128,8 @@ const CategoryProducts = ({ navigation }) => {
           isWatchList: item?.isWatchList,
         })
       }>
-      <Product
-        uri={item?.images?.[0]?.src}
+      <ProductCategory
+        uri={item}
         name={item?.name}
         price={item?.price}
         saved={item?.saved}
@@ -348,6 +350,7 @@ const CategoryProducts = ({ navigation }) => {
         <FlatList
           data={wishlist}
           renderItem={renderProduct}
+          showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id.toString()}
           ListEmptyComponent={
             status === 'loading' ? (

@@ -5,6 +5,8 @@ import {
   TextInput,
   Alert,
   SafeAreaView,
+  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import { NoImg, callIcon, certifiedIcon, deleteImg, deliveryIcon, emailIcon, returnExchangeIcon } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -534,12 +536,15 @@ const Cart = ({
                           <Image source={Images.saveIconUnFill} />
                         )}
                       </View>
-                      <View style={{
+
+                      <TouchableOpacity style={{
                         width: '12%',
                         backgroundColor: globalColors.black,
                         alignItems: 'center',
                         justifyContent: 'center',
-                      }}>
+                      }}
+                        onPress={() => handleRemove(Item)}
+                      >
                         <Icon
                           name={'close'}
                           size={30}
@@ -548,7 +553,7 @@ const Cart = ({
                             // position: 'absolute',
                             right: 0,
                           }}
-                          onPress={() => handleRemove(Item)}>
+                        >
 
                         </Icon>
                         <Text style={{
@@ -556,7 +561,7 @@ const Cart = ({
                           fontFamily: 'Product Sans',
                           color: globalColors.white
                         }}>Remove</Text>
-                      </View>
+                      </TouchableOpacity>
                     </View>
                   )
                 }

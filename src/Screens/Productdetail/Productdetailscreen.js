@@ -134,7 +134,7 @@ export default function Productdetailscreen({ route }) {
   const attributes = {};
 
   useEffect(() => {
-    console.log('====>responseData', responseData);
+    // console.log('====>responseData', responseData);
     // console.log('Hardware----->', hardwareMeta.value);
     responseData?.attributes?.forEach(attribute => {
       if (attribute.name.toLowerCase() === 'size') {
