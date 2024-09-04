@@ -163,144 +163,144 @@ const CategoryProducts = ({ navigation }) => {
   }, 5000);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ marginBottom: hp('20%') }}>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.container}>
-        <ScrollView
+        {/* <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
-          {/* <Text style={styles.TextHeading}>Women</Text> */}
+          }> */}
+        {/* <Text style={styles.TextHeading}>Women</Text> */}
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'baseline',
-              fontSize: 12,
-            }}>
-            <Text style={styles.CategoryText}>{category.name}</Text>
-            <Text>({count})</Text>
-          </View>
-          <View
-            style={{
-              borderBottomWidth: 1,
-              marginRight: 10,
-              marginLeft: 10,
-              paddingRight: 20,
-              borderBottomColor: '#ccc',
-              marginBottom: 10,
-              marginTop: 10,
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'baseline',
+            fontSize: 12,
+          }}>
+          <Text style={styles.CategoryText}>{category.name}</Text>
+          <Text>({count})</Text>
+        </View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginRight: 10,
+            marginLeft: 10,
+            paddingRight: 20,
+            borderBottomColor: '#ccc',
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        />
+
+        <View
+          style={{
+            flexDirection: 'row',
+            // gap: wp('48%'),
+            paddingLeft: 20,
+            paddingRight: 10,
+            justifyContent: 'space-between',
+          }}>
+          <SelectDropdown
+            data={emojisWithIcons1}
+            onSelect={(selectedItem, index) => { }}
+            // style={{marginLeft: 0}}
+            renderButton={(selectedItem, isOpen) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text
+                    style={{
+                      fontFamily: 'Intrepid Regular',
+                      fontSize: 15,
+                      color: globalColors.buttonBackground,
+                    }}>
+                    {(selectedItem && selectedItem.title) || 'filter '}
+                  </Text>
+                  <Icon
+                    name={isOpen ? 'chevron-up' : 'chevron-down'}
+                    style={styles.dropdownButtonArrowStyle}
+                  />
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <View
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontFamily: 'Intrepid Regular',
+                      marginLeft: 4,
+                      textAlign: 'center',
+                      marginRight: 4,
+                    }}>
+                    {item}
+                  </Text>
+                </View>
+              );
             }}
           />
-
-          <View
-            style={{
-              flexDirection: 'row',
-              // gap: wp('48%'),
-              paddingLeft: 20,
-              paddingRight: 10,
-              justifyContent: 'space-between',
-            }}>
-            <SelectDropdown
-              data={emojisWithIcons1}
-              onSelect={(selectedItem, index) => { }}
-              // style={{marginLeft: 0}}
-              renderButton={(selectedItem, isOpen) => {
-                return (
-                  <View style={styles.dropdownButtonStyle}>
-                    <Text
-                      style={{
-                        fontFamily: 'Intrepid Regular',
-                        fontSize: 15,
-                        color: globalColors.buttonBackground,
-                      }}>
-                      {(selectedItem && selectedItem.title) || 'filter '}
-                    </Text>
-                    <Icon
-                      name={isOpen ? 'chevron-up' : 'chevron-down'}
-                      style={styles.dropdownButtonArrowStyle}
-                    />
-                  </View>
-                );
-              }}
-              renderItem={(item, index, isSelected) => {
-                return (
-                  <View
+          <SelectDropdown
+            data={emojisWithIcons}
+            // onSelect={(selectedItem, index) => { }}
+            // style={{marginLeft: 0}}
+            renderButton={(selectedItem, isOpen) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text
                     style={{
-                      ...styles.dropdownItemStyle,
-                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                      fontFamily: 'Intrepid Regular',
+                      fontSize: 15,
+                      color: globalColors.buttonBackground,
                     }}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontFamily: 'Intrepid Regular',
-                        marginLeft: 4,
-                        textAlign: 'center',
-                        marginRight: 4,
-                      }}>
-                      {item}
-                    </Text>
-                  </View>
-                );
-              }}
-            />
-            <SelectDropdown
-              data={emojisWithIcons}
-              // onSelect={(selectedItem, index) => { }}
-              // style={{marginLeft: 0}}
-              renderButton={(selectedItem, isOpen) => {
-                return (
-                  <View style={styles.dropdownButtonStyle}>
-                    <Text
-                      style={{
-                        fontFamily: 'Intrepid Regular',
-                        fontSize: 15,
-                        color: globalColors.buttonBackground,
-                      }}>
-                      {(selectedItem && selectedItem.title) || 'Sort By'}
-                    </Text>
-                    <Icon
-                      name={isOpen ? 'chevron-up' : 'chevron-down'}
-                      style={styles.dropdownButtonArrowStyle}
-                    />
-                  </View>
-                );
-              }}
-              renderItem={(item, index, isSelected) => {
-                return (
-                  <SafeAreaView
+                    {(selectedItem && selectedItem.title) || 'Sort By'}
+                  </Text>
+                  <Icon
+                    name={isOpen ? 'chevron-up' : 'chevron-down'}
+                    style={styles.dropdownButtonArrowStyle}
+                  />
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <SafeAreaView
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                  }}>
+                  <Text
                     style={{
-                      ...styles.dropdownItemStyle,
-                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                      fontSize: 14,
+                      fontFamily: 'Intrepid Regular',
+                      marginLeft: 4,
+                      marginRight: 1,
                     }}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontFamily: 'Intrepid Regular',
-                        marginLeft: 4,
-                        marginRight: 1,
-                      }}>
-                      {item}
-                    </Text>
-                  </SafeAreaView>
-                );
-              }}
-            />
-          </View>
-          <View
-            style={{
-              borderBottomWidth: 1,
-              marginRight: 10,
-              marginLeft: 10,
-              paddingRight: 20,
-              borderBottomColor: '#ccc',
-              marginBottom: 10,
-              marginTop: 10,
+                    {item}
+                  </Text>
+                </SafeAreaView>
+              );
             }}
           />
-          <View style={styles.productContainer}>
+        </View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginRight: 10,
+            marginLeft: 10,
+            paddingRight: 20,
+            borderBottomColor: '#ccc',
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        />
+        {/* <View style={styles.productContainer}>
             {status === 'loading' ? (
               // <ActivityIndicator
               //   size="large"
@@ -336,48 +336,48 @@ const CategoryProducts = ({ navigation }) => {
             ) : (
               <Text>{msg}</Text>
             )}
-          </View>
+          </View> */}
 
-          {wishlist.length >= 10 && (
+        {/* {wishlist.length >= 10 && (
             <TouchableOpacity
               onPress={loadMoreProducts}
               style={styles.loadMoreButton}>
               <Text style={styles.loadMoreButtonText}>Load More</Text>
             </TouchableOpacity>
-          )}
-
-          {/* <FlatList
-            data={wishlist}
-            renderItem={renderProduct}
-            keyExtractor={item => item.id.toString()}
-            ListEmptyComponent={
-              status === 'loading' ? (
-                <SkeletonLoader count={6} />
-              ) : (
-                <Text style={styles.errorText}>{msg || error}</Text>
-              )
-            }
-            ListFooterComponent={
-              status === 'loading' ? (
-                <View>
-                  <ActivityIndicator
-                    size="large"
-                    color={globalColors.black}
-                    style={{ marginVertical: 20, justifyContent: 'center' }}
-                  />
-                </View>
-              ) : null
-            }
-            onEndReached={handleEndReached}
-            onEndReachedThreshold={1}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            contentContainerStyle={styles.productContainer}
-          /> */}
-        </ScrollView>
+          )} */}
+        <FlatList
+          data={wishlist}
+          renderItem={renderProduct}
+          keyExtractor={item => item.id.toString()}
+          ListEmptyComponent={
+            status === 'loading' ? (
+              <SkeletonLoader count={6} />
+            ) : (
+              <Text style={styles.errorText}>{msg || error}</Text>
+            )
+          }
+          ListFooterComponent={
+            status === 'loading' ? (
+              <View>
+                <ActivityIndicator
+                  size="large"
+                  color={globalColors.black}
+                  style={{ marginVertical: 20, justifyContent: 'center' }}
+                />
+              </View>
+            ) : null
+          }
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          contentContainerStyle={styles.productContainer}
+        />
+        {/* </ScrollView> */}
       </View>
-    </SafeAreaView>
+
+    </SafeAreaView >
   );
 };
 
@@ -392,6 +392,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     paddingHorizontal: 11,
+    // backgroundColor: 'red'
+    // height: '100%'
   },
   TextHeading: {
     fontSize: 10,
