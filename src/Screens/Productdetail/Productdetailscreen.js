@@ -193,11 +193,11 @@ export default function Productdetailscreen({ route }) {
       // }
       const requiresSize = size && size.length > 0;
 
-      if (requiresSize && !changeSize) {
-        Alert.alert('', 'Please select a size.');
-        setLoding(false);
-        return;
-      }
+      // if (requiresSize && !changeSize) {
+      //   Alert.alert('', 'Please select a size.');
+      //   setLoding(false);
+      //   return;
+      // }
       dispatch(addToCart(data)).then(action => {
         if (addToCart.fulfilled.match(action)) {
           setLoding(false);

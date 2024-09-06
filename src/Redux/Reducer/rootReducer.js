@@ -25,6 +25,7 @@ import CouponDetailCartSlice from '../Slice/car_slice/coupon/couponcart';
 import searchProductSlice from '../Slice/searchProductSlice';
 import paginatedProductSlice from '../Slice/paginatedProductSlice';
 import signatureSelectionsSlice from '../Slice/signatureSelections'
+import categorySearchSlice from '../Slice/categorySearchSlice';
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -54,7 +55,8 @@ const rootReducer = combineReducers({
   CouponDetail: CouponDetailCartSlice,
   searchProduct: searchProductSlice,
   paginatedProducts: paginatedProductSlice,
-  signatureSelectionsSlice: signatureSelectionsSlice
+  signatureSelectionsSlice: signatureSelectionsSlice,
+  categorySearch: categorySearchSlice,
 });
 
 export default rootReducer;

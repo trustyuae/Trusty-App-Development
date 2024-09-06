@@ -113,7 +113,7 @@ const ProductCategory = ({ uri, name, price, product_id, isWatchList, img, descr
             <View style={styles.imageContainer}>
                 <View style={styles.carouselContainer}>
                     {uri?.images ?
-                        <MyCarouselOutside views={uri?.images} /> : ''
+                        <MyCarouselOutside views={uri?.images.slice(0, 4)} /> : ''
                     }
 
                 </View>

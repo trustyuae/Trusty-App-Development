@@ -120,7 +120,7 @@ const CategoryProducts = ({ navigation }) => {
   // );
   const renderProduct = ({ item }) => (
     // console.log("==========item====>",item),
-    <TouchableOpacity
+    <Pressable
       key={item.id}
       onPress={() =>
         navigation.navigate('ProductDetail', {
@@ -136,7 +136,7 @@ const CategoryProducts = ({ navigation }) => {
         product_id={item?.id}
         isWatchList={item?.isWatchList}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 
   const onRefresh = React.useCallback(async () => {

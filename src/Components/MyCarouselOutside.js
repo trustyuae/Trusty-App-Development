@@ -28,8 +28,8 @@ function MyCarouselOutside({ views }) {
         return {
             width: `${interpolate(
                 progressValue.value,
-                [0, views.length ],
-                [0, 100],
+                [0, views.length - 1],
+                [0, 46],
                 Extrapolate.CLAMP
             )}%`,
             backgroundColor: '#000000',
@@ -47,7 +47,7 @@ function MyCarouselOutside({ views }) {
                 loop
                 width={width}
                 height={hp('50%')}
-                data={views.slice(0, 3)}
+                data={views}
                 onProgressChange={(_, absoluteProgress) =>
                     (progressValue.value = absoluteProgress)
                 }

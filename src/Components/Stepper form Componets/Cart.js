@@ -319,7 +319,7 @@ const Cart = ({
                     <Icon
                       name={'close'}
                       size={20}
-                      color="black"
+                      color="#C3BEBA"
                       style={{
                         position: 'absolute',
                         right: 0,
@@ -777,6 +777,7 @@ const Cart = ({
                   <TextInput
                     style={styles.input}
                     placeholder="Enter Promo code"
+                    placeholderTextColor={globalColors.textColorLogin}
                     value={discount}
                     onChangeText={text => setDiscount(text)}
                   />
