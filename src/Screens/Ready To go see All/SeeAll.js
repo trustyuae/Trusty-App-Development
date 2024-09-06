@@ -27,6 +27,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { fetchRedyToGo } from '../../Redux/Slice/ready_to_go';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import SelectDropdown from 'react-native-select-dropdown';
+import ProductCategory from '../../Components/Product/ProductCategory';
 
 const SeeAll = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -70,8 +71,8 @@ const SeeAll = ({ navigation }) => {
       onPress={() =>
         navigation.navigate('ProductDetail', { userId: product.id })
       }>
-      <Product
-        uri={product?.images?.[0] || product?.image}
+      <ProductCategory
+        uri={product?.images}
         name={product?.name}
         price={product?.price}
         saved={product?.saved}
@@ -127,128 +128,128 @@ const SeeAll = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <ScrollView>
-        <CustomStatusBar color={globalColors.headingBackground} />
-        <View style={styles.container}>
-          <View
-            style={{
-              borderBottomWidth: 1,
-              marginRight: 10,
-              marginLeft: 10,
-              paddingRight: 20,
-              borderBottomColor: '#ccc',
-              marginBottom: 10,
-              marginTop: Platform.OS === 'ios' ? hp('-2') : hp('2'),
-            }}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
+      {/* <ScrollView> */}
+      <CustomStatusBar color={globalColors.headingBackground} />
+      <View style={styles.container}>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginRight: 10,
+            marginLeft: 10,
+            paddingRight: 20,
+            borderBottomColor: '#ccc',
+            marginBottom: 10,
+            marginTop: Platform.OS === 'ios' ? hp('-2') : hp('2'),
+          }}
+        />
+        <View
+          style={{
+            flexDirection: 'row',
 
-              paddingLeft: 20,
-              paddingRight: 10,
-              justifyContent: 'space-between',
-            }}>
-            <SelectDropdown
-              data={emojisWithIcons1}
-              onSelect={(selectedItem, index) => { }}
-              // style={{marginLeft: 0}}
-              renderButton={(selectedItem, isOpen) => {
-                return (
-                  <View style={styles.dropdownButtonStyle}>
-                    <Text
-                      style={{
-                        fontFamily: 'Intrepid Regular',
-                        fontSize: 15,
-                        color: globalColors.buttonBackground,
-                      }}>
-                      {(selectedItem && selectedItem.title) || 'filter '}
-                    </Text>
-                    <Icon
-                      name={isOpen ? 'chevron-up' : 'chevron-down'}
-                      style={styles.dropdownButtonArrowStyle}
-                    />
-                  </View>
-                );
-              }}
-              renderItem={(item, index, isSelected) => {
-                return (
-                  <View
+            paddingLeft: 20,
+            paddingRight: 10,
+            justifyContent: 'space-between',
+          }}>
+          <SelectDropdown
+            data={emojisWithIcons1}
+            onSelect={(selectedItem, index) => { }}
+            // style={{marginLeft: 0}}
+            renderButton={(selectedItem, isOpen) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text
                     style={{
-                      ...styles.dropdownItemStyle,
-                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                      fontFamily: 'Intrepid Regular',
+                      fontSize: 15,
+                      color: globalColors.buttonBackground,
                     }}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontFamily: 'Intrepid Regular',
-                        marginLeft: 4,
-                        textAlign: 'center',
-                        marginRight: 4,
-                      }}>
-                      {item}
-                    </Text>
-                  </View>
-                );
-              }}
-            />
-            <SelectDropdown
-              data={emojisWithIcons}
-              // onSelect={(selectedItem, index) => { }}
-              // style={{marginLeft: 0}}
-              renderButton={(selectedItem, isOpen) => {
-                return (
-                  <View style={styles.dropdownButtonStyle}>
-                    <Text
-                      style={{
-                        fontFamily: 'Intrepid Regular',
-                        fontSize: 15,
-                        color: globalColors.buttonBackground,
-                      }}>
-                      {(selectedItem && selectedItem.title) || 'Sort By'}
-                    </Text>
-                    <Icon
-                      name={isOpen ? 'chevron-up' : 'chevron-down'}
-                      style={styles.dropdownButtonArrowStyle}
-                    />
-                  </View>
-                );
-              }}
-              renderItem={(item, index, isSelected) => {
-                return (
-                  <SafeAreaView
+                    {(selectedItem && selectedItem.title) || 'filter '}
+                  </Text>
+                  <Icon
+                    name={isOpen ? 'chevron-up' : 'chevron-down'}
+                    style={styles.dropdownButtonArrowStyle}
+                  />
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <View
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                  }}>
+                  <Text
                     style={{
-                      ...styles.dropdownItemStyle,
-                      ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                      fontSize: 14,
+                      fontFamily: 'Intrepid Regular',
+                      marginLeft: 4,
+                      textAlign: 'center',
+                      marginRight: 4,
                     }}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontFamily: 'Intrepid Regular',
-                        marginLeft: 4,
-                        marginRight: 1,
-                      }}>
-                      {item}
-                    </Text>
-                  </SafeAreaView>
-                );
-              }}
-            />
-          </View>
-          <View
-            style={{
-              borderBottomWidth: 1,
-              marginRight: 10,
-              marginLeft: 10,
-              paddingRight: 20,
-              borderBottomColor: '#ccc',
-              marginBottom: 10,
-              marginTop: 10,
+                    {item}
+                  </Text>
+                </View>
+              );
             }}
           />
-          {renderProducts()}
+          <SelectDropdown
+            data={emojisWithIcons}
+            // onSelect={(selectedItem, index) => { }}
+            // style={{marginLeft: 0}}
+            renderButton={(selectedItem, isOpen) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text
+                    style={{
+                      fontFamily: 'Intrepid Regular',
+                      fontSize: 15,
+                      color: globalColors.buttonBackground,
+                    }}>
+                    {(selectedItem && selectedItem.title) || 'Sort By'}
+                  </Text>
+                  <Icon
+                    name={isOpen ? 'chevron-up' : 'chevron-down'}
+                    style={styles.dropdownButtonArrowStyle}
+                  />
+                </View>
+              );
+            }}
+            renderItem={(item, index, isSelected) => {
+              return (
+                <SafeAreaView
+                  style={{
+                    ...styles.dropdownItemStyle,
+                    ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontFamily: 'Intrepid Regular',
+                      marginLeft: 4,
+                      marginRight: 1,
+                    }}>
+                    {item}
+                  </Text>
+                </SafeAreaView>
+              );
+            }}
+          />
         </View>
-      </ScrollView>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            marginRight: 10,
+            marginLeft: 10,
+            paddingRight: 20,
+            borderBottomColor: '#ccc',
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        />
+        {renderProducts()}
+      </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };

@@ -17,46 +17,46 @@ import {
   ProductIMG,
 } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {List} from 'react-native-paper';
-import {useCallback, useEffect, useState} from 'react';
+import { List } from 'react-native-paper';
+import { useCallback, useEffect, useState } from 'react';
 import ModalComponent from '../Model/Modalcomopnet';
-import {useDispatch, useSelector} from 'react-redux';
-import {OrderDetail} from '../../Redux/Slice/car_slice/orderdeatails';
-import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
-import {Alert} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
-import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
-import {getUserId} from '../../Utils/localstorage';
-import {fetchProfile, updateProfile} from '../../Redux/Slice/profileSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { OrderDetail } from '../../Redux/Slice/car_slice/orderdeatails';
+import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
+import { Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { orderToCart } from '../../Redux/Slice/car_slice/placeordercart';
+import { getUserId } from '../../Utils/localstorage';
+import { fetchProfile, updateProfile } from '../../Redux/Slice/profileSlice';
 import Toast from 'react-native-toast-message';
-import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
+import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import {
   GestureHandlerRootView,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
-import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
+import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
 import debounce from 'lodash/debounce';
 import SelectDropdown from 'react-native-select-dropdown';
 import PhoneInput from 'react-native-phone-number-input';
 import FloatingLabelInput from '../FloatingLabelInput';
 
-const Checkout = ({count, setCount, setGetorderDetail}) => {
-  const {viewcartdata} = useSelector(state => state?.ViewToCart);
+const Checkout = ({ count, setCount, setGetorderDetail }) => {
+  const { viewcartdata } = useSelector(state => state?.ViewToCart);
   const [expanded, setExpanded] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const {data, loading, error} = useSelector(state => state?.profile);
+  const { data, loading, error } = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState(viewcartdata?.cartData);
-  const {deteltedData} = useSelector(state => state?.DeleteToCart);
-  const {orderData, iserror, isloading} = useSelector(
+  const { deteltedData } = useSelector(state => state?.DeleteToCart);
+  const { orderData, iserror, isloading } = useSelector(
     state => state?.OrderToCart,
   );
   const [customerid, setCustomerID] = useState();
@@ -391,7 +391,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
     if (key === 'phone' && value.length > 15) {
       return;
     }
-    setFormData(prevState => ({...prevState, [key]: value}));
+    setFormData(prevState => ({ ...prevState, [key]: value }));
     // validateField(key, value);
   };
 
@@ -437,7 +437,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
     console.log('userData*************', userData);
 
     try {
-      await dispatch(updateProfile({customer_id, newData: userData}));
+      await dispatch(updateProfile({ customer_id, newData: userData }));
       // onClose();
       setStateUpdate(!stateUpdate);
     } catch (error) {
@@ -450,11 +450,11 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
     handleUpdateData();
     setIsCheckbox(prevState => !prevState);
   };
-  const emojisWithIcons = [{title: 'Mr'}, {title: 'Miss'}];
+  const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <SafeAreaView style={{position: 'relative'}}>
+      <SafeAreaView style={{ position: 'relative', marginBottom: hp('7%') }}>
         <Icon
           name={'arrow-left'}
           size={25}
@@ -704,9 +704,9 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
           <View style={styles.headingInput}>
             <Text style={styles.formHeadingText}>Personal Information</Text>
           </View>
-          <View style={{backgroundColor: globalColors.white, borderRadius: 5}}>
-            <View style={{flexDirection: 'row'}}>
-              <View style={{width: '30%'}}>
+          <View style={{ backgroundColor: globalColors.white, borderRadius: 5 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ width: '30%' }}>
                 <SelectDropdown
                   data={emojisWithIcons}
                   onSelect={(selectedItem, index) => {
@@ -740,7 +740,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
                       <View
                         style={{
                           ...styles.dropdownItemStyle,
-                          ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
                         }}>
                         <Text style={styles.dropdownItemTxtStyle}>
                           {item.title}
@@ -751,7 +751,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
                 />
               </View>
 
-              <View style={{width: '70%'}}>
+              <View style={{ width: '70%' }}>
                 <FloatingLabelInput
                   label="FIRST NAME *"
                   value={formData.firstName}
@@ -810,7 +810,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
               {errors.phone && (
                 <Text style={styles.errorText}>{errors.phone}</Text>
               )}
-              <View style={{backgroundColor: 'white'}}>
+              <View style={{ backgroundColor: 'white' }}>
                 {/* <MobileNo
                     selected={formData.selected}
                     setSelected={value => handleChange('selected', value)}
@@ -858,7 +858,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
             /> */}
             <View style={styles.separator} />
             <View style={styles.inputPicker}>
-              <View style={{width: '50%'}}>
+              <View style={{ width: '50%' }}>
                 <FloatingLabelInput
                   label="CITY/STATE *"
                   value={formData.billingCity}
@@ -912,7 +912,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
                     <View
                       style={{
                         ...styles.dropdownItemStyle,
-                        ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                        ...(isSelected && { backgroundColor: '#D2D9DF' }),
                       }}>
                       <Text style={styles.dropdownItemTxtStyle}>
                         {item.label}
@@ -970,7 +970,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
               <View style={styles.headingInput}>
                 <Text style={styles.formHeadingText}>shipping Information</Text>
               </View>
-              <View style={{width: '70%'}}>
+              <View style={{ width: '70%' }}>
                 <FloatingLabelInput
                   label="FIRST NAME *"
                   value={formData.firstNameShipping}
@@ -1073,7 +1073,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
                 data={countries}
                 search
                 searchPlaceHolder="Search Country"
-                searchInputStyle={{fontFamily: 'Product Sans'}}
+                searchInputStyle={{ fontFamily: 'Product Sans' }}
                 onSelect={(selectedItem, index) => {
                   setFormData({
                     ...formData,
@@ -1103,7 +1103,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
                     <View
                       style={{
                         ...styles.dropdownItemStyle,
-                        ...(isSelected && {backgroundColor: '#D2D9DF'}),
+                        ...(isSelected && { backgroundColor: '#D2D9DF' }),
                       }}>
                       <Text style={styles.dropdownItemTxtStyle}>
                         {item.label}
@@ -1118,7 +1118,7 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
           )}
         </View>
 
-        <View style={{backgroundColor: globalColors.white, padding: wp('4%')}}>
+        <View style={{ backgroundColor: globalColors.white, padding: wp('4%') }}>
           <Text style={styles.textheading}>Summery</Text>
           <View
             style={{
@@ -1217,18 +1217,18 @@ const Checkout = ({count, setCount, setGetorderDetail}) => {
               marginVertical: 5,
             }}>
             <Text style={styles.custText}>TOTAL</Text>
-            <Text style={[styles.custText, {color: globalColors.lightgold}]}>
+            <Text style={[styles.custText, { color: globalColors.lightgold }]}>
               {viewcartdata?.total_price} AED
             </Text>
           </View>
 
-          <Button
+          {/* <Button
             stylesofbtn={styles.custcheckoutbtn}
             styleoffont={styles.custfontstyle}
             name={'Confirm'}
             handlepress={handleConfirmpay}
             loading={isloading}
-          />
+          /> */}
         </View>
         <ModalComponent
           visible={isModalVisible}
