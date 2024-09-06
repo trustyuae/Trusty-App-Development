@@ -11,6 +11,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import CartScreen from '../Screens/Cart/CartScreen';
 import SearchScreen from '../Screens/search/SearchScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Shop from '../Screens/Shop/Shop';
 
 const Tab = createBottomTabNavigator();
 
@@ -56,6 +57,7 @@ const BottomTabNavigation = ({ navigation }) => {
       />
       <Tab.Screen
         name="Search"
+        // component={Shop}
         component={SearchScreen}
         options={{
           tabBarIcon: ({ focused }) => (

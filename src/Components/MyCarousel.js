@@ -146,7 +146,7 @@
 
 
 import React, { useState } from 'react';
-import { Dimensions, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Dimensions, View, Image, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {
   widthPercentageToDP as wp,
@@ -202,10 +202,10 @@ function MyCarousel({ views }) {
           <View
 
           >
-            <TouchableOpacity onPress={() => handleImagePress(item?.src)}>
+            <Pressable onPress={() => handleImagePress(item?.src)}>
 
               <Image source={{ uri: item?.src }} style={styles.Imgcontainer} />
-            </TouchableOpacity>
+            </Pressable>
 
           </View>
         )}

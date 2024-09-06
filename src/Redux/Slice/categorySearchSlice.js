@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Consumer_key, Consumer_secret } from '../../Utils/API';
 
-const API_URL = 'https://trustyuae.com/wp-json/product-category-api/v1/categories';
+const API_URL =
+    'https://trustyuae.com/wp-json/product-category-api/v1/categories';
 const API_PRODUCTS_URL = 'https://trustyuae.com/wp-json/wc/v3/products';
 
 export const fetchCategories = createAsyncThunk(
@@ -9,15 +11,23 @@ export const fetchCategories = createAsyncThunk(
     async () => {
         const response = await axios.get(API_URL);
         return response.data;
-    }
+    },
 );
 
 export const fetchProductsByCategory = createAsyncThunk(
     'categorySearch/fetchProductsByCategory',
-    async (categoryId) => {
-        const response = await axios.get(`${API_PRODUCTS_URL}?category=${categoryId}`);
+    async categoryId => {
+        const response = await axios.get(
+            `${API_PRODUCTS_URL}?category=${categoryId}`,
+            {
+                auth: {
+                    username: Consumer_key,
+                    password: Consumer_secret,
+                },
+            },
+        );
         return response.data;
-    }
+    },
 );
 
 const categorySearchSlice = createSlice({
@@ -29,9 +39,9 @@ const categorySearchSlice = createSlice({
         error: null,
     },
     reducers: {},
-    extraReducers: (builder) => {
+    extraReducers: builder => {
         builder
-            .addCase(fetchCategories.pending, (state) => {
+            .addCase(fetchCategories.pending, state => {
                 state.loading = true;
                 state.error = null;
             })
@@ -43,7 +53,7 @@ const categorySearchSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
-            .addCase(fetchProductsByCategory.pending, (state) => {
+            .addCase(fetchProductsByCategory.pending, state => {
                 state.loading = true;
                 state.error = null;
             })

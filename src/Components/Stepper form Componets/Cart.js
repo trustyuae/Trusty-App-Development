@@ -257,6 +257,11 @@ const Cart = ({
     setDiscount('');
   };
 
+  const extractProductName = str => {
+    const parts = str.split(' - ');
+    return parts[0].trim();
+  };
+
   return (
     <TouchableWithoutFeedback onPress={handleOutsideClick}>
       <SafeAreaView style={{ marginBottom: hp('4%') }}>
@@ -352,7 +357,8 @@ const Cart = ({
                           marginBottom: wp('5%'),
                           fontWeight: '500'
                         }}>
-                        {Item.product_name}
+                        {/* {Item.product_name} */}
+                        {extractProductName(Item?.product_name)}
                       </Text>
 
                       {/* <Text
