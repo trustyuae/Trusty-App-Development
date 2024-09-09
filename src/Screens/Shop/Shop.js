@@ -8,6 +8,7 @@ import {
     SafeAreaView,
     ScrollView,
     Pressable,
+    TextInput,
 } from 'react-native';
 import {
     widthPercentageToDP as wp,
@@ -19,6 +20,9 @@ import {
     fetchProductsByCategory,
 } from '../../Redux/Slice/categorySearchSlice';
 import Product from '../../Components/Product/Product';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import SearchScreen from '../search/SearchScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Shop = ({ navigation }) => {
     const [expanded, setExpanded] = useState({
@@ -61,6 +65,14 @@ const Shop = ({ navigation }) => {
     //     }
     // }, [categoryProducts, status, error]);
 
+
+    const navigateToCategoryProducts = category => {
+        console.log("categoryItemseleseted---->", category)
+        // let category = { id: categoryItem }
+        navigation.navigate('CategoryProducts', { category });
+    };
+
+
     const toggleCategory = categoryId => {
         setExpanded(prev => ({
             categoryId: prev.categoryId === categoryId ? null : categoryId,
@@ -80,40 +92,53 @@ const Shop = ({ navigation }) => {
     const renderSubcategories = subcategories => {
         return subcategories.map(subcategory => (
             <View key={subcategory.id} style={styles.subcategoryContainer}>
-                <View style={{ flexDirection: 'row', marginHorizontal: 10 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10 }}>
                     <TouchableOpacity
-                        onPress={() => setSelectedCategoryId(subcategory.id)}>
+                        onPress={() => navigateToCategoryProducts(subcategory)}>
                         <Text style={styles.subcategoryTitle}>{subcategory.name}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => toggleSubcategory(subcategory.id)}>
-                        <Text style={{ marginLeft: wp('3%'), textAlign: 'left' }}>
-                            {expanded.subcategoryId === subcategory.id ? '-' : '+'}
-                        </Text>
-                    </TouchableOpacity>
+                    {subcategory.subcategories.length > 0 && (
+                        <TouchableOpacity onPress={() => toggleSubcategory(subcategory.id)}>
+                            <View style={styles.toggleButton}>
+
+                                <Text style={{ fontSize: 20 }}>
+                                    {expanded.subcategoryId === subcategory.id ? '-' : '+'}
+
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+
                 </View>
 
-                {expanded.subcategoryId === subcategory.id &&
+                {
+                    expanded.subcategoryId === subcategory.id &&
                     subcategory.subcategories.length > 0 && (
                         <View style={styles.subSubcategoryContainer}>
                             {renderSubcategories(subcategory.subcategories)}
                         </View>
-                    )}
-            </View>
+                    )
+                }
+            </View >
         ));
     };
 
     const renderCategories = ({ item }) => (
         <View key={item.id} style={styles.categoryContainer}>
-            <View style={{ flexDirection: 'row', marginHorizontal: 10 }}>
-                <TouchableOpacity onPress={() => setSelectedCategoryId(item.id)}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 10 }}>
+                <TouchableOpacity onPress={() => navigateToCategoryProducts(item)}>
                     <Text style={styles.categoryTitle}>{item.name}</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => toggleCategory(item.id)}>
-                    <Text style={{ marginLeft: wp('3%'), textAlign: 'left' }}>
-                        {expanded.categoryId === item.id ? '-' : '+'}
-                    </Text>
-                </TouchableOpacity>
+                {item.subcategories.length > 0 && (
+                    <TouchableOpacity onPress={() => toggleCategory(item.id)}>
+                        <View style={styles.toggleButton}>
+                            <Text style={{ fontSize: 20 }}>
+                                {expanded.categoryId === item.id ? '-' : '+'}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
             </View>
 
             {console.log('expanded--', expanded)}
@@ -131,56 +156,79 @@ const Shop = ({ navigation }) => {
     );
 
     const renderProducts = () => {
-        return products?.length > 0 ? (
-            <ScrollView>
-                <View style={styles.productsContainer}>
-                    {products.map(product => (
-                        <Pressable
-                            key={product.id}
-                            onPress={() =>
-                                navigation.navigate('ProductDetail', {
-                                    userId: product.id,
-                                    isWatchList: product?.isWatchList,
-                                })
-                            }>
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'center', alignItems: 'center',
-                                    flexWrap: 'wrap',
-                                    // marginHorizontal: 5,
-                                    gap: 10
-                                }}>
-                                <Product
-                                    key={product?.id}
-                                    uri={product?.images[0]?.src}
-                                    name={product?.name}
-                                    price={product?.price}
-                                    saved={product?.saved}
-                                    product_id={product?.id}
-                                    isWatchList={product?.isWatchList}></Product>
-                            </View>
+        // return products?.length > 0 ? (
+        //     <ScrollView>
+        //         <View style={styles.productsContainer}>
+        //             {products.map(product => (
+        //                 <Pressable
+        //                     key={product.id}
+        //                     onPress={() =>
+        //                         navigation.navigate('ProductDetail', {
+        //                             userId: product.id,
+        //                             isWatchList: product?.isWatchList,
+        //                         })
+        //                     }>
+        //                     <View
+        //                         style={{
+        //                             flexDirection: 'row',
+        //                             justifyContent: 'center', alignItems: 'center',
+        //                             flexWrap: 'wrap',
+        //                             // marginHorizontal: 5,
+        //                             gap: 10
+        //                         }}>
+        //                         {/* <Product
+        //                             key={product?.id}
+        //                             uri={product?.images[0]?.src}
+        //                             name={product?.name}
+        //                             price={product?.price}
+        //                             saved={product?.saved}
+        //                             product_id={product?.id}
+        //                             isWatchList={product?.isWatchList}></Product> */}
+        //                     </View>
 
-                            <ScrollView
-                                key={product.id}
-                                style={styles.productItem}></ScrollView>
-                        </Pressable>
-                    ))}
-                </View>
-            </ScrollView>
-        ) : (
-            <Text>No products available.</Text>
-        );
+        //                     <ScrollView
+        //                         key={product.id}
+        //                         style={styles.productItem}></ScrollView>
+        //                 </Pressable>
+        //             ))}
+        //         </View>
+        //     </ScrollView>
+        // ) : (
+        //     <Text>No products available.</Text>
+        // );
     };
 
     return (
         <SafeAreaView style={styles.container}>
-            <View>
+
+            <Icon
+                name="arrow-back"
+                size={25}
+                color="#333"
+                style={{ marginLeft: 8 }}
+                onPress={() => navigation.goBack()}
+            />
+
+            <View style={{ paddingLeft: wp('2%'), paddingRight: wp('2%'), paddingTop: wp('2%') }}>
+                <Text style={{
+                    color: globalColors.black,
+                    textAlign: 'center',
+                    fontSize: 18,
+                    fontFamily: 'Intrepid Regular',
+                    // marginBottom: hp('5%')
+                }}>Menu</Text>
+                <TextInput
+                    style={styles.inputfield}
+                    placeholder="Search "
+                // value={search}
+                // onChangeText={setSearch}
+                />
                 <FlatList
                     data={categories}
                     keyExtractor={item => item.id.toString()}
                     renderItem={renderCategories}
                 />
+
                 <ScrollView>
                     {loading ? <Text>Loading products...</Text> : renderProducts()}
                     {error && <Text>Error: {error}</Text>}
@@ -193,7 +241,8 @@ const Shop = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10,
+        // height: hp('100%')
+        marginBottom: hp('3%')
     },
     categoryContainer: {
         marginVertical: 10,
@@ -209,8 +258,8 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     categoryTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 16,
+        fontWeight: '500',
     },
     subcategoryTitle: {
         fontSize: 16,
@@ -222,6 +271,20 @@ const styles = StyleSheet.create({
     productsContainer: {
         marginTop: 10,
         marginBottom: hp('25%'),
+    },
+    toggleButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 30,
+    },
+    inputfield: {
+        backgroundColor: 'white',
+        margin: 10,
+        borderColor: '#DBCCC1',
+        borderWidth: 1,
+        padding: 7,
+        borderRadius: 20,
+        paddingLeft: 20,
     },
 });
 

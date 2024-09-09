@@ -1,6 +1,6 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from '../Components/SplashScreen/SplashScreen';
 import CartScreen from '../Screens/Cart/CartScreen';
 import Theme from '../Assets/Theme/Theme';
@@ -17,10 +17,11 @@ import Wishlist from '../Screens/wishlist/wishlist.js';
 import Productdetailscreen from '../Screens/Productdetail/Productdetailscreen.js';
 import OrderTrackingScreen from '../Screens/OrderTrackingScreen.js';
 import SetNewPassword from '../Screens/Login/SetNewPassword.js';
-import {Linking} from 'react-native';
+import { Linking } from 'react-native';
+import SearchScreen from '../Screens/search/SearchScreen.js';
 
 const Stack = createNativeStackNavigator();
-const AppNavigations = ({navigation}) => {
+const AppNavigations = ({ navigation }) => {
   const linking = {
     prefixes: [
       'trustyuae.com//',
@@ -150,27 +151,28 @@ const AppNavigations = ({navigation}) => {
         <Stack.Screen
           name="OrderTracking"
           component={OrderTrackingScreen}
-          options={({navigation}) => ({
+          options={({ navigation }) => ({
             headerTransparent: true,
             title: null,
+            headerShown: false,
             // headerStyle: {
             //   backgroundColor: '#f6f1eb',
             // },
-            headerLeft: () => (
-              <Icon
-                name="arrow-back"
-                size={25}
-                color="#333"
-                style={{marginLeft: 1}}
-                onPress={() => navigation.goBack()}
-              />
-            ),
+            // headerLeft: () => (
+            //   <Icon
+            //     name="arrow-back"
+            //     size={25}
+            //     color="#333"
+            //     style={{ marginLeft: 1 }}
+            //     onPress={() => navigation.goBack()}
+            //   />
+            // ),
           })}
         />
         <Stack.Screen
           name="ResetPasswordLink"
           component={SetNewPassword}
-          options={({navigation}) => ({
+          options={({ navigation }) => ({
             headerTransparent: true,
             title: null,
             // headerStyle: {
@@ -181,7 +183,27 @@ const AppNavigations = ({navigation}) => {
                 name="arrow-back"
                 size={25}
                 color="#333"
-                style={{marginLeft: 1}}
+                style={{ marginLeft: 1 }}
+                onPress={() => navigation.navigate('Forgotpassword')}
+              />
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="SearchScreenq"
+          component={SearchScreen}
+          options={({ navigation }) => ({
+            headerTransparent: true,
+            title: null,
+            // headerStyle: {
+            //   backgroundColor: '#f6f1eb',
+            // },
+            headerLeft: () => (
+              <Icon
+                name="arrow-back"
+                size={25}
+                color="#333"
+                style={{ marginLeft: 1 }}
                 onPress={() => navigation.navigate('Forgotpassword')}
               />
             ),

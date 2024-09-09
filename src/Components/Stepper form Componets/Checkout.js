@@ -289,7 +289,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     selectedCountryShipping: data?.shipping?.country,
     shippingAddressContinued: data?.shipping?.address_2,
     shippingCity: data?.shipping?.city,
-    phoneShipping: data.shipping.phone,
+    phoneShipping: data?.shipping?.phone,
   });
   // const [formData, setFormData] = useState({
   //   email: '',

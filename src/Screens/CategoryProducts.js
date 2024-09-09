@@ -148,7 +148,7 @@ const CategoryProducts = ({ navigation }) => {
     await dispatch(fetchWishlist(tokenData));
     refreshWishlist();
     setRefreshing(false);
-  }, [category.id, tokenData]);
+  }, [category?.id, tokenData]);
   const count = categoryProducts?.length;
 
   const [selectedValue, setSelectedValue] = useState('One');

@@ -11,6 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerActions } from '@react-navigation/native';
 import { color } from 'react-native-elements/dist/helpers';
+import Shop from '../Screens/Shop/Shop';
 const Drawer = createDrawerNavigator();
 
 function NotificationsScreen({ navigation }) {
@@ -66,6 +67,13 @@ const DrawerNavigation = ({ navigation }) => {
               <Image source={Images.Bags} style={{ width: 25, height: 24 }} />
             </View>
           ),
+        }}
+      />
+      <Drawer.Screen
+        name="Shop"
+        component={Shop}
+        options={{
+          headerTitle: '',
         }}
       />
       {/* <Drawer.Screen name="Settings" component={Settings} /> */}

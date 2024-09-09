@@ -117,12 +117,12 @@ const ProductCategory = ({ uri, name, price, product_id, isWatchList, img, descr
                     }
 
                 </View>
-                {/* <Pressable onPress={toggleSaved} style={styles.saveImagea}>
-          <Image
-            style={styles.saveImage}
-            source={saved ? Images.saveIconFill : Images.saveIconUnFill}
-          />
-        </Pressable> */}
+                <Pressable onPress={toggleSaved} style={styles.saveImagea}>
+                    <Image
+                        style={styles.saveImage}
+                        source={saved ? Images.saveIconFill : Images.saveIconUnFill}
+                    />
+                </Pressable>
             </View>
 
             <View style={styles.detailsContainer}>

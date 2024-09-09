@@ -79,7 +79,7 @@ const Cart = ({
       setCustomerID(userid);
     };
     fetch();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setCartData(viewcartdata?.cart_items);
@@ -110,7 +110,20 @@ const Cart = ({
   );
 
   const handleRemoveItem = (item) => {
-    setSelectedItem(item.key);
+    if (isLoggedIn) {
+      setSelectedItem(item.key);
+    } else {
+      Alert.alert('', 'please login and try again ', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('LoginCustomeNavigation'),
+        },
+      ]);
+    }
 
   };
   const handleOutsideClick = () => {

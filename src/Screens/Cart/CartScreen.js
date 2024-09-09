@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import { Text } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../Components/Button';
 import Toast from 'react-native-toast-message';
 import { Alert } from 'react-native';
@@ -21,6 +21,7 @@ const labels = ['Cart', 'Checkout', 'confirmation'];
 
 const CartScreen = () => {
   const scrollViewRef = useRef();
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [count, setCount] = useState(0);
   const [number, setNumber] = useState(1);
@@ -48,7 +49,7 @@ const CartScreen = () => {
       setCustomerID(userid);
     };
     fetch();
-  }, []);
+  }, [dispatch, viewcartdata, count]);
 
   useEffect(() => {
     setCartData(viewcartdata?.cart_items);
@@ -97,7 +98,7 @@ const CartScreen = () => {
       dispatch(fetchProfile(customer_id));
     };
     fetchData();
-  }, []);
+  }, [count]);
 
   const product = cartData?.map(item => ({
     product_id: item.product_id,

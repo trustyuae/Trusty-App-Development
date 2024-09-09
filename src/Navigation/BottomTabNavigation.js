@@ -57,8 +57,8 @@ const BottomTabNavigation = ({ navigation }) => {
       />
       <Tab.Screen
         name="Search"
-        // component={Shop}
-        component={SearchScreen}
+        component={Shop}
+        // component={SearchScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             focused ?
