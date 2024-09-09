@@ -646,7 +646,7 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
     // justifyContent: 'center',
     gap: 15,
     paddingVertical: wp('1%'),
