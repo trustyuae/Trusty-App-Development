@@ -1,344 +1,350 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Pressable,
-  TextInput,
-  ActivityIndicator,
+    View,
+    Text,
+    TouchableOpacity,
+    FlatList,
+    StyleSheet,
+    SafeAreaView,
+    ScrollView,
+    Pressable,
+    TextInput,
+    ActivityIndicator,
 } from 'react-native';
 import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Product from '../../Components/Product/Product';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {baseURL} from '../../Utils/API';
+import { baseURL } from '../../Utils/API';
 import axios from 'axios';
-import {fetchCategories} from '../../Redux/Slice/categorySearchSlice';
+import { fetchCategories } from '../../Redux/Slice/categorySearchSlice';
+import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
 
-const Shop = ({navigation}) => {
-  const [expanded, setExpanded] = useState({
-    categoryId: null,
-    subcategoryId: null,
-  });
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const Shop = ({ navigation }) => {
+    const [expanded, setExpanded] = useState({
+        categoryId: null,
+        subcategoryId: null,
+    });
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-  const dispatch = useDispatch();
-  const {
-    categories,
-    products,
-    loading: categoryLoading,
-    error: categoryError,
-  } = useSelector(state => state.categorySearch);
+    const dispatch = useDispatch();
+    const {
+        categories,
+        products,
+        loading: categoryLoading,
+        error: categoryError,
+    } = useSelector(state => state.categorySearch);
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchCategories());
+    }, [dispatch]);
 
-  useEffect(() => {
-    if (selectedCategoryId !== null) {
-      dispatch(fetchProductsByCategory(selectedCategoryId));
-    }
-  }, [selectedCategoryId, dispatch]);
+    useEffect(() => {
+        if (selectedCategoryId !== null) {
+            dispatch(fetchProductsByCategory(selectedCategoryId));
+        }
+    }, [selectedCategoryId, dispatch]);
 
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      if (searchTerm.trim() === '') {
-        setSearchResults([]);
-        return;
-      }
+    useEffect(() => {
+        const fetchSearchResults = async () => {
+            if (searchTerm.trim() === '') {
+                setSearchResults([]);
+                return;
+            }
 
-      setLoading(true);
-      try {
-        // console.log('searchTerm======>', searchTerm);
-        const response = await axios.get(
-          `${baseURL}/custom-woo-api/v1/products/search?search=${encodeURIComponent(
-            searchTerm.trim(),
-          )}`,
-        );
-        setSearchResults(response.data); // Adjust based on API response structure
-        // console.log('==========ddd-->', response.data);
-        setError(null);
-      } catch (err) {
-        setError(err.message || 'An error occurred');
-        setSearchResults([]);
-      } finally {
-        setLoading(false);
-      }
+            setLoading(true);
+            try {
+                // console.log('searchTerm======>', searchTerm);
+                const response = await axios.get(
+                    `${baseURL}/custom-woo-api/v1/products/search?search=${encodeURIComponent(
+                        searchTerm.trim(),
+                    )}`,
+                );
+                setSearchResults(response.data); // Adjust based on API response structure
+                // console.log('==========ddd-->', response.data);
+                setError(null);
+            } catch (err) {
+                setError(err.message || 'An error occurred');
+                setSearchResults([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const debounceTimeout = setTimeout(fetchSearchResults, 300);
+
+        return () => clearTimeout(debounceTimeout);
+    }, [searchTerm]);
+
+    const navigateToCategoryProducts = category => {
+        navigation.navigate('CategoryProducts', { category });
     };
 
-    const debounceTimeout = setTimeout(fetchSearchResults, 300);
+    const toggleCategory = categoryId => {
+        setExpanded(prev => ({
+            categoryId: prev.categoryId === categoryId ? null : categoryId,
+            subcategoryId: null, // Reset subcategory when changing category
+        }));
+    };
 
-    return () => clearTimeout(debounceTimeout);
-  }, [searchTerm]);
+    const toggleSubcategory = subcategoryId => {
+        setExpanded(prev => ({
+            ...prev,
+            subcategoryId:
+                prev.subcategoryId === subcategoryId ? null : subcategoryId,
+        }));
+    };
 
-  const navigateToCategoryProducts = category => {
-    navigation.navigate('CategoryProducts', {category});
-  };
-
-  const toggleCategory = categoryId => {
-    setExpanded(prev => ({
-      categoryId: prev.categoryId === categoryId ? null : categoryId,
-      subcategoryId: null, // Reset subcategory when changing category
-    }));
-  };
-
-  const toggleSubcategory = subcategoryId => {
-    setExpanded(prev => ({
-      ...prev,
-      subcategoryId:
-        prev.subcategoryId === subcategoryId ? null : subcategoryId,
-    }));
-  };
-
-  const renderSubcategories = subcategories => {
-    return subcategories.map(subcategory => (
-      <View key={subcategory.id} style={styles.subcategoryContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginHorizontal: 10,
-          }}>
-          <TouchableOpacity
-            onPress={() => navigateToCategoryProducts(subcategory)}>
-            <Text style={styles.subcategoryTitle}>{subcategory.name}</Text>
-          </TouchableOpacity>
-          {subcategory.subcategories.length > 0 && (
-            <TouchableOpacity onPress={() => toggleSubcategory(subcategory.id)}>
-              <View style={styles.toggleButton}>
-                <Text style={{fontSize: 20}}>
-                  {expanded.subcategoryId === subcategory.id ? '-' : '+'}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        </View>
-        {expanded.subcategoryId === subcategory.id &&
-          subcategory.subcategories.length > 0 && (
-            <View style={styles.subSubcategoryContainer}>
-              {renderSubcategories(subcategory.subcategories)}
+    const renderSubcategories = subcategories => {
+        return subcategories.map(subcategory => (
+            <View key={subcategory.id} style={styles.subcategoryContainer}>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginHorizontal: 10,
+                    }}>
+                    <TouchableOpacity
+                        onPress={() => navigateToCategoryProducts(subcategory)}>
+                        <Text style={styles.subcategoryTitle}>{subcategory.name}</Text>
+                    </TouchableOpacity>
+                    {subcategory.subcategories.length > 0 && (
+                        <TouchableOpacity onPress={() => toggleSubcategory(subcategory.id)}>
+                            <View style={styles.toggleButton}>
+                                <Text style={{ fontSize: 20 }}>
+                                    {expanded.subcategoryId === subcategory.id ? '-' : '+'}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                </View>
+                {expanded.subcategoryId === subcategory.id &&
+                    subcategory.subcategories.length > 0 && (
+                        <View style={styles.subSubcategoryContainer}>
+                            {renderSubcategories(subcategory.subcategories)}
+                        </View>
+                    )}
             </View>
-          )}
-      </View>
-    ));
-  };
+        ));
+    };
 
-  const renderCategories = ({item}) => (
-    <View key={item.id} style={styles.categoryContainer}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginHorizontal: 10,
-        }}>
-        <TouchableOpacity onPress={() => navigateToCategoryProducts(item)}>
-          <Text style={styles.categoryTitle}>{item.name}</Text>
-        </TouchableOpacity>
-        {item.subcategories.length > 0 && (
-          <TouchableOpacity onPress={() => toggleCategory(item.id)}>
-            <View style={styles.toggleButton}>
-              <Text style={{fontSize: 20}}>
-                {expanded.categoryId === item.id ? '-' : '+'}
-              </Text>
+    const renderCategories = ({ item }) => (
+        <View key={item.id} style={styles.categoryContainer}>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginHorizontal: 10,
+                }}>
+                <TouchableOpacity onPress={() => navigateToCategoryProducts(item)}>
+                    <Text style={styles.categoryTitle}>{item.name}</Text>
+                </TouchableOpacity>
+                {item.subcategories.length > 0 && (
+                    <TouchableOpacity onPress={() => toggleCategory(item.id)}>
+                        <View style={styles.toggleButton}>
+                            <Text style={{ fontSize: 20 }}>
+                                {expanded.categoryId === item.id ? '-' : '+'}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
             </View>
-          </TouchableOpacity>
-        )}
-      </View>
-      {expanded.categoryId === item.id && (
-        <View style={styles.subcategoryList}>
-          {renderSubcategories(item.subcategories)}
+            {expanded.categoryId === item.id && (
+                <View style={styles.subcategoryList}>
+                    {renderSubcategories(item.subcategories)}
+                </View>
+            )}
         </View>
-      )}
-    </View>
-  );
+    );
 
-  const renderProducts = () => {
-    if (loading) {
-      return <ActivityIndicator size="large" color="#0000ff" />;
-    }
+    const renderProducts = () => {
+        if (loading) {
+            return <View style={{ marginLeft: wp('1.5%') }}>
+                <SkeletonLoader count={6} />
+            </View>;
+        }
 
-    if (searchResults?.length === 0 && !error) {
-      return (
-        <Text style={{justifyContent: 'center'}}>
-          No products search found.
-        </Text>
-      );
-    }
+        // if (searchResults?.length === 0 && !error) {
+        //     return (
+        //         <Text style={{ justifyContent: 'center' }}>
+        //             No products search found.
+        //         </Text>
+        //     );
+        // }
+
+        return (
+            <ScrollView >
+                <View style={styles.productsContainer}>
+                    {searchResults?.map(product => (
+                        <Pressable
+                            key={product.id}
+                            onPress={() =>
+                                navigation.navigate('ProductDetail', {
+                                    userId: product.id,
+                                    isWatchList: product?.isWatchList,
+                                })
+                            }>
+                            <Product
+                                uri={product?.image}
+                                name={product?.name}
+                                price={product?.price}
+                                saved={product?.saved}
+                                product_id={product?.id}
+                                isWatchList={product?.isWatchList}
+                            />
+                        </Pressable>
+                    ))}
+                </View>
+            </ScrollView>
+        );
+    };
 
     return (
-      <ScrollView>
-        <View style={styles.productsContainer}>
-          {searchResults?.map(product => (
-            <Pressable
-              key={product.id}
-              onPress={() =>
-                navigation.navigate('ProductDetail', {
-                  userId: product.id,
-                  isWatchList: product?.isWatchList,
-                })
-              }>
-              <Product
-                uri={product?.image}
-                name={product?.name}
-                price={product?.price}
-                saved={product?.saved}
-                product_id={product?.id}
-                isWatchList={product?.isWatchList}
-              />
-            </Pressable>
-          ))}
-        </View>
-      </ScrollView>
+        <SafeAreaView style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <Icon
+                    name="arrow-back"
+                    size={25}
+                    color="#333"
+                    style={{ marginLeft: 8 }}
+                    onPress={() => navigation.goBack()}
+                />
+                <View
+                    style={{
+                        paddingLeft: wp('2%'),
+                        paddingRight: wp('2%'),
+                        paddingTop: wp('2%'),
+                    }}>
+                    <Text
+                        style={{
+                            color: globalColors.black,
+                            textAlign: 'center',
+                            fontSize: 18,
+                            fontFamily: 'Intrepid Regular',
+                        }}>
+                        Menu
+                    </Text>
+                    <TextInput
+                        style={styles.inputfield}
+                        placeholder="Search"
+                        value={searchTerm}
+                        onChangeText={setSearchTerm}
+                    />
+                    <Text
+                        style={{
+                            color: globalColors.black,
+                            textAlign: 'left',
+                            fontSize: 18,
+                            marginTop: wp('2%'),
+                            marginBottom: wp('2%'),
+                            fontFamily: 'Intrepid Regular',
+                        }}>
+                        Search Products CategoryBases
+                    </Text>
+                    <FlatList
+                        data={categories}
+                        keyExtractor={item => item.id.toString()}
+                        renderItem={renderCategories}
+                        showsHorizontalScrollIndicator={false}
+                    />
+                    <View style={styles.custborder} />
+
+                    <Text
+                        style={{
+                            color: globalColors.black,
+                            textAlign: 'left',
+                            fontSize: 18,
+                            marginTop: wp('2%'),
+                            marginBottom: wp('2%'),
+                            fontFamily: 'Intrepid Regular',
+                        }}>
+                        Search products
+                    </Text>
+                    {/* <View style={styles.custborder} /> */}
+
+                    {renderProducts()}
+                    {/* {error && <Text>Error: {error}</Text>} */}
+                    {categoryError && (
+                        <View>
+                            <Text>No Result Found</Text>
+                            <View style={styles.custborder} />
+                        </View>
+                    )}
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
-  };
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Icon
-          name="arrow-back"
-          size={25}
-          color="#333"
-          style={{marginLeft: 8}}
-          onPress={() => navigation.goBack()}
-        />
-        <View
-          style={{
-            paddingLeft: wp('2%'),
-            paddingRight: wp('2%'),
-            paddingTop: wp('2%'),
-          }}>
-          <Text
-            style={{
-              color: globalColors.black,
-              textAlign: 'center',
-              fontSize: 18,
-              fontFamily: 'Intrepid Regular',
-            }}>
-            Menu
-          </Text>
-          <TextInput
-            style={styles.inputfield}
-            placeholder="Search"
-            value={searchTerm}
-            onChangeText={setSearchTerm}
-          />
-          <Text
-            style={{
-              color: globalColors.black,
-              textAlign: 'left',
-              fontSize: 18,
-              marginTop: wp('2%'),
-              marginBottom: wp('2%'),
-              fontFamily: 'Intrepid Regular',
-            }}>
-            Search on Product CategoryBases
-          </Text>
-          <FlatList
-            data={categories}
-            keyExtractor={item => item.id.toString()}
-            renderItem={renderCategories}
-          />
-          <View style={styles.custborder} />
-
-          <Text
-            style={{
-              color: globalColors.black,
-              textAlign: 'left',
-              fontSize: 18,
-              marginTop: wp('2%'),
-              marginBottom: wp('2%'),
-              fontFamily: 'Intrepid Regular',
-            }}>
-            Search products Result
-          </Text>
-          <View style={styles.custborder} />
-
-          {renderProducts()}
-          {/* {error && <Text>Error: {error}</Text>} */}
-          {categoryError && (
-            <View>
-              <Text>No Result Found</Text>
-              <View style={styles.custborder} />
-            </View>
-          )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // marginBottom: hp('3%'),
-    height: '100%',
-  },
-  categoryContainer: {
-    marginVertical: 10,
-  },
-  subcategoryContainer: {
-    marginLeft: 20,
-    flex: 1,
-    marginVertical: 5,
-  },
-  subSubcategoryContainer: {
-    marginLeft: 20,
-    marginVertical: 5,
-  },
-  categoryTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  subcategoryTitle: {
-    fontSize: 16,
-    color: '#555',
-  },
-  subcategoryList: {
-    marginTop: 5,
-  },
-  productsContainer: {
-    marginTop: 10,
-    // marginBottom: hp('25%'),
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-  },
-  toggleButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 30,
-  },
-  inputfield: {
-    backgroundColor: 'white',
-    margin: 10,
-    borderColor: '#DBCCC1',
-    borderWidth: 1,
-    padding: 7,
-    borderRadius: 20,
-    paddingLeft: 20,
-  },
-  custborder: {
-    borderWidth: 0.8,
-    // marginTop: hp('1%'),
-    borderColor: globalColors.inputBorder,
-  },
+    container: {
+        flex: 1,
+        // marginBottom: hp('3%'),
+        height: '100%',
+    },
+    categoryContainer: {
+        marginVertical: 10,
+    },
+    subcategoryContainer: {
+        marginLeft: 20,
+        flex: 1,
+        marginVertical: 5,
+    },
+    subSubcategoryContainer: {
+        marginLeft: 20,
+        marginVertical: 5,
+    },
+    categoryTitle: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: globalColors.productPriceText,
+
+    },
+    subcategoryTitle: {
+        fontSize: 16,
+        color: globalColors.productPriceText,
+    },
+    subcategoryList: {
+        marginTop: 5,
+    },
+    productsContainer: {
+        marginTop: 10,
+        // marginBottom: hp('25%'),
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 10,
+    },
+    toggleButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 30,
+    },
+    inputfield: {
+        backgroundColor: 'white',
+        margin: 10,
+        borderColor: '#DBCCC1',
+        borderWidth: 1,
+        padding: 7,
+        borderRadius: 20,
+        paddingLeft: 20,
+    },
+    custborder: {
+        borderWidth: 0.8,
+        // marginTop: hp('1%'),
+        borderColor: globalColors.inputBorder,
+    },
 });
 
 export default Shop;

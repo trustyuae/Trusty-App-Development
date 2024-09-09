@@ -120,7 +120,9 @@ const SearchScreen = ({ navigation }) => {
     const dataToRender = search.trim().length > 0 ? searchResults : wishlist;
 
     if (loadingSearch || paginatedStatus === 'loading') {
-      return <View style={{ marginLeft: wp('1.5%') }}><SkeletonLoader count={6} /></View>;
+      return <View style={{ marginLeft: wp('1.5%') }}>
+        <SkeletonLoader count={6} />
+        </View>;
     }
 
     if (dataToRender.length === 0) {
