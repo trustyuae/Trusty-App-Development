@@ -1,21 +1,22 @@
-import { View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import {View, ScrollView, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import StepperComponet from '../../Components/Stepper/StepperComponet';
 import Cart from '../../Components/Stepper form Componets/Cart';
 import Checkout from '../../Components/Stepper form Componets/Checkout';
 import Confirmation from '../../Components/Stepper form Componets/Confirmation';
-import { SafeAreaView } from 'react-native';
+import {SafeAreaView} from 'react-native';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
-import { Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import {globalColors} from '../../Assets/Theme/globalColors';
+import {Text} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import Button from '../../Components/Button';
 import Toast from 'react-native-toast-message';
-import { Alert } from 'react-native';
-import { getToken, getUserId } from '../../Utils/localstorage';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { useNavigation } from '@react-navigation/native';
-import { orderToCart } from '../../Redux/Slice/car_slice/placeordercart';
+import {Alert} from 'react-native';
+import {getToken, getUserId} from '../../Utils/localstorage';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {useNavigation} from '@react-navigation/native';
+import {orderToCart} from '../../Redux/Slice/car_slice/placeordercart';
+import {fetchProfile} from '../../Redux/Slice/profileSlice';
 
 const labels = ['Cart', 'Checkout', 'confirmation'];
 
@@ -28,12 +29,10 @@ const CartScreen = () => {
   const [orderdetail, setOrderDetail] = useState([]);
   const [total, setTotal] = useState(0);
   const [getorderdetail, setGetorderDetail] = useState();
-  const { isloading } = useSelector(state => state?.OrderToCart);
+  const {isloading} = useSelector(state => state?.OrderToCart);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cartData, setCartData] = useState([]);
-  const { erros, viewcartdata } = useSelector(
-    state => state?.ViewToCart,
-  );
+  const {erros, viewcartdata} = useSelector(state => state?.ViewToCart);
 
   useEffect(() => {
     const fetch = async () => {
@@ -55,13 +54,11 @@ const CartScreen = () => {
     setCartData(viewcartdata?.cart_items);
   }, [viewcartdata]);
 
-
-
   const handleCheckout = () => {
     if (isLoggedIn) {
       if (cartData?.length > 0) {
         setOrderDetail(cartData);
-        scrollViewRef.current.scrollTo({ y: 0, animated: true });
+        scrollViewRef.current.scrollTo({y: 0, animated: true});
         setCount(count + 1);
       } else {
         Toast.show({
@@ -85,11 +82,9 @@ const CartScreen = () => {
     }
   };
 
-
   //checkout
-  const { data, loading, error } = useSelector(state => state?.profile);
+  const {data, loading, error} = useSelector(state => state?.profile);
   const [customerid, setCustomerID] = useState();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -151,7 +146,7 @@ const CartScreen = () => {
           setCount(pre => (count >= 2 ? 0 : pre + 1));
         }
       });
-      console.log('obj---------------------', obj)
+      // console.log('obj---------------------', obj);
     } else {
       Toast.show({
         type: 'info',
@@ -161,7 +156,6 @@ const CartScreen = () => {
       });
     }
   };
-
 
   const closeModal = () => {
     setIsModalVisible(false);
@@ -205,29 +199,37 @@ const CartScreen = () => {
     }
   };
 
-  return (<View style={{ backgroundColor: globalColors.headingBackground }}>
-    <SafeAreaView style={Platform.OS === 'ios' && { marginTop: -25, }}>
-      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+  return (
+    <View style={{backgroundColor: globalColors.headingBackground}}>
+      <SafeAreaView style={Platform.OS === 'ios' && {marginTop: -25}}>
+        <CustomStatusBar
+          color={globalColors.headingBackground}></CustomStatusBar>
 
-      <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef} >
-        <View>
-          {count == 2 ? null : (
-            <View style={{ marginTop: 90 }}>
-              <StepperComponet labels={labels} count={count} setCount={setCount} stepCount={3} />
-            </View>
-          )}
-          {renderContent()}
-        </View>
-      </ScrollView>
-
-    </SafeAreaView >
-    {
-      count === 0 && (
-        <View style={[{
-          backgroundColor: globalColors.headingBackground,
-          paddingTop: widthPercentageToDP('1.5%'),
-        },
-        cartData?.length < 1 && { marginTop: widthPercentageToDP('30%') }]}>
+        <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
+          <View>
+            {count == 2 ? null : (
+              <View style={{marginTop: 90}}>
+                <StepperComponet
+                  labels={labels}
+                  count={count}
+                  setCount={setCount}
+                  stepCount={3}
+                />
+              </View>
+            )}
+            {renderContent()}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+      {count === 0 && (
+        <View
+          style={[
+            {
+              backgroundColor: globalColors.headingBackground,
+              paddingTop: widthPercentageToDP('1.5%'),
+            },
+            cartData?.length < 1 && {marginTop: widthPercentageToDP('30%')},
+          ]}>
           <Button
             stylesofbtn={styles.custcheckoutbtn}
             styleoffont={styles.custfontstyle}
@@ -236,10 +238,16 @@ const CartScreen = () => {
             loading={isloading}
           />
         </View>
-      )
-    }{
-      count === 1 && (
-        <View style={[{ backgroundColor: globalColors.headingBackground, paddingTop: widthPercentageToDP('1.5%') }, cartData?.length < 1 && { marginTop: widthPercentageToDP('30%') }]}>
+      )}
+      {count === 1 && (
+        <View
+          style={[
+            {
+              backgroundColor: globalColors.headingBackground,
+              paddingTop: widthPercentageToDP('1.5%'),
+            },
+            cartData?.length < 1 && {marginTop: widthPercentageToDP('30%')},
+          ]}>
           <Button
             stylesofbtn={styles.custcheckoutbtn}
             styleoffont={styles.custfontstyle}
@@ -248,9 +256,8 @@ const CartScreen = () => {
             loading={isloading}
           />
         </View>
-      )
-    }
-  </View>
+      )}
+    </View>
   );
 };
 

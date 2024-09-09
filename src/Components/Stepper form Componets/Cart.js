@@ -10,54 +10,56 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { NoImg, callIcon, certifiedIcon, deleteImg, deliveryIcon, emailIcon, returnExchangeIcon } from '../../Constants/Icons';
+import {
+  NoImg,
+  callIcon,
+  certifiedIcon,
+  deleteImg,
+  deliveryIcon,
+  emailIcon,
+  returnExchangeIcon,
+} from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
-import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
-import { getToken, getUserId } from '../../Utils/localstorage';
-import { fetchProfile } from '../../Redux/Slice/profileSlice';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
+import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
+import {getToken, getUserId} from '../../Utils/localstorage';
+import {fetchProfile} from '../../Redux/Slice/profileSlice';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
+import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import { globalColors } from '../../Assets/Theme/globalColors';
+import {globalColors} from '../../Assets/Theme/globalColors';
 import SkeletonLoaderOrder from '../Loader/SkeletonLoaderOrder';
-import { CouponDetail } from '../../Redux/Slice/car_slice/coupon/couponcart';
+import {CouponDetail} from '../../Redux/Slice/car_slice/coupon/couponcart';
 import debounce from 'lodash/debounce';
 import SelectDropdown from 'react-native-select-dropdown';
-import { Images } from '../../Constants';
+import {Images} from '../../Constants';
 
-const Cart = ({
-  count,
-  setCount,
-  setOrderDetail,
-  setTotal,
-  scrollViewRef,
-}) => {
+const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
   const dispatch = useDispatch();
-  const { erros, loading, viewcartdata } = useSelector(
+  const {erros, loading, viewcartdata} = useSelector(
     state => state?.ViewToCart,
   );
-  const { coupon, load, iserrors } = useSelector(state => state.CouponDetail);
+  const {coupon, load, iserrors} = useSelector(state => state.CouponDetail);
   const state = useSelector(state => state?.ProductView);
-  const { deteltedData } = useSelector(state => state?.DeleteToCart);
-  const { isloading } = useSelector(state => state?.OrderToCart);
-  const { data } = useSelector(state => state?.profile);
+  const {deteltedData} = useSelector(state => state?.DeleteToCart);
+  const {isloading} = useSelector(state => state?.OrderToCart);
+  const {data} = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState([]);
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigation();
   const [discount, setDiscount] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
-  const [isWishlist, setIsWishlist] = useState(false)
+  const [isWishlist, setIsWishlist] = useState(false);
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [promoCode, setPromoCode] = useState('');
 
@@ -109,7 +111,7 @@ const Cart = ({
     [viewcartdata],
   );
 
-  const handleRemoveItem = (item) => {
+  const handleRemoveItem = item => {
     if (isLoggedIn) {
       setSelectedItem(item.key);
     } else {
@@ -124,7 +126,6 @@ const Cart = ({
         },
       ]);
     }
-
   };
   const handleOutsideClick = () => {
     setSelectedItem(null); // Reset translateX by deselecting the item
@@ -342,14 +343,12 @@ const Cart = ({
                         position: 'absolute',
                         right: 0,
                       }}
-                      onPress={() => handleRemoveItem(Item)}>
-
-                    </Icon>
+                      onPress={() => handleRemoveItem(Item)}></Icon>
 
                     <View>
                       {Item.product_image ? (
                         <Image
-                          source={{ uri: Item?.product_image }}
+                          source={{uri: Item?.product_image}}
                           style={styles.imageStyle}
                         />
                       ) : (
@@ -360,7 +359,7 @@ const Cart = ({
                         />
                       )}
                     </View>
-                    <View >
+                    <View>
                       <Text
                         style={{
                           color: globalColors.black,
@@ -368,7 +367,7 @@ const Cart = ({
                           fontSize: 16,
                           width: wp('42%'),
                           marginBottom: wp('5%'),
-                          fontWeight: '500'
+                          fontWeight: '500',
                         }}>
                         {/* {Item.product_name} */}
                         {extractProductName(Item?.product_name)}
@@ -387,21 +386,23 @@ const Cart = ({
                       {Item?.mod_attributes?.color}
                     </Text>
                   </Text> */}
-                      {
-                        Item.mod_attributes.color ? (<Text
+                      {Item.mod_attributes.color ? (
+                        <Text
                           style={{
                             marginVertical: 3,
                             color: globalColors.cartProductTextColor,
                             fontFamily: 'Product Sans',
                             fontSize: 14,
-                            fontWeight: '400'
+                            fontWeight: '400',
                           }}>
                           Color :{' '}
-                          <Text style={{ color: globalColors.black }}>
+                          <Text style={{color: globalColors.black}}>
                             {Item?.mod_attributes?.color}
                           </Text>
-                        </Text>) : ''
-                      }
+                        </Text>
+                      ) : (
+                        ''
+                      )}
                       {/* <Text
                     style={{
                       color: globalColors.cartProductTextColor,
@@ -412,20 +413,20 @@ const Cart = ({
                       {Item?.mod_attributes?.size}
                     </Text>
                   </Text> */}
-                      {
-                        Item.mod_attributes.size ? (
-                          <Text
-                            style={{
-                              color: globalColors.cartProductTextColor,
-                              fontFamily: 'Product Sans',
-                            }}>
-                            Size :{' '}
-                            <Text style={{ color: globalColors.black }}>
-                              {Item?.mod_attributes?.size}
-                            </Text>
+                      {Item.mod_attributes.size ? (
+                        <Text
+                          style={{
+                            color: globalColors.cartProductTextColor,
+                            fontFamily: 'Product Sans',
+                          }}>
+                          Size :{' '}
+                          <Text style={{color: globalColors.black}}>
+                            {Item?.mod_attributes?.size}
                           </Text>
-                        ) : <View style={{ marginTop: wp('1%') }} />
-                      }
+                        </Text>
+                      ) : (
+                        <View style={{marginTop: wp('1%')}} />
+                      )}
                       <View
                         style={{
                           // backgroundColor: globalColors.white,
@@ -462,7 +463,7 @@ const Cart = ({
                                 fontFamily: 'Intrepid Regular',
                                 marginHorizontal: 20,
                                 padding: 4,
-                                backgroundColor: globalColors.white
+                                backgroundColor: globalColors.white,
                               }}>
                               {Item.quantity}
                             </Text>
@@ -486,14 +487,12 @@ const Cart = ({
                               fontFamily: 'Product Sans',
                               paddingLeft: wp('4%'),
                               fontSize: 16,
-                              fontWeight: '700'
+                              fontWeight: '700',
                             }}>
                             {Item.product_price} AED
                           </Text>
                         </View>
-
                       </View>
-
 
                       {/* <View
                     style={{
@@ -549,57 +548,53 @@ const Cart = ({
                       </View>
                     </View>
                   </View> */}
-
                     </View>
-                    {
-                      selectedItem === Item.key && (
-                        <View style={{ width: '100%', flexDirection: 'row' }}>
-                          <View style={{
+                    {selectedItem === Item.key && (
+                      <View style={{width: '100%', flexDirection: 'row'}}>
+                        <View
+                          style={{
                             width: '12%',
                             backgroundColor: '#D6852A',
                             alignItems: 'center',
                             justifyContent: 'center',
                           }}>
-                            {isWishlist ? (
-                              <Pressable onPress={toggleSaved}>
-                                <Image source={Images.saveIconFill} />
-                              </Pressable>
-                            ) : (
-                              <Image source={Images.saveIconUnFill} />
-                            )}
-                          </View>
+                          {isWishlist ? (
+                            <Pressable onPress={toggleSaved}>
+                              <Image source={Images.saveIconFill} />
+                            </Pressable>
+                          ) : (
+                            <Image source={Images.saveIconUnFill} />
+                          )}
+                        </View>
 
-                          <TouchableOpacity style={{
+                        <TouchableOpacity
+                          style={{
                             width: '12%',
                             backgroundColor: globalColors.black,
                             alignItems: 'center',
                             justifyContent: 'center',
                           }}
-                            onPress={() => handleRemove(Item)}
-                          >
-                            <Icon
-                              name={'close'}
-                              size={30}
-                              color="white"
-                              style={{
-                                // position: 'absolute',
-                                right: 0,
-                              }}
-                            >
-
-                            </Icon>
-                            <Text style={{
+                          onPress={() => handleRemove(Item)}>
+                          <Icon
+                            name={'close'}
+                            size={30}
+                            color="white"
+                            style={{
+                              // position: 'absolute',
+                              right: 0,
+                            }}></Icon>
+                          <Text
+                            style={{
                               fontSize: 8,
                               fontFamily: 'Product Sans',
-                              color: globalColors.white
-                            }}>Remove</Text>
-                          </TouchableOpacity>
-                        </View>
-                      )
-                    }
-
+                              color: globalColors.white,
+                            }}>
+                            Remove
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
                   </View>
-
                 ))}
                 <View style={styles.custborder} />
               </View>
@@ -617,7 +612,6 @@ const Cart = ({
           <Text>{totalSum} AED</Text>
         </View> */}
 
-
             {viewcartdata?.coupon_status ? (
               <>
                 <View
@@ -627,7 +621,7 @@ const Cart = ({
                     // marginVertical: 10,
                   }}>
                   <Text style={styles.custText}>COUPON</Text>
-                  <Text style={{ fontFamily: 'Intrepid Regular' }}>
+                  <Text style={{fontFamily: 'Intrepid Regular'}}>
                     {viewcartdata?.coupon_status}
                   </Text>
                 </View>
@@ -743,8 +737,6 @@ const Cart = ({
           </View>
         </View> */}
 
-
-
             {/* <Text style={{
             color: globalColors.black,
             fontSize: 16,
@@ -757,9 +749,13 @@ const Cart = ({
             marginLeft: wp('10%'),
             fontWeight: 400, fontFamily: 'Product Sans',
           }}>Shipping cost will be calculate during check out.</Text> */}
-
           </View>
-          <View style={{ backgroundColor: globalColors.headingBackground, paddingLeft: wp('4%'), paddingRight: wp('4%') }}>
+          <View
+            style={{
+              backgroundColor: globalColors.headingBackground,
+              paddingLeft: wp('4%'),
+              paddingRight: wp('4%'),
+            }}>
             {/* <View style={{ marginVertical: 10, flexDirection: 'row' }}>
             <Text style={
               // [styles.custText, styles.custmargin]
@@ -772,27 +768,35 @@ const Cart = ({
               Discount Code          </Text>
           </View> */}
             <View style={styles.container}>
-              <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between' }} onPress={toggleInputField}>
-                <Text style={{
-                  fontSize: 16,
-                  fontWeight: '400',
-                  color: globalColors.black,
-                  fontFamily: 'Product Sans',
-                }}>Add a Promo code</Text>
-                <Text style={styles.toggleIcon}>{isInputVisible ? '-' : '+'}</Text>
+              <TouchableOpacity
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}
+                onPress={toggleInputField}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '400',
+                    color: globalColors.black,
+                    fontFamily: 'Product Sans',
+                  }}>
+                  Add a Promo code
+                </Text>
+                <Text style={styles.toggleIcon}>
+                  {isInputVisible ? '-' : '+'}
+                </Text>
               </TouchableOpacity>
 
               {/* Input Field for Promo Code */}
               {isInputVisible && (
-                <View style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 10,
-                  borderWidth: 1,
-                  borderColor: '#ddd',
-                  padding: 5,
-                  borderRadius: 5,
-                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 10,
+                    borderWidth: 1,
+                    borderColor: '#ddd',
+                    padding: 5,
+                    borderRadius: 5,
+                  }}>
                   <TextInput
                     style={styles.input}
                     placeholder="Enter Promo code"
@@ -800,18 +804,20 @@ const Cart = ({
                     value={discount}
                     onChangeText={text => setDiscount(text)}
                   />
-                  <TouchableOpacity style={styles.applyButton} onPress={handlepress}>
+                  <TouchableOpacity
+                    style={styles.applyButton}
+                    onPress={handlepress}>
                     <Text style={styles.applyButtonText}>APPLY</Text>
                   </TouchableOpacity>
                 </View>
               )}
             </View>
 
-            <View style={{
-              marginTop: hp('2%'),
-            }}>
+            <View
+              style={{
+                marginTop: hp('2%'),
+              }}>
               <View style={styles.custborder} />
-
             </View>
             {/* <TextInput
             value={discount}
@@ -819,7 +825,6 @@ const Cart = ({
             type="text"
             placeholder="Coupon code"
             style={styles.custInput}></TextInput> */}
-
 
             {/* <View style={{
             flexDirection: 'row',
@@ -845,108 +850,162 @@ const Cart = ({
             />
           </View> */}
 
+            <View
+              style={{
+                marginTop: hp('3%'),
+                // marginBottom: hp('1%'),
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={styles.custText}>SUBTOTAL</Text>
+                <Text
+                  style={[styles.custText, {color: globalColors.lightgold}]}>
+                  {totalSum} AED
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={styles.custText}>TOTAL </Text>
+                <Text
+                  style={[styles.custText, {color: globalColors.lightgold}]}>
+                  {viewcartdata?.discount_sub_total} AED
+                </Text>
+              </View>
+            </View>
+            <View style={styles.custborder} />
 
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginTop: hp('3%'),
-                // marginBottom: hp('1%'),
+                marginTop: hp('2%'),
+                // marginBottom: hp('2%')
               }}>
-              <Text style={styles.custText}>TOTAL </Text>
-              <Text style={[styles.custText, { color: globalColors.lightgold }]}>{viewcartdata?.discount_sub_total} AED</Text>
-            </View>
-            <View style={styles.custborder} />
-
-            <View style={{
-              flexDirection: 'row', justifyContent: 'space-between', marginTop: hp('2%'),
-              // marginBottom: hp('2%')
-            }}>
-              <Text style={{
-                fontSize: 16,
-                fontWeight: '400', fontFamily: 'Product Sans',
-              }}>Customer Service</Text>
-              <View style={{
-                flexDirection: 'column',
-                alignItems: 'flex-end'
-              }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{
-                    fontSize: 12,
-                    fontWeight: '400',
-                    fontFamily: 'Product Sans',
-                    color: globalColors.textColorSignup,
-                    textAlign: 'right'
-                  }}>Mon - Fri</Text>
-                  <Text style={{
-                    fontWeight: '400',
-                    fontSize: 12,
-                    textAlign: 'right',
-                    fontFamily: 'Product Sans',
-                  }}> 8am - 9pm EST</Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: '400',
+                  fontFamily: 'Product Sans',
+                }}>
+                Customer Service
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                }}>
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: '400',
+                      fontFamily: 'Product Sans',
+                      color: globalColors.textColorSignup,
+                      textAlign: 'right',
+                    }}>
+                    Mon - Fri
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: '400',
+                      fontSize: 12,
+                      textAlign: 'right',
+                      fontFamily: 'Product Sans',
+                    }}>
+                    {' '}
+                    8am - 9pm EST
+                  </Text>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={{
-                    fontWeight: '400',
-                    fontSize: 12,
-                    fontFamily: 'Product Sans',
-                    color: globalColors.textColorSignup,
-
-                  }}>Sat </Text>
-                  <Text style={{
-                    fontWeight: '400',
-                    fontSize: 12,
-                    fontFamily: 'Product Sans',
-                  }}> 10am - 9pm EST</Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text
+                    style={{
+                      fontWeight: '400',
+                      fontSize: 12,
+                      fontFamily: 'Product Sans',
+                      color: globalColors.textColorSignup,
+                    }}>
+                    Sat{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: '400',
+                      fontSize: 12,
+                      fontFamily: 'Product Sans',
+                    }}>
+                    {' '}
+                    10am - 9pm EST
+                  </Text>
                 </View>
               </View>
-
             </View>
 
             <View style={styles.infocontanier}>
-              <Image source={callIcon}
-                style={{ height: 15, width: 15 }}
+              <Image
+                source={callIcon}
+                style={{height: 15, width: 15}}
                 resizeMode="contain"></Image>
-              <Text style={{
-                marginLeft: wp('3%'), fontSize: 16,
-                fontFamily: '400', fontFamily: 'Product Sans',
-
-              }}>Call</Text>
-              <Text style={{
-                flex: 1,
-                fontSize: 16,
-                fontWeight: '700',
-                textAlign: 'right', fontFamily: 'Product Sans',
-
-              }}>+91 9898787889</Text>
+              <Text
+                style={{
+                  marginLeft: wp('3%'),
+                  fontSize: 16,
+                  fontFamily: '400',
+                  fontFamily: 'Product Sans',
+                }}>
+                Call
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  fontSize: 16,
+                  fontWeight: '700',
+                  textAlign: 'right',
+                  fontFamily: 'Product Sans',
+                }}>
+                +91 9898787889
+              </Text>
             </View>
 
             <View style={styles.infocontanier}>
-              <Image source={emailIcon}
-                style={{ height: 15, width: 15 }}
+              <Image
+                source={emailIcon}
+                style={{height: 15, width: 15}}
                 resizeMode="contain"></Image>
-              <Text style={{
-                marginLeft: wp('3%'), fontSize: 16,
-                fontWeight: '400', fontFamily: 'Product Sans',
-
-              }}>Email</Text>
-              <Text style={{
-                flex: 1,
-                fontFamily: 'Product Sans',
-                textAlign: 'right',
-                fontSize: 16,
-                fontWeight: '700',
-              }}>dummyemail@contact.in</Text>
+              <Text
+                style={{
+                  marginLeft: wp('3%'),
+                  fontSize: 16,
+                  fontWeight: '400',
+                  fontFamily: 'Product Sans',
+                }}>
+                Email
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  fontFamily: 'Product Sans',
+                  textAlign: 'right',
+                  fontSize: 16,
+                  fontWeight: '700',
+                }}>
+                dummyemail@contact.in
+              </Text>
             </View>
 
             <View style={styles.iconParentContainer}>
               <View style={styles.iconContainer}>
                 <Image
                   source={certifiedIcon}
-                  style={{ height: 42, width: 35, marginBottom: wp('5%') }}
-                  resizeMode="contain">
-                </Image>
-                <Text style={styles.bottomContainerText}>Free standard delivery</Text>
+                  style={{height: 42, width: 35, marginBottom: wp('5%')}}
+                  resizeMode="contain"></Image>
+                <Text style={styles.bottomContainerText}>
+                  Free standard delivery
+                </Text>
               </View>
               <View
                 style={{
@@ -960,10 +1019,11 @@ const Cart = ({
               <View style={styles.iconContainer}>
                 <Image
                   source={returnExchangeIcon}
-                  style={{ height: 42, width: 35, marginBottom: wp('5%') }}
-                  resizeMode="contain">
-                </Image>
-                <Text style={styles.bottomContainerText}>Returns & exchanges</Text>
+                  style={{height: 42, width: 35, marginBottom: wp('5%')}}
+                  resizeMode="contain"></Image>
+                <Text style={styles.bottomContainerText}>
+                  Returns & exchanges
+                </Text>
               </View>
               <View
                 style={{
@@ -977,15 +1037,13 @@ const Cart = ({
               <View style={styles.iconContainer}>
                 <Image
                   source={deliveryIcon}
-                  style={{ height: 42, width: 35, marginBottom: wp('5%') }}
-                  resizeMode="contain">
-                </Image>
-                <Text style={styles.bottomContainerText}> shop         securely    </Text>
+                  style={{height: 42, width: 35, marginBottom: wp('5%')}}
+                  resizeMode="contain"></Image>
+                <Text style={styles.bottomContainerText}> shop securely </Text>
               </View>
             </View>
-
           </View>
-        </ScrollView >
+        </ScrollView>
         {/* <View style={{ position: 'relative', bottom: 10 }}>
         <Button
           stylesofbtn={styles.custcheckoutbtn}
@@ -995,13 +1053,8 @@ const Cart = ({
           loading={isloading}
         />
       </View> */}
-
-      </SafeAreaView >
+      </SafeAreaView>
     </TouchableWithoutFeedback>
-
-
-
-
   );
 };
 
@@ -1070,7 +1123,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
   },
   inputfield: {
     backgroundColor: globalColors.white,
@@ -1107,7 +1160,7 @@ const styles = StyleSheet.create({
   },
   dropdownButtonArrowStyle: {
     fontSize: wp('5%'),
-    paddingHorizontal: wp('42%')
+    paddingHorizontal: wp('42%'),
   },
   dropdownItemTxtStyle: {
     flex: 1,
@@ -1129,7 +1182,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     paddingVertical: hp('3%'),
-    alignItems: 'center'
+    alignItems: 'center',
   },
   bottomContainerText: {
     fontFamily: 'Product Sans',
@@ -1169,6 +1222,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   toggleIcon: {
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });
