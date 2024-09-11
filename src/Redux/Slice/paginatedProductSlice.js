@@ -6,10 +6,8 @@ import { Consumer_key, Consumer_secret, baseURL } from '../../Utils/API';
 export const fetchPaginatedProducts = createAsyncThunk(
     'paginatedProducts/fetchPaginatedProducts',
     async ({ page }, { getState }) => {
-        const response = await axios.get(`${baseURL}/wc/v3/products`, {
+        const response = await axios.get(`${baseURL}/wc/v3/products?per_page=10&page=${page}`, {
             params: {
-                per_page: 10,
-                page,
                 consumer_key: Consumer_key,
                 consumer_secret: Consumer_secret,
             },
@@ -43,7 +41,6 @@ const paginatedProductSlice = createSlice({
             .addCase(fetchPaginatedProducts.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.products = [...state.products, ...action.payload];
-                state.page += 1;
             })
             .addCase(fetchPaginatedProducts.rejected, (state, action) => {
                 state.status = 'failed';

@@ -7,22 +7,21 @@ import {
     StyleSheet,
     SafeAreaView,
     ScrollView,
-    Pressable,
-    TextInput,
     ActivityIndicator,
+    TextInput,
 } from 'react-native';
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useDispatch, useSelector } from 'react-redux';
 import Product from '../../Components/Product/Product';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { baseURL } from '../../Utils/API';
 import axios from 'axios';
 import { fetchCategories } from '../../Redux/Slice/categorySearchSlice';
+import { fetchPaginatedProducts, resetProducts } from '../../Redux/Slice/paginatedProductSlice';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
+import { getToken } from '../../Utils/localstorage';
+import { useFocusEffect } from '@react-navigation/native';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 
 const Shop = ({ navigation }) => {
     const [expanded, setExpanded] = useState({
@@ -38,18 +37,30 @@ const Shop = ({ navigation }) => {
     const dispatch = useDispatch();
     const {
         categories,
-        products,
         loading: categoryLoading,
         error: categoryError,
     } = useSelector(state => state.categorySearch);
+    const { products: paginatedProducts, status: paginatedStatus, page } = useSelector(state => state.paginatedProducts);
+    const { items } = useSelector(state => state.wishlist);
 
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
 
+    useFocusEffect(
+        useCallback(() => {
+            const token = getToken();
+            if (token) {
+                dispatch(fetchWishlist(token));
+            }
+            dispatch(resetProducts());
+            dispatch(fetchPaginatedProducts({ page: 1 }));
+        }, [dispatch])
+    );
+
     useEffect(() => {
         if (selectedCategoryId !== null) {
-            dispatch(fetchProductsByCategory(selectedCategoryId));
+            dispatch(fetchPaginatedProducts({ page: 1, categoryId: selectedCategoryId }));
         }
     }, [selectedCategoryId, dispatch]);
 
@@ -62,14 +73,12 @@ const Shop = ({ navigation }) => {
 
             setLoading(true);
             try {
-                // console.log('searchTerm======>', searchTerm);
                 const response = await axios.get(
-                    `${baseURL}/custom-woo-api/v1/products/search?search=${encodeURIComponent(
-                        searchTerm.trim(),
-                    )}`,
+                    `${baseURL}/custom-woo-api/v1/products/search?search=${encodeURIComponent(searchTerm.trim())}`
                 );
-                setSearchResults(response.data); // Adjust based on API response structure
-                // console.log('==========ddd-->', response.data);
+                console.log("Search response:", response.data);
+
+                setSearchResults(response.data);
                 setError(null);
             } catch (err) {
                 setError(err.message || 'An error occurred');
@@ -83,6 +92,17 @@ const Shop = ({ navigation }) => {
 
         return () => clearTimeout(debounceTimeout);
     }, [searchTerm]);
+
+    const updateWishlistWithFlags = (products, wishlistItems) => {
+        if (!wishlistItems || wishlistItems.length === 0) {
+            return products;
+        }
+        const wishlistIds = new Set(wishlistItems.map(item => Number(item)));
+        return products.map(product => ({
+            ...product,
+            isWatchList: wishlistIds.has(product.id),
+        }));
+    };
 
     const navigateToCategoryProducts = category => {
         navigation.navigate('CategoryProducts', { category });
@@ -142,9 +162,10 @@ const Shop = ({ navigation }) => {
             <View
                 style={{
                     flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginHorizontal: 10,
+                    // alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 15,
+                    paddingHorizontal: wp('1%'),
                 }}>
                 <TouchableOpacity onPress={() => navigateToCategoryProducts(item)}>
                     <Text style={styles.categoryTitle}>{item.name}</Text>
@@ -152,134 +173,136 @@ const Shop = ({ navigation }) => {
                 {item.subcategories.length > 0 && (
                     <TouchableOpacity onPress={() => toggleCategory(item.id)}>
                         <View style={styles.toggleButton}>
-                            <Text style={{ fontSize: 20 }}>
+                            <Text style={{ fontSize: 18 }}>
                                 {expanded.categoryId === item.id ? '-' : '+'}
                             </Text>
                         </View>
                     </TouchableOpacity>
                 )}
+
+                {expanded.categoryId === item.id && (
+                    <View style={{
+                        // flexDirection: 'row'
+                        fontSize: 16,
+                        fontFamily: 'Intrepid Regular',
+                        // backgroundColor: 'red',
+                        fontWeight: '500'
+
+                    }}>
+                        {renderSubcategories(item.subcategories)}
+                    </View>
+                )}
             </View>
-            {expanded.categoryId === item.id && (
-                <View style={styles.subcategoryList}>
-                    {renderSubcategories(item.subcategories)}
-                </View>
-            )}
         </View>
     );
 
     const renderProducts = () => {
-        if (loading) {
+        const dataToRender = searchTerm.trim().length > 0 ? searchResults : paginatedProducts;
+
+        if (loading || paginatedStatus === 'loading') {
             return <View style={{ marginLeft: wp('1.5%') }}>
                 <SkeletonLoader count={6} />
             </View>;
         }
 
-        // if (searchResults?.length === 0 && !error) {
-        //     return (
-        //         <Text style={{ justifyContent: 'center' }}>
-        //             No products search found.
-        //         </Text>
-        //     );
-        // }
+        if (dataToRender.length === 0) {
+            return (
+                <View style={styles.noRecordContainer}>
+                    <Text style={styles.noRecordText}>No Record Found</Text>
+                </View>
+            );
+        }
 
         return (
-            <ScrollView >
-                <View style={styles.productsContainer}>
-                    {searchResults?.map(product => (
-                        <Pressable
-                            key={product.id}
-                            onPress={() =>
-                                navigation.navigate('ProductDetail', {
-                                    userId: product.id,
-                                    isWatchList: product?.isWatchList,
-                                })
-                            }>
-                            <Product
-                                uri={product?.image}
-                                name={product?.name}
-                                price={product?.price}
-                                saved={product?.saved}
-                                product_id={product?.id}
-                                isWatchList={product?.isWatchList}
-                            />
-                        </Pressable>
-                    ))}
-                </View>
-            </ScrollView>
+            <FlatList
+                data={dataToRender}
+                renderItem={renderProduct}
+                keyExtractor={item => item.id.toString()}
+                numColumns={2}
+                columnWrapperStyle={styles.productContainer}
+                ListFooterComponent={searchTerm.trim().length === 0 && paginatedProducts.length > 0 && (
+                    <TouchableOpacity onPress={loadMoreProducts} style={styles.loadMoreButton}>
+                        <Text style={styles.loadMoreButtonText}>Load More</Text>
+                    </TouchableOpacity>
+                )}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+            />
         );
+    };
+
+    const renderProduct = ({ item: product }) => (
+        <TouchableOpacity
+            key={product.id}
+            onPress={() =>
+                navigation.navigate('ProductDetail', {
+                    userId: product.id,
+                    isWatchList: product.isWatchList,
+                })
+            }>
+            <Product
+                uri={product?.images?.[0]?.src || product?.image}
+                name={product?.name}
+                price={product?.price}
+                saved={product?.saved}
+                product_id={product?.id}
+                isWatchList={product?.isWatchList}
+            />
+        </TouchableOpacity>
+    );
+
+    const loadMoreProducts = () => {
+        dispatch(fetchPaginatedProducts({ page }));
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Icon
-                    name="arrow-back"
-                    size={25}
-                    color="#333"
-                    style={{ marginLeft: 8 }}
-                    onPress={() => navigation.goBack()}
-                />
-                <View
-                    style={{
-                        paddingLeft: wp('2%'),
-                        paddingRight: wp('2%'),
-                        paddingTop: wp('2%'),
-                    }}>
-                    <Text
-                        style={{
-                            color: globalColors.black,
-                            textAlign: 'center',
-                            fontSize: 18,
-                            fontFamily: 'Intrepid Regular',
-                        }}>
-                        Menu
-                    </Text>
-                    <TextInput
-                        style={styles.inputfield}
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChangeText={setSearchTerm}
+                <View style={{ padding: wp('2%') }}>
+                    <Icon
+                        name="arrow-back"
+                        size={25}
+                        color="#333"
+                        style={{ marginLeft: 8 }}
+                        onPress={() => navigation.goBack()}
                     />
-                    <Text
+                    <View
                         style={{
-                            color: globalColors.black,
-                            textAlign: 'left',
-                            fontSize: 18,
-                            marginTop: wp('2%'),
-                            marginBottom: wp('2%'),
-                            fontFamily: 'Intrepid Regular',
+                            paddingLeft: wp('2%'),
+                            paddingRight: wp('2%'),
+                            paddingTop: wp('2%'),
                         }}>
-                        Search Products CategoryBases
-                    </Text>
-                    <FlatList
-                        data={categories}
-                        keyExtractor={item => item.id.toString()}
-                        renderItem={renderCategories}
-                        showsHorizontalScrollIndicator={false}
-                    />
-                    <View style={styles.custborder} />
-
-                    <Text
-                        style={{
-                            color: globalColors.black,
-                            textAlign: 'left',
-                            fontSize: 18,
-                            marginTop: wp('2%'),
-                            marginBottom: wp('2%'),
-                            fontFamily: 'Intrepid Regular',
-                        }}>
-                        Search products
-                    </Text>
-                    {/* <View style={styles.custborder} /> */}
-
-                    {renderProducts()}
-                    {/* {error && <Text>Error: {error}</Text>} */}
-                    {categoryError && (
-                        <View>
-                            <Text>No Result Found</Text>
-                            <View style={styles.custborder} />
-                        </View>
+                        <Text
+                            style={{
+                                color: globalColors.black,
+                                textAlign: 'center',
+                                fontSize: 18,
+                                fontFamily: 'Intrepid Regular',
+                            }}>
+                            Menu
+                        </Text>
+                        <TextInput
+                            style={styles.inputfield}
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChangeText={setSearchTerm}
+                        />
+                    </View>
+                    {categoryLoading ? (
+                        <ActivityIndicator size="large" color={globalColors.primary} />
+                    ) : categoryError ? (
+                        <Text>{categoryError}</Text>
+                    ) : (
+                        <FlatList
+                            data={categories}
+                            renderItem={renderCategories}
+                            keyExtractor={item => item.id.toString()}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={styles.categoryList}
+                        />
                     )}
+                    {renderProducts()}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -289,61 +312,76 @@ const Shop = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // marginBottom: hp('3%'),
-        height: '100%',
+        backgroundColor: globalColors.backgroundColor,
     },
     categoryContainer: {
-        marginVertical: 10,
+        marginVertical: hp('1%'),
+        marginRight: wp('3%'),
     },
-    subcategoryContainer: {
-        marginLeft: 20,
-        flex: 1,
-        marginVertical: 5,
-    },
-    subSubcategoryContainer: {
-        marginLeft: 20,
-        marginVertical: 5,
+    categoryList: {
+        paddingVertical: wp('1%'),
     },
     categoryTitle: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: globalColors.productPriceText,
-
+        fontSize: wp('4%'),
+        color: globalColors.black,
+        fontSize: 18,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        fontFamily: 'Intrepid Regular',
+        backgroundColor: globalColors.white,
+        borderRadius: 10,
+        padding: 3,
+    },
+    subcategoryContainer: {
+        marginVertical: hp('0.5%'),
     },
     subcategoryTitle: {
         fontSize: 16,
-        color: globalColors.productPriceText,
-    },
-    subcategoryList: {
-        marginTop: 5,
-    },
-    productsContainer: {
-        marginTop: 10,
-        // marginBottom: hp('25%'),
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 10,
-    },
-    toggleButton: {
+        color: globalColors.darkGray,
         justifyContent: 'center',
         alignItems: 'center',
-        width: 30,
+        flexDirection: 'column',
+        marginTop: wp('5%'),
+        fontFamily: 'Intrepid Regular',
+    },
+    subSubcategoryContainer: {
+        marginLeft: wp('4%'),
+    },
+    productContainer: {
+        justifyContent: 'space-between',
+        marginVertical: wp('2%'),
+    },
+    noRecordContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: hp('50%'),
+    },
+    noRecordText: {
+        fontSize: wp('4%'),
+        color: globalColors.darkGray,
+    },
+    loadMoreButton: {
+        alignItems: 'center',
+        marginVertical: wp('2%'),
+    },
+    loadMoreButtonText: {
+        fontSize: wp('4%'),
+        color: globalColors.primary,
     },
     inputfield: {
         backgroundColor: 'white',
         margin: 10,
+        fontSize: 16,
         borderColor: '#DBCCC1',
         borderWidth: 1,
         padding: 7,
         borderRadius: 20,
         paddingLeft: 20,
     },
-    custborder: {
-        borderWidth: 0.8,
-        // marginTop: hp('1%'),
-        borderColor: globalColors.inputBorder,
+    toggleButton: {
+        justifyContent: 'center',
+        // alignItems: 'center',
+        paddingLeft: wp('1%'),
     },
 });
 

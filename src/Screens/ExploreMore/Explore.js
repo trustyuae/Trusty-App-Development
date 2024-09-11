@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,14 +9,14 @@ import {
   FlatList,
   ImageBackground,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchWishlist} from '../../Redux/Slice/wishlistSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import {
   fetchPaginatedProducts,
   resetProducts,
 } from '../../Redux/Slice/paginatedProductSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -24,39 +24,41 @@ import {
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import Product from '../../Components/Product/Product';
 import SkeletonLoader from '../../Components/Loader/SkeletonLoader';
-import {getToken} from '../../Utils/localstorage';
-import {baseURL} from '../../Utils/API';
-import {useFocusEffect} from '@react-navigation/native';
-import {Images} from '../../Constants';
-import {Image} from 'react-native-elements';
+import { getToken } from '../../Utils/localstorage';
+import { baseURL } from '../../Utils/API';
+import { useFocusEffect } from '@react-navigation/native';
+import { Images } from '../../Constants';
+import { Image } from 'react-native-elements';
 import Explore from '../../Components/ExploreMore/Explore';
 import Button from '../../Components/Button';
-import {Modal} from 'react-native-paper';
+import { Modal } from 'react-native-paper';
 
-const ExploreMore = ({navigation}) => {
+const ExploreMore = ({ navigation }) => {
   const dispatch = useDispatch();
   const {
     products: paginatedProducts,
     status: paginatedStatus,
     page,
   } = useSelector(state => state.paginatedProducts);
-  const {items} = useSelector(state => state.wishlist);
+  const { items } = useSelector(state => state.wishlist);
   const [visible, setVisible] = useState(false);
   const [search, setSearch] = useState('');
   const [wishlist, setWishlist] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [loadingSearch, setLoadingSearch] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [selected, setSelected] = useState(null);
   const options = [
-    {label: 'Men Bags', value: 'option1'},
-    {label: 'Women Bags', value: 'option2'},
-    {label: 'Laptop Bags', value: 'option3'},
-    {label: 'School Bags & Sets', value: 'option4'},
-    {label: 'Gym Bags', value: 'option5'},
-    {label: 'Briefcases Bags', value: 'option6'},
-    {label: 'Waist Packs', value: 'option7'},
-    {label: 'Canvas & Beach Tote Bags', value: 'option8'},
+    { label: 'Men Bags', value: 'option1' },
+    { label: 'Women Bags', value: 'option2' },
+    { label: 'Laptop Bags', value: 'option3' },
+    { label: 'School Bags & Sets', value: 'option4' },
+    { label: 'Gym Bags', value: 'option5' },
+    { label: 'Briefcases Bags', value: 'option6' },
+    { label: 'Waist Packs', value: 'option7' },
+    { label: 'Canvas & Beach Tote Bags', value: 'option8' },
   ];
 
   const handlePress = value => {
@@ -70,7 +72,7 @@ const ExploreMore = ({navigation}) => {
         dispatch(fetchWishlist(token));
       }
       dispatch(resetProducts());
-      dispatch(fetchPaginatedProducts({page: 1}));
+      dispatch(fetchPaginatedProducts({ page: 1 }));
     }, [dispatch]),
   );
 
@@ -99,11 +101,25 @@ const ExploreMore = ({navigation}) => {
     }));
   };
 
-  const renderProduct = ({item: product}) => (
+
+  const loadMoreProducts = () => {
+    if (!isLoadingMore && paginatedStatus !== 'loading') {
+      setIsLoadingMore(true);
+      dispatch(fetchPaginatedProducts({ page: currentPage + 1 }));
+      setCurrentPage(prevPage => prevPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    setIsLoadingMore(false);
+  }, [paginatedStatus]);
+
+
+  const renderProduct = ({ item: product }) => (
     <TouchableOpacity
       key={product.id}
       onPress={() =>
-        navigation.navigate('ProductDetail', {userId: product.id})
+        navigation.navigate('ProductDetail', { userId: product.id })
       }>
       <Explore
         uri={product?.images?.[0]?.src || product?.image}
@@ -119,13 +135,13 @@ const ExploreMore = ({navigation}) => {
   const renderProducts = () => {
     const dataToRender = search.trim().length > 0 ? searchResults : wishlist;
 
-    if (loadingSearch || paginatedStatus === 'loading') {
-      return (
-        <View style={{marginLeft: wp('1.5%')}}>
-          <SkeletonLoader count={6} />
-        </View>
-      );
-    }
+    // if (loadingSearch || paginatedStatus === 'loading') {
+    //   return (
+    //     <View style={{marginLeft: wp('1.5%')}}>
+    //       <SkeletonLoader count={6} />
+    //     </View>
+    //   );
+    // }
 
     if (dataToRender.length === 0) {
       return (
@@ -151,15 +167,12 @@ const ExploreMore = ({navigation}) => {
               <Text style={styles.loadMoreButtonText}>Load More</Text>
             </TouchableOpacity>
           )
-        }
+        } onEndReached={loadMoreProducts}
+        onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       />
     );
-  };
-
-  const loadMoreProducts = () => {
-    dispatch(fetchPaginatedProducts({page}));
   };
 
   const handlepress = () => {
@@ -173,14 +186,14 @@ const ExploreMore = ({navigation}) => {
         style={{
           marginVertical: hp('1%'),
           flexDirection: 'row',
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}>
         <Icon
           name="arrow-back"
           size={25}
           color="#333"
-          style={{marginLeft: 8}}
+          style={{ marginLeft: 8 }}
           onPress={() => navigation.goBack()}
         />
 
@@ -198,11 +211,11 @@ const ExploreMore = ({navigation}) => {
             name="keyboard-arrow-down"
             size={20}
             color="#D42A57"
-            style={{marginTop: 20}}
+            style={{ marginTop: 20 }}
           />
         </Text>
 
-        <ImageBackground source={Images.circle} style={{height: 65, width: 65}}>
+        <ImageBackground source={Images.circle} style={{ height: 65, width: 65 }}>
           <Image
             source={Images.sortlogo}
             style={{
@@ -217,7 +230,7 @@ const ExploreMore = ({navigation}) => {
       </View>
 
       <View style={styles.container}>
-        <View style={{marginTop: '10%'}}>
+        <View style={{ marginTop: '10%' }}>
           <View style={styles.searchContainer}>
             <Text
               style={{
@@ -233,7 +246,7 @@ const ExploreMore = ({navigation}) => {
       </View>
       <TouchableOpacity style={styles.stylesofbtn} onPress={handlepress}>
         <Text style={styles.styleoffont}>
-          <Image source={Images.sortarrow} style={{height: 12, width: 12}} />{' '}
+          <Image source={Images.sortarrow} style={{ height: 12, width: 12 }} />{' '}
           Sort
         </Text>
       </TouchableOpacity>
@@ -285,7 +298,7 @@ const ExploreMore = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{paddingTop: hp('1%')}}>
+          <View style={{ paddingTop: hp('1%') }}>
             {options.map(option => (
               <TouchableOpacity
                 key={option.value}
@@ -325,7 +338,7 @@ const ExploreMore = ({navigation}) => {
             styleoffont={styles.custfontstyle}
             // handlepress={handlePress}
             name={'Apply'}
-            // loading={loading}
+          // loading={loading}
           />
         </View>
       </Modal>

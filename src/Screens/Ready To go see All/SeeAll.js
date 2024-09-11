@@ -71,8 +71,8 @@ const SeeAll = ({ navigation }) => {
       onPress={() =>
         navigation.navigate('ProductDetail', { userId: product.id })
       }>
-      <ProductCategory
-        uri={product?.images}
+      <Product
+        uri={product?.images[0]}
         name={product?.name}
         price={product?.price}
         saved={product?.saved}

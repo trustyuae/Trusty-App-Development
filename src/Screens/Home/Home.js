@@ -156,6 +156,8 @@ const Home = () => {
   const [imageLoaded, setImageLoaded] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
   const [newWitchList, setNewWitchList] = useState([]);
+  const [updatedRedytogoProductsWishlist, SetupdatedRedytogoProductsWishlist] = useState([])
+  const [updatedSignatureSelectionsProducts, SetupdatedSignatureSelectionsProducts] = useState([])
   const dispatch = useDispatch();
   // const categoryStatus = false;
   const { categories, categoryStatus, categoryError } = useSelector(
@@ -183,8 +185,8 @@ const Home = () => {
     const fetchData = async () => {
       data();
       dispatch(fetchRedyToGo());
-      dispatch(fetchCategories());
       dispatch(getSignatureSelectionsData());
+      dispatch(fetchCategories());
       dispatch(fetchProducts());
     };
     fetchData();
@@ -194,6 +196,8 @@ const Home = () => {
     React.useCallback(() => {
       data();
       dispatch(fetchProducts());
+      dispatch(fetchRedyToGo());
+      dispatch(getSignatureSelectionsData());
     }, [tokenData]), // Fetch data on focus or token change
   );
 
@@ -228,31 +232,42 @@ const Home = () => {
     };
     fetchData();
   }, [dispatch, getToken]);
+
   const data = () => {
     if (items.Wishlist) {
       const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const productIds = new Set(itemIdList.map(item => Number(item.id)));
-      const result = products.map(productItem => ({
+
+      // Update redytogoProducts with isWatchList
+      const updatedRedytogoProducts = redytogoProducts.map(productItem => ({
         ...productItem,
         isWatchList: productIds.has(productItem.id),
       }));
-      setWishlist(result);
+
+      const updatedSignatureSelectionsProducts = signatureSelectionsProducts.map(productItem => ({
+        ...productItem,
+        isWatchList: productIds.has(productItem.id),
+      }))
+
+      SetupdatedRedytogoProductsWishlist(updatedRedytogoProducts);
+      SetupdatedSignatureSelectionsProducts(updatedSignatureSelectionsProducts)
     } else if (wishlist) {
-      setWishlist(products);
+      SetupdatedRedytogoProductsWishlist(redytogoProducts);
+      SetupdatedSignatureSelectionsProducts(signatureSelectionsProducts)
     }
   };
 
   useEffect(() => {
     data();
-  }, [items, products, categories, tokenData]);
+  }, [items, redytogoProducts, signatureSelectionsProducts, tokenData]);
   // console.log(
   //   '------======',
   //   wishlist?.map(data => console.log(data.isWatchList)),
   // );
 
-  // useEffect(() => {
-  //   dispatch(fetchWishlist(tokenData));
-  // }, [tokenData, products, categories]);
+  useEffect(() => {
+    dispatch(fetchWishlist(tokenData));
+  }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
     navigation.navigate('CategoryProducts', { category, products });
     // console.log("products",category);
@@ -366,7 +381,7 @@ const Home = () => {
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (
-                  redytogoProducts
+                  updatedRedytogoProductsWishlist
                     .slice(startIndex, startIndex + 10)
                     .map(product => (
                       <>
@@ -501,7 +516,7 @@ const Home = () => {
                     <SkeletonLoader count={4} />
                   </View>
                 ) : (
-                  signatureSelectionsProducts.map(product => (
+                  updatedSignatureSelectionsProducts.map(product => (
                     <Pressable
                       key={product?.id}
                       onPress={() =>

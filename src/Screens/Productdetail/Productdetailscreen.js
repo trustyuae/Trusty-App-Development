@@ -45,8 +45,10 @@ import {
 } from '../../Constants/Icons';
 import ProductRelated from '../../Components/Product/ProductRelated';
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Productdetailscreen({ route }) {
+  console.log("Route--------->", route)
   const scrollViewRef = useRef();
   const navigation = useNavigation();
   const { userId, isWatchList } = route?.params;
@@ -73,11 +75,21 @@ export default function Productdetailscreen({ route }) {
   const additionalText =
     " Here is the additional information that appears when 'Read More' is clicked. It can include more details about the product, size chart, and other relevant information.";
 
-  const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(true);
+  const [active, setInActive] = useState(true);
+
 
   const toggleShowMore = () => {
     setShowMore(!showMore);
   };
+
+  const activeInActiveHandler = () => {
+    setInActive(!active)
+  }
+
+  const removeHtmlTags = (html) => {
+    return html?.replace(/<\/?[^>]+(>|$)/g, '')
+  }
 
 
   // Combine initial and additional text based on state
@@ -390,15 +402,7 @@ export default function Productdetailscreen({ route }) {
                         {responseData?.stock_status}
                       </Text>
                     </View>
-                    {/* <TouchableOpacity onPress={toggleShowMore}>
-                      <Text style={styles.descrpation}>
-                        {responseData?.description}
 
-                        <Text style={styles.readMore}>
-                          {showMore ? ' Read Less' : ' Read More'}
-                        </Text>
-                      </Text>
-                    </TouchableOpacity> */}
                     {responseData?.type == 'variable' ? (
                       <Accordion
                         Size={size}
@@ -422,7 +426,7 @@ export default function Productdetailscreen({ route }) {
                         setChangeSize={setChangeSize}
                       />
                     )}
-                    <View style={styles.iconParentContainer}>
+                    {/* <View style={styles.iconParentContainer}>
                       <View style={styles.iconContainer}>
                         <Image
                           source={certifiedIcon}
@@ -481,7 +485,96 @@ export default function Productdetailscreen({ route }) {
                           top{'                              '}brand{' '}
                         </Text>
                       </View>
-                    </View>
+                    </View> */}
+
+
+                    {
+                      responseData?.description && (
+                        <TouchableOpacity style={{ backgroundColor: globalColors.headingBackground }} onPress={toggleShowMore}>
+                          <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 5 }}>
+                            <Text style={{
+                              color: globalColors.black,
+                              fontSize: 16,
+                              fontWeight: '600',
+                              fontFamily: 'Product Sans',
+                            }}>Product details</Text>
+                            <View style={{ paddingRight: wp('3.5%') }}>
+                              <Icon
+                                name={showMore ? 'chevron-down' : 'chevron-up'}
+                                size={20}
+                                color={'#000'}
+                              ></Icon>
+                            </View>
+                          </View>
+                          {showMore &&
+                            <Text style={{
+                              // flexDirection: 'column',
+                              color: globalColors.newTextColor,
+                              fontSize: 16,
+                              fontWeight: '400',
+                              fontFamily: 'Intrepid Regular',
+                              marginLeft: wp('5%'),
+                            }}>
+                              {removeHtmlTags(responseData?.description)}
+
+                              {/* <Text style={styles.readMore}>
+                          {showMore ? ' Read Less' : ' Read More'}
+                        </Text> */}
+                            </Text>
+                          }
+                          <View style={styles.custBorder} />
+
+                        </TouchableOpacity>
+                      )
+                    }
+
+
+
+                    <TouchableOpacity style={{ backgroundColor: globalColors.headingBackground }} onPress={activeInActiveHandler}>
+                      <View style={{
+                        flexDirection: 'row',
+                        marginTop: wp('1%'),
+                        padding: wp('1%'),
+                        justifyContent: 'space-between',
+                      }}>
+                        <Text style={{
+                          color: globalColors.black,
+                          fontSize: 16,
+                          fontWeight: '600',
+                          fontFamily: 'Product Sans',
+                        }}>Delivery Terms</Text>
+                        <View style={{ paddingRight: wp('3.5%') }}>
+                          <Icon
+                            name={active ? 'chevron-down' : 'chevron-up'}
+                            size={20}
+                            color={'#000'}
+                          ></Icon>
+                        </View>
+                      </View>
+                      {active &&
+                        <View style={{
+                          flexDirection: 'column',
+                          color: globalColors.newTextColor,
+                          fontSize: 16,
+                          fontWeight: '400',
+                          fontFamily: 'Intrepid Regular',
+                          marginLeft: wp('5%'),
+                          marginTop: 5,
+                        }}>
+                          {responseData?.stock_status === "instock" ?
+                            <Text>-Delivery In the UAE: 1-3 days</Text> :
+                            <Text>-Delivery within 3-4 weeks in UAE</Text>
+                          }
+                          {/* <Text>Delivery outside the UAE: 5-7 days</Text> */}
+
+                          {/* <Text style={styles.readMore}>
+                          {showMore ? ' Read Less' : ' Read More'}
+                        </Text> */}
+                        </View>
+                      }
+                      <View style={styles.custBorder} />
+
+                    </TouchableOpacity>
                   </View>
                   <View>
                     <Text
@@ -585,8 +678,8 @@ export default function Productdetailscreen({ route }) {
           name={'Add To Cart'}
           loading={load}
         />
-      </SafeAreaView>
-    </GestureHandlerRootView>
+      </SafeAreaView >
+    </GestureHandlerRootView >
   );
 }
 const styles = StyleSheet.create({
@@ -611,13 +704,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   descrpation: {
-    color: globalColors.black,
+    color: globalColors.newTextColor,
     fontSize: 16,
     fontWeight: '400',
-    fontFamily: 'Product Sans',
-    marginLeft: 5,
-    marginTop: 5,
-    marginBottom: hp('4%'),
+    fontFamily: 'Intrepid Regular',
+    marginLeft: wp('5%'),
+    // marginTop: 5,
+    // marginBottom: hp('4%'),
   },
   custAEDregularPrice: {
     color: globalColors.lightWhite,
@@ -695,5 +788,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  custBorder: {
+    marginTop: wp('1%'),
+    borderBottomColor: globalColors.lightGray,
+    borderBottomWidth: 1,
   },
 });
