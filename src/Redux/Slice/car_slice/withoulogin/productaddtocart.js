@@ -1,12 +1,12 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
-import {ADD_TO_CART} from '../../../../Constants/UserConstants';
+import { ADD_TO_CART } from '../../../../Constants/UserConstants';
 import { baseURL } from '../../../../Utils/API';
 
 export const productaddToCart = createAsyncThunk(
   ADD_TO_CART,
-  async (data, {rejectWithValue}) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${baseURL}/custom/v1/cart/add`, data);
       return response.data;
@@ -40,7 +40,7 @@ const ProductAddToCartSlice = createSlice({
         Toast.show({
           type: 'success',
           text1: 'Item Added',
-          position: 'bottom',
+          position: 'top',
           visibilityTime: 3000,
         });
       })

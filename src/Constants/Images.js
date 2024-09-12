@@ -20,7 +20,7 @@ const cart_img = require('../Assets/Images/cart_img.png');
 const Logout = require('../Assets/Images/Logout.png');
 const ProfileIcon = require('../Assets/Images/ProfileIcon.png');
 const whishlistIcon = require('../Assets/Images/wishlistIcon.png');
-const saveIconUnFill3x = require('../Assets/Images/SaveIconUnFill3x.png');
+const saveIconUnFill3x = require('../Assets/Images/saveIconUnFill3x.png');
 const Bottom = require('../Assets/Images/Bottom.png');
 // const Tops = require('../Assets/Images/shopping.png');
 const Jewellery = require('../Assets/Images/Jewellery.png');
@@ -59,6 +59,7 @@ const Celebration = require('../Assets/Images/celebration.png');
 const Wishlist = require('../Assets/Images/Wishlist.png');
 const loginImage = require('../Assets/Images/loginImage.png');
 const loginImage4x = require('../Assets/Images/loginimage4x.png');
+const SaveIconFill3x = require('../Assets/Images/SaveIconFill3x.png')
 
 const logoResetpage = require('../Assets/Images/SmalliconReset.png');
 export default {
@@ -121,6 +122,7 @@ export default {
   ProfileIcon,
   whishlistIcon,
   saveIconUnFill3x,
+  SaveIconFill3x,
   loginImage,
   logoResetpage, loginImage4x
 };

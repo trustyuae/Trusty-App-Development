@@ -42,10 +42,13 @@ import {
   plusIcon,
   returnExchangeIcon,
   shareIcon,
+  shareIcon3x,
+  tabbyLogo,
 } from '../../Constants/Icons';
 import ProductRelated from '../../Components/Product/ProductRelated';
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
 import Icon from 'react-native-vector-icons/Ionicons';
+import TabbyModal from '../../Components/Model/TabbyModal';
 
 export default function Productdetailscreen({ route }) {
   console.log("Route--------->", route)
@@ -69,7 +72,14 @@ export default function Productdetailscreen({ route }) {
   const [wishlistId, setWishListId] = useState();
   const [isWishlist, setIsWishlist] = useState(isWatchList);
   const [quantity, setQuantity] = useState(1);
+  const [priceToTabby, setPriceTabby] = useState('')
 
+  //modal
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   const initialText =
     'Choose your favorites garment size that is two inches more than your body measurement. e.g:- for bust size -36 inch, select garment size - Medium (M). There might be slight variation in the actual color of the product due to different screen';
   const additionalText =
@@ -111,6 +121,7 @@ export default function Productdetailscreen({ route }) {
   }, [userId]);
   useEffect(() => {
     const metaData = responseData?.meta_data;
+    setPriceTabby(responseData?.price / 4)
     const hardwareMeta = metaData?.find(meta => meta?.key === 'Hardware');
     setColorMeta(hardwareMeta?.value);
     responseData?.attributes?.forEach(attribute => {
@@ -292,7 +303,7 @@ export default function Productdetailscreen({ route }) {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <SafeAreaView style={{}}>
-        <View style={{ marginBottom: hp('8') }}>
+        <View style={{ marginBottom: hp('16') }}>
           {loading ? (
             <SkeletonLoaderProductDetails />
           ) : (
@@ -343,9 +354,9 @@ export default function Productdetailscreen({ route }) {
                         <View style={{ marginRight: wp('2%') }}>
                           <TouchableOpacity onPress={toggleSaved}>
                             {isWishlist ? (
-                              <Image source={Images.saveIconFill} />
+                              <Image style={{ width: 40, height: 40 }} source={Images.SaveIconFill3x} />
                             ) : (
-                              <Image source={Images.saveIconUnFill} />
+                              <Image style={{ width: 40, height: 40 }} source={Images.saveIconUnFill3x} />
                             )}
                           </TouchableOpacity>
                         </View>
@@ -353,18 +364,20 @@ export default function Productdetailscreen({ route }) {
                           style={{
                             backgroundColor: 'white',
                             borderRadius: 50,
-                            padding: 5,
+                            alignSelf: 'center',
+                            padding: 7,
+                            marginRight: wp('2%'),
                             overflow: 'hidden',
                           }}>
                           <TouchableOpacity>
                             {/* <Text>sdfds</Text> */}
                             <Image
                               style={{
-                                width: 21,
-                                height: 21,
+                                width: 25,
+                                height: 25,
                                 resizeMode: 'contain',
                               }}
-                              source={shareIcon}></Image>
+                              source={shareIcon3x}></Image>
                           </TouchableOpacity>
                         </View>
                       </View>
@@ -402,6 +415,30 @@ export default function Productdetailscreen({ route }) {
                         {responseData?.stock_status}
                       </Text>
                     </View>
+                    <View style={styles.containerTabby}>
+                      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.infoContainer}>
+                        <View style={{ justifyContent: 'space-between' }}>
+                          <Text style={styles.paymentInfo}>
+                            4 interest-free payments of <Text style={styles.amount}>AED {priceToTabby}</Text>.
+                          </Text>
+                          <Text style={styles.details}>No fees. Shariah-compliant.</Text>
+                          <TouchableOpacity onPress={() => setModalVisible(true)}>
+                            <Text style={styles.learnMore}>Learn more</Text>
+                          </TouchableOpacity>
+                        </View>
+                        <Image resizeMode="contain"
+                          style={{ width: 100, height: 40 }} source={tabbyLogo}></Image>
+
+                      </TouchableOpacity>
+                      <Image
+                        source={{ uri: 'https://tabby-assets.s3.eu-west-1.amazonaws.com/logo.svg' }} // Use Tabby logo URL or local asset
+                        style={styles.logo}
+                      />
+                    </View>
+
+
+
+
 
                     {responseData?.type == 'variable' ? (
                       <Accordion
@@ -496,7 +533,7 @@ export default function Productdetailscreen({ route }) {
                               color: globalColors.black,
                               fontSize: 16,
                               fontWeight: '600',
-                              fontFamily: 'Product Sans',
+                              // fontFamily: 'Product Sans',
                             }}>Product details</Text>
                             <View style={{ paddingRight: wp('3.5%') }}>
                               <Icon
@@ -509,10 +546,12 @@ export default function Productdetailscreen({ route }) {
                           {showMore &&
                             <Text style={{
                               // flexDirection: 'column',
-                              color: globalColors.newTextColor,
+                              // color: globalColors.newTextColor,
                               fontSize: 16,
                               fontWeight: '400',
-                              fontFamily: 'Intrepid Regular',
+                              color: '#555',
+
+                              // fontFamily: 'Product Sans',
                               marginLeft: wp('5%'),
                             }}>
                               {removeHtmlTags(responseData?.description)}
@@ -557,13 +596,26 @@ export default function Productdetailscreen({ route }) {
                           color: globalColors.newTextColor,
                           fontSize: 16,
                           fontWeight: '400',
-                          fontFamily: 'Intrepid Regular',
+                          // fontFamily: 'Product Sans',
                           marginLeft: wp('5%'),
                           marginTop: 5,
                         }}>
                           {responseData?.stock_status === "instock" ?
-                            <Text>-Delivery In the UAE: 1-3 days</Text> :
-                            <Text>-Delivery within 3-4 weeks in UAE</Text>
+                            <Text style={{
+                              // fontFamily: 'Product Sans',
+                              fontWeight: '400',
+                              fontSize: 16,
+                              color: '#555',
+
+                            }}>-Delivery In the UAE: 1-3 days</Text> :
+                            <Text style={{
+                              // fontFamily: 'Product Sans',
+                              fontWeight: '400',
+                              fontSize: 16,
+                              color: '#555',
+
+
+                            }}>-Delivery within 3-4 weeks in UAE</Text>
                           }
                           {/* <Text>Delivery outside the UAE: 5-7 days</Text> */}
 
@@ -669,15 +721,22 @@ export default function Productdetailscreen({ route }) {
               </View>
             </>
           )}
+          <TabbyModal
+            visible={modalVisible}
+            onClose={closeModal}
+            priceToTabby={priceToTabby}
+          >
+          </TabbyModal>
+          <ButtonAddToCart
+            stylesofbtn={styles.custbtn}
+            styleoffont={styles.custfontstyle}
+            handlepress={handlepress}
+            image={'ds'}
+            name={'Add To Cart'}
+            loading={load}
+          />
         </View>
-        <ButtonAddToCart
-          stylesofbtn={styles.custbtn}
-          styleoffont={styles.custfontstyle}
-          handlepress={handlepress}
-          image={'ds'}
-          name={'Add To Cart'}
-          loading={load}
-        />
+
       </SafeAreaView >
     </GestureHandlerRootView >
   );
@@ -727,7 +786,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     // marginVertical: -5,
     position: 'absolute',
-    bottom: 15,
+    bottom: hp('-5.5%'),
     left: 15,
     right: 15,
   },
@@ -793,5 +852,44 @@ const styles = StyleSheet.create({
     marginTop: wp('1%'),
     borderBottomColor: globalColors.lightGray,
     borderBottomWidth: 1,
+  },
+  containerTabby: {
+    flexDirection: 'row',
+    padding: 15,
+    borderWidth: 1,
+    borderColor: '#e5e5e5',
+    borderRadius: 10,
+    backgroundColor: '#f9f5f0',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  infoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  paymentInfo: {
+    fontSize: 16,
+    color: '#000',
+  },
+  amount: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    // flexWrap: 'wrap'
+  },
+  details: {
+    fontSize: 14,
+    color: '#555',
+  },
+  learnMore: {
+    fontSize: 14,
+    color: '#555',
+    marginTop: 5,
+    textDecorationLine: 1
+  },
+  logo: {
+    width: 50,
+    height: 30,
+    marginLeft: 10,
   },
 });

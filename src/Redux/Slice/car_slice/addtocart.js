@@ -1,6 +1,6 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {ADD_TO_CART} from '../../../Constants/UserConstants';
+import { ADD_TO_CART } from '../../../Constants/UserConstants';
 import {
   Consumer_key,
   Consumer_secret,
@@ -8,20 +8,20 @@ import {
   dummyurl,
 } from '../../../Utils/API';
 import Toast from 'react-native-toast-message';
-import {getToken} from '../../../Utils/localstorage';
+import { getToken } from '../../../Utils/localstorage';
 
 export const addToCart = createAsyncThunk(
   ADD_TO_CART,
-  async (data, {rejectWithValue}) => {
+  async (data, { rejectWithValue }) => {
     try {
 
-      let token=await getToken()
+      let token = await getToken()
       const response = await axios.post(
         `${baseURL}/custom-woo-api/v1/add-to-cart`,
         data,
         {
           headers: {
-            'Authorization':`Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
           },
         },
       );
@@ -56,7 +56,7 @@ const AddToCartSlice = createSlice({
         Toast.show({
           type: 'success',
           text1: "Item Added",
-          position: 'bottom',
+          position: 'top',
           visibilityTime: 3000,
         });
       })

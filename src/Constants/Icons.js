@@ -25,6 +25,7 @@ export const emailIcon = require('../Assets/Icons/EmailIcon.png');
 export const passwordIcon = require('../Assets/Icons/passwordIcon.png');
 export const GiftImg = require('../Assets/Icons/GiftImage.png');
 export const shareIcon = require('../Assets/Icons/shareIcon.png');
+export const shareIcon3x = require('../Assets/Icons/shareIcon3x.png');
 export const minusIcon = require('../Assets/Icons/MinusIcon.png');
 export const plusIcon = require('../Assets/Icons/PlusIcon.png');
 export const certifiedIcon = require('../Assets/Icons/certificateIcon.png');
@@ -32,7 +33,7 @@ export const returnExchangeIcon = require('../Assets/Icons/return&exchangeIcon.p
 export const deliveryIcon = require('../Assets/Icons/Free_DeliveryIcon.png');
 export const callIcon = require('../Assets/Icons/callIcon.png');
 export const checkIcon = require('../Assets/Icons/checkIconThankyouPage.png');
-
+export const tabby = require('../Assets/Icons/tabby.png')
 //*************************************************Exported Images**********************
 
 export const ProductIMG = require('../Assets/Images/ProductImg.png');
@@ -50,5 +51,6 @@ export const NoImg = require('../Assets/Images/productBackground.png');
 export const trustyIconWhite = require('../Assets/Icons/trustyIconWhite.png');
 export const deleteImg = require('../Assets/Images/delete.png');
 export const Dummyproduct3 = require('../Assets/Images/ProductDummy3.png');
+export const tabbyLogo = require('../Assets/Icons/tabbylogo.png')
 
 
