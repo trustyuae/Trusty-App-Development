@@ -52,5 +52,5 @@ export const trustyIconWhite = require('../Assets/Icons/trustyIconWhite.png');
 export const deleteImg = require('../Assets/Images/delete.png');
 export const Dummyproduct3 = require('../Assets/Images/ProductDummy3.png');
 export const tabbyLogo = require('../Assets/Icons/tabbylogo.png')
-
+export const tamara = require('../Assets/Icons/tamara.png')
 

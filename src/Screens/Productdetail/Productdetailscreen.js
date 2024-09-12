@@ -44,6 +44,7 @@ import {
   shareIcon,
   shareIcon3x,
   tabbyLogo,
+  tamara,
 } from '../../Constants/Icons';
 import ProductRelated from '../../Components/Product/ProductRelated';
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
@@ -51,7 +52,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import TabbyModal from '../../Components/Model/TabbyModal';
 
 export default function Productdetailscreen({ route }) {
-  console.log("Route--------->", route)
+  // console.log("Route--------->", route)
   const scrollViewRef = useRef();
   const navigation = useNavigation();
   const { userId, isWatchList } = route?.params;
@@ -349,6 +350,7 @@ export default function Productdetailscreen({ route }) {
                           position: 'relative',
                           flexDirection: 'row',
                           top: hp(-'50'),
+                          // marginRight: wp('1%')
                           // alignContent: 'flex-end',
                         }}>
                         <View style={{ marginRight: wp('2%') }}>
@@ -417,23 +419,30 @@ export default function Productdetailscreen({ route }) {
                     </View>
                     <View style={styles.containerTabby}>
                       <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.infoContainer}>
-                        <View style={{ justifyContent: 'space-between' }}>
-                          <Text style={styles.paymentInfo}>
-                            4 interest-free payments of <Text style={styles.amount}>AED {priceToTabby}</Text>.
+                        <View style={{ alignItems: 'center', justifyContent: 'center', gap: 3 }}>
+                          <Text style={styles.paymentInfo}>4 Interest-free payments of <Text style={styles.amount}>AED {priceToTabby}</Text>.
                           </Text>
-                          <Text style={styles.details}>No fees. Shariah-compliant.</Text>
-                          <TouchableOpacity onPress={() => setModalVisible(true)}>
-                            <Text style={styles.learnMore}>Learn more</Text>
-                          </TouchableOpacity>
+                          <View style={{ flexDirection: 'row', alignSelf: '' }}>
+                            <Text style={styles.details}>No fees. Shariah-compliant.</Text>
+                            {/* <TouchableOpacity > */}
+                            <Text style={styles.learnMore}> Learn more</Text>
+                            {/* </TouchableOpacity> */}
+                          </View>
                         </View>
-                        <Image resizeMode="contain"
-                          style={{ width: 100, height: 40 }} source={tabbyLogo}></Image>
+                        <View style={{ flexDirection: 'column', }}>
+                          <TouchableOpacity onPress={() => setModalVisible(true)}>
+                            <Image resizeMode="contain"
+                              style={{ width: 60, height: 40 }} source={tabbyLogo}></Image>
+                          </TouchableOpacity>
 
+                          <Image resizeMode="contain"
+                            style={{ width: 60, height: 40, marginTop: -10 }} source={tamara}></Image>
+                        </View>
                       </TouchableOpacity>
-                      <Image
+                      {/* <Image
                         source={{ uri: 'https://tabby-assets.s3.eu-west-1.amazonaws.com/logo.svg' }} // Use Tabby logo URL or local asset
                         style={styles.logo}
-                      />
+                      /> */}
                     </View>
 
 
@@ -527,7 +536,12 @@ export default function Productdetailscreen({ route }) {
 
                     {
                       responseData?.description && (
-                        <TouchableOpacity style={{ backgroundColor: globalColors.headingBackground }} onPress={toggleShowMore}>
+                        <TouchableOpacity style={{
+                          backgroundColor: globalColors.headingBackground,
+                          borderWidth: 1,
+                          borderColor: '#e5e5e5',
+
+                        }} onPress={toggleShowMore}>
                           <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 5 }}>
                             <Text style={{
                               color: globalColors.black,
@@ -549,7 +563,8 @@ export default function Productdetailscreen({ route }) {
                               // color: globalColors.newTextColor,
                               fontSize: 16,
                               fontWeight: '400',
-                              color: '#555',
+                              color: globalColors.textColorLogin,
+                              fontFamily: 'Intrepid Regular',
 
                               // fontFamily: 'Product Sans',
                               marginLeft: wp('5%'),
@@ -569,7 +584,12 @@ export default function Productdetailscreen({ route }) {
 
 
 
-                    <TouchableOpacity style={{ backgroundColor: globalColors.headingBackground }} onPress={activeInActiveHandler}>
+                    <TouchableOpacity style={{
+                      backgroundColor: globalColors.headingBackground,
+                      borderWidth: 1,
+                      borderColor: '#e5e5e5',
+
+                    }} onPress={activeInActiveHandler}>
                       <View style={{
                         flexDirection: 'row',
                         marginTop: wp('1%'),
@@ -605,14 +625,17 @@ export default function Productdetailscreen({ route }) {
                               // fontFamily: 'Product Sans',
                               fontWeight: '400',
                               fontSize: 16,
-                              color: '#555',
+                              color: globalColors.textColorLogin,
+                              fontFamily: 'Intrepid Regular',
 
                             }}>-Delivery In the UAE: 1-3 days</Text> :
                             <Text style={{
                               // fontFamily: 'Product Sans',
                               fontWeight: '400',
                               fontSize: 16,
+                              color: globalColors.textColorLogin,
                               color: '#555',
+                              fontFamily: 'Intrepid Regular',
 
 
                             }}>-Delivery within 3-4 weeks in UAE</Text>
@@ -855,36 +878,40 @@ const styles = StyleSheet.create({
   },
   containerTabby: {
     flexDirection: 'row',
-    padding: 15,
+    padding: 10,
     borderWidth: 1,
     borderColor: '#e5e5e5',
-    borderRadius: 10,
+    borderRadius: 2,
     backgroundColor: '#f9f5f0',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   infoContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignSelf: 'center',
+    justifyContent: 'space-between'
   },
   paymentInfo: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#000',
+    textAlign: 'left'
   },
   amount: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 14,
     // flexWrap: 'wrap'
   },
   details: {
     fontSize: 14,
-    color: '#555',
+    color: '#000',
+    textAlign: 'left'
+
   },
   learnMore: {
     fontSize: 14,
-    color: '#555',
-    marginTop: 5,
+    color: '#000',
+    // marginTop: 5,
     textDecorationLine: 1
   },
   logo: {

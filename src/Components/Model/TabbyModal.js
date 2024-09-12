@@ -214,9 +214,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: heightPercentageToDP('4%'),
-        padding: 10,
+        padding: widthPercentageToDP('6%'),
         borderRadius: 15,
-
         backgroundColor: '#F2F2F8'
     },
     safeShopText: {
