@@ -19,6 +19,8 @@ import OrderTrackingScreen from '../Screens/OrderTrackingScreen.js';
 import SetNewPassword from '../Screens/Login/SetNewPassword.js';
 import { Linking } from 'react-native';
 import SearchScreen from '../Screens/search/SearchScreen.js';
+import WebViewScreen from '../Components/WebView/WebViewScreen.js';
+
 
 const Stack = createNativeStackNavigator();
 const AppNavigations = ({ navigation }) => {
@@ -53,6 +55,14 @@ const AppNavigations = ({ navigation }) => {
           }}
         />
         <Stack.Screen
+          name="WebViewScreen"
+          component={WebViewScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
           name="Cart"
           component={CartScreen} // Pass the navigation prop here
           // options={({ navigation }) => ({
@@ -72,7 +82,7 @@ const AppNavigations = ({ navigation }) => {
           //     />
           //   ),
           // })}
-          options={({navigation}) => ({
+          options={({ navigation }) => ({
             // Pass navigation prop here
             headerTransparent: true,
             headerShown: false,
@@ -95,7 +105,7 @@ const AppNavigations = ({ navigation }) => {
         <Stack.Screen
           name="wishlist"
           component={Wishlist}
-          options={({navigation}) => ({
+          options={({ navigation }) => ({
             // Pass navigation prop here
             headerTransparent: true,
             title: null,
@@ -108,7 +118,7 @@ const AppNavigations = ({ navigation }) => {
                 name="arrow-back"
                 size={25}
                 color="#333"
-                style={{marginLeft: 1}}
+                style={{ marginLeft: 1 }}
                 onPress={() => navigation.goBack()}
               />
             ),
@@ -118,7 +128,7 @@ const AppNavigations = ({ navigation }) => {
         <Stack.Screen
           name="ProductDetail"
           component={Productdetailscreen}
-          options={({navigation}) => ({
+          options={({ navigation }) => ({
             headerTransparent: true,
             title: null,
             headerStyle: {
@@ -130,7 +140,7 @@ const AppNavigations = ({ navigation }) => {
                 name="arrow-back"
                 size={25}
                 color="#333"
-                style={{marginLeft: 1}}
+                style={{ marginLeft: 1 }}
                 onPress={() => navigation.goBack()}
               />
             ),
@@ -212,7 +222,7 @@ const AppNavigations = ({ navigation }) => {
         <Stack.Screen
           name="OrderDetail"
           component={OrderDetails}
-          options={({navigation}) => ({
+          options={({ navigation }) => ({
             // Pass navigation prop here
             headerTransparent: true,
             title: null,
@@ -225,7 +235,7 @@ const AppNavigations = ({ navigation }) => {
                 name="arrow-back"
                 size={25}
                 color="#333"
-                style={{marginLeft: 1}}
+                style={{ marginLeft: 1 }}
                 onPress={() => navigation.goBack()}
               />
             ),

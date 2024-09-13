@@ -95,7 +95,7 @@ const Explore = ({ uri, name, price, product_id, isWatchList, img, description }
       Toast.show({
         type: 'info',
         text1: 'Please login',
-        position: 'bottom',
+        position: 'top',
         text2: 'You need to login to save items to your wishlist',
         visibilityTime: 3000,
         autoHide: true,

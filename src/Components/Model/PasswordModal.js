@@ -53,12 +53,12 @@ const PasswordModal = ({ modalVisible, setModalVisible }) => {
         type: 'success',
         text1: 'Success',
         text2: 'Password changed successfully!',
-        position: 'bottom',
+        position: 'top',
         visibilityTime: 3000,
         autoHide: true,
       });
-      
-      setModalVisible(false); 
+
+      setModalVisible(false);
     } catch (error) {
       console.error('Error changing password:', error);
     }

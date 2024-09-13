@@ -28,6 +28,8 @@ import { useNavigation } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import { globalColors } from '../../Assets/Theme/globalColors';
+import { Linking } from 'react-native';
+
 import {
   addToWishlist,
   fetchWishlist,
@@ -50,6 +52,7 @@ import ProductRelated from '../../Components/Product/ProductRelated';
 import ButtonAddToCart from '../../Components/ButtonAddToCart';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TabbyModal from '../../Components/Model/TabbyModal';
+import TamaraModal from '../../Components/Model/TamaraModal';
 
 export default function Productdetailscreen({ route }) {
   // console.log("Route--------->", route)
@@ -108,6 +111,20 @@ export default function Productdetailscreen({ route }) {
 
   const handleIncrement = () => {
     setQuantity(prevQuantity => prevQuantity + 1);
+  };
+
+  const handlepressTabby = () => {
+    const url = `https://checkout.tabby.ai/promos/product-page/installments/en/?price=${responseData?.price}&currency=AED&merchant_code=AE&public_key=pk_xyz`;
+    //const url = 'https://cdn.tamara.co/static/faq-en.html';
+
+    navigation.navigate('WebViewScreen', { url });
+  };
+
+  const handlepressTamara = () => {
+    // const url = `https://checkout.tabby.ai/promos/product-page/installments/en/?price=${responseData?.price}&currency=AED&merchant_code=AE&public_key=pk_xyz`;
+    const url = 'https://cdn.tamara.co/static/faq-en.html';
+
+    navigation.navigate('WebViewScreen', { url });
   };
 
   const handleDecrement = () => {
@@ -304,7 +321,7 @@ export default function Productdetailscreen({ route }) {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <SafeAreaView style={{}}>
-        <View style={{ marginBottom: hp('16') }}>
+        <View style={{ marginBottom: hp('8') }}>
           {loading ? (
             <SkeletonLoaderProductDetails />
           ) : (
@@ -418,7 +435,7 @@ export default function Productdetailscreen({ route }) {
                       </Text>
                     </View>
                     <View style={styles.containerTabby}>
-                      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.infoContainer}>
+                      <TouchableOpacity onPress={handlepressTabby} style={styles.infoContainer}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', gap: 3 }}>
                           <Text style={styles.paymentInfo}>4 Interest-free payments of <Text style={styles.amount}>AED {priceToTabby}</Text>.
                           </Text>
@@ -430,13 +447,16 @@ export default function Productdetailscreen({ route }) {
                           </View>
                         </View>
                         <View style={{ flexDirection: 'column', }}>
-                          <TouchableOpacity onPress={() => setModalVisible(true)}>
+                          <TouchableOpacity onPress={handlepressTabby}>
                             <Image resizeMode="contain"
                               style={{ width: 60, height: 40 }} source={tabbyLogo}></Image>
                           </TouchableOpacity>
 
-                          <Image resizeMode="contain"
-                            style={{ width: 60, height: 40, marginTop: -10 }} source={tamara}></Image>
+                          <TouchableOpacity>
+                            <Image resizeMode="contain"
+                              style={{ width: 60, height: 40, marginTop: -10 }} source={tamara}></Image>
+                          </TouchableOpacity>
+
                         </View>
                       </TouchableOpacity>
                       {/* <Image
@@ -744,22 +764,29 @@ export default function Productdetailscreen({ route }) {
               </View>
             </>
           )}
-          <TabbyModal
+          {/* <TabbyModal
             visible={modalVisible}
             onClose={closeModal}
             priceToTabby={priceToTabby}
           >
-          </TabbyModal>
-          <ButtonAddToCart
-            stylesofbtn={styles.custbtn}
-            styleoffont={styles.custfontstyle}
-            handlepress={handlepress}
-            image={'ds'}
-            name={'Add To Cart'}
-            loading={load}
-          />
-        </View>
+          </TabbyModal> */}
+          {/* visibl */}
+          {/* <TamaraModal
+            visible={modalVisible}
+            onClose={closeModal}
+            priceToTabby={priceToTabby}
+          >
+          </TamaraModal> */}
 
+        </View>
+        <ButtonAddToCart
+          stylesofbtn={styles.custbtn}
+          styleoffont={styles.custfontstyle}
+          handlepress={handlepress}
+          image={'ds'}
+          name={'Add To Cart'}
+          loading={load}
+        />
       </SafeAreaView >
     </GestureHandlerRootView >
   );
@@ -809,7 +836,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     // marginVertical: -5,
     position: 'absolute',
-    bottom: hp('-5.5%'),
+    // bottom: hp('5.5%'),
+    bottom: 15,
     left: 15,
     right: 15,
   },

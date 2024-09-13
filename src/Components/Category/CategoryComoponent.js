@@ -44,7 +44,7 @@ import {
 // ];
 
 const CategoryComponent = ({ getData, navigateToCategoryProducts }) => {
-  console.log(getData);
+  // console.log("1", getData);
   const updated = getData.map(data => ({
     img: data.img,
     // id: categories.find(item => item.label == data.label)?.id,
