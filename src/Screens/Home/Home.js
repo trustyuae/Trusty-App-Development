@@ -409,7 +409,19 @@ const Home = () => {
                 )}
               </ScrollView>
             </View>
+
           </View>
+
+          {/* <View style={{
+            alignItems: 'center', borderRadius: 25
+          }}>
+            <Image style={{
+              width: wp('96%'),
+              height: hp('20%'),
+            }} resizeMode='contain' source={Images.readyToGoImage}>
+            </Image>
+            <Text style={styles.heading}>Ready To Go</Text>
+          </View> */}
           <View style={{ backgroundColor: globalColors.headingBackground }}>
             <View style={{ marginTop: 20 }}>
               <View style={{ flexDirection: 'row' }}>

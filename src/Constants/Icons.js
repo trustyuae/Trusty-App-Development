@@ -10,7 +10,7 @@
 
 export const HomeIcon = require('../Assets/Icons/Home4x.png');
 export const HomeIconfilled = require('../Assets/Icons/Home4x1.png');
-export const SearchIcon = require('../Assets/Icons/Search4x.png');
+export const SearchIcon = require('../Assets/Icons/Search4x-01.png');
 export const MenuIcon = require('../Assets/Icons/menu.png');
 export const BagIcon = require('../Assets/Icons/bag4x.png');
 export const ProfileIcon = require('../Assets/Icons/Profile4x.png');

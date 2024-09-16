@@ -65,12 +65,12 @@ const BottomTabNavigation = ({ navigation }) => {
               <Image
                 source={SearchIcon}
                 tintColor={"#866528"}
-                style={{ width: 20, height: 20 }}
+                style={{ width: 25, height: 25 }}
                 resizeMode="contain"
               /> : <Image
                 source={SearchIcon}
-
-                style={{ width: 20, height: 20 }}
+                tintColor={"#fff"}
+                style={{ width: 30, height: 25 }}
                 resizeMode="contain"
               />
 

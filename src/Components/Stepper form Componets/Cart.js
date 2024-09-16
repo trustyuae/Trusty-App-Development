@@ -20,39 +20,39 @@ import {
   returnExchangeIcon,
 } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Button from '../Button';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {ViewToCart} from '../../Redux/Slice/car_slice/viewcart';
-import {deleteToCart} from '../../Redux/Slice/car_slice/deletecart';
-import {getToken, getUserId} from '../../Utils/localstorage';
-import {fetchProfile} from '../../Redux/Slice/profileSlice';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ViewToCart } from '../../Redux/Slice/car_slice/viewcart';
+import { deleteToCart } from '../../Redux/Slice/car_slice/deletecart';
+import { getToken, getUserId } from '../../Utils/localstorage';
+import { fetchProfile } from '../../Redux/Slice/profileSlice';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import {updateToCart} from '../../Redux/Slice/car_slice/updatecart';
+import { updateToCart } from '../../Redux/Slice/car_slice/updatecart';
 import CustomStatusBar from '../StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import SkeletonLoaderOrder from '../Loader/SkeletonLoaderOrder';
-import {CouponDetail} from '../../Redux/Slice/car_slice/coupon/couponcart';
+import { CouponDetail } from '../../Redux/Slice/car_slice/coupon/couponcart';
 import debounce from 'lodash/debounce';
 import SelectDropdown from 'react-native-select-dropdown';
-import {Images} from '../../Constants';
+import { Images } from '../../Constants';
 
-const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
+const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
   const dispatch = useDispatch();
-  const {erros, loading, viewcartdata} = useSelector(
+  const { erros, loading, viewcartdata } = useSelector(
     state => state?.ViewToCart,
   );
-  const {coupon, load, iserrors} = useSelector(state => state.CouponDetail);
+  const { coupon, load, iserrors } = useSelector(state => state.CouponDetail);
   const state = useSelector(state => state?.ProductView);
-  const {deteltedData} = useSelector(state => state?.DeleteToCart);
-  const {isloading} = useSelector(state => state?.OrderToCart);
-  const {data} = useSelector(state => state?.profile);
+  const { deteltedData } = useSelector(state => state?.DeleteToCart);
+  const { isloading } = useSelector(state => state?.OrderToCart);
+  const { data } = useSelector(state => state?.profile);
   const [cartData, setCartData] = useState([]);
   const [customerid, setCustomerID] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -348,7 +348,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                     <View>
                       {Item.product_image ? (
                         <Image
-                          source={{uri: Item?.product_image}}
+                          source={{ uri: Item?.product_image }}
                           style={styles.imageStyle}
                         />
                       ) : (
@@ -396,7 +396,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                             fontWeight: '400',
                           }}>
                           Color :{' '}
-                          <Text style={{color: globalColors.black}}>
+                          <Text style={{ color: globalColors.black }}>
                             {Item?.mod_attributes?.color}
                           </Text>
                         </Text>
@@ -420,12 +420,12 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                             fontFamily: 'Product Sans',
                           }}>
                           Size :{' '}
-                          <Text style={{color: globalColors.black}}>
+                          <Text style={{ color: globalColors.black }}>
                             {Item?.mod_attributes?.size}
                           </Text>
                         </Text>
                       ) : (
-                        <View style={{marginTop: wp('1%')}} />
+                        <View style={{ marginTop: wp('1%') }} />
                       )}
                       <View
                         style={{
@@ -550,20 +550,24 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                   </View> */}
                     </View>
                     {selectedItem === Item.key && (
-                      <View style={{width: '100%', flexDirection: 'row'}}>
+                      <View style={{ width: '100%', flexDirection: 'row' }}>
                         <View
                           style={{
                             width: '12%',
                             backgroundColor: '#D6852A',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            borderTopLeftRadius: 10,
+                            borderBottomLeftRadius: 10,
                           }}>
                           {isWishlist ? (
                             <Pressable onPress={toggleSaved}>
-                              <Image source={Images.saveIconFill} />
+                              <Image source={Images.saveIcon} 
+                              style={{ width: "55%", height: "20%", tintColor: "red", top: -4 }} />
                             </Pressable>
                           ) : (
-                            <Image source={Images.saveIconUnFill} />
+                            <Image source={Images.saveIcon} 
+                            style={{ width: "55%", height: "20%", tintColor: "white", top: -4 }} />
                           )}
                         </View>
 
@@ -573,6 +577,8 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                             backgroundColor: globalColors.black,
                             alignItems: 'center',
                             justifyContent: 'center',
+                            borderTopRightRadius: 10,
+                            borderBottomRightRadius: 10,
                           }}
                           onPress={() => handleRemove(Item)}>
                           <Icon
@@ -621,7 +627,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                     // marginVertical: 10,
                   }}>
                   <Text style={styles.custText}>COUPON</Text>
-                  <Text style={{fontFamily: 'Intrepid Regular'}}>
+                  <Text style={{ fontFamily: 'Intrepid Regular' }}>
                     {viewcartdata?.coupon_status}
                   </Text>
                 </View>
@@ -769,7 +775,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
           </View> */}
             <View style={styles.container}>
               <TouchableOpacity
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}
                 onPress={toggleInputField}>
                 <Text
                   style={{
@@ -862,7 +868,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                 }}>
                 <Text style={styles.custText}>SUBTOTAL</Text>
                 <Text
-                  style={[styles.custText, {color: globalColors.lightgold}]}>
+                  style={[styles.custText, { color: globalColors.lightgold }]}>
                   {totalSum} AED
                 </Text>
               </View>
@@ -873,7 +879,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                 }}>
                 <Text style={styles.custText}>TOTAL </Text>
                 <Text
-                  style={[styles.custText, {color: globalColors.lightgold}]}>
+                  style={[styles.custText, { color: globalColors.lightgold }]}>
                   {viewcartdata?.discount_sub_total} AED
                 </Text>
               </View>
@@ -900,7 +906,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                   flexDirection: 'column',
                   alignItems: 'flex-end',
                 }}>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{ flexDirection: 'row' }}>
                   <Text
                     style={{
                       fontSize: 12,
@@ -922,7 +928,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
                     8am - 9pm EST
                   </Text>
                 </View>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{ flexDirection: 'row' }}>
                   <Text
                     style={{
                       fontWeight: '400',
@@ -948,7 +954,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
             <View style={styles.infocontanier}>
               <Image
                 source={callIcon}
-                style={{height: 15, width: 15}}
+                style={{ height: 15, width: 15 }}
                 resizeMode="contain"></Image>
               <Text
                 style={{
@@ -974,7 +980,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
             <View style={styles.infocontanier}>
               <Image
                 source={emailIcon}
-                style={{height: 15, width: 15}}
+                style={{ height: 15, width: 15 }}
                 resizeMode="contain"></Image>
               <Text
                 style={{
@@ -1001,7 +1007,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
               <View style={styles.iconContainer}>
                 <Image
                   source={certifiedIcon}
-                  style={{height: 42, width: 35, marginBottom: wp('5%')}}
+                  style={{ height: 42, width: 35, marginBottom: wp('5%') }}
                   resizeMode="contain"></Image>
                 <Text style={styles.bottomContainerText}>
                   Free standard delivery
@@ -1019,7 +1025,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
               <View style={styles.iconContainer}>
                 <Image
                   source={returnExchangeIcon}
-                  style={{height: 42, width: 35, marginBottom: wp('5%')}}
+                  style={{ height: 42, width: 35, marginBottom: wp('5%') }}
                   resizeMode="contain"></Image>
                 <Text style={styles.bottomContainerText}>
                   Returns & exchanges
@@ -1037,7 +1043,7 @@ const Cart = ({count, setCount, setOrderDetail, setTotal, scrollViewRef}) => {
               <View style={styles.iconContainer}>
                 <Image
                   source={deliveryIcon}
-                  style={{height: 42, width: 35, marginBottom: wp('5%')}}
+                  style={{ height: 42, width: 35, marginBottom: wp('5%') }}
                   resizeMode="contain"></Image>
                 <Text style={styles.bottomContainerText}> shop securely </Text>
               </View>

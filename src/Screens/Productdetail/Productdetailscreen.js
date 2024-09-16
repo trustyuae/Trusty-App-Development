@@ -366,22 +366,29 @@ export default function Productdetailscreen({ route }) {
                         style={{
                           position: 'relative',
                           flexDirection: 'row',
+                          alignItems: 'center',
                           top: hp(-'50'),
                           // marginRight: wp('1%')
                           // alignContent: 'flex-end',
                         }}>
-                        <View style={{ marginRight: wp('2%') }}>
+                        <View style={{
+                          marginRight: wp('2%'),
+                          backgroundColor: '#E8E8E8',
+                          padding: 7,
+
+                          borderRadius: 50,
+                        }}>
                           <TouchableOpacity onPress={toggleSaved}>
                             {isWishlist ? (
-                              <Image style={{ width: 40, height: 40 }} source={Images.SaveIconFill3x} />
+                              <Image style={{ width: 26, height: 24 }} source={Images.SaveIconFillTransparant} />
                             ) : (
-                              <Image style={{ width: 40, height: 40 }} source={Images.saveIconUnFill3x} />
+                              <Image style={{ width: 26, height: 24 }} source={Images.SavaIconUnFillTransparant} />
                             )}
                           </TouchableOpacity>
                         </View>
                         <View
                           style={{
-                            backgroundColor: 'white',
+                            backgroundColor: '#E8E8E8',
                             borderRadius: 50,
                             alignSelf: 'center',
                             padding: 7,
@@ -420,6 +427,13 @@ export default function Productdetailscreen({ route }) {
                       </Text>
                     </View>
                     <View
+                      style={{
+                        borderBottomColor: '#BBBBBB',
+                        borderBottomWidth: 2,
+                        marginVertical: 10
+                      }}>
+                    </View>
+                    <View
                     // style={{
                     //   borderBottomWidth: 1,
                     //   borderColor: globalColors.lightGray,
@@ -428,10 +442,17 @@ export default function Productdetailscreen({ route }) {
                       <Text
                         style={{
                           color: '#5546DC',
-                          marginBottom: 10,
+                          marginBottom: 15,
                           fontSize: 14,
+                          // color: '#6BB67A'
                         }}>
-                        {responseData?.stock_status}
+                        {
+                          responseData?.stock_status === "instock"
+                            ? "IN STOCK"
+                            : responseData?.stock_status === "onbackorder"
+                              ? "Pre-Order"
+                              : responseData?.stock_status
+                        }
                       </Text>
                     </View>
                     <View style={styles.containerTabby}>

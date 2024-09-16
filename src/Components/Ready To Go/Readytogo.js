@@ -128,7 +128,7 @@ const Readytogo = ({ uri, name, price, product_id, isWatchList, img, description
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
             style={styles.saveImage}
-            source={saved ? Images.saveIconFill : Images.saveIconUnFill}
+            source={saved ? Images.SaveIconFill3x : Images.saveIconUnFill3x}
           />
         </Pressable>
       </View>

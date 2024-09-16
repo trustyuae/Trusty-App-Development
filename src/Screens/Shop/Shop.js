@@ -803,12 +803,13 @@
 //     ]
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, TextInput, Image } from 'react-native';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import { fetchCategories } from '../../Redux/Slice/categorySearchSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import axios, { Axios } from 'axios';
 
 const DummyOptions = ({ options }) => (
     <ScrollView>
@@ -825,7 +826,8 @@ const Shop = ({ navigation }) => {
     const [expandedCategory, setExpandedCategory] = useState({});
     const dispatch = useDispatch();
     const [searchTerm, setSearchTerm] = useState('');
-
+    const [filteredCategories, setFilteredCategories] = useState([]);
+    const [suggestion, setSuggestion] = useState('');
 
     const {
         categories,
@@ -851,16 +853,20 @@ const Shop = ({ navigation }) => {
     };
 
 
+    const handleClear = () => {
+        setSearchTerm('');
+        setSuggestion('');
+        setFilteredCategories([])
+    };
+
     const navigateToCategoryProducts = (category) => {
         navigation.navigate('CategoryProducts', { category });
     };
 
     const handlePress = (category) => {
         if (category.subcategories && category.subcategories.length > 0) {
-            // Expand or collapse the category if it has subcategories
             toggleCategory(category.id);
         } else {
-            // Navigate to the products page if no subcategories
             navigateToCategoryProducts(category);
         }
     };
@@ -915,38 +921,176 @@ const Shop = ({ navigation }) => {
         return null;
     };
 
+
+    const handleSearch = async (text) => {
+        setSearchTerm(text);
+
+        if (text.trim() === '') {
+            setFilteredCategories([]);
+            setSuggestion('');
+            return;
+        }
+
+        try {
+            // Fetch products using the API
+            const response = await axios.get(
+                `https://trustyuae.com/wp-json/custom-woo-api/v1/products/search?search=${encodeURIComponent(text.trim())}`
+            );
+
+            const products = response.data; // Adjust this based on the actual response structure
+
+            if (products.length > 0) {
+                // Map the product data to match the structure expected for rendering
+                setFilteredCategories(products.map(product => ({
+                    name: product?.name,
+                    userId: product?.id,
+                    image: product?.image
+                })));
+                setSuggestion('');
+            } else {
+                setFilteredCategories([]);
+                setSuggestion('Product not found');
+            }
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            setFilteredCategories([]);
+            setSuggestion('Product not found');
+        }
+    };
+
+
+
+    const getLevenshteinDistance = (a, b) => {
+        const matrix = [];
+        let i, j;
+
+        for (i = 0; i <= b.length; i++) {
+            matrix[i] = [i];
+        }
+        for (j = 0; j <= a.length; j++) {
+            matrix[0][j] = j;
+        }
+
+        for (i = 1; i <= b.length; i++) {
+            for (j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                    matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j - 1] + 1, // substitution
+                        Math.min(matrix[i][j - 1] + 1, // insertion
+                            matrix[i - 1][j] + 1) // deletion
+                    );
+                }
+            }
+        }
+        return matrix[b.length][a.length];
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            <Icon
-                name="arrow-back"
-                size={25}
-                style={{ marginTop: wp('2%'), marginLeft: wp('2%') }}
-                color={globalColors.black}
-                onPress={() => navigation.goBack()}
-            />
-            <View style={styles.searchContainer}>
-                <TextInput
-                    style={styles.inputfield}
-                    placeholder="Search"
-                    value={searchTerm}
-                    onChangeText={setSearchTerm}
+            <ScrollView>
+
+
+                <Icon
+                    name="arrow-back"
+                    size={25}
+                    style={{ marginTop: wp('2%'), marginLeft: wp('2%') }}
+                    color={globalColors.black}
+                    onPress={() => navigation.goBack()}
                 />
-            </View>
-            <View style={styles.tabs}>
-                {categories.map(category => (
-                    <TouchableOpacity
-                        key={category.id}
-                        style={[styles.tab, selectedTab === category.id && styles.activeTab]}
-                        onPress={() => setSelectedTab(category.id)}
-                    >
-                        <Text style={[styles.tabText, selectedTab === category.id && styles.activeTabText]}>
-                            {category.name}
-                        </Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
-            <ScrollView style={styles.content}>
-                {renderContent()}
+                <View style={styles.searchContainer}>
+                    <View style={{
+                        flexDirection: 'row',
+                        borderColor: '#DBCCC1',
+                        borderWidth: 1,
+                        backgroundColor: 'white',
+                        margin: 10,
+                        fontSize: 16,
+                        padding: 7,
+                        borderRadius: 20,
+                        paddingLeft: 20,
+                    }}>
+                        <TextInput
+                            style={styles.inputfield}
+                            placeholder="Search"
+                            placeholderTextColor={globalColors.textColorLogin}
+                            value={searchTerm}
+                            onChangeText={handleSearch}
+                        />
+
+                        {searchTerm !== '' && (
+                            <TouchableOpacity onPress={() => handleClear()}>
+                                <Icon name="close-circle" size={24} color="gray" />
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                    {suggestion && (
+                        <Text style={styles.suggestionText}>{suggestion}</Text>
+                    )}
+                </View>
+                <View style={styles.tabs}>
+                    {filteredCategories.length > 0 ? (
+                        filteredCategories.map(category => (
+                            console.log("category=========>", category.image),
+                            <TouchableOpacity key={category.id} onPress={() => navigation.navigate('ProductDetail', {
+                                userId: category?.userId
+                                // isWatchList: product?.isWatchList,
+                            })}>
+                                <ScrollView style={{
+                                    // flex: 1,
+                                    // flexDirection: 'row'
+
+                                }}>
+                                    <ScrollView>
+                                        <View style={{ padding: 10 }}>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <Text style={styles.filteredCategory}>{category.name}</Text>
+
+                                                <Image
+                                                    style={{
+                                                        width: wp('20%'),
+                                                        height: hp('10%'),
+                                                        borderRadius: 50,
+                                                    }}
+                                                    source={{ uri: category.image }}
+                                                />
+                                            </View>
+
+                                            <View style={styles.separator} />
+                                        </View>
+                                    </ScrollView>
+
+
+                                </ScrollView>
+                            </TouchableOpacity>
+                        ))
+                    ) :
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                            {categories.map(category => (
+                                <TouchableOpacity
+                                    key={category.id}
+                                    style={[styles.tab, selectedTab === category.id && styles.activeTab]}
+                                    onPress={() => setSelectedTab(category.id)}
+                                ><View style={{
+                                    flexDirection: 'row',
+                                }}>
+                                        <Text style={[styles.tabText, selectedTab === category.id && styles.activeTabText]}>
+                                            {category.name}
+                                        </Text>
+                                    </View>
+
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+
+
+
+                    }
+                </View>
+                {filteredCategories.length > 0 || searchTerm.trim() !== '' ? '' : <ScrollView style={styles.content}>
+                    {renderContent()}
+                </ScrollView>}
             </ScrollView>
         </SafeAreaView>
     );
@@ -958,13 +1102,15 @@ const styles = StyleSheet.create({
         backgroundColor: globalColors.headingBackground,
     },
     tabs: {
-        flexDirection: 'row',
+        // flexDirection: 'row',
         justifyContent: 'space-around',
         // backgroundColor: '#6200ee',
         paddingVertical: 10,
     },
     tab: {
         padding: 10,
+        flexDirection: 'row',
+
     },
     activeTab: {
         borderBottomWidth: 2,
@@ -982,6 +1128,8 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         padding: 20,
+        // flexDirection: 'row',
+
     },
     subcategoryContainer: {
         padding: 10,
@@ -1007,9 +1155,45 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     searchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        marginBottom: 20,
         paddingLeft: wp('2%'),
         paddingRight: wp('2%'),
         paddingTop: wp('2%'),
+    },
+    filteredCategory: {
+        padding: 10,
+        fontSize: 18,
+
+        // flexDirection: 'column',
+        // textAlign: 'center',
+        // justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        // borderBottomColor: 'red',
+    },
+    searchContainer: {
+        paddingLeft: wp('2%'),
+        // flex: 1,
+        paddingRight: wp('2%'),
+        paddingTop: wp('2%'),
+    },
+    inputfield: {
+        flex: 1,  // To allow the input to take the remaining space
+        fontSize: 16,
+        color: globalColors.textColorLogin,
+    },
+    separator: {
+        borderWidth: 0.5,
+        borderColor: 'rgba(193, 177, 157, 1)',
+        alignSelf: 'center',
+        // backgroundColor: '#dcdcdc',
+        width: '80%',
+        marginTop: 10
     },
 });
 
