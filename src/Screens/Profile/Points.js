@@ -7,16 +7,16 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Image} from 'react-native-elements';
-import {Bronze, Gold, Platinum, Sliver} from '../../Constants/Icons';
+import React, { useState } from 'react';
+import { Image } from 'react-native-elements';
+import { Bronze, Gold, Platinum, Sliver } from '../../Constants/Icons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import ProgressBar from 'react-native-progress-bar-horizontal';
-import {Images} from '../../Constants';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import * as Animatable from 'react-native-animatable';
 const Points = () => {
   const [count, setCount] = useState(3);
@@ -24,10 +24,10 @@ const Points = () => {
   return (
     <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{paddingHorizontal: hp('2%')}}>
+        <View style={{ paddingHorizontal: hp('2%') }}>
           <View style={styles.conatiner}>
             <Text style={styles.cust_text}>
-              Shop and earn points wit us! Our loyalty
+              Shop and earn points with us! Our loyalty
             </Text>
 
             <Text style={styles.cust_text}>
@@ -46,7 +46,7 @@ const Points = () => {
             <Text style={styles.cust_text}>join now for exclusive perks!</Text>
           </View>
 
-          <View style={{marginBottom: hp('10%')}}>
+          <View style={{ marginBottom: hp('10%') }}>
             <ImageBackground
               source={Images.Points}
               resizeMode="contain"
@@ -72,11 +72,11 @@ const Points = () => {
                 resizeMode="contain"
               />
 
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{marginTop: hp('1%'), marginLeft: wp('22%')}}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ marginTop: hp('1%'), marginLeft: wp('22%') }}>
                   <Text
                     style={{
-                      fontFamily: 'Product Sans Medium',
+                      fontFamily: 'Intrepid Regular',
                       fontSize: 22,
                       color: globalColors.black,
                       fontWeight: '600',
@@ -85,10 +85,10 @@ const Points = () => {
                     You have earned
                   </Text>
                 </View>
-                <View style={{marginTop: hp('1%'), marginLeft: wp('8%')}}>
+                <View style={{ marginTop: hp('1%'), marginLeft: wp('8%') }}>
                   <Text
                     style={{
-                      fontFamily: 'Product Sans',
+                      fontFamily: 'Intrepid Regular',
                       fontSize: 22,
                       color: '#D42A57',
                       fontWeight: '700',
@@ -98,7 +98,7 @@ const Points = () => {
                   </Text>
                   <Text
                     style={{
-                      fontFamily: 'Product Sans',
+                      fontFamily: 'Intrepid Regular',
                       fontSize: 22,
                       color: '#D42A57',
                       fontWeight: '700',
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   cust_text: {
     color: '#797978',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     textAlign: 'center',
     fontSize: 17,
   },
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     borderColor: '#684934',
   },
   custboxText: {
+    fontFamily: 'Intrepid Regular',
     textAlign: 'center',
     color: '#646260',
     marginTop: 2,

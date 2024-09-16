@@ -1153,6 +1153,8 @@ const styles = StyleSheet.create({
         padding: 7,
         borderRadius: 20,
         paddingLeft: 20,
+        fontFamily: 'Intrepid Regular',
+
     },
     searchContainer: {
         flexDirection: 'row',
@@ -1169,6 +1171,7 @@ const styles = StyleSheet.create({
     filteredCategory: {
         padding: 10,
         fontSize: 18,
+        fontFamily: 'Intrepid Regular',
 
         // flexDirection: 'column',
         // textAlign: 'center',

@@ -358,6 +358,8 @@ export default function Productdetailscreen({ route }) {
                             fontWeight: '400',
                             fontSize: 22,
                             marginBottom: 2,
+                            fontFamily: 'Intrepid Regular',
+
                           }}>
                           {responseData?.name}
                         </Text>
@@ -444,6 +446,8 @@ export default function Productdetailscreen({ route }) {
                           color: '#5546DC',
                           marginBottom: 15,
                           fontSize: 14,
+                          fontFamily: 'Intrepid Regular',
+
                           // color: '#6BB67A'
                         }}>
                         {
@@ -588,6 +592,8 @@ export default function Productdetailscreen({ route }) {
                               color: globalColors.black,
                               fontSize: 16,
                               fontWeight: '600',
+                              fontFamily: 'Intrepid Bold',
+
                               // fontFamily: 'Product Sans',
                             }}>Product details</Text>
                             <View style={{ paddingRight: wp('3.5%') }}>
@@ -641,7 +647,7 @@ export default function Productdetailscreen({ route }) {
                           color: globalColors.black,
                           fontSize: 16,
                           fontWeight: '600',
-                          fontFamily: 'Product Sans',
+                          fontFamily: 'Intrepid Bold',
                         }}>Delivery Terms</Text>
                         <View style={{ paddingRight: wp('3.5%') }}>
                           <Icon
@@ -698,10 +704,10 @@ export default function Productdetailscreen({ route }) {
                         textAlign: 'left',
                         marginTop: 20,
                         marginLeft: wp('4%'),
-                        fontSize: 20,
+                        fontSize: 18,
                         color: globalColors.black,
                         fontWeight: '700',
-                        fontFamily: 'Product Sans',
+                        fontFamily: 'Intrepid-Bold',
                       }}>
                       Related Products
                     </Text>
@@ -829,6 +835,8 @@ const styles = StyleSheet.create({
   },
   custAEDtext: {
     color: globalColors.black,
+    fontFamily: 'Intrepid-Bold',
+
     fontSize: 18,
     fontWeight: '700',
     marginTop: 5,
@@ -943,22 +951,28 @@ const styles = StyleSheet.create({
   },
   paymentInfo: {
     fontSize: 14,
+    fontFamily: 'Intrepid Regular',
     color: '#000',
     textAlign: 'left'
   },
   amount: {
     fontWeight: 'bold',
+    fontFamily: 'Intrepid-Bold',
+
     fontSize: 14,
     // flexWrap: 'wrap'
   },
   details: {
     fontSize: 14,
+    fontFamily: 'Intrepid Regular',
+
     color: '#000',
     textAlign: 'left'
 
   },
   learnMore: {
     fontSize: 14,
+    fontFamily: 'Intrepid Regular',
     color: '#000',
     // marginTop: 5,
     textDecorationLine: 1

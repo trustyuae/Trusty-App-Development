@@ -209,7 +209,9 @@ const Loginscreen = ({ navigation }) => {
             <Text
               style={styles.custforgotpasstext}
               onPress={() => navigation.navigate('Forgotpassword')}>
-              Forgot Password ?
+              Forgot Password <Text style={{
+                fontFamily: 'Product Sans',
+              }}>?</Text>
             </Text>
 
             <Button
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
   logincontainer: {
     // margin: wp('3%'),
     // marginTop: hp('30%'),
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     flex: 0.5,
   },
   headingtext: {
@@ -255,12 +257,12 @@ const styles = StyleSheet.create({
     paddingBottom: wp('6%'),
     fontWeight: '700',
     fontSize: 32,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   inputfield: {
     backgroundColor: globalColors.white,
     width: '100%',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontSize: 14,
     fontWeight: '400',
     padding: hp('3%'),
@@ -305,13 +307,13 @@ const styles = StyleSheet.create({
   custfontstyle: {
     color: globalColors.white,
     textAlign: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
   },
   custforgotpasstext: {
     textAlign: 'center',
     marginTop: hp('3.5%'),
     marginBottom: hp('3.5%'),
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontSize: 14,
     textTransform: 'uppercase',
     fontWeight: '400',
@@ -349,7 +351,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: globalColors.lightgold,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
   },
   errorText: {
     color: globalColors.error,

@@ -720,7 +720,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                       <View style={styles.dropdownButtonStyle}>
                         <Text
                           style={{
-                            fontFamily: 'Product Sans',
+                            fontFamily: 'Intrepid Bold',
                             fontSize: 14,
                             fontWeight: 'bold',
                             // marginLeft: wp('5%'),

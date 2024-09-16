@@ -59,7 +59,7 @@ const Accordion = ({
               paddingTop: -5,
               borderBottomWidth: expandedSize ? 0 : 1,
               borderBottomColor: globalColors.lightGray,
-              fontFamily: 'Product Sans',
+              fontFamily: 'Intrepid Regular',
             }}
             onPress={() => setExpandedSize(!expandedSize)}
           >
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     gap: 20,
     paddingLeft: 20,
     marginTop: -6,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     flexWrap: 'wrap',
   },
   custBorder: {
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: globalColors.darkGray,
 
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   circle: {
     width: 100,

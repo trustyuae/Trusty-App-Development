@@ -322,6 +322,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     textAlign: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
   },
 });

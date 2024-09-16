@@ -1,14 +1,14 @@
 import React from 'react';
-import {Image, SafeAreaView, Text, View} from 'react-native';
+import { Image, SafeAreaView, Text, View } from 'react-native';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {StyleSheet} from 'react-native';
-import {Gift, GiftImg} from '../../Constants/Icons';
+import { StyleSheet } from 'react-native';
+import { Gift, GiftImg } from '../../Constants/Icons';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import Button from '../../Components/Button';
 
 const Gifts = () => {
@@ -22,7 +22,7 @@ const Gifts = () => {
         <Text
           style={{
             textAlign: 'center',
-            fontFamily: 'Product Sans',
+            fontFamily: 'Intrepid Regular',
             // paddingTop: hp('1%'),
             paddingRight: hp('5%'),
             paddingLeft: hp('5%'),
@@ -46,8 +46,7 @@ const styles = StyleSheet.create({
   mainText: {
     textAlign: 'center',
     color: globalColors.black,
-    fontFamily: 'Product Sans',
-    // marginTop: hp('20%'),
+    fontFamily: 'Intrepid Regular',    // marginTop: hp('20%'),
   },
   imgconatine: {
     marginTop: hp('5%'),
@@ -62,14 +61,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: hp('20%'),
     borderRadius: 5,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontSize: 16,
     marginTop: hp('3%'),
   },
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontSize: 16,
     fontWeight: '700',
   },

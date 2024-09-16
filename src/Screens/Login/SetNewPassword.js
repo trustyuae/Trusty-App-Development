@@ -135,7 +135,7 @@ const SetNewPassword = () => {
           <Text
             style={{
               fontWeight: '600',
-              fontFamily: 'Product Sans',
+              fontFamily: 'Intrepid Regular',
               fontSize: 14,
               textAlign: 'center',
               resizeMode: 'cover',
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     padding: 20,
     textAlign: 'center',
     fontWeight: '700',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
     color: globalColors.black,
     fontSize: 22,
   },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     // height: hp('5.5%'),
     // marginTop: hp('3%'),
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     // marginBottom: hp('3%'),
     // paddingHorizontal: wp('5%'),
     borderColor: globalColors.borderColor,
@@ -272,13 +272,13 @@ const styles = StyleSheet.create({
     padding: wp('3%'),
     marginTop: hp('1%'),
     borderRadius: 5,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontSize: 16,
   },
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
     fontSize: 16,
     fontWeight: '700'
   },

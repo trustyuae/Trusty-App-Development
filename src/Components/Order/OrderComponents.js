@@ -1,13 +1,13 @@
 import React from 'react';
-import {Image, Platform, Pressable, SafeAreaView, Text} from 'react-native';
-import {StyleSheet, View} from 'react-native';
+import { Image, Platform, Pressable, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Button from '../Button';
-import {Images} from '../../Constants/index';
+import { Images } from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
 const OrderComponents = ({
   line_items,
@@ -18,14 +18,14 @@ const OrderComponents = ({
   onPress,
 }) => {
   const date = new Date(OrderDate);
-  const month = date.toLocaleString('default', {month: 'long'});
+  const month = date.toLocaleString('default', { month: 'long' });
   const day = String(date.getDate()).padStart(2, '0');
   const year = date.getFullYear();
   const formattedDate = `${month} ${day},${year}`;
 
   return (
     <SafeAreaView>
-      <View style={{flexDirection: 'row', paddingHorizontal: wp('5%')}}>
+      <View style={{ flexDirection: 'row', paddingHorizontal: wp('5%') }}>
         {line_items ? (
           <Image
             style={{
@@ -33,7 +33,7 @@ const OrderComponents = ({
               height: hp('17%'),
               borderRadius: wp('2%'),
             }}
-            source={{uri: line_items}}
+            source={{ uri: line_items }}
             resizeMethod="contain"></Image>
         ) : (
           <View
@@ -45,7 +45,7 @@ const OrderComponents = ({
         )}
 
         <View>
-          <View style={{flexDirection: 'row', }}>
+          <View style={{ flexDirection: 'row', }}>
             <View
               style={{
                 backgroundColor: '#F0E354',
@@ -61,7 +61,7 @@ const OrderComponents = ({
                 style={{
                   color: globalColors.productTextColor,
                   fontSize: 12,
-                  fontFamily: 'Product Sans',
+                  fontFamily: 'Intrepid Regular',
                   textTransform: 'capitalize',
                   marginLeft: wp('10%'),
                 }}>
@@ -71,8 +71,8 @@ const OrderComponents = ({
             </View>
           </View>
 
-          <View style={{marginVertical: hp('1%'), marginLeft: wp('5%')}}>
-            <Text style={{color: globalColors.black,fontFamily:"Product Sans",fontSize:16}}>
+          <View style={{ marginVertical: hp('1%'), marginLeft: wp('5%') }}>
+            <Text style={{ color: globalColors.black, fontFamily: 'Intrepid Regular', fontSize: 16 }}>
               Button-Front V-Neck Top
             </Text>
           </View>
@@ -84,29 +84,29 @@ const OrderComponents = ({
           flexDirection: 'row',
           marginLeft: wp('38%'),
           marginTop: hp('-5%'),
-          alignItems:"center",
-          
+          alignItems: "center",
+
         }}>
         <View>
-          <Text style={{fontFamily:"Product Sans"}}>
-           
+          <Text style={{ fontFamily: 'Intrepid Regular', }}>
+
             {TotalAmount} {currency}
           </Text>
         </View>
         <View>
-        <Image source={Images.Detailview} resizeMode='contain' style={{marginLeft:wp('29.5%'),height:hp('5%'),width:wp('10%')}}></Image>
-      </View>
+          <Image source={Images.Detailview} resizeMode='contain' style={{ marginLeft: wp('29.5%'), height: hp('5%'), width: wp('10%') }}></Image>
+        </View>
       </View>
       <View style={styles.line} />
 
-     
-    
-    </SafeAreaView>
+
+
+    </SafeAreaView >
   );
 };
 
 const styles = StyleSheet.create({
-  container: {marginTop: 120},
+  container: { marginTop: 120 },
   orderProducts: {
     flexDirection: 'row',
     // right: 'auto',
@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   headingTextOrder: {
-    paddingHorizontal:wp('1%'),
+    paddingHorizontal: wp('1%'),
     textAlign: 'center',
     fontSize: 12,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     color: globalColors.productTextColor,
   },
   stylesofbtn: {
@@ -139,13 +139,13 @@ const styles = StyleSheet.create({
     color: globalColors.white,
     textAlign: 'center',
     fontSize: 12,
-    fontFamily: 'product sans',
+    fontFamily: 'Intrepid Regular',
   },
   line: {
     borderBottomColor: '#E6E6E6',
     borderBottomWidth: 1,
     marginVertical: 30,
-    marginHorizontal:wp('3%')
+    marginHorizontal: wp('3%')
   },
 });
 export default OrderComponents;

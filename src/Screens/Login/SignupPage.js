@@ -345,7 +345,7 @@ const SignupPage = () => {
                           <View style={styles.dropdownButtonStyle}>
                             <Text
                               style={{
-                                fontFamily: 'Product Sans',
+                                fontFamily: 'Intrepid Bold',
                                 fontSize: 14,
                                 fontWeight: 'bold',
                                 // marginLeft: wp('5%'),
@@ -458,7 +458,10 @@ const SignupPage = () => {
                     placeholderTextColor={globalColors.textColorLogin}
                     containerStyle={{ backgroundColor: globalColors.white, paddingHorizontal: wp('3%'), }}
                     textContainerStyle={{ backgroundColor: globalColors.white, color: 'red' }}
-                    textInputStyle={{ fontFamily: 'Product Sans', fontSize: 14, fontWeight: '400', backgroundColor: globalColors.white }}
+                    textInputStyle={{
+                      fontFamily: 'Intrepid Regular',
+                      fontSize: 14, fontWeight: '400', backgroundColor: globalColors.white
+                    }}
                     onChangeFormattedText={text => handleChange('phone', text)}
                     // onChangeCountry={(country) => handlePhoneChange(formData.phone, country)}
                     value={formData.phone}
@@ -683,7 +686,7 @@ const SignupPage = () => {
                         fontSize: 12,
                         fontWeight: '400',
                         // marginBottom: 5,
-                        fontFamily: 'Product Sans',
+                        fontFamily: 'Intrepid Regular',
                         flexWrap: 'wrap',
                         color: globalColors.black,
                       }}>
@@ -694,7 +697,7 @@ const SignupPage = () => {
                     <Text
                       style={{
                         color: globalColors.lightgold,
-                        fontFamily: 'Product Sans',
+                        fontFamily: 'Intrepid Regular',
                         fontSize: 12,
                         fontWeight: '400',
                         marginBottom: hp('1%'),
@@ -704,7 +707,7 @@ const SignupPage = () => {
                     </Text>
                     <Text
                       style={{
-                        fontFamily: 'Product Sans',
+                        fontFamily: 'Intrepid Regular',
                         fontSize: 12,
                         fontWeight: '400',
                         color: globalColors.black,
@@ -806,7 +809,7 @@ const styles = StyleSheet.create({
     padding: wp('2%'),
     fontSize: 12,
     fontWeight: '800',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
     color: globalColors.textColorSignup,
   },
   title: {
@@ -818,7 +821,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     // marginTop: Platform.OS === 'ios' ? hp('1') : hp('10%'),
     alignSelf: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   headingInput: {
     color: globalColors.black,
@@ -826,7 +829,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.headingBackgroundLogin,
     fontWeight: '800',
     fontSize: 14,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   inputSection: {
     marginBottom: wp('6%'),
@@ -838,7 +841,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 14,
     color: globalColors.black,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   inputContainer: {
     marginBottom: 10,
@@ -848,7 +851,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     // borderColor: globalColors.inputBorder,
     // borderRadius: 4,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     // textTransform: 'uppercase',
     paddingLeft: hp('3%'),
     fontSize: 14,
@@ -867,19 +870,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '700',
     fontSize: 16,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
   },
   custbtn: {
     backgroundColor: globalColors.black,
     padding: wp('3%'),
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     borderRadius: 5,
   },
 
   custbtnLogin: {
     backgroundColor: globalColors.headingBackground,
     padding: wp('3%'),
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     borderRadius: 5,
   },
   custfontstyleLogin: {
@@ -890,12 +893,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '700',
     fontSize: 16,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   buttonText: {
     color: globalColors.white,
     fontSize: wp('3.5%'),
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontSize: 16,
   },
   footerContainer: {
@@ -906,7 +909,7 @@ const styles = StyleSheet.create({
     fontSize: wp('3.1%'),
     color: '#333',
     marginBottom: hp('4%'),
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontSize: 14,
   },
   footerLink: {
@@ -920,7 +923,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: globalColors.lightgold,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
   },
 
   //---------------------------------------------
@@ -963,14 +966,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 12,
     justifyContent: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
 
     alignItems: 'center',
     paddingVertical: 8,
   },
   dropdownItemTxtStyle: {
     flex: 1,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
 
     fontSize: wp('3.1%'),
     fontWeight: '500',

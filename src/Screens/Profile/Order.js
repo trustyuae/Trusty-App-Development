@@ -71,7 +71,7 @@ const Order = () => {
   const renderItem = useMemo(() => {
     return ({ item }) => (
       <Pressable onPress={() => navigation.navigate('OrderDetail', { orderId: item.id })}>
-       
+
         <OrderComponents
           key={item.id}
           currency={item.currency}
@@ -91,51 +91,51 @@ const Order = () => {
       <View>
 
 
-      {loading ? (
-        <View style={{ padding: 20 }}>
-          <SkeletonLoaderOrder count={6} />
-        </View>
-      ) : data?.length === 0 ? (
-        <Text style={styles.noOrdersText}>No orders found.</Text>
+        {loading ? (
+          <View style={{ padding: 20 }}>
+            <SkeletonLoaderOrder count={6} />
+          </View>
+        ) : data?.length === 0 ? (
+          <Text style={styles.noOrdersText}>No orders found.</Text>
 
-      ) :
-(
-  <View>
-      <Text style={styles.mainText}>Order History(03)</Text>
+        ) :
+          (
+            <View>
+              <Text style={styles.mainText}>Order History(03)</Text>
 
 
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-            />
-          }
-          ListHeaderComponent={
-            loading && !refreshing ? (
-              <ActivityIndicator
-                style={styles.loader}
-                size="large"
-                color={globalColors.black}
+              <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={item => item.id.toString()}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={handleRefresh}
+                  />
+                }
+                ListHeaderComponent={
+                  loading && !refreshing ? (
+                    <ActivityIndicator
+                      style={styles.loader}
+                      size="large"
+                      color={globalColors.black}
+                    />
+                  ) : null
+                }
+                ListFooterComponent={
+                  isFetchingMore ? (
+                    <ActivityIndicator
+                      size="large"
+                      color={globalColors.black}
+                    />
+                  ) : null
+                }
+                showsVerticalScrollIndicator={false}
               />
-            ) : null
-          }
-          ListFooterComponent={
-            isFetchingMore ? (
-              <ActivityIndicator
-                size="large"
-                color={globalColors.black}
-              />
-            ) : null
-          }
-          showsVerticalScrollIndicator={false}
-        />
-        </View>
-        )}
-        </View>
+            </View>
+          )}
+      </View>
 
 
     </SafeAreaView>
@@ -151,18 +151,21 @@ const styles = StyleSheet.create({
   },
   headingText: {
     color: globalColors.black,
+    fontFamily: 'Intrepid Regular',
     fontSize: 16,
     marginBottom: 10,
     marginTop: 10,
   },
   noOrdersText: {
     marginTop: 50,
+    fontFamily: 'Intrepid Regular',
     color: globalColors.black,
     fontSize: 16,
     textAlign: 'center',
   },
   errorText: {
     color: 'red',
+    fontFamily: 'Intrepid Regular',
     fontSize: 16,
     textAlign: 'center',
     marginTop: 20,
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
     marginTop: 200,
   },
   mainText: {
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
     color: globalColors.black,
     fontSize: 24,
     fontWeight: 'bold',

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,21 +14,21 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors.js';
-import {Image} from 'react-native';
-import {Images} from '../../Constants/index.js';
-import {logoutUser} from '../../Redux/Slice/loginslice.js';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import {getToken, getUserId} from '../../Utils/localstorage.js';
+import { globalColors } from '../../Assets/Theme/globalColors.js';
+import { Image } from 'react-native';
+import { Images } from '../../Constants/index.js';
+import { logoutUser } from '../../Redux/Slice/loginslice.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { getToken, getUserId } from '../../Utils/localstorage.js';
 import RNPickerSelect from 'react-native-picker-select';
-import {currencies} from '../../Assets/Currency.js';
+import { currencies } from '../../Assets/Currency.js';
 import {
   fetchProfile,
   resetProfile,
   updateProfile,
 } from '../../Redux/Slice/profileSlice.js';
-import {ActivityIndicator} from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PasswordModal from '../../Components/Model/PasswordModal.js';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar.js';
@@ -39,7 +39,7 @@ import Points from './Points.js';
 import Gifts from './Gifts.js';
 import CountryFlag from 'react-native-country-flag';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {transparent} from 'react-native-paper/lib/typescript/styles/themes/v2/colors.js';
+import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors.js';
 
 const Profile = () => {
   const [selectedValue, setSelectedValue] = useState(currencies[0].value);
@@ -51,7 +51,7 @@ const Profile = () => {
   const [activetab, setActiveTab] = useState('Profile');
 
   console.log(activetab);
-  const {data, loading, error} = useSelector(state => state.profile);
+  const { data, loading, error } = useSelector(state => state.profile);
   const onRefresh = async () => {
     setRefreshing(true);
     const customer_id = await getUserId();
@@ -173,14 +173,14 @@ const Profile = () => {
       },
       meta_data: [
         ...data.meta_data.slice(0, 2),
-        {...data.meta_data[2], value: phone},
+        { ...data.meta_data[2], value: phone },
         ...data.meta_data.slice(3),
       ],
     };
 
     const customer_id = await getUserId();
     try {
-      dispatch(updateProfile({customer_id, newData: updatedData}));
+      dispatch(updateProfile({ customer_id, newData: updatedData }));
       setEditable(false);
     } catch (error) {
       console.log(error);
@@ -208,30 +208,34 @@ const Profile = () => {
   };
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 100}>
       <View>
-        <Account  setEditable={setEditable} editable={editable}/>
+        <Account setEditable={setEditable} editable={editable} />
       </View>
-      <View style={{flex: 1, backgroundColor: globalColors.white}}>
+      <View style={{ flex: 1, backgroundColor: globalColors.white }}>
         <View
           style={{
             flexDirection: 'row',
-            paddingHorizontal: wp('5%'),
+            paddingHorizontal: wp('6%'),
             marginTop: hp('2%'),
           }}>
           <View
             style={{
               borderBottomWidth: activetab == 'Profile' ? 2 : 0,
               borderBottomColor: '#866528',
+              fontFamily: 'Intrepid Regular',
+
             }}>
             <Text
               onPress={() => setActiveTab('Profile')}
               style={{
-                paddingHorizontal: wp('5%'),
+                paddingHorizontal: wp('6%'),
                 color: activetab == 'Profile' ? '#866528' : '#606060',
                 paddingBottom: hp('1%'),
+                fontFamily: 'Intrepid Regular',
+
               }}>
               PROFILE
             </Text>
@@ -241,13 +245,17 @@ const Profile = () => {
             style={{
               borderBottomWidth: activetab == 'ORDER' ? 2 : 0,
               borderBottomColor: '#866528',
+              fontFamily: 'Intrepid Regular',
+
             }}>
             <Text
               onPress={() => setActiveTab('ORDER')}
               style={{
-                paddingHorizontal: wp('5%'),
+                paddingHorizontal: wp('6%'),
                 color: activetab == 'ORDER' ? '#866528' : '#606060',
                 paddingBottom: hp('1%'),
+                fontFamily: 'Intrepid Regular',
+
               }}>
               ORDER
             </Text>
@@ -256,12 +264,16 @@ const Profile = () => {
             style={{
               borderBottomWidth: activetab == 'POINTS' ? 2 : 0,
               borderBottomColor: '#866528',
+              fontFamily: 'Intrepid Regular',
+
             }}>
             <Text
               onPress={() => setActiveTab('POINTS')}
               style={{
-                paddingHorizontal: wp('5%'),
+                paddingHorizontal: wp('6%'),
                 color: activetab == 'POINTS' ? '#866528' : '#606060',
+                fontFamily: 'Intrepid Regular',
+
               }}>
               POINTS
             </Text>
@@ -270,11 +282,14 @@ const Profile = () => {
             style={{
               borderBottomWidth: activetab == 'GIFTS' ? 2 : 0,
               borderBottomColor: '#866528',
+              fontFamily: 'Intrepid Regular',
+
             }}>
             <Text
               onPress={() => setActiveTab('GIFTS')}
               style={{
-                paddingHorizontal: wp('5%'),
+                paddingHorizontal: wp('6%'),
+                fontFamily: 'Intrepid Regular',
                 color: activetab == 'GIFTS' ? '#866528' : '#606060',
               }}>
               GIFTS
@@ -366,11 +381,15 @@ const Profile = () => {
                     <Text style={styles.textHeading}>PASSWORD</Text>
                     <Text style={styles.custpasswordtext}>********</Text>
                   </View>
-                  <View style={{marginLeft: 'auto', marginRight: 5}}>
+                  <View style={{ marginLeft: 'auto', marginRight: 5 }}>
                     <Text
-                      style={{color: '#866528'}}
+                      style={{
+                        color: '#866528', fontFamily: 'Intrepid Regular',
+                      }}
                       onPress={() => setModalVisible(true)}>
-                      CHANGE?
+                      CHANGE<Text style={{
+                        fontFamily: 'Product Sans',
+                      }}>?</Text>
                     </Text>
                     <PasswordModal
                       modalVisible={modalVisible}
@@ -396,7 +415,7 @@ const Profile = () => {
                       placeholderStyle={{ color: '#888' }}
                       listMode="SCROLLVIEW"
                       style={styles.dropdown}
-                      arrowIconContainerStyle={{display: 'none'}}
+                      arrowIconContainerStyle={{ display: 'none' }}
                       open={openDropdown}
                       value={selectedCountry}
                       items={currencies.map((currency, index) => ({
@@ -422,9 +441,9 @@ const Profile = () => {
                       searchablePlaceholder="Search..."
                       searchablePlaceholderTextColor="#888"
                       showArrow={false}
-                      dropDownContainerStyle={{backgroundColor: 'white'}}
+                      dropDownContainerStyle={{ backgroundColor: 'white' }}
                     />
-                    <View style={{flexDirection: 'row', marginTop: hp('-5%')}}>
+                    <View style={{ flexDirection: 'row', marginTop: hp('-5%') }}>
                       <View>
                         {/* <CountryFlag
                           isoCode={country}
@@ -433,7 +452,7 @@ const Profile = () => {
                           useNativeAndroidPickerStyle={false}
                         /> */}
                       </View>
-                      <View style={{marginLeft: wp('2%')}}>
+                      <View style={{ marginLeft: wp('2%') }}>
                         <Text style={styles.textHeadingValue}>
                           {isoCode || ''}
                         </Text>
@@ -441,27 +460,29 @@ const Profile = () => {
                     </View>
                   </View>
 
-                  <View style={{marginLeft: 'auto', marginRight: 5}}>
+                  <View style={{ marginLeft: 'auto', marginRight: 5 }}>
                     <Text
                       // style={{textDecorationLine: 'underline'}}
 
-                      style={{color: '#866528'}}
+                      style={{
+                        color: '#866528', fontFamily: 'Intrepid Regular',
+                      }}
                       onPress={() => setOpenDropdown(true)}>
                       CHANGE?
                     </Text>
                   </View>
                 </View>
 
-                <View style={{marginTop: hp('4%')}}>
+                <View style={{ marginTop: hp('4%') }}>
                   <Text style={styles.shippingaddress}>SHIPPING ADDRESS</Text>
                 </View>
 
-                <View style={{borderWidth: 1, borderColor: '#D9D9D9'}} />
+                <View style={{ borderWidth: 1, borderColor: '#D9D9D9' }} />
 
-                <View style={{marginTop: hp('1%')}}>
+                <View style={{ marginTop: hp('1%') }}>
                   <Text
                     style={{
-                      fontFamily: 'Product Sans',
+                      fontFamily: 'Intrepid Regular',
                       fontSize: 18,
                       color: 'black',
                     }}>
@@ -469,7 +490,7 @@ const Profile = () => {
                   </Text>
                   <Text
                     style={{
-                      fontFamily: 'Product Sans',
+                      fontFamily: 'Intrepid Regular',
                       fontSize: 16,
                       color: 'black',
                       marginTop: hp('1%'),
@@ -480,16 +501,16 @@ const Profile = () => {
 
                 <TouchableOpacity onPress={handleLogout}>
                   <View
-                    style={{flexDirection: 'row', marginVertical: hp('3%')}}>
+                    style={{ flexDirection: 'row', marginVertical: hp('3%') }}>
                     <Image style={{}} source={Images.Logout}></Image>
                     <Text
                       style={{
                         marginLeft: wp('2%'),
-                        marginTop: -3,
+                        // marginTop: -3,
                         marginBottom: 10,
                         fontSize: 16,
                         color: 'red',
-                        fontFamily: 'Product Sans Medium',
+                        fontFamily: 'Intrepid Regular',
                       }}>
                       LOGOUT
                     </Text>
@@ -519,7 +540,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('4%'),
   },
   mainText: {
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     color: globalColors.black,
     fontSize: 24,
     fontWeight: 'bold',
@@ -527,7 +548,7 @@ const styles = StyleSheet.create({
     // marginTop: hp('1%'),
   },
   shippingaddress: {
-    fontFamily: 'Product Sans Medium',
+    fontFamily: 'Intrepid Regular',
     color: '#866528',
     fontSize: 16,
     fontWeight: '600',
@@ -542,7 +563,7 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     color: globalColors.black,
     fontSize: 14,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontWeight: '400',
   },
   SubtextHeading: {
@@ -550,20 +571,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingTop: 6,
     paddingBottom: 6,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   custpasswordtext: {
     color: globalColors.black,
     fontWeight: '700',
     fontSize: 16,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
 
   textHeadingValue: {
     color: globalColors.black,
     fontWeight: '500',
     fontSize: 16,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     marginTop: hp('0.5%'),
   },
   subContantContainer: {
@@ -615,7 +636,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   dropdownText: {
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   dropdownContainer: {
     backgroundColor: '#ffffff',
