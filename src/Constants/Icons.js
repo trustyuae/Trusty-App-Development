@@ -34,6 +34,9 @@ export const deliveryIcon = require('../Assets/Icons/Free_DeliveryIcon.png');
 export const callIcon = require('../Assets/Icons/callIcon.png');
 export const checkIcon = require('../Assets/Icons/checkIconThankyouPage.png');
 export const tabby = require('../Assets/Icons/tabby.png')
+export const emailIconBlack = require('../Assets/Icons/emailIconBlack.png')
+export const whatsappIcon = require('../Assets/Icons/whatsappIcon.png')
+
 //*************************************************Exported Images**********************
 
 export const ProductIMG = require('../Assets/Images/ProductImg.png');

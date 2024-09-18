@@ -989,7 +989,7 @@ const Shop = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
 
 
                 <Icon
@@ -1041,11 +1041,19 @@ const Shop = ({ navigation }) => {
                                     // flex: 1,
                                     // flexDirection: 'row'
 
-                                }}>
-                                    <ScrollView>
+                                }} showsVerticalScrollIndicator={false}>
+                                    <ScrollView showsVerticalScrollIndicator={false}>
                                         <View style={{ padding: 10 }}>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <Text style={styles.filteredCategory}>{category.name}</Text>
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+
+                                            }}>
+                                                <View style={{ flex: 1 }}>
+                                                    <Text style={styles.filteredCategory}>{category.name}</Text>
+
+                                                </View>
 
                                                 <Image
                                                     style={{
@@ -1172,9 +1180,8 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 18,
         fontFamily: 'Intrepid Regular',
-
+        // backgroundColor: 'red',
         // flexDirection: 'column',
-        // textAlign: 'center',
         // justifyContent: 'space-between',
         borderBottomWidth: 1,
         // borderBottomColor: 'red',

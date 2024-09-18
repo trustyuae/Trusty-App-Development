@@ -43,6 +43,7 @@ import debounce from 'lodash/debounce';
 import SelectDropdown from 'react-native-select-dropdown';
 import { Images } from '../../Constants';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
+import ContactUsScreen from '../Model/ContactUsScreen';
 
 const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
   const dispatch = useDispatch();
@@ -63,7 +64,15 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
   const [isWishlist, setIsWishlist] = useState(false);
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [promoCode, setPromoCode] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const handleModal = () => {
+    setModalVisible(true);
+
+  }
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   const toggleInputField = () => {
     setIsInputVisible(!isInputVisible);
   };
@@ -280,7 +289,7 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
   return (
     <GestureHandlerRootView >
       <TouchableWithoutFeedback onPress={handleOutsideClick}>
-        <SafeAreaView style={{ marginBottom: hp('4%') }}>
+        <SafeAreaView style={{ marginBottom: hp('4%'), height: hp('100%') }}>
           <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
 
             {/* <Icon
@@ -458,40 +467,51 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                               }}>
-                              <View>
-                                <Text
-                                  style={{
-                                    fontSize: 18,
-                                    color: globalColors.darkGray,
-                                    // marginLeft: 17,
-                                  }}
-                                  onPress={() => handleDecrease(Item.key)}>
-                                  -
-                                </Text>
-                              </View>
-                              <View>
-                                <Text
-                                  style={{
-                                    fontSize: 18,
-                                    color: globalColors.darkGray,
-                                    fontFamily: 'Intrepid Regular',
-                                    marginHorizontal: 20,
-                                    padding: 4,
-                                    backgroundColor: globalColors.white,
-                                  }}>
-                                  {Item.quantity}
-                                </Text>
-                              </View>
-                              <View>
-                                <Text
-                                  style={{
-                                    fontSize: 18,
-                                    color: globalColors.darkGray,
-                                    // marginRight: 7,
-                                  }}
-                                  onPress={() => handleIncrease(Item.key)}>
-                                  +
-                                </Text>
+                              <View style={{
+                                flexDirection: 'row',
+                                borderRadius: 7,
+                                backgroundColor: globalColors.white,
+                                padding: 5
+                              }}>
+                                <View>
+                                  <Text
+                                    style={{
+                                      fontSize: 18,
+                                      color: globalColors.darkGray,
+                                      // marginLeft: 17,
+                                    }}
+                                    onPress={() => handleDecrease(Item.key)}>
+                                    <Icon name={'chevron-down'}
+                                      size={25}
+                                      color="black"></Icon>
+                                  </Text>
+                                </View>
+                                <View>
+                                  <Text
+                                    style={{
+                                      fontSize: 18,
+                                      color: globalColors.lightgold,
+                                      fontFamily: 'Intrepid Regular',
+                                      marginHorizontal: wp('1%'),
+                                      padding: 4,
+                                      backgroundColor: globalColors.white,
+                                    }}>
+                                    {Item.quantity}
+                                  </Text>
+                                </View>
+                                <View>
+                                  <Text
+                                    style={{
+                                      fontSize: 18,
+                                      color: globalColors.darkGray,
+                                      // marginRight: 7,
+                                    }}
+                                    onPress={() => handleIncrease(Item.key)}>
+                                    <Icon name={'chevron-up'}
+                                      size={25}
+                                      color="black"></Icon>
+                                  </Text>
+                                </View>
                               </View>
                               <Text
                                 style={{
@@ -499,7 +519,7 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                                   // marginTop: wp('4%'),
                                   color: globalColors.black,
                                   fontFamily: 'Intrepid Bold',
-                                  paddingLeft: wp('4%'),
+                                  paddingLeft: wp('5%'),
                                   fontSize: 16,
                                   fontWeight: '700',
                                 }}>
@@ -589,19 +609,23 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                                     Remove
                                   </Text>
                                 </Pressable>
-                              ) : (<>
-                                <Image source={Images.SavaIconUnFillTransparant}
-                                  style={{ width: "55%", height: "20%", tintColor: "white" }} />
-                                <Text style={{
-                                  fontSize: 8,
-                                  fontFamily: 'Intrepid Regular',
-                                  alignItems: 'center',
-                                  marginTop: 5,
-                                  color: globalColors.white
-                                }}>
-                                  Add To Wishlist
-                                </Text>
-                              </>
+                              ) : (
+                                <>
+                                  <Image source={Images.SavaIconUnFillTransparant}
+                                    style={{
+                                      width: "60%", height: "20%", tintColor: "white", marginTop: wp('2.5%'),
+                                    }} />
+                                  <Text style={{
+                                    fontSize: 8,
+
+                                    fontFamily: 'Intrepid Regular',
+                                    alignItems: 'center',
+                                    marginTop: 5,
+                                    color: globalColors.white
+                                  }}>
+                                    Add To Wishlist
+                                  </Text>
+                                </>
 
                               )}
                             </View>
@@ -646,7 +670,8 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                   ))}
                   <View style={styles.custborder} />
                 </View>
-              )}
+              )
+              }
 
               {/* <View style={styles.custborder} />
 
@@ -817,7 +842,7 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
           </View> */}
               <View style={styles.container}>
                 <TouchableOpacity
-                  style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+                  style={{ flexDirection: 'row', justifyContent: 'space-between', }}
                   onPress={toggleInputField}>
                   <Text
                     style={{
@@ -901,7 +926,7 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
               <View
                 style={{
                   marginTop: hp('3%'),
-                  // marginBottom: hp('1%'),
+                  // marginBottom: hp('5%'),
                 }}>
                 <View
                   style={{
@@ -926,9 +951,28 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                   </Text>
                 </View>
               </View>
-              <View style={styles.custborder} />
+              <View style={[styles.custborder, {}]} />
 
-              <View
+              <View style={{}}>
+                <Text style={styles.subHeading}>Need help ?</Text>
+                <Text style={styles.contactInfo}>Get in touch with our global coustmer service team</Text>
+                <View style={{
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Button
+                    name={'CONTACT US'}
+                    stylesofbtn={styles.custcontactusbtn}
+                    styleoffont={styles.custcontactfontstyle}
+                    handlepress={handleModal}
+
+                  ></Button>
+                </View>
+
+              </View>
+              {
+              //info
+              /* <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
@@ -1089,7 +1133,7 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                     resizeMode="contain"></Image>
                   <Text style={styles.bottomContainerText}> shop securely </Text>
                 </View>
-              </View>
+              </View> */}
             </View>
           </ScrollView>
           {/* <View style={{ position: 'relative', bottom: 10 }}>
@@ -1101,8 +1145,17 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
           loading={isloading}
         />
       </View> */}
+
         </SafeAreaView>
+
       </TouchableWithoutFeedback>
+      <ContactUsScreen
+        visible={modalVisible}
+        onClose={closeModal}
+
+      >
+
+      </ContactUsScreen>
     </GestureHandlerRootView >
   );
 };
@@ -1112,11 +1165,13 @@ export default Cart;
 const styles = StyleSheet.create({
   imageStyle: {
     height: 120,
+    borderRadius: 5,
     width: 130,
   },
   container: {
     marginHorizontal: wp('5%'),
     marginTop: hp('2%'),
+    // height: hp('100%')
   },
   custText: {
     color: globalColors.black,
@@ -1273,4 +1328,37 @@ const styles = StyleSheet.create({
   toggleIcon: {
     fontSize: 20,
   },
+  subHeading: {
+    color: globalColors.black,
+    fontWeight: '700',
+    fontSize: 18,
+    marginVertical: wp('4%')
+  },
+  contactInfo: {
+    fontFamily: 'Intrepid Regular',
+    fontSize: 16,
+    color: globalColors.cartProductTextColor,
+    // marginVertical: wp('2%')
+    marginBottom: wp('3%')
+  },
+  custcontactusbtn: {
+    backgroundColor: globalColors.white,
+    padding: 12,
+    // marginVertical: 20,
+    // position: 'absolute',
+    height: wp('10%'),
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    width: wp('50%'),
+    marginBottom: 25,
+    borderRadius: 5,
+  },
+  custcontactfontstyle: {
+    color: globalColors.black,
+    fontSize: 16,
+    fontWeight: '700',
+    textAlign: 'center',
+    fontFamily: 'Product Sans',
+  },
 });
+
