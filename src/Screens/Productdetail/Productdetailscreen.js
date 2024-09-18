@@ -53,6 +53,7 @@ import ButtonAddToCart from '../../Components/ButtonAddToCart';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TabbyModal from '../../Components/Model/TabbyModal';
 import TamaraModal from '../../Components/Model/TamaraModal';
+import { Share } from 'react-native';
 
 export default function Productdetailscreen({ route }) {
   // console.log("Route--------->", route)
@@ -314,6 +315,26 @@ export default function Productdetailscreen({ route }) {
     }
   };
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          `https://trustyuae.com/product/${responseData.slug}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  }
+
   // console.log(changeColor);
 
   return (
@@ -397,7 +418,7 @@ export default function Productdetailscreen({ route }) {
                             marginRight: wp('2%'),
                             overflow: 'hidden',
                           }}>
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={onShare}>
                             {/* <Text>sdfds</Text> */}
                             <Image
                               style={{

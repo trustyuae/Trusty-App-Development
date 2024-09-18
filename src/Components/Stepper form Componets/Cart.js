@@ -289,7 +289,7 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
   return (
     <GestureHandlerRootView >
       <TouchableWithoutFeedback onPress={handleOutsideClick}>
-        <SafeAreaView style={{ marginBottom: hp('4%'), height: hp('100%') }}>
+        <SafeAreaView style={{ marginBottom: hp('4%'), height: hp('85%') }}>
           <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
 
             {/* <Icon
@@ -584,10 +584,10 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                       </View> */}
                         </View>
                         {selectedItem === Item.key && (
-                          <View style={{ width: '100%', flexDirection: 'row' }}>
+                          <View style={{ width: '100%', height: '100%', flexDirection: 'row' }}>
                             <View
                               style={{
-                                width: '12%',
+                                // width: '12%',
                                 backgroundColor: '#D6852A',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -610,22 +610,30 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                                   </Text>
                                 </Pressable>
                               ) : (
-                                <>
+                                <View style={{ width: wp('10%'), alignItems: 'center' }}>
                                   <Image source={Images.SavaIconUnFillTransparant}
                                     style={{
-                                      width: "60%", height: "20%", tintColor: "white", marginTop: wp('2.5%'),
+                                      width: wp('5.5%'),
+                                      height: wp("5%"),
+                                      justifyContent: 'center',
+                                      alignItems: 'center',
+                                      tintColor: "white",
+                                      marginTop: wp('2%'),
                                     }} />
-                                  <Text style={{
-                                    fontSize: 8,
+                                  <View style={{ alignItems: 'center', }}>
+                                    <Text style={{
+                                      fontSize: 8,
 
-                                    fontFamily: 'Intrepid Regular',
-                                    alignItems: 'center',
-                                    marginTop: 5,
-                                    color: globalColors.white
-                                  }}>
-                                    Add To Wishlist
-                                  </Text>
-                                </>
+                                      fontFamily: 'Intrepid Regular',
+                                      alignSelf: 'center',
+                                      marginTop: 3,
+                                      color: globalColors.white
+                                    }}>
+                                      Add To {"\n"}
+                                      Wishlist
+                                    </Text>
+                                  </View>
+                                </View>
 
                               )}
                             </View>
@@ -675,17 +683,17 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
 
               {/* <View style={styles.custborder} />
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 10,
-          }}>
-          <Text style={styles.custText}>SUBTOTAL</Text>
-          <Text>{totalSum} AED</Text>
-        </View> */}
+                  <View
+                 style={{
+                 flexDirection: 'row',
+                 justifyContent: 'space-between',
+                 marginVertical: 10,
+                 }}>
+                <Text style={styles.custText}>SUBTOTAL</Text>
+                   <Text>{totalSum} AED</Text>
+                    </View> */}
 
-              {viewcartdata?.coupon_status ? (
+              {/* {viewcartdata?.coupon_status ? (
                 <>
                   <View
                     style={{
@@ -712,25 +720,25 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                   </View>
                   <View style={styles.custborder} />
                 </>
-              ) : null}
+              ) : null} */}
 
               {/* <View style={{
-          marginVertical: 10, marginBottom: hp('3%'),
-         }}>
-          <Text style={{
-            color: globalColors.black,
-            fontSize: 16,
-            fontWeight: 400,
-          }}>Shipping</Text>
-          <View>
-            <View style={{
+                 marginVertical: 10, marginBottom: hp('3%'),
+                }}>
+                 <Text style={{
+                 color: globalColors.black,
+                 fontSize: 16,
+                fontWeight: 400,
+               }}>Shipping</Text>
+              <View>
+                <View style={{
               color: globalColors.black,
               backgroundColor: globalColors.headingBackgroundLogin,
               fontWeight: '800',
               fontSize: 14,
               marginTop: hp('1%'),
               fontFamily: 'Product Sans',
-            }}>
+               }}>
               <Text style={{
                 marginLeft: wp(2),
                 fontFamily: 'Product Sans',
@@ -741,15 +749,15 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                 padding: 3,
                 textTransform: 'uppercase',
 
-              }}>
+                 }}>
                 Enter your address to view shipping options.
-              </Text>
-            </View>
+                 </Text>
+                 </View>
            
-            <View style={{ backgroundColor: globalColors.white, }}>
+                 <View style={{ backgroundColor: globalColors.white, }}>
 
 
-              <SelectDropdown
+                  <SelectDropdown
                 data={countries}
                 search
                 searchPlaceHolder="Search Country"
@@ -805,29 +813,29 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
               >
                 Calculate
               </Text>
-            </View>
+               </View>
 
-          </View>
-        </View> */}
+                 </View>
+                </View> */}
 
               {/* <Text style={{
-            color: globalColors.black,
-            fontSize: 16,
-            fontWeight: 400, fontFamily: 'Product Sans',
-            marginVertical: 10
-          }}>Shipping</Text>
-          <Text style={{
-            fontSize: 14,
-            marginBottom: wp('2%'),
-            marginLeft: wp('10%'),
-            fontWeight: 400, fontFamily: 'Product Sans',
-          }}>Shipping cost will be calculate during check out.</Text> */}
+              color: globalColors.black,
+              fontSize: 16,
+              fontWeight: 400, fontFamily: 'Product Sans',
+              marginVertical: 10
+               }}>Shipping</Text>
+               <Text style={{
+                fontSize: 14,
+                marginBottom: wp('2%'),
+                marginLeft: wp('10%'),
+                fontWeight: 400, fontFamily: 'Product Sans',
+                }}>Shipping cost will be calculate during check out.</Text> */}
             </View>
             <View
               style={{
                 backgroundColor: globalColors.headingBackground,
-                paddingLeft: wp('4%'),
-                paddingRight: wp('4%'),
+                // paddingLeft: wp('4%'),
+                // paddingRight: wp('4%'),
               }}>
               {/* <View style={{ marginVertical: 10, flexDirection: 'row' }}>
             <Text style={
@@ -840,57 +848,73 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
             }>
               Discount Code          </Text>
           </View> */}
-              <View style={styles.container}>
-                <TouchableOpacity
-                  style={{ flexDirection: 'row', justifyContent: 'space-between', }}
-                  onPress={toggleInputField}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: '400',
-                      color: globalColors.black,
-                      fontFamily: 'Intrepid Regular',
-                    }}>
-                    Add a Promo code
-                  </Text>
-                  <Text style={styles.toggleIcon}>
-                    {isInputVisible ? '-' : '+'}
-                  </Text>
-                </TouchableOpacity>
-
-                {/* Input Field for Promo Code */}
-                {isInputVisible && (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginTop: 10,
-                      borderWidth: 1,
-                      borderColor: '#ddd',
-                      padding: 5,
-                      borderRadius: 5,
-                    }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Enter Promo code"
-                      placeholderTextColor={globalColors.textColorLogin}
-                      value={discount}
-                      onChangeText={text => setDiscount(text)}
-                    />
-                    <TouchableOpacity
-                      style={styles.applyButton}
-                      onPress={handlepress}>
-                      <Text style={styles.applyButtonText}>APPLY</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </View>
-
-              <View
-                style={{
+              <View style={{ backgroundColor: 'white' }}>
+                <View style={{
+                  marginHorizontal: wp('5%'),
                   marginTop: hp('2%'),
+                  paddingLeft: wp('4%'),
+                  paddingRight: wp('4%'),
+                  // height: '100%',
                 }}>
-                <View style={styles.custborder} />
+                  <TouchableOpacity
+                    style={{ flexDirection: 'row', justifyContent: 'space-between', }}
+                    onPress={toggleInputField}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: '400',
+                        color: globalColors.black,
+                        fontFamily: 'Intrepid Regular',
+                      }}>
+                      Add a Promo code
+                    </Text>
+                    <Text style={styles.toggleIcon}>
+                      {isInputVisible ? '-' : '+'}
+                    </Text>
+                  </TouchableOpacity>
+
+                  {/* Input Field for Promo Code */}
+                  {isInputVisible && (
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        backgroundColor: globalColors.headingBackground,
+                        marginTop: 10,
+                        borderWidth: 1,
+                        borderColor: '#ddd',
+                        padding: 5,
+                        borderRadius: 5,
+                      }}>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Enter Promo code"
+                        placeholderTextColor={globalColors.textColorLogin}
+                        value={discount}
+                        onChangeText={text => setDiscount(text)}
+                      />
+                      <TouchableOpacity
+                        style={styles.applyButton}
+                        onPress={handlepress}>
+                        <Text style={styles.applyButtonText}>APPLY</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+
+                <View
+                  style={{
+                    marginTop: hp('2%'),
+                  }}>
+                  <View style={{
+                    borderWidth: 0.8,
+                    width: '92%',
+                    alignSelf: 'center',
+
+                    // marginTop: hp('1%'),
+                    borderColor: globalColors.inputBorder,
+                  }} />
+                </View>
               </View>
               {/* <TextInput
             value={discount}
@@ -926,6 +950,8 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
               <View
                 style={{
                   marginTop: hp('3%'),
+                  paddingLeft: wp('4%'),
+                  paddingRight: wp('4%'),
                   // marginBottom: hp('5%'),
                 }}>
                 <View
@@ -951,14 +977,27 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                   </Text>
                 </View>
               </View>
-              <View style={[styles.custborder, {}]} />
+              <View style={{
+                paddingLeft: wp('4%'),
+                paddingRight: wp('4%'),
+                borderWidth: 0.8,
+                width: '92%',
+                alignSelf: 'center',
 
-              <View style={{}}>
+                // marginTop: hp('1%'),
+                borderColor: globalColors.inputBorder,
+              }} />
+
+              <View style={{
+                paddingLeft: wp('4%'),
+                paddingRight: wp('4%'),
+              }}>
                 <Text style={styles.subHeading}>Need help ?</Text>
                 <Text style={styles.contactInfo}>Get in touch with our global coustmer service team</Text>
                 <View style={{
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  marginTop: wp('1%')
                 }}>
                   <Button
                     name={'CONTACT US'}
@@ -1339,7 +1378,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: globalColors.cartProductTextColor,
     // marginVertical: wp('2%')
-    marginBottom: wp('3%')
+    marginBottom: wp('4%')
   },
   custcontactusbtn: {
     backgroundColor: globalColors.white,
@@ -1351,7 +1390,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     width: wp('50%'),
     marginBottom: 25,
-    borderRadius: 5,
+    borderRadius: 7,
   },
   custcontactfontstyle: {
     color: globalColors.black,
