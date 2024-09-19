@@ -289,6 +289,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     selectedCountryShipping: data?.shipping?.country,
     shippingAddressContinued: data?.shipping?.address_2,
     shippingCity: data?.shipping?.city,
+    ZipCode: '',
     phoneShipping: data?.shipping?.phone,
   });
   // const [formData, setFormData] = useState({
@@ -446,8 +447,8 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
   };
 
   const handleCheckboxPress = () => {
-    setStateUpdate(!stateUpdate);
-    handleUpdateData();
+    // setStateUpdate(!stateUpdate);
+    // handleUpdateData();
     setIsCheckbox(prevState => !prevState);
   };
   const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
@@ -701,18 +702,240 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
           <View>
             <Text style={styles.textheading}>Billing details</Text>
           </View>
-          <View style={styles.headingInput}>
+          <View style={[styles.headingInput, {
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 2,
+          }]}>
             <Text style={styles.formHeadingText}>Personal Information</Text>
+
+            <View style={{
+              backgroundColor: globalColors.white,
+              borderRadius: 5,
+
+            }}>
+              <View style={{ flexDirection: 'row', }}>
+                <View style={{ width: '30%' }}>
+                  <SelectDropdown
+                    data={emojisWithIcons}
+                    onSelect={(selectedItem, index) => {
+                      setFormData({
+                        ...formData,
+                        selectedTitle: selectedItem.title,
+                      });
+                    }}
+                    renderButton={(selectedItem, isOpen) => {
+                      return (
+                        <View style={styles.dropdownButtonStyle}>
+                          <Text
+                            style={{
+                              fontFamily: 'Intrepid Bold',
+                              fontSize: 14,
+                              fontWeight: 'bold',
+                              // marginLeft: wp('5%'),
+                              color: globalColors.buttonBackground, // fontStyle: globalColors.buttonBackground,
+                            }}>
+                            {selectedItem?.title || 'TITLE'}
+                          </Text>
+                          <Icon
+                            name={isOpen ? 'chevron-up' : 'chevron-down'}
+                            style={styles.dropdownButtonArrowStyleTitle}
+                          />
+                        </View>
+                      );
+                    }}
+                    renderItem={(item, index, isSelected) => {
+                      return (
+                        <View
+                          style={{
+                            ...styles.dropdownItemStyle,
+                            ...(isSelected && { backgroundColor: '#D2D9DF' }),
+                          }}>
+                          <Text style={styles.dropdownItemTxtStyle}>
+                            {item.title}
+                          </Text>
+                        </View>
+                      );
+                    }}
+                  />
+                </View>
+
+                <View style={{ width: '70%' }}>
+                  <FloatingLabelInput
+                    label="FIRST NAME"
+                    value={formData.firstName}
+                    onChangeText={text => handleChange('firstName', text)}
+                  />
+                </View>
+              </View>
+              <View style={styles.separator} />
+
+              <FloatingLabelInput
+                label="LAST NAME"
+                value={formData.lastName}
+                onChangeText={text => handleChange('lastName', text)}
+              />
+              {/* <TextInput
+              style={styles.input}
+              placeholder="LAST NAME *"
+              placeholderTextColor={globalColors.textColorLogin}
+              value={formData.lastName}
+              onChangeText={text => handleChange('lastName', text)}
+            /> */}
+              {errors.lastName && (
+                <Text style={styles.errorText}>{errors.lastName}</Text>
+              )}
+
+              <View style={styles.custposition}>
+                <View style={styles.separator} />
+                <PhoneInput
+                  ref={setPhoneInput}
+                  defaultCode="AE"
+                  placeholder={'PHONE NUMBER'}
+                  onChangeText={text => {
+                    handleChange('phone', text);
+                  }}
+                  placeholderTextColor={globalColors.textColorLogin}
+                  containerStyle={{
+                    backgroundColor: globalColors.white,
+                    paddingHorizontal: wp('3%'),
+                  }}
+                  textContainerStyle={{
+                    backgroundColor: globalColors.white,
+                    color: 'red',
+                  }}
+                  textInputStyle={{
+                    fontFamily: 'Product Sans',
+                    fontSize: 14,
+                    fontWeight: '400',
+                    backgroundColor: globalColors.white,
+                  }}
+                  // onChangeFormattedText={text => handleChange('phone', text)}
+                  onChangeCountry={country =>
+                    handleChange('countryCode', country.callingCode)
+                  }
+                  value={formData.phone}
+                />
+                {errors.phone && (
+                  <Text style={styles.errorText}>{errors.phone}</Text>
+                )}
+                <View style={{ backgroundColor: 'white' }}>
+                  {/* <MobileNo
+                    selected={formData.selected}
+                    setSelected={value => handleChange('selected', value)}
+                    setCountry={handleCountryChange}
+                    phone={formData.phone}
+                    setPhone={text => handleChange('phone', text)}></MobileNo> */}
+                </View>
+                {/* {errors.phone && (
+                  <Text style={styles.errorText}>{errors.phone}</Text>
+                )} */}
+              </View>
+            </View>
           </View>
-          <View style={{ backgroundColor: globalColors.white, borderRadius: 5 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ width: '30%' }}>
+          {/* <View style={styles.separator} /> */}
+
+
+          <View style={{
+            marginTop: hp('3%'),
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 2,
+          }}>
+            <View style={styles.headingInput}>
+              <Text style={styles.formHeadingText}>Shipping Information</Text>
+            </View>
+            <View style={{
+              backgroundColor: globalColors.white,
+              borderRadius: 5,
+              // marginTop: hp('2%')
+            }}>
+
+              <FloatingLabelInput
+                label="ADDRESS LINE 1"
+                value={formData.address}
+                onChangeText={text => handleChange('address', text)}
+              />
+              {/* <TextInput
+              style={styles.input}
+              placeholder="ADDRESS LINE 1 *"
+              placeholderTextColor={globalColors.textColorLogin}
+              value={formData.address}
+              onChangeText={text => handleChange('address', text)}
+            /> */}
+              {errors.address && (
+                <Text style={styles.errorText}>{errors.address}</Text>
+              )}
+              <View style={styles.separator} />
+
+              <FloatingLabelInput
+                label="ADDRESS LINE 2"
+                isRequired={false}
+                value={formData.billingAddressContinued}
+                onChangeText={text =>
+                  handleChange('billingAddressContinued', text)
+                }
+              />
+              {/* <TextInput
+              style={styles.input}
+              placeholder="ADDRESS LINE 2"
+              placeholderTextColor={globalColors.textColorLogin}
+              value={formData.billingAddressContinued}
+              onChangeText={text =>
+                setFormData({ ...formData, billingAddressContinued: text })
+              }
+             /> */}
+              <View style={styles.separator} />
+              <View style={styles.inputPicker}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                  <View style={{ width: '50%' }}>
+                    <FloatingLabelInput
+                      label="CITY/STATE"
+                      value={formData.billingCity}
+                      onChangeText={text => handleChange('billingCity', text)}
+                    />
+                    {/* <TextInput
+                  style={styles.input}
+                  placeholder="CITY/STATE *"
+                  placeholderTextColor={globalColors.textColorLogin}
+                  value={formData.billingCity}
+                  onChangeText={text => handleChange('billingCity', text)}
+                 /> */}
+                    {errors.billingCity && (
+                      <Text style={styles.errorText}>{errors.billingCity}</Text>
+                    )}
+
+                  </View>
+                  <View style={{
+                    width: 1,
+                    height: 20,
+                    backgroundColor: 'rgba(193, 177, 157, 1)',
+
+                  }} />
+                  <View style={{ width: '50%', }} >
+
+                    <FloatingLabelInput
+                      label="ZIP CODE"
+                      value={formData.ZipCode}
+                      onChangeText={text => handleChange('ZipCode', text)}
+                    />
+                  </View>
+                </View>
+                <View style={styles.separator} />
+                {/* <View style={{ width: '50%' }}> */}
                 <SelectDropdown
-                  data={emojisWithIcons}
+                  data={countries}
+                  search
+                  searchPlaceHolder="Search Country"
+                  placeholderTextColor={globalColors.textColorLogin}
                   onSelect={(selectedItem, index) => {
                     setFormData({
                       ...formData,
-                      selectedTitle: selectedItem.title,
+                      selectedCountry: selectedItem.label,
                     });
                   }}
                   renderButton={(selectedItem, isOpen) => {
@@ -720,17 +943,15 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                       <View style={styles.dropdownButtonStyle}>
                         <Text
                           style={{
-                            fontFamily: 'Intrepid Bold',
+                            fontFamily: 'Product Sans',
                             fontSize: 14,
-                            fontWeight: 'bold',
-                            // marginLeft: wp('5%'),
-                            color: globalColors.buttonBackground, // fontStyle: globalColors.buttonBackground,
+                            color: globalColors.buttonBackground,
                           }}>
-                          {selectedItem?.title || 'TITLE'}
+                          {formData.selectedCountry || 'COUNTRY'}
                         </Text>
                         <Icon
                           name={isOpen ? 'chevron-up' : 'chevron-down'}
-                          style={styles.dropdownButtonArrowStyleTitle}
+                          style={styles.dropdownButtonArrowStyle}
                         />
                       </View>
                     );
@@ -743,211 +964,40 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                           ...(isSelected && { backgroundColor: '#D2D9DF' }),
                         }}>
                         <Text style={styles.dropdownItemTxtStyle}>
-                          {item.title}
+                          {item.label}
                         </Text>
                       </View>
                     );
                   }}
                 />
-              </View>
+                <View style={styles.separator} />
 
-              <View style={{ width: '70%' }}>
-                <FloatingLabelInput
-                  label="FIRST NAME *"
-                  value={formData.firstName}
-                  onChangeText={text => handleChange('firstName', text)}
-                />
-              </View>
-            </View>
-            <View style={styles.separator} />
-
-            <FloatingLabelInput
-              label="LAST NAME *"
-              value={formData.lastName}
-              onChangeText={text => handleChange('lastName', text)}
-            />
-            {/* <TextInput
-              style={styles.input}
-              placeholder="LAST NAME *"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.lastName}
-              onChangeText={text => handleChange('lastName', text)}
-            /> */}
-            {errors.lastName && (
-              <Text style={styles.errorText}>{errors.lastName}</Text>
-            )}
-
-            <View style={styles.custposition}>
-              <View style={styles.separator} />
-              <PhoneInput
-                ref={setPhoneInput}
-                defaultCode="AE"
-                placeholder={'PHONE NUMBER'}
-                onChangeText={text => {
-                  handleChange('phone', text);
-                }}
-                placeholderTextColor={globalColors.textColorLogin}
-                containerStyle={{
-                  backgroundColor: globalColors.white,
-                  paddingHorizontal: wp('3%'),
-                }}
-                textContainerStyle={{
-                  backgroundColor: globalColors.white,
-                  color: 'red',
-                }}
-                textInputStyle={{
-                  fontFamily: 'Product Sans',
-                  fontSize: 14,
-                  fontWeight: '400',
-                  backgroundColor: globalColors.white,
-                }}
-                // onChangeFormattedText={text => handleChange('phone', text)}
-                onChangeCountry={country =>
-                  handleChange('countryCode', country.callingCode)
-                }
-                value={formData.phone}
-              />
-              {errors.phone && (
-                <Text style={styles.errorText}>{errors.phone}</Text>
-              )}
-              <View style={{ backgroundColor: 'white' }}>
-                {/* <MobileNo
-                    selected={formData.selected}
-                    setSelected={value => handleChange('selected', value)}
-                    setCountry={handleCountryChange}
-                    phone={formData.phone}
-                    setPhone={text => handleChange('phone', text)}></MobileNo> */}
-              </View>
-              {/* {errors.phone && (
-                  <Text style={styles.errorText}>{errors.phone}</Text>
-                )} */}
-            </View>
-            <View style={styles.separator} />
-            <FloatingLabelInput
-              label="ADDRESS LINE 1 *"
-              value={formData.address}
-              onChangeText={text => handleChange('address', text)}
-            />
-            {/* <TextInput
-              style={styles.input}
-              placeholder="ADDRESS LINE 1 *"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.address}
-              onChangeText={text => handleChange('address', text)}
-            /> */}
-            {errors.address && (
-              <Text style={styles.errorText}>{errors.address}</Text>
-            )}
-            <View style={styles.separator} />
-
-            <FloatingLabelInput
-              label="ADDRESS LINE 2 *"
-              value={formData.billingAddressContinued}
-              onChangeText={text =>
-                handleChange('billingAddressContinued', text)
-              }
-            />
-            {/* <TextInput
-              style={styles.input}
-              placeholder="ADDRESS LINE 2"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.billingAddressContinued}
-              onChangeText={text =>
-                setFormData({ ...formData, billingAddressContinued: text })
-              }
-            /> */}
-            <View style={styles.separator} />
-            <View style={styles.inputPicker}>
-              <View style={{ width: '50%' }}>
-                <FloatingLabelInput
-                  label="CITY/STATE *"
-                  value={formData.billingCity}
-                  onChangeText={text => handleChange('billingCity', text)}
-                />
-                {/* <TextInput
-                  style={styles.input}
-                  placeholder="CITY/STATE *"
-                  placeholderTextColor={globalColors.textColorLogin}
-                  value={formData.billingCity}
-                  onChangeText={text => handleChange('billingCity', text)}
-                /> */}
-                {errors.billingCity && (
-                  <Text style={styles.errorText}>{errors.billingCity}</Text>
-                )}
-              </View>
-              {/* <View style={styles.verticalLine} /> */}
-              <View style={styles.separator} />
-              {/* <View style={{ width: '50%' }}> */}
-              <SelectDropdown
-                data={countries}
-                search
-                searchPlaceHolder="Search Country"
-                placeholderTextColor={globalColors.textColorLogin}
-                onSelect={(selectedItem, index) => {
-                  setFormData({
-                    ...formData,
-                    selectedCountry: selectedItem.label,
-                  });
-                }}
-                renderButton={(selectedItem, isOpen) => {
-                  return (
-                    <View style={styles.dropdownButtonStyle}>
-                      <Text
-                        style={{
-                          fontFamily: 'Product Sans',
-                          fontSize: 14,
-                          color: globalColors.buttonBackground,
-                        }}>
-                        {formData.selectedCountry || 'COUNTRY *'}
-                      </Text>
-                      <Icon
-                        name={isOpen ? 'chevron-up' : 'chevron-down'}
-                        style={styles.dropdownButtonArrowStyle}
-                      />
-                    </View>
-                  );
-                }}
-                renderItem={(item, index, isSelected) => {
-                  return (
-                    <View
-                      style={{
-                        ...styles.dropdownItemStyle,
-                        ...(isSelected && { backgroundColor: '#D2D9DF' }),
-                      }}>
-                      <Text style={styles.dropdownItemTxtStyle}>
-                        {item.label}
-                      </Text>
-                    </View>
-                  );
-                }}
-              />
-              <View style={styles.separator} />
-
-              <Pressable onPress={handleCheckboxPress}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    // marginBottom: hp('1.5%'),
-                    marginLeft: hp('3%'),
-                    height: hp('6.5%'),
-                    // marginTop: hp('2%'),
-                    alignItems: 'center',
-                  }}>
-                  <View style={styles.CheckBoxContainer}>
-                    {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
-                  </View>
-                  <Text
+                <Pressable onPress={handleCheckboxPress}>
+                  <View
                     style={{
-                      fontSize: 14,
-                      fontWeight: '400',
-                      textTransform: 'uppercase',
-                      color: globalColors.buttonBackground,
+                      flexDirection: 'row',
+                      // marginBottom: hp('1.5%'),
+                      marginLeft: hp('3%'),
+                      height: hp('6.5%'),
+                      // marginTop: hp('2%'),
+                      alignItems: 'center',
                     }}>
-                    ship to different address
-                  </Text>
-                </View>
-              </Pressable>
-              {/* </View> */}
+                    <View style={styles.CheckBoxContainer}>
+                      {isCheckbox && <Text style={styles.checkedMark}>✓</Text>}
+                    </View>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '400',
+                        fontFamily: 'Intrepid Regular',
+                        color: globalColors.buttonBackground,
+                      }}>
+                      Same billing address
+                    </Text>
+                  </View>
+                </Pressable>
+                {/* </View> */}
+              </View>
             </View>
           </View>
           <View
@@ -965,18 +1015,26 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               style={{
                 backgroundColor: globalColors.white,
                 marginTop: hp('2%'),
-                borderRadius: 5,
+                borderRadius: 10,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 2,
               }}>
               <View style={styles.headingInput}>
-                <Text style={styles.formHeadingText}>shipping Information</Text>
+                <Text style={styles.formHeadingText}>Billing Information</Text>
               </View>
-              <View style={{ width: '70%' }}>
-                <FloatingLabelInput
-                  label="FIRST NAME *"
-                  value={formData.firstNameShipping}
-                  onChangeText={text => handleChange('firstNameShipping', text)}
-                />
-                {/* <TextInput
+              <View style={{
+                borderRadius: 10,
+              }}>
+                <View style={{ width: '70%' }}>
+                  <FloatingLabelInput
+                    label="FIRST NAME"
+                    value={formData.firstNameShipping}
+                    onChangeText={text => handleChange('firstNameShipping', text)}
+                  />
+                  {/* <TextInput
                 style={styles.input}
                 placeholder="FIRST NAME *"
                 placeholderTextColor={globalColors.textColorLogin}
@@ -984,54 +1042,54 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 onChangeText={text => handleChange('firstNameShipping', text)}
               /> */}
 
-                {errors.firstNameShipping && (
-                  <Text
-                    style={{
-                      color: 'red',
-                      fontSize: 12,
-                      // marginTop: hp('1%'),
-                      marginBottom: hp('1.5%'),
-                      marginLeft: wp('-20%'),
-                    }}>
-                    {errors.firstNameShipping}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.separator} />
-              {/* <TextInput
+                  {errors.firstNameShipping && (
+                    <Text
+                      style={{
+                        color: 'red',
+                        fontSize: 12,
+                        // marginTop: hp('1%'),
+                        marginBottom: hp('1.5%'),
+                        marginLeft: wp('-20%'),
+                      }}>
+                      {errors.firstNameShipping}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.separator} />
+                {/* <TextInput
               style={styles.input}
               placeholder="LAST NAME *"
               placeholderTextColor={globalColors.textColorLogin}
               value={formData.lastNameShipping}
               onChangeText={text => handleChange('lastNameShipping', text)}
-            /> */}
-              <FloatingLabelInput
-                label="LAST NAME *"
-                value={formData.lastNameShipping}
-                onChangeText={text => handleChange('lastNameShipping', text)}
-              />
-              {errors.lastNameShipping && (
-                <Text style={styles.errorText}>{errors.lastNameShipping}</Text>
-              )}
-              <View style={styles.separator} />
+             /> */}
+                <FloatingLabelInput
+                  label="LAST NAME"
+                  value={formData.lastNameShipping}
+                  onChangeText={text => handleChange('lastNameShipping', text)}
+                />
+                {errors.lastNameShipping && (
+                  <Text style={styles.errorText}>{errors.lastNameShipping}</Text>
+                )}
+                <View style={styles.separator} />
 
-              {/* <TextInput
+                {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 1 *"
               placeholderTextColor={globalColors.textColorLogin}
               value={formData.shippingAddress}
               onChangeText={text => handleChange('shippingAddress', text)}
-            /> */}
-              <FloatingLabelInput
-                label="ADDRESS LINE 1 *"
-                value={formData.shippingAddress}
-                onChangeText={text => handleChange('shippingAddress', text)}
-              />
-              {errors.shippingAddress && (
-                <Text style={styles.errorText}>{errors.shippingAddress}</Text>
-              )}
-              <View style={styles.separator} />
-              {/* <TextInput
+             /> */}
+                <FloatingLabelInput
+                  label="ADDRESS LINE 1"
+                  value={formData.shippingAddress}
+                  onChangeText={text => handleChange('shippingAddress', text)}
+                />
+                {errors.shippingAddress && (
+                  <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+                )}
+                <View style={styles.separator} />
+                {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 2"
               placeholderTextColor={globalColors.textColorLogin}
@@ -1039,79 +1097,83 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               onChangeText={text =>
                 setFormData({ ...formData, shippingAddressContinued: text })
               }
-            /> */}
-              <FloatingLabelInput
-                label="ADDRESS LINE 2 *"
-                value={formData.shippingAddressContinued}
-                onChangeText={text =>
-                  handleChange('shippingAddressContinued', text)
-                }
-              />
-              <View style={styles.separator} />
-              {/* <View style={styles.inputPicker}> */}
-              {/* <View style={{ width: '50%' }}> */}
-              {/* <TextInput
+             /> */}
+                <FloatingLabelInput
+                  label="ADDRESS LINE 2"
+                  value={formData.shippingAddressContinued}
+                  isRequired={false}
+                  onChangeText={text =>
+                    handleChange('shippingAddressContinued', text)
+                  }
+                />
+                <View style={styles.separator} />
+                {/* <View style={styles.inputPicker}> */}
+                {/* <View style={{ width: '50%' }}> */}
+                {/* <TextInput
               style={styles.input}
               placeholder="CITY/STATE *"
               placeholderTextColor={globalColors.textColorLogin}
               value={formData.shippingCity}
               onChangeText={text => handleChange('shippingCity', text)}
-            /> */}
-              <FloatingLabelInput
-                label="CITY/STATE *"
-                value={formData.shippingCity}
-                onChangeText={text => handleChange('shippingCity', text)}
-              />
-              {errors.shippingCity && (
-                <Text style={styles.errorText}>{errors.shippingCity}</Text>
-              )}
-              {/* </View> */}
-              {/* <View style={styles.verticalLine} /> */}
-              <View style={styles.separator} />
-              {/* <View style={{ width: '50%' }}> */}
-              <SelectDropdown
-                data={countries}
-                search
-                searchPlaceHolder="Search Country"
-                searchInputStyle={{ fontFamily: 'Product Sans' }}
-                onSelect={(selectedItem, index) => {
-                  setFormData({
-                    ...formData,
-                    selectedCountryShipping: selectedItem.label,
-                  });
-                }}
-                renderButton={(selectedItem, isOpen) => {
-                  return (
-                    <View style={styles.dropdownButtonStyle}>
-                      <Text
+              /> */}
+                <FloatingLabelInput
+                  label="CITY/STATE"
+                  value={formData.shippingCity}
+                  onChangeText={text => handleChange('shippingCity', text)}
+                />
+                {errors.shippingCity && (
+                  <Text style={styles.errorText}>{errors.shippingCity}</Text>
+                )}
+                {/* </View> */}
+                {/* <View style={styles.verticalLine} /> */}
+                <View style={styles.separator} />
+                {/* <View style={{ width: '50%' }}> */}
+                <SelectDropdown
+                  data={countries}
+                  search
+                  searchPlaceHolder="Search Country"
+                  searchInputStyle={{ fontFamily: 'Product Sans' }}
+                  onSelect={(selectedItem, index) => {
+                    setFormData({
+                      ...formData,
+                      selectedCountryShipping: selectedItem.label,
+                    });
+                  }}
+                  renderButton={(selectedItem, isOpen) => {
+                    return (
+                      <View style={styles.dropdownButtonStyle}>
+                        <Text
+                          style={{
+                            fontFamily: 'Product Sans',
+                            fontSize: 14,
+                            color: globalColors.buttonBackground,
+                          }}>
+                          {formData.selectedCountryShipping || 'COUNTRY *'}
+                        </Text>
+                        <Icon
+                          name={isOpen ? 'chevron-up' : 'chevron-down'}
+                          style={styles.dropdownButtonArrowStyle}
+                        />
+                      </View>
+                    );
+                  }}
+                  renderItem={(item, index, isSelected) => {
+                    return (
+                      <View
                         style={{
-                          fontFamily: 'Product Sans',
-                          fontSize: 14,
-                          color: globalColors.buttonBackground,
+                          ...styles.dropdownItemStyle,
+                          ...(isSelected && { backgroundColor: '#D2D9DF' }),
                         }}>
-                        {formData.selectedCountryShipping || 'COUNTRY *'}
-                      </Text>
-                      <Icon
-                        name={isOpen ? 'chevron-up' : 'chevron-down'}
-                        style={styles.dropdownButtonArrowStyle}
-                      />
-                    </View>
-                  );
-                }}
-                renderItem={(item, index, isSelected) => {
-                  return (
-                    <View
-                      style={{
-                        ...styles.dropdownItemStyle,
-                        ...(isSelected && { backgroundColor: '#D2D9DF' }),
-                      }}>
-                      <Text style={styles.dropdownItemTxtStyle}>
-                        {item.label}
-                      </Text>
-                    </View>
-                  );
-                }}
-              />
+                        <Text style={styles.dropdownItemTxtStyle}>
+                          {item.label}
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
+
+
+              </View>
               {/* </View> */}
               {/* </View> */}
             </View>
@@ -1142,6 +1204,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                     fontSize: 10,
                     fontWeight: '400',
                     backgroundColor: globalColors.white,
+                    fontFamily: 'Intrepid Regular',
                     width: wp('9%'),
                     marginBottom: wp('1%'),
                   }}>
@@ -1238,7 +1301,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
           data={data}
         />
       </SafeAreaView>
-    </ScrollView>
+    </ScrollView >
   );
 };
 
@@ -1257,7 +1320,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     marginVertical: 5,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   custborder: {
     borderWidth: 0.8,
@@ -1282,7 +1345,7 @@ const styles = StyleSheet.create({
   custfontstyle: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
     fontSize: 16,
     fontWeight: '700',
   },
@@ -1308,6 +1371,8 @@ const styles = StyleSheet.create({
 
     backgroundColor: globalColors.headingBackgroundLogin,
     fontWeight: '800',
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
     fontSize: 14,
     fontFamily: 'Product Sans',
   },
@@ -1315,7 +1380,7 @@ const styles = StyleSheet.create({
     padding: wp('2%'),
     fontSize: 12,
     fontWeight: '800',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
     textTransform: 'uppercase',
     color: globalColors.textColorSignup,
   },
@@ -1350,6 +1415,8 @@ const styles = StyleSheet.create({
   dropdownButtonStyle: {
     // height: 50,
     height: hp('6.5%'),
+    marginTop: wp('2%'),
+
     fontSize: wp('3.1%'),
     backgroundColor: globalColors.white,
     flexDirection: 'row',
@@ -1375,14 +1442,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 12,
     justifyContent: 'center',
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
 
     alignItems: 'center',
     paddingVertical: 8,
   },
   dropdownItemTxtStyle: {
     flex: 1,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
 
     fontSize: wp('3.1%'),
     fontWeight: '500',
@@ -1410,7 +1477,7 @@ const styles = StyleSheet.create({
   },
   textheading: {
     fontSize: 16,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     marginBottom: wp('3%'),
     color: globalColors.black,
     fontWeight: '400',

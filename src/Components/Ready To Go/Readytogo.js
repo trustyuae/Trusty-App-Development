@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     // borderRadius: hp('2%'),
-    width: wp('30%'),
+    width: wp('27%'),
     height: hp('30%'),
     resizeMode: 'contain',
     position: 'relative',
@@ -178,11 +178,11 @@ const styles = StyleSheet.create({
   detailsContainer: {
     marginTop: hp('1%'),
     height: hp('10%'),
-    width: wp('46%'),
+    width: wp('30%'),
     justifyContent: 'center',
   },
   name: {
-    width: wp("44%"),
+    width: wp("30%"),
     fontSize: 18,
     fontWeight: '400',
     textTransform: 'capitalize',
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   saveImagea: {
     position: 'absolute',
     marginTop: wp('0.1%'),
-    marginLeft: wp('30%'),
+    marginLeft: wp('22%'),
     padding: 12,
     left: 15,
   },
@@ -213,13 +213,13 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 5,
-    width: wp('46%'),
-    height: hp('21%'),
+    width: wp('40%'),
+    height: hp('19%'),
     resizeMode: 'contain',
   },
   dummy: {
     borderRadius: 5,
-    width: wp('46%'),
+    width: wp('40%'),
     height: hp('21%'),
   },
 

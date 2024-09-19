@@ -130,7 +130,10 @@ const SeeAll = ({ navigation }) => {
     <SafeAreaView style={styles.safeAreaView}>
       {/* <ScrollView> */}
       <CustomStatusBar color={globalColors.headingBackground} />
+      <Text style={styles.mainHeading}>Ready To Go </Text>
+
       <View style={styles.container}>
+
         <View
           style={{
             borderBottomWidth: 1,
@@ -263,6 +266,13 @@ const styles = StyleSheet.create({
   productContainer: {
     justifyContent: 'space-around',
   },
+  mainHeading: {
+    fontSize: 25,
+    // textTransform: 'uppercase',
+    fontFamily: 'Intrepid Regular',
+    color: globalColors.black,
+    marginLeft: wp('2.5%'),
+  },
   container: {
     padding: 5,
     flex: 1,
@@ -274,7 +284,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noRecordText: {
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   loadMoreButton: {
     backgroundColor: globalColors.black,
@@ -293,7 +303,7 @@ const styles = StyleSheet.create({
   loadMoreButtonText: {
     fontSize: 14,
     color: globalColors.white,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     textAlign: 'center',
   },
   dropdownItemStyle: {

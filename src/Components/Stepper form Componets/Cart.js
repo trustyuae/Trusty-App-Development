@@ -311,7 +311,10 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                 You have {viewcartdata?.cart_count} items in your cart
               </Text>
 
-              <View style={styles.custborder} />
+              {
+                viewcartdata?.cart_count ? <View style={styles.custborder} /> : ''
+              }
+
 
               {loading ? (
                 <View style={{ padding: 10 }}>
@@ -335,9 +338,9 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                         style={{
                           marginVertical: 15,
                           flexDirection: 'row',
-                          gap: 10,
+                          gap: wp('1.5%'),
                           position: 'relative',
-                          transform: [{ translateX: selectedItem === Item.key ? -40 : 0 }],
+                          transform: [{ translateX: selectedItem === Item.key ? wp('-15%') : 0 }],
                           transition: 'transform 0.3s ease',
                         }}>
                         {/* <Icon
@@ -1382,12 +1385,12 @@ const styles = StyleSheet.create({
   },
   custcontactusbtn: {
     backgroundColor: globalColors.white,
-    padding: 12,
+    // padding: 12,
     // marginVertical: 20,
     // position: 'absolute',
     height: wp('10%'),
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: wp('50%'),
     marginBottom: 25,
     borderRadius: 7,

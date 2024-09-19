@@ -1010,6 +1010,8 @@ const Shop = ({ navigation }) => {
                         padding: 7,
                         borderRadius: 20,
                         paddingLeft: 20,
+                        paddingRight: 20,
+
                     }}>
                         <TextInput
                             style={styles.inputfield}

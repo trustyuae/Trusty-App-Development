@@ -36,6 +36,8 @@ export const checkIcon = require('../Assets/Icons/checkIconThankyouPage.png');
 export const tabby = require('../Assets/Icons/tabby.png')
 export const emailIconBlack = require('../Assets/Icons/emailIconBlack.png')
 export const whatsappIcon = require('../Assets/Icons/whatsappIcon.png')
+export const tabbyIcon = require('../Assets/Icons/tabbyHomePageImage.png')
+export const AdornImage = require('../Assets/Icons/AdornImage.png')
 
 //*************************************************Exported Images**********************
 

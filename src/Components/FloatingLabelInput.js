@@ -6,7 +6,7 @@ import {
 } from 'react-native-responsive-screen';
 import { globalColors } from '../Assets/Theme/globalColors';
 
-const FloatingLabelInput = ({ label, value, onChangeText }) => {
+const FloatingLabelInput = ({ label, value, onChangeText, isRequired = true }) => {
     const [isFocused, setIsFocused] = useState(false);
     const [labelPosition] = useState(new Animated.Value(value ? 1 : 0));
 
@@ -48,7 +48,6 @@ const FloatingLabelInput = ({ label, value, onChangeText }) => {
         paddingHorizontal: hp('1%'), // Adjust padding to fit label
     };
     const handlePressOutside = () => {
-        // Dismiss keyboard when pressing outside the input
         Keyboard.dismiss();
         handleFocus();
         handleBlur();
@@ -59,6 +58,7 @@ const FloatingLabelInput = ({ label, value, onChangeText }) => {
             <View style={{ paddingTop: hp('2%'), }}>
                 <Animated.Text style={labelStyle}>
                     {label}
+                    {isRequired && <Text style={{ color: 'red' }}>*</Text>}
                 </Animated.Text>
                 <TextInput
                     style={[styles.input, isFocused && styles.inputFocused]}
@@ -66,7 +66,7 @@ const FloatingLabelInput = ({ label, value, onChangeText }) => {
                     onChangeText={onChangeText}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
-                    placeholder="" // Disable default placeholder to use floating label
+                    placeholder=""
                 />
             </View>
         </TouchableWithoutFeedback >

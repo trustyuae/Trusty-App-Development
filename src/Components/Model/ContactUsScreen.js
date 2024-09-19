@@ -44,7 +44,7 @@ const ContactUsScreen = ({ onClose, visible }) => {
                         <Text style={styles.modalText}>Saturday & Sunday are OFF</Text>
                         <View style={{ justifyContent: 'center', alignContent: 'center' }}>
                             <View style={[styles.icons, { marginVertical: wp('4%') }]}>
-                                <Image style={{ width: 30, height: 30, marginRight: wp('3%') }} source={whatsappIcon}></Image>
+                                <Image style={{ width: 35, height: 35, marginRight: wp('3%'), marginLeft: wp('-1.2%') }} source={whatsappIcon}></Image>
                                 <View>
                                     <Text style={styles.modalInfoText}>Chat with us on WhatsApp </Text>
                                     <Text style={styles.modalInfoText}>+971 50 623 3092</Text>

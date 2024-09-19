@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -9,6 +9,7 @@ import {
   View,
   Image,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons'; // or use @expo/vector-icons
 
 import { Images } from '../../Constants/index';
 import {
@@ -34,6 +35,7 @@ import { ImageBackground } from 'react-native';
 import SkeletonLoaderHomeimg from '../../Components/Loader/SkeletonLoaderHomeimg';
 import { getSignatureSelectionsData } from '../../Redux/Slice/signatureSelections';
 import { fontFamily } from '../../Assets/Theme/fontFamily';
+import { AdornImage, tabbyIcon } from '../../Constants/Icons';
 
 const categoriesx = [
   {
@@ -177,8 +179,26 @@ const Home = () => {
   // const [wishlist, setWishlist] = useState([]);
   const [wishlist, setWishlist] = useState([items].map(item => ({ id: item })));
   // console.log('inside home---->', products);
+  const scrollViewRef = useRef(null);
 
+  const scrollLeft = () => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: Math.max(scrollViewRef.current.contentOffset?.x - 168, 0),
+        animated: true,
+      });
+    }
+  };
 
+  // Function to scroll the ScrollView to the right
+  const scrollRight = () => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: scrollViewRef.current.contentOffset?.x + 168,
+        animated: true,
+      });
+    }
+  };
 
 
   useEffect(() => {
@@ -300,7 +320,7 @@ const Home = () => {
               tintColor={globalColors.black}
             />
           }>
-          <View style={{ paddingHorizontal: wp('2%') }}>
+          <View style={{}}>
             <View
               style={{
                 justifyContent: 'center',
@@ -311,15 +331,24 @@ const Home = () => {
                 source={Images.homeScreenBackground}
                 style={styles.Topimg}></Image>
             </View>
+
+            <View style={{ alignItems: 'center' }}>
+              <Image style={{ width: 250, height: 100 }} resizeMode='contain'
+                source={tabbyIcon}>
+
+              </Image>
+            </View>
             {
-              <CategoryComoponent
-                // getData={getData}
-                getData={categories}
-                navigateToCategoryProducts={navigateToCategoryProducts}
-              />
+              <View style={{ paddingHorizontal: wp('2.3%') }}>
+                <CategoryComoponent
+                  // getData={getData}
+                  getData={categories}
+                  navigateToCategoryProducts={navigateToCategoryProducts}
+                />
+              </View>
             }
 
-            <View style={{ marginHorizontal: 5, margin: 15 }}>
+            {/* <View style={{ marginHorizontal: 5, margin: 15 }}>
               <View
                 style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={[styles.customheading]}>Ready to go</Text>
@@ -340,6 +369,22 @@ const Home = () => {
                     height={10}></Image>
                 </Text>
               </View>
+            </View> */}
+            <View style={{
+              alignItems: 'center', borderRadius: 25, top: 10
+            }}>
+              <Pressable onPress={() => navigation.navigate('SeeAll')}>
+                <Image style={{
+                  width: wp('94%'),
+                  borderRadius: wp('3%'),
+                  height: hp('23%'),
+
+                }} source={Images.readyToGoImage}
+
+                >
+                </Image>
+              </Pressable>
+              <Text style={styles.heading}>Ready To Go</Text>
             </View>
             {/* <PreviewImage uri={previewimages.previewImages} /> */}
             {/* <Text style={styles.heading}>Ready To Go</Text> */}
@@ -372,10 +417,54 @@ const Home = () => {
               </ScrollView>
             </View> */}
             {/* ----- */}
+
+            <View style={{
+              marginLeft: wp('3'),
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: hp('3.5%'),
+              marginTop: hp('1%')
+              // marginVertical: hp('1%')
+            }}>
+              <View>
+                <Text style={{
+                  fontWeight: '800',
+                  fontSize: 30,
+                  color: 'black',
+                  marginLeft: wp('5%'),
+                  fontFamily: fontFamily.fontFamilyIntrepid,
+                }}>
+                  Adorn your arm
+                </Text>
+                <Text style={{
+                  fontWeight: '800',
+                  fontSize: 28,
+                  color: 'black',
+                  marginTop: wp('-1%'),
+                  fontFamily: fontFamily.fontFamilyIntrepid,
+                }}>with an iconic piece</Text>
+              </View>
+              <Image
+                source={AdornImage}
+                height={40}
+                width={40}
+                style={{ height: 60, width: 60, marginLeft: wp('-5%'), alignContent: 'center' }}></Image>
+
+            </View>
+
+
             <View style={styles.categoryContainer}>
+              <Pressable onPress={scrollLeft} style={styles.arrowButton}>
+                <Icon name="keyboard-arrow-left" size={30} color="black" />
+              </Pressable>
               <ScrollView
+                ref={scrollViewRef}
                 horizontal={true}
-                showsHorizontalScrollIndicator={false}>
+                showsHorizontalScrollIndicator={false}
+                onScroll={({ nativeEvent }) => {
+                  scrollViewRef.current.contentOffset = nativeEvent.contentOffset; // Capture the scroll position
+                }}
+                scrollEventThrottle={16}>
                 {redytogoStatus === 'loading' ? (
                   <View style={{ marginLeft: wp('2.5%') }}>
                     <SkeletonLoader count={6} />
@@ -408,22 +497,16 @@ const Home = () => {
                     ))
                 )}
               </ScrollView>
+              <Pressable onPress={scrollRight} style={styles.arrowButton}>
+                <Icon name="keyboard-arrow-right" size={30} color="black" />
+              </Pressable>
             </View>
 
           </View>
 
-          {/* <View style={{
-            alignItems: 'center', borderRadius: 25
-          }}>
-            <Image style={{
-              width: wp('96%'),
-              height: hp('20%'),
-            }} resizeMode='contain' source={Images.readyToGoImage}>
-            </Image>
-            <Text style={styles.heading}>Ready To Go</Text>
-          </View> */}
+
           <View style={{ backgroundColor: globalColors.headingBackground }}>
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: 30 }}>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={[styles.customheading, styles.custommargin]}>
                   MUST HAVE
@@ -602,8 +685,8 @@ const Home = () => {
             </View>
           </View>
         </ScrollView>
-      </View>
-    </SafeAreaView>
+      </View >
+    </SafeAreaView >
   );
 };
 const styles = StyleSheet.create({
@@ -640,10 +723,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   categoryContainer: {
-    marginTop: 20,
+    // marginTop: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    // backgroundColor: 'red'
   },
   image: {
     width: 100,
@@ -661,7 +745,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginTop: hp('2%'),
     marginBottom: hp('2%'),
-    color: globalColors.black,
+    color: globalColors.textColorLogin,
   },
   onBackPress: {
     alignItems: 'flex-start',
@@ -734,6 +818,20 @@ const styles = StyleSheet.create({
     marginBottom: hp('11%'),
     alignContent: 'center',
     gap: hp('1%'),
+  },
+  arrowButton: {
+    // position: 'absolute',
+    top: '50%',
+    zIndex: 1,
+    justifyContent: 'center',
+    marginTop: wp('-10%')
+    // padding: 10,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: '400',
+    color: 'black', fontFamily: fontFamily.fontFamilyIntrepid,
+
   },
 });
 export default Home;

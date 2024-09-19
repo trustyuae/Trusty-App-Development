@@ -48,132 +48,134 @@ const Confirmation = ({ setCount, total }) => {
     };
     fetchData();
   }, []);
-  console.log('=============>orderinfo*******************', orderdata?.line_items?.[0]?.name)
+  console.log('=============>orderinfo*******************', orderdata?.line_items)
 
   return (
     <SafeAreaView>
-      <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
+      <ScrollView>
+        <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-      <View
-        style={{
-          backgroundColor: globalColors.white,
-          height: hp('90%'),
-          width: wp('100%'),
-  }}
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}>
-        <View style={styles.container}>
-          <View style={styles.imageContainer}>
-            <Image width={58} height={58}
-                style={{ 
-               height:hp('10%'), 
-               width:hp('10%')
-               }} source={checkIcon}>
+        <View
+          style={{
+            backgroundColor: globalColors.white,
+            // height: hp('90%'),
+            width: wp('100%'),
+          }}
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}>
+          <View style={styles.container}>
+            <View style={styles.imageContainer}>
+              <Image width={58} height={58}
+                style={{
+                  height: hp('10%'),
+                  width: hp('10%')
+                }} source={checkIcon}>
 
-               </Image>
-          </View>
-          <Text style={styles.MainHeading}>Thank You</Text>
-          <View style={styles.subHeadingContainer}>
-            <Text style={styles.subHeadingOrder}>your order has been recevied</Text>
-            <Text style={styles.subHeading}>We appreciate your business. You'll receive an email confirmation shortly.</Text>
-            {/* <Text style={styles.subHeading}> */}
+              </Image>
+            </View>
+            <Text style={styles.MainHeading}>Thank You</Text>
+            <View style={styles.subHeadingContainer}>
+              <Text style={styles.subHeadingOrder}>your order has been recevied</Text>
+              <Text style={styles.subHeading}>We appreciate your business. You'll receive an email confirmation shortly.</Text>
+              {/* <Text style={styles.subHeading}> */}
 
-            {/* </Text> */}
-          </View>
-          {/* <Text style={styles.MainHeading}>ORDER DETAILS</Text> */}
-          <View style={{ backgroundColor: globalColors.white, marginBottom: wp('5%') ,borderRadius:5}}>
-            <View style={styles.table}>
-              <View style={styles.row}>
-                <View style={styles.cell}>
-                  <Text style={styles.label}>Order Number:</Text>
-                  <Text style={styles.value}> {orderdata?.number}</Text>
+              {/* </Text> */}
+            </View>
+            {/* <Text style={styles.MainHeading}>ORDER DETAILS</Text> */}
+            <View style={{ backgroundColor: globalColors.white, marginBottom: wp('5%'), borderRadius: 5 }}>
+              <View style={styles.table}>
+                <View style={styles.row}>
+                  <View style={styles.cell}>
+                    <Text style={styles.label}>Order Number:</Text>
+                    <Text style={styles.value}> {orderdata?.number}</Text>
 
+                  </View>
+                  <View style={styles.cell}>
+                    <Text style={styles.label}>Date:</Text>
+                    <Text style={styles.value}>
+                      {/* May 9, 2024 */}
+                      {formattedDate}
+                    </Text>
+
+                  </View>
                 </View>
-                <View style={styles.cell}>
-                  <Text style={styles.label}>Date:</Text>
-                  <Text style={styles.value}>
-                    {/* May 9, 2024 */}
-                    {formattedDate}
-                  </Text>
+                <View style={[styles.separator, { width: '85%', }]} />
 
-                </View>
-              </View>
-              <View style={[styles.separator,{ width: '85%',}]} />
+                <View style={styles.row}>
+                  <View style={styles.cell}>
+                    {/* <Text style={styles.value}>200.00 AED</Text> */}
+                    <Text style={styles.label}>Payment method:</Text>
+                    <Text style={styles.value}> {orderdata?.payment_method_title}</Text>
 
-              <View style={styles.row}>
-                <View style={styles.cell}>
-                  {/* <Text style={styles.value}>200.00 AED</Text> */}
-                  <Text style={styles.label}>Payment method:</Text>
-                  <Text style={styles.value}> {orderdata?.payment_method_title}</Text>
-
-                </View>
-                <View style={styles.cell}>
-                  <Text style={styles.label}>Total:</Text>
-                  <Text style={[styles.value, { color: globalColors.lightgold, fontWeight: '700' }]}>{orderdata?.shipping_lines[0]?.total} {orderdata?.currency}</Text>
+                  </View>
+                  <View style={styles.cell}>
+                    <Text style={styles.label}>Total:</Text>
+                    <Text style={[styles.value, { color: globalColors.lightgold, fontWeight: '700' }]}>{orderdata?.shipping_lines[0]?.total} {orderdata?.currency}</Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-        </View >
-        {/* <View style={styles.imageContainer1}>
+          </View >
+          {/* <View style={styles.imageContainer1}>
             <Image source={Images.confirmationTick}></Image>
           </View> */}
-        <View style={{
-          paddingLeft: wp('5%'),
-          paddingRight: wp('5%'),
-          height:'auto'
-        }}>
-          <Text style={{
-            textTransform: 'capitalize',
-            fontSize: 16,
-            fontWeight: '400',
-            fontFamily: 'Product Sans',
-            marginVertical: wp('5%')
+          <View style={{
+            paddingLeft: wp('5%'),
+            paddingRight: wp('5%'),
+            height: 'auto'
           }}>
-            Ordered items
+            <Text style={{
+              textTransform: 'capitalize',
+              fontSize: 16,
+              fontWeight: '400',
+              fontFamily: 'Product Sans',
+              marginVertical: wp('5%')
+            }}>
+              Ordered items
             </Text>
-          <View style={styles.separator} />
-          <View style={{ flexDirection: 'row', marginTop: wp('5%') }}>
-            <Image style={{ width: 80, height: 80 }} source={Dummyproduct3}></Image>
-            <View style={{ paddingLeft: wp('5%') }}>
-              <Text style={styles.custText}>{orderdata?.line_items?.[0]?.name}</Text>
-              <View style={{ flexDirection: 'row', gap: wp('5%') }}><Text
-                style={styles.productCart}>
-                Color :{' '}
-                <Text style={{ color: globalColors.black }}>
-                  {/* {Item?.mod_attributes?.color} */}
-                  Red
-                </Text>
-              </Text>
-                <Text
+            <View style={styles.separator} />
+            <View style={{ flexDirection: 'row', marginTop: wp('5%') }}>
+              <Image style={{ width: 80, height: 80 }} source={Dummyproduct3}></Image>
+              <View style={{ paddingLeft: wp('5%') }}>
+                <Text style={styles.custText}>{orderdata?.line_items?.[0]?.name}</Text>
+                <View style={{ flexDirection: 'row', gap: wp('5%') }}><Text
                   style={styles.productCart}>
-                  Size :{' '}
+                  Color :{' '}
                   <Text style={{ color: globalColors.black }}>
                     {/* {Item?.mod_attributes?.color} */}
-                    23
+                    {/* Red */}
                   </Text>
                 </Text>
-              </View>
-              <View>
+                  <Text
+                    style={styles.productCart}>
+                    quantity :{' '}
+                    <Text style={{ color: globalColors.black }}>
+                      {/* {Item?.mod_attributes?.color} */}
+                      {orderdata?.line_items?.[0]?.quantity}
+                      {/* 23 */}
+                    </Text>
+                  </Text>
+                </View>
+                <View>
 
-                <Text style={styles.custText}>
-                  {/* {viewcartdata?.discount_sub_total} AED */}
-                  {orderdata?.shipping_lines[0]?.total} {orderdata?.currency}
-                </Text>
+                  <Text style={styles.custText}>
+                    {/* {viewcartdata?.discount_sub_total} AED */}
+                    {orderdata?.shipping_lines[0]?.total} {orderdata?.currency}
+                  </Text>
+                </View>
               </View>
             </View>
+
+            <Button
+              stylesofbtn={styles.custbtn}
+              styleoffont={styles.custfontstyle}
+              name={'Done'}
+              handlepress={handlepress}
+            />
           </View>
-
-          <Button
-            stylesofbtn={styles.custbtn}
-            styleoffont={styles.custfontstyle}
-            name={'Done'}
-            handlepress={handlepress}
-          />
-        </View>
-      </View >
-
+        </View >
+      </ScrollView>
     </SafeAreaView >
   );
 };
@@ -186,7 +188,7 @@ const styles = StyleSheet.create({
     // width: wp('100%'),
     // height: hp('100%'),
     // marginTop: hp('2%'),
-    paddingTop: hp('4%'),
+    // paddingTop: hp('4%'),
     backgroundColor: globalColors.headingBackground,
     paddingLeft: wp('5%'),
     paddingRight: wp('5%')
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: hp('6%'),
     marginBottom: hp('2%'),
-   
+
   },
   imageContainer1: {
     // marginTop: hp('5%'),
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   subHeading: {
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
     fontSize: 16,
     marginTop: hp('2%'),
     marginBottom: hp('3%'),
@@ -259,14 +261,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     color: globalColors.mediumGray,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   value: {
     fontSize: 16,
     fontWeight: '400',
-    marginTop:wp('1%'),
+    marginTop: wp('1%'),
     color: globalColors.productTextColor,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Regular',
   },
   cell: {
     flex: 1,
@@ -286,7 +288,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     // marginVertical: 5,
-    fontFamily: 'Product Sans',
+    fontFamily: 'Intrepid Bold',
   },
   separator: {
     borderWidth: 0.5,
