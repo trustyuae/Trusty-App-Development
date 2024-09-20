@@ -36,6 +36,7 @@ import SkeletonLoaderHomeimg from '../../Components/Loader/SkeletonLoaderHomeimg
 import { getSignatureSelectionsData } from '../../Redux/Slice/signatureSelections';
 import { fontFamily } from '../../Assets/Theme/fontFamily';
 import { AdornImage, tabbyIcon } from '../../Constants/Icons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 const categoriesx = [
   {
@@ -369,7 +370,7 @@ const Home = () => {
                     height={10}></Image>
                 </Text>
               </View>
-            </View> */}
+             </View> */}
             <View style={{
               alignItems: 'center', borderRadius: 25, top: 10
             }}>
@@ -422,8 +423,8 @@ const Home = () => {
               marginLeft: wp('3'),
               flexDirection: 'row',
               alignItems: 'center',
-              marginBottom: hp('3.5%'),
-              marginTop: hp('1%')
+              marginBottom: hp('5%'),
+              marginTop: hp('5%')
               // marginVertical: hp('1%')
             }}>
               <View>
@@ -455,7 +456,7 @@ const Home = () => {
 
             <View style={styles.categoryContainer}>
               <Pressable onPress={scrollLeft} style={styles.arrowButton}>
-                <Icon name="keyboard-arrow-left" size={30} color="black" />
+                <SimpleLineIcons name="arrow-left" size={25} color="#7C7A78" />
               </Pressable>
               <ScrollView
                 ref={scrollViewRef}
@@ -498,7 +499,7 @@ const Home = () => {
                 )}
               </ScrollView>
               <Pressable onPress={scrollRight} style={styles.arrowButton}>
-                <Icon name="keyboard-arrow-right" size={30} color="black" />
+                <SimpleLineIcons name="arrow-right" size={25} color="#7C7A78" />
               </Pressable>
             </View>
 
@@ -506,7 +507,8 @@ const Home = () => {
 
 
           <View style={{ backgroundColor: globalColors.headingBackground }}>
-            <View style={{ marginTop: 30 }}>
+
+            {/* <View style={{ marginTop: 30 }}>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={[styles.customheading, styles.custommargin]}>
                   MUST HAVE
@@ -524,10 +526,10 @@ const Home = () => {
                     HER
                   </Text>
                 </Text>
-              </View>
+              </View> */}
 
-              {/* <View style={{flexDirection: 'row', marginTop: 15}}> */}
-              {/* <View style={styles.productContainer}>
+            {/* <View style={{flexDirection: 'row', marginTop: 15}}> */}
+            {/* <View style={styles.productContainer}>
               {true && wishlist.length === 0 ? (
                 <View style={{marginLeft: wp('1.5%'), flexWrap: 'wrap'}}>
                   <SkeletonLoader count={2} />
@@ -555,20 +557,16 @@ const Home = () => {
                 ))
               )}
             </View> */}
-              {/* </ScrollView> */}
-              <View
+            {/* </ScrollView> */}
+            {/* <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center', alignItems: 'center',
                   flexWrap: 'wrap',
-                  // marginHorizontal: 5,
                   gap: 10
-                  // marginTop: 20,
-                  // marginLeft: 2,
-                  // columnGap: 10,
-                  // backgroundColor:"blue"
-                }}>
-                {/* <TouchableOpacity
+                 
+                }}> */}
+            {/* <TouchableOpacity
                 onPress={onBackPress}
                 disabled={startIndex === 0}
                 style={{
@@ -582,8 +580,8 @@ const Home = () => {
                     color={globalColors.white}
                   />
                 </View>
-              </TouchableOpacity> */}
-                {/* <TouchableOpacity
+                </TouchableOpacity> */}
+            {/* <TouchableOpacity
                 onPress={onNextPress}
                 disabled={startIndex + 4 >= products.length}
                 style={{
@@ -598,9 +596,9 @@ const Home = () => {
                     color={globalColors.white}
                   />
                 </View>
-              </TouchableOpacity> */}
-                {/* <View style={styles.productContainer}> */}
-                {true && wishlist.length === 0 ? (
+                </TouchableOpacity> */}
+            {/* <View style={styles.productContainer}> */}
+            {/* {true && wishlist.length === 0 ? (
                   <View
                     style={{
                       flexDirection: 'row',
@@ -620,8 +618,6 @@ const Home = () => {
                           isWatchList: product?.isWatchList,
                         })
                       }>
-                      {/* Console log for debugging */}
-                      {/* {console.log("product image URL:", product?.images[1]?.src)} */}
 
                       {product.image && product.image.length > 0 ? (
                         <>
@@ -649,9 +645,7 @@ const Home = () => {
                     </Pressable>
                   ))
                 )}
-                {/* </View> */}
               </View>
-              {/* </View> */}
 
               <View
                 style={{
@@ -668,10 +662,16 @@ const Home = () => {
                   loading={false}
                 />
               </View>
-            </View>
+            </View> */}
 
             {/* <HeadingImage /> */}
-            <View style={{ alignSelf: 'center', marginTop: -10 }}>
+
+
+
+            <View style={{
+              alignSelf: 'center',
+              marginTop: hp('5%')
+            }}>
               {imageLoaded && <SkeletonLoaderHomeimg />}
               <ImageBackground
                 style={styles.containerimgbackgr}
@@ -744,8 +744,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 22,
     marginTop: hp('2%'),
-    marginBottom: hp('2%'),
-    color: globalColors.textColorLogin,
+    // marginBottom: hp('2%'),
+    color: globalColors.newTextColor,
   },
   onBackPress: {
     alignItems: 'flex-start',
@@ -824,8 +824,8 @@ const styles = StyleSheet.create({
     top: '50%',
     zIndex: 1,
     justifyContent: 'center',
-    marginTop: wp('-10%')
-    // padding: 10,
+    marginTop: wp('-10%'),
+    // padding: 5,
   },
   text: {
     fontSize: 20,

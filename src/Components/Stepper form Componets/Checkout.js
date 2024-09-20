@@ -397,6 +397,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
   };
 
   const handleUpdateData = async () => {
+    handleUpdateData()
     if (!validateForm()) {
       Alert.alert('Validation Failed', 'Please correct the errors in the form');
       return;
@@ -854,12 +855,15 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               borderRadius: 5,
               // marginTop: hp('2%')
             }}>
-
               <FloatingLabelInput
                 label="ADDRESS LINE 1"
-                value={formData.address}
-                onChangeText={text => handleChange('address', text)}
+                value={formData.shippingAddress}
+                onChangeText={text => handleChange('shippingAddress', text)}
               />
+              {errors.shippingAddress && (
+                <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+              )}
+              <View style={styles.separator} />
               {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 1 *"
@@ -867,17 +871,14 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               value={formData.address}
               onChangeText={text => handleChange('address', text)}
             /> */}
-              {errors.address && (
-                <Text style={styles.errorText}>{errors.address}</Text>
-              )}
-              <View style={styles.separator} />
+
 
               <FloatingLabelInput
                 label="ADDRESS LINE 2"
+                value={formData.shippingAddressContinued}
                 isRequired={false}
-                value={formData.billingAddressContinued}
                 onChangeText={text =>
-                  handleChange('billingAddressContinued', text)
+                  handleChange('shippingAddressContinued', text)
                 }
               />
               {/* <TextInput
@@ -893,11 +894,15 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               <View style={styles.inputPicker}>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                   <View style={{ width: '50%' }}>
+
                     <FloatingLabelInput
                       label="CITY/STATE"
-                      value={formData.billingCity}
-                      onChangeText={text => handleChange('billingCity', text)}
+                      value={formData.shippingCity}
+                      onChangeText={text => handleChange('shippingCity', text)}
                     />
+                    {errors.shippingCity && (
+                      <Text style={styles.errorText}>{errors.shippingCity}</Text>
+                    )}
                     {/* <TextInput
                   style={styles.input}
                   placeholder="CITY/STATE *"
@@ -931,11 +936,11 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                   data={countries}
                   search
                   searchPlaceHolder="Search Country"
-                  placeholderTextColor={globalColors.textColorLogin}
+                  searchInputStyle={{ fontFamily: 'Product Sans' }}
                   onSelect={(selectedItem, index) => {
                     setFormData({
                       ...formData,
-                      selectedCountry: selectedItem.label,
+                      selectedCountryShipping: selectedItem.label,
                     });
                   }}
                   renderButton={(selectedItem, isOpen) => {
@@ -947,7 +952,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                             fontSize: 14,
                             color: globalColors.buttonBackground,
                           }}>
-                          {formData.selectedCountry || 'COUNTRY'}
+                          {formData.selectedCountryShipping || 'COUNTRY *'}
                         </Text>
                         <Icon
                           name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -1080,15 +1085,25 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               value={formData.shippingAddress}
               onChangeText={text => handleChange('shippingAddress', text)}
              /> */}
+
+
                 <FloatingLabelInput
                   label="ADDRESS LINE 1"
-                  value={formData.shippingAddress}
-                  onChangeText={text => handleChange('shippingAddress', text)}
+                  value={formData.address}
+                  onChangeText={text => handleChange('address', text)}
                 />
-                {errors.shippingAddress && (
-                  <Text style={styles.errorText}>{errors.shippingAddress}</Text>
+                {/* <TextInput
+              style={styles.input}
+              placeholder="ADDRESS LINE 1 *"
+              placeholderTextColor={globalColors.textColorLogin}
+              value={formData.address}
+              onChangeText={text => handleChange('address', text)}
+            /> */}
+                {errors.address && (
+                  <Text style={styles.errorText}>{errors.address}</Text>
                 )}
                 <View style={styles.separator} />
+
                 {/* <TextInput
               style={styles.input}
               placeholder="ADDRESS LINE 2"
@@ -1098,14 +1113,16 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 setFormData({ ...formData, shippingAddressContinued: text })
               }
              /> */}
+
                 <FloatingLabelInput
                   label="ADDRESS LINE 2"
-                  value={formData.shippingAddressContinued}
                   isRequired={false}
+                  value={formData.billingAddressContinued}
                   onChangeText={text =>
-                    handleChange('shippingAddressContinued', text)
+                    handleChange('billingAddressContinued', text)
                   }
                 />
+
                 <View style={styles.separator} />
                 {/* <View style={styles.inputPicker}> */}
                 {/* <View style={{ width: '50%' }}> */}
@@ -1118,25 +1135,23 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               /> */}
                 <FloatingLabelInput
                   label="CITY/STATE"
-                  value={formData.shippingCity}
-                  onChangeText={text => handleChange('shippingCity', text)}
+                  value={formData.billingCity}
+                  onChangeText={text => handleChange('billingCity', text)}
                 />
-                {errors.shippingCity && (
-                  <Text style={styles.errorText}>{errors.shippingCity}</Text>
-                )}
                 {/* </View> */}
                 {/* <View style={styles.verticalLine} /> */}
                 <View style={styles.separator} />
                 {/* <View style={{ width: '50%' }}> */}
+
                 <SelectDropdown
                   data={countries}
                   search
                   searchPlaceHolder="Search Country"
-                  searchInputStyle={{ fontFamily: 'Product Sans' }}
+                  placeholderTextColor={globalColors.textColorLogin}
                   onSelect={(selectedItem, index) => {
                     setFormData({
                       ...formData,
-                      selectedCountryShipping: selectedItem.label,
+                      selectedCountry: selectedItem.label,
                     });
                   }}
                   renderButton={(selectedItem, isOpen) => {
@@ -1148,7 +1163,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                             fontSize: 14,
                             color: globalColors.buttonBackground,
                           }}>
-                          {formData.selectedCountryShipping || 'COUNTRY *'}
+                          {formData.selectedCountry || 'COUNTRY'}
                         </Text>
                         <Icon
                           name={isOpen ? 'chevron-up' : 'chevron-down'}
@@ -1171,7 +1186,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                     );
                   }}
                 />
-
 
               </View>
               {/* </View> */}

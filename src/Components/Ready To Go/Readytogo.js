@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 5,
-    width: wp('40%'),
+    width: wp('41%'),
     height: hp('19%'),
     resizeMode: 'contain',
   },
