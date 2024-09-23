@@ -840,7 +840,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     justifyContent: 'center',
     // marginTop: wp('-15%'),
-    marginTop: hp('-6%')
+    marginTop: hp('-7%')
     // padding: 5,
   },
   text: {

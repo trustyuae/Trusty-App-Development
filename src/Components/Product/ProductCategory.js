@@ -163,7 +163,7 @@ const ProductCategory = ({ uri, name, price, product_id, isWatchList, img, descr
                 {/* <Text style={styles.name}>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</Text> */}
                 <Text style={styles.name}>{name}</Text>
                 {price ?
-                    <Text style={styles.price}>{price} AED</Text> : <Text style={styles.price}>200 AED</Text>
+                    <Text style={styles.price}>{price} AED</Text> : <Text style={styles.price}>0 AED</Text>
                 }
             </View>
         </View>

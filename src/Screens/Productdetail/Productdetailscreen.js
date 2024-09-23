@@ -341,8 +341,8 @@ export default function Productdetailscreen({ route }) {
     <GestureHandlerRootView>
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
-      <SafeAreaView style={{}}>
-        <View style={{ marginBottom: hp('8') }}>
+      <SafeAreaView style={{ justifyContent: 'center' }}>
+        <View style={{ marginBottom: responseData?.stock_status === "onbackorder" && responseData?.price > 0 ? hp('8%') : 0 }}>
           {loading ? (
             <SkeletonLoaderProductDetails />
           ) : (
@@ -372,63 +372,67 @@ export default function Productdetailscreen({ route }) {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                       }}>
-                      <View>
-                        <Text
-                          style={{
-                            color: globalColors.black,
-                            fontWeight: '400',
-                            fontSize: 22,
-                            marginBottom: 2,
-                            fontFamily: 'Intrepid Regular',
 
-                          }}>
-                          {responseData?.name}
-                        </Text>
+                      <Text
+                        style={{
+                          color: globalColors.black,
+                          fontWeight: '400',
+                          fontSize: 22,
+                          marginBottom: wp('-6%'),
+                          fontFamily: 'Intrepid Regular',
+                          // backgroundColor: 'red'
+
+                        }}>
+                        {responseData?.name}
+                      </Text>
+
+
+                    </View>
+                    <View
+                      style={{
+                        position: 'relative',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        top: hp('-50%'),
+                        // alignContent: 'flex-end',
+                        // marginRight: hp('1%'),
+                        alignContent: 'flex-end',
+                      }}>
+                      <View style={{
+                        marginRight: wp('2%'),
+                        backgroundColor: '#E8E8E8',
+                        padding: 7,
+
+                        borderRadius: 50,
+                      }}>
+                        <TouchableOpacity onPress={toggleSaved}>
+                          {isWishlist ? (
+                            <Image style={{ width: 26, height: 24 }} source={Images.SaveIconFillTransparant} />
+                          ) : (
+                            <Image style={{ width: 26, height: 24 }} source={Images.SavaIconUnFillTransparant} />
+                          )}
+                        </TouchableOpacity>
                       </View>
                       <View
                         style={{
-                          position: 'relative',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          top: hp(-'50'),
-                          // marginRight: wp('1%')
-                          // alignContent: 'flex-end',
-                        }}>
-                        <View style={{
-                          marginRight: wp('2%'),
                           backgroundColor: '#E8E8E8',
-                          padding: 7,
-
                           borderRadius: 50,
+                          alignSelf: 'center',
+                          padding: 7,
+                          marginRight: wp('2%'),
+                          overflow: 'hidden',
                         }}>
-                          <TouchableOpacity onPress={toggleSaved}>
-                            {isWishlist ? (
-                              <Image style={{ width: 26, height: 24 }} source={Images.SaveIconFillTransparant} />
-                            ) : (
-                              <Image style={{ width: 26, height: 24 }} source={Images.SavaIconUnFillTransparant} />
-                            )}
-                          </TouchableOpacity>
-                        </View>
-                        <View
-                          style={{
-                            backgroundColor: '#E8E8E8',
-                            borderRadius: 50,
-                            alignSelf: 'center',
-                            padding: 7,
-                            marginRight: wp('2%'),
-                            overflow: 'hidden',
-                          }}>
-                          <TouchableOpacity onPress={onShare}>
-                            {/* <Text>sdfds</Text> */}
-                            <Image
-                              style={{
-                                width: 25,
-                                height: 25,
-                                resizeMode: 'contain',
-                              }}
-                              source={shareIcon3x}></Image>
-                          </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity onPress={onShare}>
+                          {/* <Text>sdfds</Text> */}
+                          <Image
+                            style={{
+                              width: 25,
+                              height: 25,
+                              resizeMode: 'contain',
+                            }}
+                            source={shareIcon3x}></Image>
+                        </TouchableOpacity>
                       </View>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
@@ -476,7 +480,9 @@ export default function Productdetailscreen({ route }) {
                             ? "IN STOCK"
                             : responseData?.stock_status === "onbackorder"
                               ? "Pre-Order"
-                              : responseData?.stock_status
+                              : responseData?.stock_status === "outofstock"
+                                ? "Out Of Stock"
+                                : responseData?.stock_status
                         }
                       </Text>
                     </View>
@@ -827,14 +833,27 @@ export default function Productdetailscreen({ route }) {
           </TamaraModal> */}
 
         </View>
-        <ButtonAddToCart
+        {
+          responseData?.price > 0 && responseData?.stock_status === "onbackorder" && (
+            <ButtonAddToCart
+              stylesofbtn={styles.custbtn}
+              styleoffont={styles.custfontstyle}
+              handlepress={handlepress}
+              image={'ds'}
+              name={'Add To Cart'}
+              loading={load}
+            />
+          )
+        }
+        {/* <ButtonAddToCart
           stylesofbtn={styles.custbtn}
           styleoffont={styles.custfontstyle}
           handlepress={handlepress}
           image={'ds'}
           name={'Add To Cart'}
           loading={load}
-        />
+        /> */}
+
       </SafeAreaView >
     </GestureHandlerRootView >
   );

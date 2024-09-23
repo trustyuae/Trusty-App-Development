@@ -810,6 +810,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import axios, { Axios } from 'axios';
+import { Images } from '../../Constants';
 
 const DummyOptions = ({ options }) => (
     <ScrollView>
@@ -992,13 +993,23 @@ const Shop = ({ navigation }) => {
             <ScrollView showsVerticalScrollIndicator={false}>
 
 
-                <Icon
-                    name="arrow-back"
-                    size={25}
-                    style={{ marginTop: wp('2%'), marginLeft: wp('2%') }}
-                    color={globalColors.black}
-                    onPress={() => navigation.goBack()}
-                />
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                    <Icon
+                        name="arrow-back"
+                        size={25}
+                        style={{ marginTop: wp('2%'), marginLeft: wp('2%'), zIndex: 1 }}
+                        color={globalColors.black}
+                        onPress={() => navigation.goBack()}
+                    />
+                    <View style={{ position: 'absolute', left: 0, right: 0, alignItems: 'center' }}>
+                        <Image
+                            source={Images.Head}
+                            style={{ width: 145, height: 32, }}
+                            resizeMode="contain"
+                        />
+                    </View>
+
+                </View>
                 <View style={styles.searchContainer}>
                     <View style={{
                         flexDirection: 'row',
@@ -1102,7 +1113,7 @@ const Shop = ({ navigation }) => {
                     {renderContent()}
                 </ScrollView>}
             </ScrollView>
-        </SafeAreaView>
+        </SafeAreaView >
     );
 };
 
