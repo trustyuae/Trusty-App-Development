@@ -19,6 +19,24 @@ export const fetchProducts = createAsyncThunk('product', async () => {
   return response.data;
 });
 
+export const fetchRecentProducts = createAsyncThunk(
+  'product/fetchRecentProducts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get('/wc/v3/products', {
+        params: {
+          orderby: 'date',
+          order: 'desc',
+          per_page: 10,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const fetchCategoryProducts = createAsyncThunk(
   'product/fetchCategoryProducts',
   async ({ categoryId, page }, { getState, rejectWithValue }) => {
@@ -38,8 +56,12 @@ const productSlice = createSlice({
   name: 'product',
   initialState: {
     products: [],
+    recentProducts: [],
     categoryProducts: [],
     status: 'idle',
+    error: null,
+    recentStatus: 'idle',
+    recentError: null,
     error: null,
     currentPage: 1,
     totalProducts: 0,
@@ -72,6 +94,17 @@ const productSlice = createSlice({
       .addCase(fetchCategoryProducts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(fetchRecentProducts.pending, (state) => {
+        state.recentStatus = 'loading';
+      })
+      .addCase(fetchRecentProducts.fulfilled, (state, action) => {
+        state.recentStatus = 'succeeded';
+        state.recentProducts = action.payload;
+      })
+      .addCase(fetchRecentProducts.rejected, (state, action) => {
+        state.recentStatus = 'failed';
+        state.recentError = action.error.message;
       });
   },
 });

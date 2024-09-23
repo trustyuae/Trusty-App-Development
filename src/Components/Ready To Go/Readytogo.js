@@ -232,6 +232,8 @@ const styles = StyleSheet.create({
     color: globalColors.newTextColorProduct,
     fontSize: 18,
     fontWeight: '400',
+    // flexWrap: 'wrap',
+    width: wp('41%'),
     paddingHorizontal: wp('2%'),
     fontFamily: 'Intrepid Regular',
   },

@@ -21,7 +21,7 @@ import Product from '../../Components/Product/Product';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Pressable } from 'react-native';
 import { fetchCategories } from '../../Redux/Slice/categorySlice';
-import { fetchProducts } from '../../Redux/Slice/productSlice';
+import { fetchProducts, fetchRecentProducts } from '../../Redux/Slice/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { getToken } from '../../Utils/localstorage';
@@ -161,6 +161,8 @@ const Home = () => {
   const [newWitchList, setNewWitchList] = useState([]);
   const [updatedRedytogoProductsWishlist, SetupdatedRedytogoProductsWishlist] = useState([])
   const [updatedSignatureSelectionsProducts, SetupdatedSignatureSelectionsProducts] = useState([])
+  const [UpdatedReacetProducts, setUpdatedReacetProducts] = useState([])
+
   const dispatch = useDispatch();
   // const categoryStatus = false;
   const { categories, categoryStatus, categoryError } = useSelector(
@@ -176,6 +178,8 @@ const Home = () => {
   const { items, loading: wishlistLoading } = useSelector(
     state => state.wishlist,
   );
+  const { recentProducts, recentStatus, recentError } = useSelector((state) => state.product);
+
   const [tokenData, setTokenData] = useState(null);
   // const [wishlist, setWishlist] = useState([]);
   const [wishlist, setWishlist] = useState([items].map(item => ({ id: item })));
@@ -209,15 +213,21 @@ const Home = () => {
       dispatch(getSignatureSelectionsData());
       dispatch(fetchCategories());
       dispatch(fetchProducts());
+      dispatch(fetchRecentProducts());
     };
     fetchData();
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchRecentProducts());
+  }, [])
   useFocusEffect(
     React.useCallback(() => {
       data();
       dispatch(fetchProducts());
       dispatch(fetchRedyToGo());
+      dispatch(fetchRecentProducts());
       dispatch(getSignatureSelectionsData());
     }, [tokenData]), // Fetch data on focus or token change
   );
@@ -264,23 +274,28 @@ const Home = () => {
         ...productItem,
         isWatchList: productIds.has(productItem.id),
       }));
+      const updatedRecentProducts = recentProducts.map(productItem => ({
+        ...productItem,
+        isWatchList: productIds.has(productItem.id),
+      }));
 
       const updatedSignatureSelectionsProducts = signatureSelectionsProducts.map(productItem => ({
         ...productItem,
         isWatchList: productIds.has(productItem.id),
       }))
-
+      setUpdatedReacetProducts(updatedRecentProducts)
       SetupdatedRedytogoProductsWishlist(updatedRedytogoProducts);
       SetupdatedSignatureSelectionsProducts(updatedSignatureSelectionsProducts)
     } else if (wishlist) {
       SetupdatedRedytogoProductsWishlist(redytogoProducts);
+      setUpdatedReacetProducts(recentProducts)
       SetupdatedSignatureSelectionsProducts(signatureSelectionsProducts)
     }
   };
 
   useEffect(() => {
     data();
-  }, [items, redytogoProducts, signatureSelectionsProducts, tokenData]);
+  }, [items, redytogoProducts, signatureSelectionsProducts, tokenData, recentProducts]);
   // console.log(
   //   '------======',
   //   wishlist?.map(data => console.log(data.isWatchList)),
@@ -466,12 +481,12 @@ const Home = () => {
                   scrollViewRef.current.contentOffset = nativeEvent.contentOffset; // Capture the scroll position
                 }}
                 scrollEventThrottle={16}>
-                {redytogoStatus === 'loading' ? (
+                {recentStatus === 'loading' ? (
                   <View style={{ marginLeft: wp('2.5%') }}>
                     <SkeletonLoader count={6} />
                   </View>
                 ) : (
-                  updatedRedytogoProductsWishlist
+                  UpdatedReacetProducts
                     .slice(startIndex, startIndex + 10)
                     .map(product => (
                       <>
@@ -486,7 +501,7 @@ const Home = () => {
                           <Readytogo
                             key={product?.id}
                             id={product?.id}
-                            uri={product?.images[0]}
+                            uri={product?.images[0]?.src}
                             name={product?.name}
                             price={product?.price}
                             saved={product?.saved}
@@ -824,7 +839,8 @@ const styles = StyleSheet.create({
     top: '50%',
     zIndex: 1,
     justifyContent: 'center',
-    marginTop: wp('-10%'),
+    // marginTop: wp('-15%'),
+    marginTop: hp('-6%')
     // padding: 5,
   },
   text: {
