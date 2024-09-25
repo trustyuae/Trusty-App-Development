@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Loginscreen from '../Screens/Login/Loginscreen';
 import ForgotpasswordScreen from '../Screens/Login/ForgotpasswordScreen';
 import { SignupPage } from '../Screens';
-import Icon from 'react-native-vector-icons/Ionicons'; // Assuming you're using Ionicons for the back button icon
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
 const Stack = createNativeStackNavigator();
 

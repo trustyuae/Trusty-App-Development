@@ -9,7 +9,6 @@ import {
   TextInput,
 } from 'react-native';
 import {
-  CartImg,
   EditICon,
   Groupicon,
   NoImg,

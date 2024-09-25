@@ -8,7 +8,7 @@ import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
 import BottomTabNavigation from './BottomTabNavigation';
 import Profile from '../Screens/Profile/Profile.js';
 import ProfileNavigations from './ProfileNavigations';
-import Icon from 'react-native-vector-icons/Ionicons'; // Assuming you're using Ionicons for the back button icon
+import Icon from 'react-native-vector-icons/Ionicons'; 
 import OrderDetails from '../Screens/Profile/OrderDetails.js';
 import Order from '../Screens/Profile/Order.js';
 import Wishlist from '../Screens/wishlist/wishlist.js';
@@ -62,7 +62,7 @@ const AppNavigations = ({ navigation }) => {
 
         <Stack.Screen
           name="Cart"
-          component={CartScreen} // Pass the navigation prop here
+          component={CartScreen} 
 
           options={({ navigation }) => ({
             headerTransparent: true,

@@ -23,7 +23,7 @@ import { globalColors } from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import { fetchWishlist } from '../../Redux/Slice/wishlistSlice';
 import { Images } from '../../Constants/index';
-import { passwordIcon, emailIcon, trustyIconWhite } from '../../Constants/Icons';
+import { passwordIcon, emailIcon } from '../../Constants/Icons';
 import { KeyboardAvoidingView } from 'react-native';
 import { Platform } from 'react-native';
 

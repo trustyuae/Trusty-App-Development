@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 import Button from '../../Components/Button';
 import { Images } from '../../Constants';
-import { emailIcon, passwordIcon } from '../../Constants/Icons';
+import { passwordIcon } from '../../Constants/Icons';
 import { postApiChangePassword } from '../../Redux/Slice/postApiSlice';
 
 const SetNewPassword = () => {

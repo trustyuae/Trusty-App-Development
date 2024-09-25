@@ -38,12 +38,10 @@ import {
 } from '../../Redux/Slice/wishlistSlice';
 import SkeletonLoaderProductDetails from '../../Components/Loader/SkeletonLoaderProductDetails';
 import {
-  certifiedIcon,
-  deliveryIcon,
+
   minusIcon,
   NoImg,
   plusIcon,
-  returnExchangeIcon,
   shareIcon,
   shareIcon3x,
   tabbyLogo,

@@ -12,12 +12,7 @@ import {
 } from 'react-native';
 import {
   NoImg,
-  callIcon,
-  certifiedIcon,
   deleteImg,
-  deliveryIcon,
-  emailIcon,
-  returnExchangeIcon,
 } from '../../Constants/Icons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StyleSheet } from 'react-native';
