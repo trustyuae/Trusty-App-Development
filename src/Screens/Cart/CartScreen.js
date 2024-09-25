@@ -148,7 +148,6 @@ const CartScreen = () => {
           setCount(pre => (count >= 2 ? 0 : pre + 1));
         }
       });
-      // console.log('obj---------------------', obj);
     } else {
       Toast.show({
         type: 'info',
@@ -288,7 +287,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   scrollViewContent: {
-    paddingBottom: 100, // Adjust as needed to avoid overlap with the fixed button
+    paddingBottom: 100, 
   },
   stepperContainer: {
     marginTop: 90,

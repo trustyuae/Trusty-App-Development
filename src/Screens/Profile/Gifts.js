@@ -23,7 +23,6 @@ const Gifts = () => {
           style={{
             textAlign: 'center',
             fontFamily: 'Intrepid Regular',
-            // paddingTop: hp('1%'),
             paddingRight: hp('5%'),
             paddingLeft: hp('5%'),
           }}>
@@ -41,12 +40,11 @@ const Gifts = () => {
 const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
-    // marginTop: hp('20%'),
   },
   mainText: {
     textAlign: 'center',
     color: globalColors.black,
-    fontFamily: 'Intrepid Regular',    // marginTop: hp('20%'),
+    fontFamily: 'Intrepid Regular',
   },
   imgconatine: {
     marginTop: hp('5%'),

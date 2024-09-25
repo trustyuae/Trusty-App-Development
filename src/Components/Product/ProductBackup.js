@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   Pressable,
@@ -11,10 +11,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {globalColors} from '../../Assets/Theme/globalColors';
-import {Images} from '../../Constants/index';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { Images } from '../../Constants/index';
 
-const ProductBackup = ({data, name, price, saved: initialSaved}) => {
+const ProductBackup = ({ data, name, price, saved: initialSaved }) => {
   const [saved, setSaved] = useState(initialSaved);
 
   const toggleSaved = () => {
@@ -24,11 +24,7 @@ const ProductBackup = ({data, name, price, saved: initialSaved}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {/* {uri ? ( */}
 
-        {/* ) : (
-          <Text style={styles.errorText}>Image not available</Text>
-        )} */}
         {data
           ?.map(item => (
             <Image
@@ -99,19 +95,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginTop: wp('3%'),
     marginLeft: wp('15%'),
-    //  width: wp('3%'),
-    height:12,
+    height: 12,
     width: 12
 
-    // height: hp('4%'),
   },
   image: {
-    // marginLeft: wp('8%'),
-    // height: hp('30%'),
-    // width: wp('40%'),
+
     width: wp('46%'),
     height: hp('25%'),
-    // alignContent: 'center',
   },
 });
 

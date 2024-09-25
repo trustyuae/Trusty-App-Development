@@ -1,4 +1,4 @@
-import {react, useEffect, useState} from 'react';
+import { react, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -11,23 +11,23 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {OrderById} from '../../Redux/Slice/orderSlice';
-import {useDispatch, useSelector} from 'react-redux';
-import {globalColors} from '../../Assets/Theme/globalColors';
+import { OrderById } from '../../Redux/Slice/orderSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { globalColors } from '../../Assets/Theme/globalColors';
 import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
-import {ScrollView} from 'react-native';
-import {Image} from 'react-native-elements';
+import { ScrollView } from 'react-native';
+import { Image } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons'; // Import the Icon component
 import SkeletonLoaderOrder from '../../Components/Loader/SkeletonLoaderOrder';
 import SkeletonLoaderOrderDetails from '../../Components/Loader/SkeletonLoaderOrderDetails';
 import Button from '../../Components/Button';
 
-const OrderDetails = ({route, navigation}) => {
+const OrderDetails = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const {data, loading, error} = useSelector(state => state.order);
+  const { data, loading, error } = useSelector(state => state.order);
   const [date, setDate] = useState('');
 
-  const {orderId} = route?.params;
+  const { orderId } = route?.params;
   useEffect(() => {
     if (data.date_created) {
       const extractedDate = data.date_created.split('T')[0];
@@ -39,13 +39,6 @@ const OrderDetails = ({route, navigation}) => {
     dispatch(OrderById(orderId));
   }, []);
   return (
-    // <SafeAreaView>
-    //     <View>
-    //         <Text>OrderDetails</Text>
-    //         <Text>{orderId}</Text>
-
-    //     </View>
-    // </SafeAreaView>
 
     <SafeAreaView>
       <CustomStatusBar color={globalColors.headingBackground} />
@@ -72,7 +65,7 @@ const OrderDetails = ({route, navigation}) => {
               <Text style={styles.heading}>Order Details</Text>
             </View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('OrderTracking', {orderId})}>
+              onPress={() => navigation.navigate('OrderTracking', { orderId })}>
               <View style={styles.sectionProduct}>
                 <Text style={styles.subHeading}>Product</Text>
                 {data?.line_items?.map(item => (
@@ -112,7 +105,7 @@ const OrderDetails = ({route, navigation}) => {
             <Button
               name={'Order Tracking Status'}
               handlepress={() =>
-                navigation.navigate('OrderTracking', {orderId})
+                navigation.navigate('OrderTracking', { orderId })
               }
               stylesofbtn={styles.custbtn}
               styleoffont={styles.custfontstyle}
@@ -152,7 +145,6 @@ const OrderDetails = ({route, navigation}) => {
               <Text style={styles.text}>
                 {data?.shipping?.city}, {data?.shipping?.country}
               </Text>
-              {/* <Text style={styles.text}>Phone: {data?.shipping?.phone}</Text> */}
             </View>
           </View>
         )}

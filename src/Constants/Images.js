@@ -59,11 +59,11 @@ const Celebration = require('../Assets/Images/celebration.png');
 const Wishlist = require('../Assets/Images/Wishlist.png');
 const loginImage = require('../Assets/Images/loginImage.png');
 const loginImage4x = require('../Assets/Images/loginimage4x.png');
-const SaveIconFill3x = require('../Assets/Images/SaveIconFill3x.png')
+const SaveIconFill3x = require('../Assets/Images/SaveIconFill3x.png');
 const saveIconUnFill3x = require('../Assets/Images/saveIconUnFill3x.png');
-const SavaIconUnFillTransparant = require('../Assets/Images/SavaIconUnFillTransparant.png')
-const SaveIconFillTransparant = require('../Assets/Images/SaveIconFillTransparant.png')
-const readyToGoImage = require('../Assets/Images/readyToGoImage.png')
+const SavaIconUnFillTransparant = require('../Assets/Images/SavaIconUnFillTransparant.png');
+const SaveIconFillTransparant = require('../Assets/Images/SaveIconFillTransparant.png');
+const readyToGoImage = require('../Assets/Images/readyToGoImage.png');
 const logoResetpage = require('../Assets/Images/SmalliconReset.png');
 export default {
   Wishlist,

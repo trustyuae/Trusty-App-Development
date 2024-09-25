@@ -82,7 +82,6 @@ const Confirmation = ({ setCount, total }) => {
 
               {/* </Text> */}
             </View>
-            {/* <Text style={styles.MainHeading}>ORDER DETAILS</Text> */}
             <View style={{ backgroundColor: globalColors.white, marginBottom: wp('5%'), borderRadius: 5 }}>
               <View style={styles.table}>
                 <View style={styles.row}>
@@ -94,7 +93,6 @@ const Confirmation = ({ setCount, total }) => {
                   <View style={styles.cell}>
                     <Text style={styles.label}>Date:</Text>
                     <Text style={styles.value}>
-                      {/* May 9, 2024 */}
                       {formattedDate}
                     </Text>
 
@@ -104,7 +102,6 @@ const Confirmation = ({ setCount, total }) => {
 
                 <View style={styles.row}>
                   <View style={styles.cell}>
-                    {/* <Text style={styles.value}>200.00 AED</Text> */}
                     <Text style={styles.label}>Payment method:</Text>
                     <Text style={styles.value}> {orderdata?.payment_method_title}</Text>
 
@@ -117,9 +114,7 @@ const Confirmation = ({ setCount, total }) => {
               </View>
             </View>
           </View >
-          {/* <View style={styles.imageContainer1}>
-            <Image source={Images.confirmationTick}></Image>
-          </View> */}
+
           <View style={{
             paddingLeft: wp('5%'),
             paddingRight: wp('5%'),

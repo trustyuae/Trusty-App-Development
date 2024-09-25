@@ -36,10 +36,6 @@ function MyCarouselOutside({ views }) {
         };
     });
 
-    // const handleImagePress = (uri) => {
-    //     setSelectedImage(uri);
-    //     setModalVisible(true);
-    // };
 
     return (
         <View style={styles.container}>
@@ -55,10 +51,8 @@ function MyCarouselOutside({ views }) {
                     <View
 
                     >
-                        {/* <TouchableOpacity onPress={() => handleImagePress(item?.src)}> */}
 
                         <Image source={{ uri: item?.src }} style={styles.Imgcontainer} />
-                        {/* </TouchableOpacity> */}
 
                     </View>
                 )}

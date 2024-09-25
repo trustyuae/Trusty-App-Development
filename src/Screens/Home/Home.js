@@ -9,8 +9,6 @@ import {
   View,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // or use @expo/vector-icons
-
 import { Images } from '../../Constants/index';
 import {
   widthPercentageToDP as wp,
@@ -38,120 +36,6 @@ import { fontFamily } from '../../Assets/Theme/fontFamily';
 import { AdornImage, tabbyIcon } from '../../Constants/Icons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
-const categoriesx = [
-  {
-    id: 1,
-    img: Images.Man,
-    name: 'US POLO',
-    description: 'Slim Fit Shirt with Button Down Collar',
-    price: '920 AED',
-  },
-  {
-    id: 2,
-    img: Images.Boy,
-    name: 'GAP',
-    description: 'Men Brand Print Regular Fit Crew-Neck T-Shirt',
-    price: '320 AED',
-  },
-  {
-    id: 3,
-    img: Images.Woman,
-    name: 'US POLO',
-    description: 'Slim Fit Shirt with Button Down Collar',
-    price: '920 AED',
-  },
-];
-
-const DummyData = [
-  {
-    id: '1',
-    img: Images.Woman,
-    name: 'MISH',
-    description: 'Button-Front V-Neck Top',
-    price: '920 ',
-    saved: false,
-    product_id: 121,
-    isWatchList: false,
-  },
-  {
-    id: '2',
-    img: Images.Catelog3,
-    name: 'ZINK LONDON',
-    description: 'V-Neck Front Styled Top',
-    price: '320 ',
-    saved: false,
-    product_id: 121,
-    isWatchList: false,
-  },
-  {
-    id: '3',
-    img: Images.Catelog2,
-    name: 'MISH',
-    description: 'Button-Front V-Neck Top',
-    price: '920 ',
-    saved: false,
-    product_id: 121,
-    isWatchList: false,
-  },
-  {
-    id: '4',
-    img: Images.Catelog1,
-    name: 'ZINK LONDON',
-    description: 'V-Neck Front Styled Top',
-    price: '320',
-    saved: false,
-    product_id: 121,
-    isWatchList: false,
-  },
-];
-
-let getData = [
-  {
-    id: 16,
-    img: 'https://trustyuae.com/wp-content/uploads/2024/08/B174438D-10E1-4BAC-861E-CE048B9D24BC-scaled.webp',
-    name: 'Bags',
-  },
-  {
-    id: 17,
-    img: 'https://trustyuae.com/wp-content/uploads/2024/08/Photoroom_20240802_163138.jpeg',
-    name: 'Shoes',
-  },
-  {
-    id: 182,
-    img: 'https://trustyuae.com/wp-content/uploads/2024/08/Photoroom_20240802_172622.jpeg',
-    name: 'Travel Bags',
-  },
-  {
-    id: 298,
-    img: 'https://trustyuae.com/wp-content/uploads/2024/08/tote-profile.webp',
-    name: 'Tote Bags',
-  },
-  {
-    id: 22,
-    img: 'https://trustyuae.com/wp-content/uploads/2024/08/IMG_7785-1.webp',
-    name: 'SMALL LEATHER GOODS',
-  },
-  // {
-  //   id: 3,
-  //  // img: Images.Accessories,
-  //   label: 'Accessories',
-  // },
-  // {
-  //   id: 4,
-  //  // img: Images.Scarf,
-  //   label: 'Scarfs',
-  // },
-  // {
-  //   id: 5,
-  //  // img: Images.Jewellery,
-  //   label: 'Jewellery',
-  // },
-  // {
-  //   id: 4,
-  //   img: Images.shoes,
-  //   label: 'JEWELLERY',
-  // },
-];
 
 const Home = () => {
   const navigation = useNavigation();
@@ -164,7 +48,6 @@ const Home = () => {
   const [UpdatedReacetProducts, setUpdatedReacetProducts] = useState([])
 
   const dispatch = useDispatch();
-  // const categoryStatus = false;
   const { categories, categoryStatus, categoryError } = useSelector(
     state => state.category,
   );
@@ -181,9 +64,7 @@ const Home = () => {
   const { recentProducts, recentStatus, recentError } = useSelector((state) => state.product);
 
   const [tokenData, setTokenData] = useState(null);
-  // const [wishlist, setWishlist] = useState([]);
   const [wishlist, setWishlist] = useState([items].map(item => ({ id: item })));
-  // console.log('inside home---->', products);
   const scrollViewRef = useRef(null);
 
   const scrollLeft = () => {
@@ -195,7 +76,6 @@ const Home = () => {
     }
   };
 
-  // Function to scroll the ScrollView to the right
   const scrollRight = () => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo({
@@ -229,7 +109,7 @@ const Home = () => {
       dispatch(fetchRedyToGo());
       dispatch(fetchRecentProducts());
       dispatch(getSignatureSelectionsData());
-    }, [tokenData]), // Fetch data on focus or token change
+    }, [tokenData]),
   );
 
   const onRefresh = async () => {
@@ -269,7 +149,6 @@ const Home = () => {
       const itemIdList = items.Wishlist?.map(item => ({ id: item }));
       const productIds = new Set(itemIdList.map(item => Number(item.id)));
 
-      // Update redytogoProducts with isWatchList
       const updatedRedytogoProducts = redytogoProducts.map(productItem => ({
         ...productItem,
         isWatchList: productIds.has(productItem.id),
@@ -296,17 +175,13 @@ const Home = () => {
   useEffect(() => {
     data();
   }, [items, redytogoProducts, signatureSelectionsProducts, tokenData, recentProducts]);
-  // console.log(
-  //   '------======',
-  //   wishlist?.map(data => console.log(data.isWatchList)),
-  // );
+
 
   useEffect(() => {
     dispatch(fetchWishlist(tokenData));
   }, [tokenData, products, categories]);
   const navigateToCategoryProducts = category => {
     navigation.navigate('CategoryProducts', { category, products });
-    // console.log("products",category);
   };
   const previewimages = {
     previewImages: Images.preview,
@@ -364,28 +239,6 @@ const Home = () => {
               </View>
             }
 
-            {/* <View style={{ marginHorizontal: 5, margin: 15 }}>
-              <View
-                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={[styles.customheading]}>Ready to go</Text>
-
-                <Text
-                  onPress={() => navigation.navigate('SeeAll')}
-                  style={{
-                    color: 'black',
-                    fontSize: 14,
-                    fontWeight: '600',
-                    fontFamily: fontFamily.fontFamilyIntrepid,
-                    top: 10,
-                  }}>
-                  SEE ALL
-                  <Image
-                    source={Images.Backarrow}
-                    width={22}
-                    height={10}></Image>
-                </Text>
-              </View>
-             </View> */}
             <View style={{
               alignItems: 'center', borderRadius: 25, top: 10
             }}>
@@ -402,37 +255,6 @@ const Home = () => {
               </Pressable>
               <Text style={styles.heading}>Ready To Go</Text>
             </View>
-            {/* <PreviewImage uri={previewimages.previewImages} /> */}
-            {/* <Text style={styles.heading}>Ready To Go</Text> */}
-            {/* ------ */}
-            {/* <View style={styles.categoryContainer}>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}>
-                {categoryStatus === 'loading' ? (
-                  <View style={{ marginLeft: wp('2.5%') }}>
-                    <SkeletonLoader count={6} />
-                  </View>
-                ) : (
-                  categories.map(category => (
-                    <Pressable
-                      key={category.id}
-                      onPress={() => navigateToCategoryProducts(category)}>
-                      <Category
-                        key={category?.id}
-                        uri={category?.img}
-                        name={category?.name}
-                        price={category?.price}
-                        description={category?.description}
-                        id={category?.id}
-                      />
-                      {console.log("categories----------------->", category)}
-                    </Pressable>
-                  ))
-                )}
-              </ScrollView>
-            </View> */}
-            {/* ----- */}
 
             <View style={{
               marginLeft: wp('3'),
@@ -522,167 +344,6 @@ const Home = () => {
 
 
           <View style={{ backgroundColor: globalColors.headingBackground }}>
-
-            {/* <View style={{ marginTop: 30 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={[styles.customheading, styles.custommargin]}>
-                  MUST HAVE
-                </Text>
-                <Image
-                  source={Images.Musthavelogo}
-                  height={30}
-                  width={30}
-                  style={{ margin: 6 }}></Image>
-              </View>
-              <View style={{ marginTop: -20, marginBottom: 10 }}>
-                <Text style={[styles.customheading, styles.custommargin]}>
-                  FOR{' '}
-                  <Text style={[styles.customheading, styles.Custcolor]}>
-                    HER
-                  </Text>
-                </Text>
-              </View> */}
-
-            {/* <View style={{flexDirection: 'row', marginTop: 15}}> */}
-            {/* <View style={styles.productContainer}>
-              {true && wishlist.length === 0 ? (
-                <View style={{marginLeft: wp('1.5%'), flexWrap: 'wrap'}}>
-                  <SkeletonLoader count={2} />
-                </View>
-              ) : (
-                wishlist.slice(startIndex, startIndex + 4).map(product => (
-                  <Pressable
-                    key={product?.id}
-                    onPress={() =>
-                      navigation.navigate('ProductDetail', {
-                        userId: product.id,
-                        isWatchList: product?.isWatchList,
-                      })
-                    }>
-                    <Product
-                      key={product?.id}
-                      uri={product?.images[0]?.src}
-                      name={product?.name}
-                      price={product?.price}
-                      saved={product?.saved}
-                      product_id={product?.id}
-                      isWatchList={product?.isWatchList}
-                    />
-                  </Pressable>
-                ))
-              )}
-            </View> */}
-            {/* </ScrollView> */}
-            {/* <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center', alignItems: 'center',
-                  flexWrap: 'wrap',
-                  gap: 10
-                 
-                }}> */}
-            {/* <TouchableOpacity
-                onPress={onBackPress}
-                disabled={startIndex === 0}
-                style={{
-                  backgroundColor: startIndex === 0 ? '#B9B9B9' : 'black',
-                  borderRadius: wp('50%'),
-                }}>
-                <View>
-                  <Icon
-                    name="keyboard-arrow-left"
-                    size={20}
-                    color={globalColors.white}
-                  />
-                </View>
-                </TouchableOpacity> */}
-            {/* <TouchableOpacity
-                onPress={onNextPress}
-                disabled={startIndex + 4 >= products.length}
-                style={{
-                  backgroundColor:
-                    startIndex + 4 >= products.length ? '#B9B9B9' : 'black',
-                  borderRadius: wp('50%'),
-                }}>
-                <View>
-                  <Icon
-                    name="keyboard-arrow-right"
-                    size={20}
-                    color={globalColors.white}
-                  />
-                </View>
-                </TouchableOpacity> */}
-            {/* <View style={styles.productContainer}> */}
-            {/* {true && wishlist.length === 0 ? (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      flexWrap: 'wrap',
-                      paddingHorizontal: 2, marginLeft: wp('2.5%')
-                    }}>
-                    <SkeletonLoader count={4} />
-                  </View>
-                ) : (
-                  updatedSignatureSelectionsProducts.map(product => (
-                    <Pressable
-                      key={product?.id}
-                      onPress={() =>
-                        navigation.navigate('ProductDetail', {
-                          userId: product.id,
-                          isWatchList: product?.isWatchList,
-                        })
-                      }>
-
-                      {product.image && product.image.length > 0 ? (
-                        <>
-                          <Product
-                            key={product?.id}
-                            uri={product?.image}
-                            name={product?.name}
-                            price={product?.price}
-                            saved={product?.saved}
-                            product_id={product?.id}
-                            isWatchList={product?.isWatchList}
-                          />
-                        </>
-                      ) : (
-                        <Product
-                          key={product?.id}
-                          uri={false}
-                          name={product?.name}
-                          price={product?.price}
-                          saved={product?.saved}
-                          product_id={product?.id}
-                          isWatchList={product?.isWatchList}
-                        />
-                      )}
-                    </Pressable>
-                  ))
-                )}
-              </View>
-
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: 10,
-                  marginBottom: 20,
-                }}>
-                <Button
-                  stylesofbtn={styles.stylesofbtn}
-                  handlepress={handlepress}
-                  name={'Explore More'}
-                  styleoffont={styles.custfontstyle}
-                  loading={false}
-                />
-              </View>
-            </View> */}
-
-            {/* <HeadingImage /> */}
-
-
-
             <View style={{
               alignSelf: 'center',
               marginTop: hp('5%')
@@ -731,18 +392,15 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     flexWrap: 'wrap',
-    // marginRight: wp('2.5%'),
-    // marginLeft: wp('2.5%'),
+
     gap: 10,
     alignItems: 'center',
     marginTop: 10,
   },
   categoryContainer: {
-    // marginTop: 20,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    // backgroundColor: 'red'
   },
   image: {
     width: 100,
@@ -835,13 +493,10 @@ const styles = StyleSheet.create({
     gap: hp('1%'),
   },
   arrowButton: {
-    // position: 'absolute',
     top: '50%',
     zIndex: 1,
     justifyContent: 'center',
-    // marginTop: wp('-15%'),
     marginTop: hp('-7%')
-    // padding: 5,
   },
   text: {
     fontSize: 20,

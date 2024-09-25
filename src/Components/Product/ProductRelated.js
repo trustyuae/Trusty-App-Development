@@ -65,17 +65,6 @@ const ProductRelated = ({
       fetchData();
     }, [saved, dispatch, isWatchList, tokenData]),
   );
-  // useEffect(() => {
-  //   if (wishlist && wishlist.length > 0) {
-  //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
-  //     console.log('dd', wishlistIds);
-  //     if (wishlistIds.includes(product_id.toString())) {
-  //       setSaved(true);
-  //     } else {
-  //       setSaved(false);
-  //     }
-  //   }
-  // }, [wishlist, product_id]);
 
   const toggleSaved = async () => {
     if (tokenData) {
@@ -158,19 +147,15 @@ const styles = StyleSheet.create({
   },
   container: {
     alignContent: 'center',
-    // marginHorizontal: wp('1%'),
     borderRadius: 5,
-    // marginRight: 5,
-    // marginBottom: hp('2%'),
+
     overflow: 'hidden',
     height: hp("32%"),
-    // backgroundColor:'yellow'
   },
   imageContainer: {
     width: wp('32%'),
     height: hp('18%'),
     position: 'relative',
-    // backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
     marginTop: hp('2%'),

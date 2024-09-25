@@ -321,12 +321,7 @@ const Profile = () => {
               color={globalColors.headingBackground}></CustomStatusBar>
 
             {loading ? (
-              // <ActivityIndicator
-              //   style={{ marginTop: 300 }}
-              //   size="large"
-              //   color={globalColors.black}
-
-              // />
+            
               <SkeletonLoaderProfile />
             ) : data ? (
               <View style={styles.container}>
@@ -402,14 +397,7 @@ const Profile = () => {
                   <View>
                     <Text style={styles.textHeading}>CURRENCY</Text>
 
-                    {/* <RNPickerSelect
-                      onValueChange={value => handleCountryChange(value)}
-    
-                      items={currencies.map(item => ({
-                        label: item.name,
-                        value: item,
-                      }))}
-                    /> */}
+                   
 
                     <DropDownPicker
                       placeholderStyle={{ color: '#888' }}
@@ -445,12 +433,7 @@ const Profile = () => {
                     />
                     <View style={{ flexDirection: 'row', marginTop: hp('-5%') }}>
                       <View>
-                        {/* <CountryFlag
-                          isoCode={country}
-                          size={25}
-                          style={styles.flag}
-                          useNativeAndroidPickerStyle={false}
-                        /> */}
+                      
                       </View>
                       <View style={{ marginLeft: wp('2%') }}>
                         <Text style={styles.textHeadingValue}>
@@ -462,7 +445,6 @@ const Profile = () => {
 
                   <View style={{ marginLeft: 'auto', marginRight: 5 }}>
                     <Text
-                      // style={{textDecorationLine: 'underline'}}
 
                       style={{
                         color: '#866528', fontFamily: 'Intrepid Regular',

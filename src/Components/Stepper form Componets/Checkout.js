@@ -256,8 +256,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     }
   };
 
-  console.log('cartData&&&&&&&&&&------->', cartData);
-  console.log('viewcartdata&&&&&&&&&&------->', viewcartdata);
 
   //-------------   new. -------
   const [errors, setErrors] = useState({});
@@ -292,33 +290,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     ZipCode: '',
     phoneShipping: data?.shipping?.phone,
   });
-  // const [formData, setFormData] = useState({
-  //   email: '',
-  //   password: '',
-  //   firstName: '',
-  //   lastName: '',
-  //   address: '',
-  //   addressContinued: '',
-  //   city: '',
-  //   billingAddressContinued: '',
 
-  //   selectedCountry: '',
-  //   selectedTitle: '',
-  //   phone: '',
-  //   countryCode: '+1',
-  //   selected: '+971',
-  //   billingAddress: '',
-
-  //   billingCity: '',
-
-  //   firstNameShipping: '',
-  //   lastNameShipping: '',
-  //   shippingAddress: '',
-  //   shippingAddressContinued: '',
-  //   shippingCity: '',
-  // });
-
-  console.log('formData-------->', formData);
   const isValidPassword = password => {
     return password.length >= 4;
   };
@@ -329,7 +301,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
   };
 
   const isValidPhoneNumber = phoneNumber => {
-    // Regular expression for phone number validation
     const phoneRegex = /^\+?[1-9]\d{1,14}$/;
     return phoneRegex.test(phoneNumber);
   };
@@ -371,7 +342,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
       newErrors.shippingAddress = 'Shipping address is required';
     if (!formData.shippingCity.trim())
       newErrors.shippingCity = 'Shipping city is required';
-    // if (!isCheckbox) newErrors.isCheckbox = 'Please check the above mark';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -425,12 +395,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
     };
 
     const userData = {
-      // title: formData.selectedTitle,
-      // first_name: formData.firstName,
-      // last_name: formData.lastName,
-      // email: formData.email,
-      // password: formData.password,
-      // phone: formData.phone,
+
       billing: billingAddress,
       shipping: shippingAddress,
     };
@@ -448,8 +413,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
   };
 
   const handleCheckboxPress = () => {
-    // setStateUpdate(!stateUpdate);
-    // handleUpdateData();
     setIsCheckbox(prevState => !prevState);
   };
   const emojisWithIcons = [{ title: 'Mr' }, { title: 'Miss' }];
@@ -469,235 +432,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
           onPress={() => setCount(pre => (count >= 2 ? 0 : pre - 1))}></Icon>
         <CustomStatusBar
           color={globalColors.headingBackground}></CustomStatusBar>
-
-        {/* <View style={styles.container}>
-          <Text style={styles.custText}>DELIVERY</Text>
-
-          <View style={styles.custborder} />
-
-          <View style={{marginVertical: 10}}>
-            <Text style={styles.custText}>SHIPPING ADDRESS</Text>
-          </View>
-
-          <View style={styles.custborder} />
-
-          <View
-            style={{
-              marginTop: 10,
-              position: 'relative',
-            }}>
-            <View
-              style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-              <View>
-                <Image source={Groupicon} />
-              </View>
-
-              <TouchableOpacity onPress={handleEditClick}>
-                <Image source={EditICon} />
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={{
-                marginLeft: 30,
-                marginTop: -20,
-                marginVertical: 10,
-                maxWidth: '80%',
-              }}>
-              <Text
-                style={{
-                  color: globalColors.black,
-                  fontFamily: 'Intrepid Regular',
-                }}>
-                {title}. {billingdata?.first_name} {billingdata?.last_name}
-              </Text>
-              <Text style={{fontFamily: 'Intrepid Regular', marginVertical: 2}}>
-                {shippingAddress}, {shippingCountry},{shippingCity}
-              </Text>
-              <Text style={{fontFamily: 'Intrepid Regular'}}>+{phone}</Text>
-            </View>
-          </View>
-          <View style={styles.custborder} />
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginVertical: 5,
-            }}>
-            <Image source={PlusIcon} style={{marginHorizontal: 10}}></Image>
-            <Text
-              style={{
-                textDecorationLine: 'underline',
-                color: globalColors.black,
-                fontFamily: 'Intrepid Regular',
-              }}>
-              Add an address
-            </Text>
-          </View>
-          <View style={styles.custborder} />
-          <View
-            style={{
-              marginTop: 10,
-            }}>
-            <Text style={styles.custText}>SHIPPING METHOD</Text>
-          </View>
-
-          <View style={styles.custborder} />
-
-          <View
-            style={{
-              marginVertical: 5,
-            }}>
-            <Text
-              style={{
-                fontFamily: 'Intrepid Regular',
-                color: globalColors.black,
-                marginVertical: 5,
-              }}>
-              Delivery fees Cash On Arrivals 30 AED
-            </Text>
-          </View>
-          <View style={styles.custborder} />
-
-          <List.Section>
-            <List.Accordion
-              title="MY ORDERS"
-              titleStyle={{color: globalColors.darkGray}}
-              expanded={expanded}
-              style={{
-                backgroundColor: globalColors.headingBackground,
-                paddingTop: -5,
-                borderBottomWidth: expanded ? 1 : 0,
-                borderBottomColor: globalColors.lightOrange,
-                fontFamily: 'Intrepid Regular',
-              }}
-              onPress={() => setExpanded(!expanded)}>
-              {cartData?.map(item => (
-                <View
-                  style={{
-                    marginVertical: 15,
-                    flexDirection: 'row',
-                    gap: 10,
-                    position: 'relative',
-                  }}>
-                  <Icon
-                    name={'close'}
-                    size={20}
-                    color="black"
-                    style={{
-                      position: 'absolute',
-                      right: 0,
-                    }}
-                    onPress={() => handleRemove(item)}></Icon>
-
-                  <View
-                    style={{
-                      backgroundColor: globalColors.white,
-                      paddingVertical: 2,
-                      position: 'absolute',
-                      bottom: -8,
-                      right: 0,
-                    }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                      }}>
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            color: globalColors.darkGray,
-                            marginLeft: 7,
-                          }}
-                          onPress={() => handleDecrease(item.key)}>
-                          -
-                        </Text>
-                      </View>
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            color: globalColors.darkGray,
-                            fontFamily: 'Intrepid Regular',
-                            marginHorizontal: 30,
-                          }}>
-                          {item.quantity}
-                        </Text>
-                      </View>
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            color: globalColors.darkGray,
-                            marginRight: 7,
-                          }}
-                          onPress={() => handleIncrease(item.key)}>
-                          +
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View>
-                    {item.product_image ? (
-                      <Image
-                        source={{uri: item?.product_image}}
-                        style={styles.imageStyle}
-                      />
-                    ) : (
-                      <Image
-                        source={NoImg}
-                        style={styles.imageStyle}
-                        resizeMode="contain"
-                      />
-                    )}
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        color: globalColors.black,
-                        fontFamily: 'Intrepid Regular',
-                      }}>
-                      {item.product_name}
-                    </Text>
-                    <Text
-                      style={{
-                        marginVertical: 2,
-                        color: globalColors.buttonBackground,
-                        fontFamily: 'Intrepid Regular',
-                      }}>
-                      {item.product_price} AED
-                    </Text>
-                    <Text
-                      style={{
-                        marginVertical: 3,
-                        color: globalColors.black,
-                        fontFamily: 'Intrepid Regular',
-                      }}>
-                      Color :{' '}
-                      <Text style={{color: globalColors.buttonBackground}}>
-                        {item?.mod_attributes?.color}
-                      </Text>{' '}
-                    </Text>
-                    <Text
-                      style={{
-                        color: globalColors.black,
-                        fontFamily: 'Intrepid Regular',
-                      }}>
-                      Size :{' '}
-                      <Text style={{color: globalColors.buttonBackground}}>
-                        {item?.mod_attributes?.size}
-                      </Text>{' '}
-                    </Text>
-                  </View>
-                  <View></View>
-                </View>
-              ))}
-            </List.Accordion>
-          </List.Section>
-
-          <View style={styles.custborder} />
-        </View> */}
 
         <View style={styles.container}>
           <View>
@@ -778,13 +512,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 value={formData.lastName}
                 onChangeText={text => handleChange('lastName', text)}
               />
-              {/* <TextInput
-              style={styles.input}
-              placeholder="LAST NAME *"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.lastName}
-              onChangeText={text => handleChange('lastName', text)}
-            /> */}
+
               {errors.lastName && (
                 <Text style={styles.errorText}>{errors.lastName}</Text>
               )}
@@ -823,16 +551,9 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                   <Text style={styles.errorText}>{errors.phone}</Text>
                 )}
                 <View style={{ backgroundColor: 'white' }}>
-                  {/* <MobileNo
-                    selected={formData.selected}
-                    setSelected={value => handleChange('selected', value)}
-                    setCountry={handleCountryChange}
-                    phone={formData.phone}
-                    setPhone={text => handleChange('phone', text)}></MobileNo> */}
+
                 </View>
-                {/* {errors.phone && (
-                  <Text style={styles.errorText}>{errors.phone}</Text>
-                )} */}
+
               </View>
             </View>
           </View>
@@ -864,13 +585,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 <Text style={styles.errorText}>{errors.shippingAddress}</Text>
               )}
               <View style={styles.separator} />
-              {/* <TextInput
-              style={styles.input}
-              placeholder="ADDRESS LINE 1 *"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.address}
-              onChangeText={text => handleChange('address', text)}
-            /> */}
+
 
 
               <FloatingLabelInput
@@ -881,15 +596,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                   handleChange('shippingAddressContinued', text)
                 }
               />
-              {/* <TextInput
-              style={styles.input}
-              placeholder="ADDRESS LINE 2"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.billingAddressContinued}
-              onChangeText={text =>
-                setFormData({ ...formData, billingAddressContinued: text })
-              }
-             /> */}
+
               <View style={styles.separator} />
               <View style={styles.inputPicker}>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -903,13 +610,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                     {errors.shippingCity && (
                       <Text style={styles.errorText}>{errors.shippingCity}</Text>
                     )}
-                    {/* <TextInput
-                  style={styles.input}
-                  placeholder="CITY/STATE *"
-                  placeholderTextColor={globalColors.textColorLogin}
-                  value={formData.billingCity}
-                  onChangeText={text => handleChange('billingCity', text)}
-                 /> */}
+
                     {errors.billingCity && (
                       <Text style={styles.errorText}>{errors.billingCity}</Text>
                     )}
@@ -931,7 +632,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                   </View>
                 </View>
                 <View style={styles.separator} />
-                {/* <View style={{ width: '50%' }}> */}
                 <SelectDropdown
                   data={countries}
                   search
@@ -981,7 +681,6 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                   <View
                     style={{
                       flexDirection: 'row',
-                      // marginBottom: hp('1.5%'),
                       marginLeft: hp('3%'),
                       height: hp('6.5%'),
                       // marginTop: hp('2%'),
@@ -1011,9 +710,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               backgroundColor: globalColors.white,
               borderRadius: 5,
             }}>
-            {/* <View style={styles.headingInput}>
-              <Text style={styles.formHeadingText}>Shipping Information</Text>
-            </View> */}
+
           </View>
           {isCheckbox && (
             <View
@@ -1039,13 +736,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                     value={formData.firstNameShipping}
                     onChangeText={text => handleChange('firstNameShipping', text)}
                   />
-                  {/* <TextInput
-                style={styles.input}
-                placeholder="FIRST NAME *"
-                placeholderTextColor={globalColors.textColorLogin}
-                value={formData.firstNameShipping}
-                onChangeText={text => handleChange('firstNameShipping', text)}
-              /> */}
+
 
                   {errors.firstNameShipping && (
                     <Text
@@ -1061,13 +752,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                   )}
                 </View>
                 <View style={styles.separator} />
-                {/* <TextInput
-              style={styles.input}
-              placeholder="LAST NAME *"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.lastNameShipping}
-              onChangeText={text => handleChange('lastNameShipping', text)}
-             /> */}
+
                 <FloatingLabelInput
                   label="LAST NAME"
                   value={formData.lastNameShipping}
@@ -1078,13 +763,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 )}
                 <View style={styles.separator} />
 
-                {/* <TextInput
-              style={styles.input}
-              placeholder="ADDRESS LINE 1 *"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.shippingAddress}
-              onChangeText={text => handleChange('shippingAddress', text)}
-             /> */}
+
 
 
                 <FloatingLabelInput
@@ -1092,27 +771,13 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                   value={formData.address}
                   onChangeText={text => handleChange('address', text)}
                 />
-                {/* <TextInput
-              style={styles.input}
-              placeholder="ADDRESS LINE 1 *"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.address}
-              onChangeText={text => handleChange('address', text)}
-            /> */}
+
                 {errors.address && (
                   <Text style={styles.errorText}>{errors.address}</Text>
                 )}
                 <View style={styles.separator} />
 
-                {/* <TextInput
-              style={styles.input}
-              placeholder="ADDRESS LINE 2"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.shippingAddressContinued}
-              onChangeText={text =>
-                setFormData({ ...formData, shippingAddressContinued: text })
-              }
-             /> */}
+
 
                 <FloatingLabelInput
                   label="ADDRESS LINE 2"
@@ -1124,15 +789,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 />
 
                 <View style={styles.separator} />
-                {/* <View style={styles.inputPicker}> */}
-                {/* <View style={{ width: '50%' }}> */}
-                {/* <TextInput
-              style={styles.input}
-              placeholder="CITY/STATE *"
-              placeholderTextColor={globalColors.textColorLogin}
-              value={formData.shippingCity}
-              onChangeText={text => handleChange('shippingCity', text)}
-              /> */}
+
                 <FloatingLabelInput
                   label="CITY/STATE"
                   value={formData.billingCity}
@@ -1188,8 +845,7 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
                 />
 
               </View>
-              {/* </View> */}
-              {/* </View> */}
+
             </View>
           )}
         </View>
@@ -1263,27 +919,8 @@ const Checkout = ({ count, setCount, setGetorderDetail }) => {
               </>
             ) : null}
 
-            {/* <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 5,
-              }}>
-              <Text style={styles.custText}>SHIPPING</Text>
-              <Text>0 AED</Text>
-            </View> */}
 
-            {/* <View style={styles.custborder} /> */}
 
-            {/* <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginVertical: 5,
-              }}>
-              <Text style={styles.custText}>TAXES</Text>
-              <Text>{viewcartdata?.total_tax} AED</Text>
-            </View> */}
           </View>
 
           <View
@@ -1400,9 +1037,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: hp('6.5%'),
-    // borderWidth: 1,
-    // borderColor: globalColors.inputBorder,
-    // borderRadius: 4,
+
     fontFamily: 'Product Sans',
     // textTransform: 'uppercase',
     paddingLeft: hp('3%'),

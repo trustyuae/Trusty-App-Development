@@ -10,12 +10,7 @@ const TamaraModal = ({ onClose, visible, priceToTabby }) => {
     return (
         <SafeAreaView>
             <View style={styles.container}>
-                {/* Button to open the modal */}
-                {/* <TouchableOpacity style={styles.openModalButton} onPress={() => setModalVisible(true)}>
-                <Text style={styles.openModalButtonText}>Open Payment Options</Text>
-            </TouchableOpacity> */}
 
-                {/* Modal that contains the entire content */}
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -33,7 +28,6 @@ const TamaraModal = ({ onClose, visible, priceToTabby }) => {
                                     </Text>
                                 </View>
 
-                                {/* Split in 4 Payments Section */}
                                 <View style={styles.paymentOption}>
                                     <TouchableOpacity style={styles.splitBadge}>
                                         <Text style={styles.splitBadgeText}>Split in 4</Text>
@@ -62,10 +56,7 @@ const TamaraModal = ({ onClose, visible, priceToTabby }) => {
                                 </View>
                             </ScrollView>
 
-                            {/* Button to close the modal */}
-                            {/* <TouchableOpacity style={styles.modalCloseButton} onPress={onClose}>
-                                <Text style={styles.modalCloseText}>Close</Text>
-                            </TouchableOpacity> */}
+
                         </View>
                     </View>
                 </Modal>

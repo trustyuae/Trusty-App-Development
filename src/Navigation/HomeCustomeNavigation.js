@@ -71,7 +71,7 @@ const HomeCustomeNavigation = () => {
             <Icon
               name="arrow-back"
               size={25}
-              color="#333" // Customize the color as needed
+              color="#333"
               style={{ marginLeft: -8 }}
               onPress={() => navigation.goBack()}
             />
@@ -92,7 +92,7 @@ const HomeCustomeNavigation = () => {
       <Stack.Screen
         name="SeeAll"
         component={SeeAll}
-        options={({navigation}) => ({
+        options={({ navigation }) => ({
           headerTransparent: true,
           title: null,
           headerStyle: {
@@ -104,7 +104,7 @@ const HomeCustomeNavigation = () => {
               name="arrow-back"
               size={25}
               color="#333"
-              style={{marginLeft: 1}}
+              style={{ marginLeft: 1 }}
               onPress={() => navigation.goBack()}
             />
           ),
@@ -114,24 +114,7 @@ const HomeCustomeNavigation = () => {
       <Stack.Screen
         name="ExploreMore"
         component={ExploreMore}
-        // options={({navigation}) => ({
-        //   headerTransparent: true,
-        //   title: null,
-        //   headerStyle: {
-        //     backgroundColor: '#f6f1eb',
-        //   },
-        //   headerBackTitleVisible: false,
-        //   headerLeft: () => (
-        //     <Icon
-        //       name="arrow-back"
-        //       size={25}
-        //       color="#333"
-        //       style={{marginLeft: 1}}
-        //       onPress={() => navigation.goBack()}
-        //     />
-        //   ),
-        // })}
-        options={{headerShown:false}}
+        options={{ headerShown: false }}
 
       />
     </Stack.Navigator>

@@ -57,35 +57,20 @@ const Explore = ({ uri, name, price, product_id, isWatchList, img, description }
       fetchData();
     }, [saved, dispatch, isWatchList, tokenData]),
   );
-  // useEffect(() => {
-  //   if (wishlist && wishlist.length > 0) {
-  //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
-  //     console.log('dd', wishlistIds);
-  //     if (wishlistIds.includes(product_id.toString())) {
-  //       setSaved(true);
-  //     } else {
-  //       setSaved(false);
-  //     }
-  //   }
-  // }, [wishlist, product_id]);
 
   const toggleSaved = async () => {
     if (tokenData) {
       if (saved) {
         try {
-          // await dispatch(fetchWishlist(tokenData));
           await dispatch(removeFromWishlist({ product_id, tokenData }));
           setSaved(false);
-          // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
           console.log(error);
         }
       } else {
         try {
-          // await dispatch(fetchWishlist(tokenData));
           await dispatch(addToWishlist({ product_id, tokenData }));
           setSaved(true);
-          // await dispatch(fetchWishlist(tokenData));
         } catch (error) {
           console.log(error);
         }
@@ -132,41 +117,6 @@ const Explore = ({ uri, name, price, product_id, isWatchList, img, description }
       </View>
 
       <View style={styles.detailsContainer}>
-
-
-        {/* <View
-          style={{
-            backgroundColor: globalColors.lightgold,
-            width: 80,
-            padding: 3,
-            borderRadius: 5,
-            flexDirection: 'row',
-            justifyContent:"center",
-            alignItems:"center",
-            marginVertical: 8,
-          }}>
-          <Text
-            style={{
-              color: globalColors.white,
-              fontWeight: '700',
-              marginLeft: 5,
-            }}>
-            4.1
-          </Text>
-          <Image
-            source={Images.Rating}
-            height={8}
-            width={8}
-            ></Image>
-          <Image
-            source={Images.Line}
-            height={10}
-            width={10}
-            style={{ marginHorizontal: 3}}></Image>
-          <Text style={{color: 'white', marginLeft: 2}}>240</Text>
-        </View> */}
-
-        {/* <Text style={styles.name}>{description.length > 20 ? `${description.substring(0, 20)}...` : description}</Text> */}
         <Text style={styles.name}>{name}</Text>
         {price ?
           <Text style={styles.price}>{price} AED</Text> : <Text style={styles.price}>200 AED</Text>
@@ -196,7 +146,6 @@ const styles = StyleSheet.create({
     width: wp('30%'),
     height: hp('18%'),
     position: 'relative',
-    // backgroundColor: globalColors.productBackground,
   },
   detailsContainer: {
     marginTop: hp('2%'),

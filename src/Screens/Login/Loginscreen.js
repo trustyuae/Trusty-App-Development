@@ -39,7 +39,7 @@ const Loginscreen = ({ navigation }) => {
   useEffect(() => {
     if (userData) {
       const data = async () => {
-        await dispatch(fetchWishlist({ tokenData: userData.jwt_token })); // Use the token from userData
+        await dispatch(fetchWishlist({ tokenData: userData.jwt_token }));
       };
       data();
       navigation.navigate('Home');
@@ -233,7 +233,6 @@ const Loginscreen = ({ navigation }) => {
         </View>
       </View>
 
-      {/* </SafeAreaView> */}
 
     </ScrollView>
   </KeyboardAvoidingView >
@@ -244,8 +243,6 @@ export default Loginscreen;
 
 const styles = StyleSheet.create({
   logincontainer: {
-    // margin: wp('3%'),
-    // marginTop: hp('30%'),
     fontFamily: 'Intrepid Regular',
     flex: 0.5,
   },
@@ -276,7 +273,6 @@ const styles = StyleSheet.create({
     height: 21,
   },
   inputfieldboth: {
-    // borderWidth: 0.5,
     borderRadius: hp('1%'),
     borderColor: globalColors.borderColor,
     backgroundColor: globalColors.white,
@@ -290,7 +286,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'rgba(193, 177, 157, 1)',
     alignSelf: 'center',
-    // backgroundColor: '#dcdcdc',
     width: '80%',
   },
   custContainer: {
@@ -326,7 +321,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: wp('12%'),
     color: globalColors.buttonBackground,
-    // top: hp('1.5%'),
   },
   custbtn: {
     backgroundColor: 'black',

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,9 +7,9 @@ import {
   ActivityIndicator,
   SafeAreaView,
 } from 'react-native';
-import {useRoute} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {globalColors} from '../Assets/Theme/globalColors';
+import { useRoute } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { globalColors } from '../Assets/Theme/globalColors';
 import CustomStatusBar from '../Components/StatusBar/CustomSatusBar';
 import {
   widthPercentageToDP as wp,
@@ -17,10 +17,10 @@ import {
 } from 'react-native-responsive-screen';
 import StepperComponentTracking from '../Components/Stepper/StepperComponentTracking';
 import Button from '../Components/Button';
-import {OrderByIdTrack} from '../Redux/Slice/orderSlice';
-import {getToken} from '../Utils/localstorage';
+import { OrderByIdTrack } from '../Redux/Slice/orderSlice';
+import { getToken } from '../Utils/localstorage';
 
-const OrderTrackingScreen = ({navigation}) => {
+const OrderTrackingScreen = ({ navigation }) => {
   const route = useRoute();
   const dispatch = useDispatch();
   const orderId = route.params.orderId;
@@ -33,7 +33,7 @@ const OrderTrackingScreen = ({navigation}) => {
   useEffect(() => {
     const fetchData = async () => {
       const token = await getToken();
-      dispatch(OrderByIdTrack({orderId, token}));
+      dispatch(OrderByIdTrack({ orderId, token }));
     };
     fetchData();
   }, [dispatch, orderId]);
@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 20,
-    // fontWeight: 'bold',
     color: globalColors.black,
     fontFamily: 'Intrepid Regular',
     marginBottom: 20,
@@ -151,40 +150,3 @@ const styles = StyleSheet.create({
 
 export default OrderTrackingScreen;
 
-{
-  /**
-     * 
-     * const mockOrderDetails = {
-    orderId: '12345',
-    orderDate: '2023-06-15',
-    totalAmount: 100.00,
-    statusTimeline: [
-        {
-            title: 'Order Placed',
-            time: '2023-06-15 10:00',
-            completed: true,
-        },
-        {
-            title: 'Order Confirmed',
-            time: '2023-06-15 12:00',
-            completed: true,
-        },
-        {
-            title: 'Order Shipped',
-            time: '2023-06-16 09:00',
-            completed: true,
-        },
-        {
-            title: 'Out for Delivery',
-            time: '2023-06-17 08:00',
-            completed: false,
-        },
-        {
-            title: 'Delivered',
-            time: '',
-            completed: false,
-        },
-    ],
-};
-     */
-}

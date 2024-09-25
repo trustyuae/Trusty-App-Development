@@ -23,11 +23,7 @@ const MobileNo = ({ selected, setSelected, setCountry, phone, setPhone }) => {
           paddingBottom: hp('0.6%'),
           paddingLeft: hp('0.6%'),
           paddingRight: hp('0.6%'),
-
-
-          // height: hp('5.5%'),
           alignItems: 'center',
-          // borderColor: globalColors.white,
         }}
         countryCodeContainerStyles={{
           marginLeft: wp('5%'),
@@ -35,8 +31,6 @@ const MobileNo = ({ selected, setSelected, setCountry, phone, setPhone }) => {
 
         }}
 
-        // countryCodeTextStyles={{backgroundColor: globalColors.white}}
-        // dropdownStyles={{backgroundColor: 'red'}}
         phoneStyles={{
           backgroundColor: globalColors.white,
           fontFamily: 'Product Sans',
@@ -46,7 +40,6 @@ const MobileNo = ({ selected, setSelected, setCountry, phone, setPhone }) => {
           height: hp('5.5%'),
           fontSize: 14,
         }}
-      // style={{ padding: 10 }}
       />
     </View>
   );

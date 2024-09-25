@@ -76,16 +76,6 @@ const ExploreMore = ({ navigation }) => {
     }, [dispatch]),
   );
 
-  // useEffect(() => {
-  //   const token = getToken();
-  //   if (token) {
-
-  //     dispatch(fetchWishlist(token));
-  //   }
-  //   dispatch(resetProducts());
-  //   dispatch(fetchPaginatedProducts({ page: 1 }));
-  // }, [dispatch]);
-
   useEffect(() => {
     setWishlist(updateWishlistWithFlags(paginatedProducts, items.Wishlist));
   }, [paginatedProducts, items]);
@@ -135,13 +125,6 @@ const ExploreMore = ({ navigation }) => {
   const renderProducts = () => {
     const dataToRender = search.trim().length > 0 ? searchResults : wishlist;
 
-    // if (loadingSearch || paginatedStatus === 'loading') {
-    //   return (
-    //     <View style={{marginLeft: wp('1.5%')}}>
-    //       <SkeletonLoader count={6} />
-    //     </View>
-    //   );
-    // }
 
     if (dataToRender.length === 0) {
       return (
@@ -323,14 +306,7 @@ const ExploreMore = ({ navigation }) => {
                 </View>
                 <Text style={styles.label}>{option.label}</Text>
               </TouchableOpacity>
-              //       <View>
-              //          <CheckBox
-              //   value={selected}
-              //   onValueChange={setSelected}
-              //   style={styles.checkbox}
-              // />
-
-              //         </View>
+             
             ))}
           </View>
           <Button

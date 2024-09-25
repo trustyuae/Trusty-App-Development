@@ -26,14 +26,7 @@ const SetNewPassword = () => {
   const dispatch = useDispatch();
   const { loading, error, postData } = useSelector(state => state.post);
 
-  // useEffect(() => {
-  //   if (!error) {
-  //     setValues({
-  //       email: '',
-  //       password: '',
-  //     });
-  //   }
-  // }, [postData]);
+
 
   const [value, setValues] = useState({
     password: '',
@@ -58,7 +51,6 @@ const SetNewPassword = () => {
 
     Linking.addEventListener('url', handleDeepLink);
 
-    // Handle the case when the app is opened with a deep link
     Linking.getInitialURL().then(url => {
       if (url) {
         const token = url.split('token=')[1];
@@ -78,10 +70,7 @@ const SetNewPassword = () => {
     setValues(pre => ({ ...pre, [key]: value }));
   };
 
-  // const validateEmail = email => {
-  //   const re = /\S+@\S+\.\S+/;
-  //   return re.test(email);
-  // };
+
 
   const validateForm = () => {
     let valid = true;
@@ -178,7 +167,6 @@ const SetNewPassword = () => {
                 alignItems: 'center',
                 backgroundColor: globalColors.white,
                 paddingHorizontal: 20,
-                // paddingVertical: 10,
               }}>
               <Image style={styles.iconPassword} source={passwordIcon}></Image>
               <TextInput
@@ -200,12 +188,7 @@ const SetNewPassword = () => {
                   {errors.confirmPassword}
                 </Text>
               )}
-              {/* <Icon
-                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                size={20}
-                style={styles.cust_icon}
-                onPress={() => setShowPassword(prevShow => !prevShow)}
-              /> */}
+
             </View>
           </View>
           <Button
@@ -239,14 +222,8 @@ const styles = StyleSheet.create({
   },
   inputfield: {
     backgroundColor: globalColors.white,
-    // borderWidth: 1,
-    // height: hp('5.5%'),
-    // marginTop: hp('3%'),
     fontFamily: 'Intrepid Regular',
-    // marginBottom: hp('3%'),
-    // paddingHorizontal: wp('5%'),
     borderColor: globalColors.borderColor,
-    // borderRadius: 5,
     padding: 20,
   },
   icon: {
@@ -262,7 +239,6 @@ const styles = StyleSheet.create({
     marginTop: hp('-3%'),
   },
   inputfieldboth: {
-    // padding: 10,
     backgroundColor: globalColors.white,
     marginTop: hp('4%'),
     marginBottom: hp('2%'),
@@ -285,7 +261,6 @@ const styles = StyleSheet.create({
   errorText: {
     color: globalColors.error,
     marginTop: 5,
-    // marginBottom: 20,
   },
   icon: {
     width: 18,
@@ -295,7 +270,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     alignSelf: 'center',
     borderColor: 'rgba(193, 177, 157, 1)',
-    // backgroundColor: globalColors.borderColorlogin,
     width: '80%',
   },
 });

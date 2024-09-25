@@ -84,14 +84,12 @@ const ForgotpasswordScreen = ({ navigation }) => {
     if (validation()) {
       dispatch(postApi(value)).then(action => {
         if (postApi.fulfilled.match(action)) {
-          // openGmailApp();
           Toast.show({
             type: 'success',
             text1: 'Reset mail send Successful',
             position: 'bottom',
             visibilityTime: 1000,
           });
-          // navigation.navigate('ResetPasswordLink');
         }
       });
     }
@@ -105,7 +103,7 @@ const ForgotpasswordScreen = ({ navigation }) => {
         <Icon
           name="arrow-back"
           size={25}
-          color="#333" // Customize the color as needed
+          color="#333"
           style={{ marginLeft: 10 }}
           onPress={() => navigation.navigate('Login')}
         />
@@ -141,7 +139,6 @@ const ForgotpasswordScreen = ({ navigation }) => {
               alignItems: 'center',
               backgroundColor: globalColors.white,
               paddingHorizontal: wp('4%'),
-              // paddingVertical: 4,
             }}>
             <Image style={styles.icon} source={emailIcon}></Image>
             <TextInput
@@ -171,7 +168,6 @@ export default ForgotpasswordScreen;
 
 const styles = StyleSheet.create({
   logincontainer: {
-    // margin: hp('2%'),
     marginTop: Platform.OS === 'ios' ? 0 : hp('2%'),
   },
   headingtext: {
@@ -185,14 +181,10 @@ const styles = StyleSheet.create({
   },
   inputfield: {
     backgroundColor: globalColors.white,
-    // borderWidth: 1,
-    // height: hp('6.5%'),
     alignSelf: 'center',
     width: '90%',
-    // marginTop: hp('3%'),
     fontFamily: 'Intrepid Regular',
-    // marginBottom: hp('3%'),
-    // paddingHorizontal: wp('5%'),
+
     borderColor: globalColors.borderColor,
     borderRadius: 5,
     padding: hp('2.5%'),

@@ -45,17 +45,6 @@ const CategoryProducts = ({ navigation }) => {
   const [page, setPage] = useState(1);
   const [msg, setMsg] = useState();
 
-  // useEffect(() => {
-  //   dispatch(fetchCategoryProducts({ categoryId: category.id, page: 1 }));
-  //   refreshWishlist();
-  // }, [dispatch, category.id]);
-
-  // const loadMoreProducts = () => {
-  //   const nextPage = page + 1;
-  //   dispatch(fetchCategoryProducts({ categoryId: category.id, page: nextPage }));
-  //   setPage(nextPage);
-  // };
-
   useEffect(() => {
     fetchData();
   }, [dispatch, category, page]);
@@ -110,16 +99,8 @@ const CategoryProducts = ({ navigation }) => {
       setMsg('No Product');
     }
   }, [wishlist]);
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     dispatch(fetchCategoryProducts({ categoryId: category.id }));
 
-  //     refreshWishlist();
-
-  //   }, [dispatch, category.id])
-  // );
   const renderProduct = ({ item }) => (
-    // console.log("==========item====>",item),
     <Pressable
       key={item.id}
       onPress={() =>
@@ -153,8 +134,7 @@ const CategoryProducts = ({ navigation }) => {
 
   const [selectedValue, setSelectedValue] = useState('One');
   const data = ['One', 'Two', 'Three'];
-  // const emojisWithIcons = ['Relevance', 'Lowest Price', 'Highest Price'];
-  // const emojisWithIcons1 = ['Name', 'Price', 'Color'];
+
   const emojisWithIcons = [''];
   const emojisWithIcons1 = [''];
 
@@ -169,12 +149,6 @@ const CategoryProducts = ({ navigation }) => {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <View style={styles.container}>
-        {/* <ScrollView
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }> */}
-        {/* <Text style={styles.TextHeading}>Women</Text> */}
 
         <View
           style={{
@@ -302,51 +276,6 @@ const CategoryProducts = ({ navigation }) => {
             marginTop: 10,
           }}
         />
-        {/* <View style={styles.productContainer}>
-            {status === 'loading' ? (
-              // <ActivityIndicator
-              //   size="large"
-              //   color={globalColors.black}
-              //   style={{ marginTop: '50%' }}
-              // />
-              <View style={{}}>
-                <SkeletonLoader count={6} />
-              </View>
-            ) : status === 'failed' ? (
-              <Text style={styles.errorText}>Error: {error}</Text>
-            ) : wishlist.length > 0 ? (
-              wishlist.map(product => (
-                <TouchableOpacity
-                  key={product.id}
-                  onPress={() =>
-                    navigation.navigate('ProductDetail', {
-                      userId: product.id,
-                      isWatchList: product?.isWatchList,
-                    })
-                  }>
-                  <Product
-                    key={product.id}
-                    uri={product?.images?.[0]?.src}
-                    name={product?.name}
-                    price={product?.price}
-                    saved={product?.saved}
-                    product_id={product?.id}
-                    isWatchList={product?.isWatchList}
-                  />
-                </TouchableOpacity>
-              ))
-            ) : (
-              <Text>{msg}</Text>
-            )}
-          </View> */}
-
-        {/* {wishlist.length >= 10 && (
-            <TouchableOpacity
-              onPress={loadMoreProducts}
-              style={styles.loadMoreButton}>
-              <Text style={styles.loadMoreButtonText}>Load More</Text>
-            </TouchableOpacity>
-          )} */}
         <FlatList
           data={wishlist}
           renderItem={renderProduct}
@@ -395,18 +324,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     paddingHorizontal: 11,
-    // backgroundColor: 'red'
-    // height: '100%'
   },
   TextHeading: {
     fontSize: 10,
     fontSize: 14,
-    // marginTop: hp('7%'),
     marginLeft: wp('2%'),
   },
   CategoryText: {
     fontSize: 25,
-    // textTransform: 'uppercase',
     color: globalColors.black,
     marginLeft: wp('2%'),
   },
@@ -417,7 +342,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: globalColors.inputBorder,
     justifyContent: 'center',
-    // width: 100,
     height: 40,
     color: globalColors.black,
   },

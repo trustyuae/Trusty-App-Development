@@ -75,7 +75,6 @@ const SignupPage = () => {
   };
 
   const isValidPhoneNumber = phoneNumber => {
-    // Regular expression for phone number validation
     const phoneRegex = /^\+?[1-9]\d{1,14}$/;
     return phoneRegex.test(phoneNumber);
   };
@@ -471,20 +470,12 @@ const SignupPage = () => {
                   )}
                   <View style={{ backgroundColor: 'white' }}>
 
-                    {/* <MobileNo
-                    selected={formData.selected}
-                    setSelected={value => handleChange('selected', value)}
-                    setCountry={handleCountryChange}
-                    phone={formData.phone}
-                    setPhone={text => handleChange('phone', text)}></MobileNo> */}
+
                   </View>
-                  {/* {errors.phone && (
-                  <Text style={styles.errorText}>{errors.phone}</Text>
-                )} */}
+
                 </View>
               </View>
-              {/* </View> */}
-              {/* <View style={styles.inputSection}> */}
+
               <View
                 style={{
                   backgroundColor: globalColors.white,
@@ -514,8 +505,7 @@ const SignupPage = () => {
                   }
                 />
                 <View style={styles.separator} />
-                {/* <View style={styles.inputPicker}> */}
-                {/* <View style={{ width: '50%' }}> */}
+
                 <TextInput
                   style={styles.input}
                   placeholder="CITY/STATE *"
@@ -526,10 +516,8 @@ const SignupPage = () => {
                 {errors.billingCity && (
                   <Text style={styles.errorText}>{errors.billingCity}</Text>
                 )}
-                {/* </View> */}
-                {/* <View style={styles.verticalLine} /> */}
+
                 <View style={styles.separator} />
-                {/* <View style={{ width: '50%' }}> */}
                 <SelectDropdown
                   data={countries}
                   search
@@ -573,11 +561,8 @@ const SignupPage = () => {
                     );
                   }}
                 />
-                {/* </View> */}
-                {/* </View> */}
               </View>
-              {/* </View> */}
-              {/* <View style={styles.inputSection}> */}
+
               <View
                 style={{
                   marginTop: hp('2%'),
@@ -620,9 +605,7 @@ const SignupPage = () => {
                       <Text style={styles.errorText}>{errors.shippingCity}</Text>
                     )}
                   </View>
-                  {/* <View style={styles.verticalLine} /> */}
                   <View style={styles.separator} />
-                  {/* <View style={{ width: '50%' }}> */}
                   <SelectDropdown
                     data={countries}
                     search
@@ -848,15 +831,10 @@ const styles = StyleSheet.create({
   },
   input: {
     height: hp('6.5%'),
-    // borderWidth: 1,
-    // borderColor: globalColors.inputBorder,
-    // borderRadius: 4,
     fontFamily: 'Intrepid Regular',
-    // textTransform: 'uppercase',
     paddingLeft: hp('3%'),
     fontSize: 14,
     fontWeight: '400',
-    // marginBottom: hp('1.5%'),
     color: globalColors.buttonBackground,
     backgroundColor: globalColors.white,
   },
@@ -926,10 +904,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Intrepid Bold',
   },
 
-  //---------------------------------------------
-
   dropdownButtonStyle: {
-    // height: 50,
     height: hp('6.5%'),
     fontSize: wp('3.1%'),
     backgroundColor: globalColors.white,
@@ -1002,19 +977,13 @@ const styles = StyleSheet.create({
   verticalLine: {
     width: 0.5,
     borderColor: globalColors.borderColorlogin,
-
-    // Width of the vertical line
-    // backgroundColor: globalColors.borderColorlogin, // Color of the vertical line
-    // marginTop: 10,
     borderWidth: 0.2,
     alignSelf: 'center',
-    // height: '50%', // Height of the line
   },
   separator: {
     borderWidth: 0.5,
     borderColor: 'rgba(193, 177, 157, 1)',
     alignSelf: 'center',
-    // backgroundColor: globalColors.borderColorlogin,
     width: '85%',
   },
 });

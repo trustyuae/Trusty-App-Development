@@ -8,6 +8,7 @@ import {
   Alert,
   SafeAreaView,
   Pressable,
+  Platform,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -116,7 +117,6 @@ export default function Productdetailscreen({ route }) {
 
   const handlepressTabby = () => {
     const url = `https://checkout.tabby.ai/promos/product-page/installments/en/?price=${responseData?.price}&currency=AED&merchant_code=AE&public_key=pk_xyz`;
-    //const url = 'https://cdn.tamara.co/static/faq-en.html';
 
     navigation.navigate('WebViewScreen', { url });
   };
@@ -176,8 +176,7 @@ export default function Productdetailscreen({ route }) {
   const attributes = {};
 
   useEffect(() => {
-    // console.log('====>responseData', responseData);
-    // console.log('Hardware----->', hardwareMeta.value);
+
     responseData?.attributes?.forEach(attribute => {
       if (attribute.name.toLowerCase() === 'size') {
         if (typeof changeSize === 'string') {
@@ -342,7 +341,10 @@ export default function Productdetailscreen({ route }) {
       <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
       <SafeAreaView style={{ justifyContent: 'center' }}>
-        <View style={{ marginBottom: responseData?.stock_status === "onbackorder" && responseData?.price > 0 ? hp('8%') : 0 }}>
+        <View style={{
+          marginBottom: responseData?.stock_status === "onbackorder" && responseData?.price > 0 ? hp('8%') : 0,
+          marginTop: Platform.OS === 'ios' ? 0 : hp('8%')
+        }}>
           {loading ? (
             <SkeletonLoaderProductDetails />
           ) : (
@@ -460,12 +462,7 @@ export default function Productdetailscreen({ route }) {
                         marginVertical: 10
                       }}>
                     </View>
-                    <View
-                    // style={{
-                    //   borderBottomWidth: 1,
-                    //   borderColor: globalColors.lightGray,
-                    // }}
-                    >
+                    <View>
                       <Text
                         style={{
                           color: '#5546DC',
@@ -511,10 +508,7 @@ export default function Productdetailscreen({ route }) {
 
                         </View>
                       </TouchableOpacity>
-                      {/* <Image
-                        source={{ uri: 'https://tabby-assets.s3.eu-west-1.amazonaws.com/logo.svg' }} // Use Tabby logo URL or local asset
-                        style={styles.logo}
-                      /> */}
+
                     </View>
 
 
@@ -544,67 +538,6 @@ export default function Productdetailscreen({ route }) {
                         setChangeSize={setChangeSize}
                       />
                     )}
-                    {/* <View style={styles.iconParentContainer}>
-                      <View style={styles.iconContainer}>
-                        <Image
-                          source={certifiedIcon}
-                          style={{
-                            height: 42,
-                            width: 35,
-                            marginBottom: wp('5%'),
-                          }}
-                          resizeMode="contain"></Image>
-                        <Text style={styles.bottomContainerText}>
-                          Free{'                              '}delivery
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: 1,
-                          height: '40%',
-                          backgroundColor: globalColors.textColorSignup,
-                          left: wp('1%'),
-                          top: 0,
-                        }}
-                      />
-                      <View style={styles.iconContainer}>
-                        <Image
-                          source={returnExchangeIcon}
-                          style={{
-                            height: 42,
-                            width: 35,
-                            marginBottom: wp('5%'),
-                          }}
-                          resizeMode="contain"></Image>
-                        <Text style={styles.bottomContainerText}>
-                          7 Days Returns & exchanges
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: 1,
-                          height: '40%',
-                          backgroundColor: globalColors.textColorSignup,
-                          left: wp('1%'),
-                          top: 0,
-                        }}
-                      />
-                      <View style={styles.iconContainer}>
-                        <Image
-                          source={deliveryIcon}
-                          style={{
-                            height: 42,
-                            width: 35,
-                            marginBottom: wp('5%'),
-                          }}
-                          resizeMode="contain"></Image>
-                        <Text style={styles.bottomContainerText}>
-                          {' '}
-                          top{'                              '}brand{' '}
-                        </Text>
-                      </View>
-                    </View> */}
-
 
                     {
                       responseData?.description && (
@@ -633,21 +566,15 @@ export default function Productdetailscreen({ route }) {
                           </View>
                           {showMore &&
                             <Text style={{
-                              // flexDirection: 'column',
-                              // color: globalColors.newTextColor,
                               fontSize: 16,
                               fontWeight: '400',
                               color: globalColors.textColorLogin,
                               fontFamily: 'Intrepid Regular',
-
-                              // fontFamily: 'Product Sans',
                               marginLeft: wp('5%'),
                             }}>
                               {removeHtmlTags(responseData?.description)}
 
-                              {/* <Text style={styles.readMore}>
-                          {showMore ? ' Read Less' : ' Read More'}
-                        </Text> */}
+
                             </Text>
                           }
                           <View style={styles.custBorder} />
@@ -714,11 +641,7 @@ export default function Productdetailscreen({ route }) {
 
                             }}>-Delivery within 3-4 weeks in UAE</Text>
                           }
-                          {/* <Text>Delivery outside the UAE: 5-7 days</Text> */}
 
-                          {/* <Text style={styles.readMore}>
-                          {showMore ? ' Read Less' : ' Read More'}
-                        </Text> */}
                         </View>
                       }
                       <View style={styles.custBorder} />
@@ -769,68 +692,9 @@ export default function Productdetailscreen({ route }) {
                     </ScrollView>
                   </View>
                 </ScrollView>
-                {/* <View
-                  style={{
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    backgroundColor: globalColors.headingBackground,
-                  }}> */}
-                {/* <View
-                    style={{
-                      alignItems: 'flex-end',
-
-                      height: hp('12%'),
-                      justifyContent: 'center',
-                    }}> */}
-
-                {/* </View> */}
-                {/* <View
-                    style={{
-                      backgroundColor: globalColors.headingBackground,
-                      paddingHorizontal: 10,
-                      position: 'absolute',
-                    }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                      }}>
-                      <Pressable onPress={handleDecrement}>
-                        <Image source={minusIcon}></Image>
-                      </Pressable>
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: '700',
-                            color: globalColors.darkGray,
-                            fontFamily: 'Product Sans',
-                            marginHorizontal: 20,
-                          }}>
-                          {quantity}
-                        </Text>
-                      </View>
-                      <Pressable onPress={handleIncrement}>
-                        <Image source={plusIcon}></Image>
-                      </Pressable>
-                    </View>
-                  </View> */}
-                {/* </View> */}
               </View>
             </>
           )}
-          {/* <TabbyModal
-            visible={modalVisible}
-            onClose={closeModal}
-            priceToTabby={priceToTabby}
-          >
-          </TabbyModal> */}
-          {/* visibl */}
-          {/* <TamaraModal
-            visible={modalVisible}
-            onClose={closeModal}
-            priceToTabby={priceToTabby}
-          >
-          </TamaraModal> */}
 
         </View>
         {
@@ -887,8 +751,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontFamily: 'Intrepid Regular',
     marginLeft: wp('5%'),
-    // marginTop: 5,
-    // marginBottom: hp('4%'),
   },
   custAEDregularPrice: {
     color: globalColors.lightWhite,
@@ -901,11 +763,8 @@ const styles = StyleSheet.create({
   custbtn: {
     backgroundColor: globalColors.black,
     padding: 10,
-    // marginHorizontal: 110,
     borderRadius: 5,
-    // marginVertical: -5,
     position: 'absolute',
-    // bottom: hp('5.5%'),
     bottom: 15,
     left: 15,
     right: 15,
@@ -918,13 +777,10 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     flexDirection: 'row',
-    // flexWrap: 'wrap',
-    // justifyContent: 'center',
     gap: 15,
     paddingVertical: wp('1%'),
     marginTop: hp('1%'),
-    // marginBottom: hp('7%'),
-    // backgroundColor: globalColors.blue
+
   },
   iconContainer: {
     height: 18,
@@ -981,7 +837,6 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: '#f9f5f0',
     alignItems: 'center',
-    // justifyContent: 'space-between',
   },
   infoContainer: {
     flex: 1,
@@ -1014,8 +869,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Intrepid Regular',
     color: '#000',
-    // marginTop: 5,
-    textDecorationLine: 1
   },
   logo: {
     width: 50,

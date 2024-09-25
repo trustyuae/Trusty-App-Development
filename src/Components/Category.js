@@ -46,17 +46,6 @@ const Category = ({uri, name, description, price, id, isWatchList}) => {
       fetchData();
     }, [saved, dispatch, isWatchList, tokenData]),
   );
-  // useEffect(() => {
-  //   if (wishlist && wishlist.length > 0) {
-  //     const wishlistIds = wishlist.map(item => item.toString()); // convert Wishlist array to string array
-  //     console.log('dd', wishlistIds);
-  //     if (wishlistIds.includes(product_id.toString())) {
-  //       setSaved(true);
-  //     } else {
-  //       setSaved(false);
-  //     }
-  //   }
-  // }, [wishlist, product_id]);
 
   const toggleSaved = async () => {
     if (tokenData) {

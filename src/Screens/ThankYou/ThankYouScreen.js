@@ -25,9 +25,6 @@ const ThankYouScreen = () => {
         <View style={styles.subHeadingContainer}>
           <Text style={styles.subHeadingOrder}>your order has been recevied</Text>
           <Text style={styles.subHeading}>We appreciate your business. You'll receive an email confirmation shortly.</Text>
-          {/* <Text style={styles.subHeading}> */}
-
-          {/* </Text> */}
         </View>
         {/* <Text style={styles.MainHeading}>ORDER DETAILS</Text> */}
         <View style={{ backgroundColor: globalColors.white }}>
@@ -47,7 +44,6 @@ const ThankYouScreen = () => {
 
             <View style={styles.row}>
               <View style={styles.cell}>
-                {/* <Text style={styles.value}>200.00 AED</Text> */}
                 <Text style={styles.label}>Payment method:</Text>
                 <Text style={styles.value}>Cash on delivery</Text>
 
@@ -76,11 +72,6 @@ const ThankYouScreen = () => {
 };
 const styles = StyleSheet.create({
   container: {
-    // padding: wp('10%'),
-    // width: wp('100%'),
-    // height: hp('100%'),
-    // marginTop: hp('2%'),
-    // paddingTop: 30,
     backgroundColor: globalColors.headingBackground,
   },
   custbtn: {
@@ -88,7 +79,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingVertical: 12,
     paddingHorizontal: 20,
-    // marginVertical: 20,
     borderRadius: 5,
   },
   custfontstyle: {

@@ -10,44 +10,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-// let getData = [
-//   {
-//     id: 1,
-//     img: Images.Shopping,
-//     label: 'Bags',
-//   },
-//   {
-//     id: 2,
-//     img: Images.Shoes_01,
-//     label: 'Shoes',
-//   },
-//   {
-//     id: 3,
-//     img: Images.Accessories,
-//     label: 'Accessories',
-//   },
-//   {
-//     id: 4,
-//     img: Images.Scarf,
-//     label: 'Scarfs',
-//   },
-//   {
-//     id: 5,
-//     img: Images.Jewellery,
-//     label: 'Jewellery``',
-//   },
-//   // {
-//   //   id: 4,
-//   //   img: Images.shoes,
-//   //   label: 'JEWELLERY',
-//   // },
-// ];
+
 
 const CategoryComponent = ({ getData, navigateToCategoryProducts }) => {
-  // console.log("1", getData);
   const updated = getData.map(data => ({
     img: data.img,
-    // id: categories.find(item => item.label == data.label)?.id,
     id: data.id,
     label: data.label,
   }));
