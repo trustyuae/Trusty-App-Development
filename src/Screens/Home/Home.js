@@ -318,6 +318,7 @@ const Home = () => {
                           onPress={() =>
                             navigation.navigate('ProductDetail', {
                               userId: product.id,
+                              isWatchList: product?.isWatchList
                             })
                           }>
                           <Readytogo

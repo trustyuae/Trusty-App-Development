@@ -19,11 +19,9 @@ const arrowBack = require('../Assets/Images/ArrowleftDirection.png');
 const Logout = require('../Assets/Images/Logout.png');
 const ProfileIcon = require('../Assets/Images/ProfileIcon.png');
 const Bottom = require('../Assets/Images/Bottom.png');
-const Shoes_01 = require('../Assets/Images/Shoes_01.png');
+// const Shoes_01 = require('../Assets/Images/Shoes_01.png');
 const Rectangle = require('../Assets/Images/Rectangle.png');
 const Shopping = require('../Assets/Images/Shopping.png');
-const Accessories = require('../Assets/Images/accessories.png');
-const Scarf = require('../Assets/Images/Scarfs.png');
 const Backarrow = require('../Assets/Images/backarrow.png');
 const Rating = require('../Assets/Images/rating.png');
 const Line = require('../Assets/Images/Line.png');
@@ -77,12 +75,10 @@ export default {
   Line,
   Rating,
   Backarrow,
-  Scarf,
-  Accessories,
   Rectangle,
   Bottom,
   Shopping,
-  Shoes_01,
+  // Shoes_01,
   icons,
   bag,
   bags,

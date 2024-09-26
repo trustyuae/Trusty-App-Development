@@ -284,7 +284,9 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
   return (
     <GestureHandlerRootView >
       <TouchableWithoutFeedback onPress={handleOutsideClick}>
-        <SafeAreaView style={{ marginBottom: hp('4%'), height: hp('85%') }}>
+        <SafeAreaView style={{
+          marginBottom: hp('4%'), height: hp('85%'),
+        }}>
           <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
             <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
 
@@ -588,7 +590,6 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
                   marginTop: hp('2%'),
                   paddingLeft: wp('4%'),
                   paddingRight: wp('4%'),
-                  // height: '100%',
                 }}>
                   <TouchableOpacity
                     style={{ flexDirection: 'row', justifyContent: 'space-between', }}
@@ -716,17 +717,18 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
 
             </View>
           </ScrollView>
+          <ContactUsScreen
+            visible={modalVisible}
+            onClose={closeModal}
+          >
+          </ContactUsScreen>
 
         </SafeAreaView>
 
       </TouchableWithoutFeedback>
-      <ContactUsScreen
-        visible={modalVisible}
-        onClose={closeModal}
 
-      >
 
-      </ContactUsScreen>
+
     </GestureHandlerRootView >
   );
 };
