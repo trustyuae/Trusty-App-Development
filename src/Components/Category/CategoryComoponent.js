@@ -1,42 +1,28 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
-import { Images } from '../../Constants';
-import { globalColors } from '../../Assets/Theme/globalColors';
-import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 import { Text } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { globalColors } from '../../Assets/Theme/globalColors';
+import { fontFamily } from '../../Assets/Theme/fontFamily';
 
-
-
-const CategoryComponent = ({ getData, navigateToCategoryProducts }) => {
-  const updated = getData.map(data => ({
-    img: data.img,
-    id: data.id,
-    label: data.label,
-  }));
-
+const CategoryComoponent = ({ getData, navigateToCategoryProducts }) => {
   const handleCategoryClick = categoryId => {
     navigateToCategoryProducts(categoryId);
   };
 
-  const getImageSource = img => {
-    if (typeof img === 'string' && img.startsWith('http')) {
-      return { uri: img };
-    }
-
-    return img;
-  };
   return (
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      <View style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
+      <View style={styles.gridContainer}>
         {getData?.map(item => (
           <TouchableOpacity
             key={item.id}
-            onPress={() => handleCategoryClick(item)}>
+            onPress={() => handleCategoryClick(item)}
+            style={styles.itemContainer}
+          >
             <View style={styles.imageContainer}>
               <Image source={{ uri: item?.image?.Image }} style={styles.image} />
             </View>
@@ -48,42 +34,53 @@ const CategoryComponent = ({ getData, navigateToCategoryProducts }) => {
   );
 };
 
-export default CategoryComponent;
+export default CategoryComoponent;
 
 const styles = StyleSheet.create({
   container: {
+    // padding: wp('2%'),
+    backgroundColor: globalColors.headingBackground
+  },
+  gridContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: wp('0.5%'),
-    paddingRight: wp('1%'),
-    paddingBottom: 16,
-    gap: wp('5.5%'),
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+  },
+  itemContainer: {
+    // width: wp('49%'),
+    marginBottom: hp('3%'),
+    alignItems: 'center',
   },
   imageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: hp('12.5%'),
-    width: wp('27.5%'),
-    // height: 110,
-    // width: 110,
-    borderRadius: 12,
-    backgroundColor: globalColors.white,
-    marginTop: 16,
+    width: wp('43%'),
+    height: wp('38%'),
+    backgroundColor: globalColors.headingBackground,
+    borderRadius: 10,
+    resizeMode: 'center',
+    // shadowColor: '#000',
+    // shadowOpacity: 0.1,
+    // shadowRadius: 10,
+    // elevation: 2,
   },
   image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 5,
     // resizeMode: 'contain',
-    height: hp('12.5%'),
-    width: wp('27.5%'),
-    borderRadius: wp('2%'),
   },
   label: {
-    textTransform: 'capitalize',
-    textAlign: 'center',
-    marginTop: 8,
-    fontSize: 19,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: hp('1%'),
+    fontSize: 18,
     fontWeight: '400',
-    color: globalColors.newTextColor,
-    fontFamily: 'Intrepid Regular',
-    // flexWrap: 'wrap'
+    color: globalColors.darkGray,
+    fontFamily: fontFamily.fontFamilyOcator,
+    //  fontFamily: fontFamily.fontFamilyOcatorBold,
+    flexWrap: 'wrap',
+    width: wp('43%'),
+    lineHeight: 22,
   },
 });

@@ -112,7 +112,7 @@ const Product = ({ uri, name, price, product_id, isWatchList, img, description }
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
             style={styles.saveImage}
-            source={saved ? Images.SaveIconFill3x : Images.saveIconUnFill3x}
+            source={saved ? Images.SaveIconFillTransparant : Images.SavaIconUnFillTransparant}
           />
         </Pressable>
       </View>
@@ -144,56 +144,57 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: wp('32%'),
-    height: hp('18%'),
+    // height: hp('18%'),
     position: 'relative',
   },
   detailsContainer: {
-    marginTop: hp('2%'),
-    height: hp('10%'),
-    width: wp('46%'),
+    marginTop: hp('1.5%'),
+    // height: hp('10%'),
+    width: wp('43%'),
     justifyContent: 'center',
   },
   name: {
     width: wp("44%"),
     fontSize: 18,
-    textTransform: 'capitalize',
-    fontFamily: 'Intrepid Regular',
+    textTransform: 'uppercase',
+    // fontFamily: 'Intrepid Regular',
+    fontFamily: 'Orator Std Medium',
+    // fontFamily: 'OratorStd',
     fontWeight: '400',
-    paddingHorizontal: wp('2%'),
-    color: globalColors.newTextColorProduct,
-    marginTop: hp('2%'),
+    color: globalColors.darkGray,
+    // marginTop: hp('2%'),
   },
   price: {
-    fontSize: 18,
-    marginTop: wp('1%'),
-    fontFamily: 'Intrepid Regular',
-    paddingHorizontal: wp('2%'),
-    fontWeight: '300',
-    color: globalColors.productPriceText,
+    fontSize: 16,
+    marginTop: hp('1%'),
+    fontFamily: 'Helvetica Neue Medium',
+    // paddingHorizontal: wp('2%'),
+    fontWeight: '400',
+    color: globalColors.lightBlack,
   },
   saveImagea: {
     position: 'absolute',
     marginTop: wp('0.1%'),
-    marginLeft: wp('28%'),
+    marginLeft: wp('27.5%'),
     padding: 12,
     left: 15,
   },
   saveImage: {
-    width: 32,
+    width: 22,
     resizeMode: 'contain',
     padding: 8,
-    height: 32,
+    height: 22,
   },
   image: {
     // borderRadius: wp("1%"),
     borderRadius: 5,
-    width: wp('46%'),
-    height: hp('21%'),
+    width: wp('43%'),
+    height: hp('22%'),
   },
   dummy: {
     // borderRadius: 6,
     borderRadius: 5,
-    width: wp('46%'),
+    width: wp('43%'),
     height: hp('21%'),
   },
 

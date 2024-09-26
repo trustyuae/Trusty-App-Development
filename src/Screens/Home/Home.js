@@ -33,7 +33,7 @@ import { ImageBackground } from 'react-native';
 import SkeletonLoaderHomeimg from '../../Components/Loader/SkeletonLoaderHomeimg';
 import { getSignatureSelectionsData } from '../../Redux/Slice/signatureSelections';
 import { fontFamily } from '../../Assets/Theme/fontFamily';
-import { AdornImage, tabbyIcon } from '../../Constants/Icons';
+import { AdornImage, HomeScreenBackground3x, ReadyToGo3x, RightArrowIcon3x, SignatureLogo3x, homeScreenWriting3x, tabbyIcon } from '../../Constants/Icons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 
@@ -211,26 +211,30 @@ const Home = () => {
               tintColor={globalColors.black}
             />
           }>
-          <View style={{}}>
+          <View style={{
+            backgroundColor: globalColors.headingBackground,
+            // paddingHorizontal: wp('1%'),
+            paddingBottom: hp('4%')
+          }}>
             <View
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginTop: 20,
+                marginTop: 10,
               }}>
               <Image
-                source={Images.homeScreenBackground}
+                source={HomeScreenBackground3x}
                 style={styles.Topimg}></Image>
             </View>
 
-            <View style={{ alignItems: 'center' }}>
+            {/* <View style={{ alignItems: 'center' }}>
               <Image style={{ width: 250, height: 100 }} resizeMode='contain'
                 source={tabbyIcon}>
 
               </Image>
-            </View>
+            </View> */}
             {
-              <View style={{ paddingHorizontal: wp('2.3%') }}>
+              <View style={{ marginTop: hp('3'), }}>
                 <CategoryComoponent
                   // getData={getData}
                   getData={categories}
@@ -240,23 +244,59 @@ const Home = () => {
             }
 
             <View style={{
-              alignItems: 'center', borderRadius: 25, top: 10
+              // alignItems: 'left',
+              // borderRadius: 25,
+              marginTop: wp('2%')
             }}>
-              <Pressable onPress={() => navigation.navigate('SeeAll')}>
+              <Pressable
+                style={{
+                  alignSelf: 'center',
+                  width: wp('92%'),
+                  justifyContent: 'center',
+                  backgroundColor: globalColors.white,
+                  borderBottomRightRadius: 5,
+                  borderBottomLeftRadius: 5
+                }}
+                onPress={() => navigation.navigate('SeeAll')}>
                 <Image style={{
-                  width: wp('94%'),
-                  borderRadius: wp('3%'),
-                  height: hp('23%'),
+                  width: wp('92%'),
+                  // borderRadius: wp('3%'),
+                  borderTopLeftRadius: 5,
+                  borderTopRightRadius: 5,
+                  height: hp('16%'),
+                  resizeMode: 'stretch'
 
-                }} source={Images.readyToGoImage}
+                }} source={ReadyToGo3x}
 
                 >
                 </Image>
+
+                <View style={{
+                  flex: 1,
+                  width: wp('92%'),
+                  alignSelf: 'center',
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 5,
+                  padding: hp('2%'),
+                  flexDirection: 'row',
+                  justifyContent: 'space-between'
+                }}>
+                  <Text style={styles.heading}>Ready To Go</Text>
+                  <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 10
+                  }}>
+                    <Text style={styles.heading}>
+                      See all
+                    </Text>
+                    <Image source={RightArrowIcon3x} style={{ width: 30, height: 15 }}></Image>
+                  </View>
+                </View>
               </Pressable>
-              <Text style={styles.heading}>Ready To Go</Text>
             </View>
 
-            <View style={{
+            {/* <View style={{
               marginLeft: wp('3'),
               flexDirection: 'row',
               alignItems: 'center',
@@ -339,15 +379,146 @@ const Home = () => {
               <Pressable onPress={scrollRight} style={styles.arrowButton}>
                 <SimpleLineIcons name="arrow-right" size={25} color="#7C7A78" />
               </Pressable>
-            </View>
+            </View> */}
 
           </View>
+
+          <View style={{ backgroundColor: globalColors.white }}>
+            <View style={{
+              // padding: wp('5'),
+              paddingHorizontal: wp('4%'),
+              paddingVertical: hp('4%')
+
+            }}>
+              <View style={{
+                flexDirection: 'row',
+                // alignSelf: 'center',
+                // justifyContent: 'center'
+              }}>
+                <Text style={{
+                  fontSize: 32,
+                  fontWeight: '400',
+                  fontFamily: fontFamily.fontFamilyOcator,
+                  // fontFamily: 'Helvetica Neue Medium',
+
+                  textTransform: 'uppercase',
+                  color: globalColors.lightgold
+                }}>signature </Text>
+                <View style={{
+                  // alignItems: 'center',
+                }}>
+                  <Image source={SignatureLogo3x} style={{
+                    width: 24,
+                    height: 24,
+                    marginLeft: -16,
+                  }}>
+
+                  </Image>
+                </View>
+
+              </View>
+
+              <Text style={{
+                fontSize: 32,
+                fontWeight: '400',
+                textTransform: 'uppercase',
+                color: globalColors.darkGray,
+                fontFamily: fontFamily.fontFamilyOcator,
+              }}>Selections</Text>
+            </View>
+
+            <View style={{
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-evenly'
+
+            }}>
+              {
+                true && updatedSignatureSelectionsProducts.length === 0 ? (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      paddingHorizontal: 2, marginLeft: wp('2.5%')
+                    }}>
+                    <SkeletonLoader count={4} />
+                  </View>
+                ) : (
+                  updatedSignatureSelectionsProducts.map(product => (
+                    <Pressable
+                      key={product?.id}
+                      onPress={() =>
+                        navigation.navigate('ProductDetail', {
+                          userId: product.id,
+                          isWatchList: product?.isWatchList,
+                        })
+                      }>
+                      {product.image && product.image.length > 0 ? (
+                        <>
+                          <Product
+                            key={product?.id}
+                            uri={product?.image}
+                            name={product?.name}
+                            price={product?.price}
+                            saved={product?.saved}
+                            product_id={product?.id}
+                            isWatchList={product?.isWatchList}
+                          />
+                        </>
+                      ) : (
+                        <Product
+                          key={product?.id}
+                          uri={false}
+                          name={product?.name}
+                          price={product?.price}
+                          saved={product?.saved}
+                          product_id={product?.id}
+                          isWatchList={product?.isWatchList}
+                        />
+                      )}
+                    </Pressable>
+                  ))
+                )}
+            </View>
+            <View style={{
+              flex: 1,
+              width: wp('92%'),
+              // height: hp('10%'),
+              marginBottom: hp('4%'),
+              marginTop: hp('3%'),
+              justifyContent: 'center',
+              alignSelf: 'center',
+
+            }}>
+              <Pressable
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10
+                }}
+                onPress={() => {
+                  navigation.navigate('ExploreMore')
+                }}>
+
+
+                <Text style={styles.heading}>
+                  See all
+                </Text>
+                <Image source={RightArrowIcon3x} style={{ width: 30, height: 15 }}></Image>
+              </Pressable>
+
+            </View>
+          </View>
+
 
 
           <View style={{ backgroundColor: globalColors.headingBackground }}>
             <View style={{
               alignSelf: 'center',
-              marginTop: hp('5%')
+              // marginTop: hp('5%')
             }}>
               {imageLoaded && <SkeletonLoaderHomeimg />}
               <ImageBackground
@@ -357,7 +528,7 @@ const Home = () => {
               >
                 <Image
                   style={styles.imageContainer}
-                  source={Images.Textimg}></Image>
+                  source={homeScreenWriting3x}></Image>
               </ImageBackground>
             </View>
           </View>
@@ -369,7 +540,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   Topimg: {
     height: hp('26%'),
-    width: wp('96%'),
+    width: wp('92%'),
     resizeMode: 'contain',
   },
   custommargin: {
@@ -413,13 +584,17 @@ const styles = StyleSheet.create({
     marginBottom: hp('10%'),
   },
   heading: {
-    textAlign: 'center',
-    fontFamily: fontFamily.fontFamilyIntrepid,
-    fontWeight: '600',
-    fontSize: 22,
-    marginTop: hp('2%'),
+    // textAlign: 'left',
+    justifyContent: 'center',
+
+    // width: wp('92%'),
+    fontFamily: fontFamily.fontFamilyHelvetica,
+    fontWeight: '400',
+    fontSize: 16,
+    // marginTop: hp('2%'),
+    // marginLeft: wp('10%'),
     // marginBottom: hp('2%'),
-    color: globalColors.newTextColor,
+    color: globalColors.black,
   },
   onBackPress: {
     alignItems: 'flex-start',
@@ -467,7 +642,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
     margin: 'auto',
-    marginTop: hp('9%'),
+    marginTop: hp('13%'),
     height: hp('25%'),
     width: wp('90%'),
     resizeMode: 'contain',

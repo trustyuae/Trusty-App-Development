@@ -15,6 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { Head3x, NewCartIcons, NewCartIcons3x, NewSearchIcon3x } from '../Constants/Icons';
 
 const Drawer = createDrawerNavigator();
 
@@ -168,19 +169,26 @@ const DrawerNavigation = ({ navigation }) => {
             <TouchableOpacity
               onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
             >
-              <View style={{ marginLeft: 10 }}>
-                <Feather name='menu' size={25} color='#7C7A78'></Feather>
+              <View style={{ marginLeft: wp('4%') }}>
+                {/* <Feather name='menu' size={25} color='#7C7A78'></Feather> */}
+                <Image source={NewSearchIcon3x} style={{ width: 25, height: 25 }}></Image>
               </View>
             </TouchableOpacity>
           ),
           headerTitleAlign: 'center',
           headerTitle: () => (
-            <Image source={Images.Head} style={{ width: 145, height: 32 }} />
+            <Image source={Head3x} style={{ width: 115, height: 26 }} />
           ),
           headerRight: () => (
-            <View style={{ marginRight: 10 }}>
-              <Feather name="shopping-bag" size={25} color='#7C7A78' />
-            </View>
+            <TouchableOpacity
+            //  onPress={() => navigation.navigate('Cart')}
+            >
+              <View style={{ marginRight: wp('4%') }}>
+                {/* <Feather name="shopping-bag" size={25} color='#7C7A78' /> */}
+                <Image source={NewCartIcons3x} style={{ width: 25, height: 25 }}></Image>
+
+              </View>
+            </TouchableOpacity>
           ),
         }}
       />

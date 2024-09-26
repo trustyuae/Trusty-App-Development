@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ProfileIcon, HomeIcon, SearchIcon, BagIcon, HomeIconfilled, ProfileIconfilled } from '../Constants/Icons';
+import { ProfileIcon, HomeIcon, SearchIcon, BagIcon, HomeIconfilled, ProfileIconfilled, HeartIcon3x } from '../Constants/Icons';
 
 import HomeCustomeNavigation from './HomeCustomeNavigation';
 import LoginCustomeNavigation from './LoginCustomeNavigation';
@@ -12,6 +12,7 @@ import CartScreen from '../Screens/Cart/CartScreen';
 import SearchScreen from '../Screens/search/SearchScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Shop from '../Screens/Shop/Shop';
+import Wishlist from '../Screens/wishlist/wishlist';
 
 const Tab = createBottomTabNavigator();
 
@@ -89,18 +90,18 @@ const BottomTabNavigation = ({ navigation }) => {
       />
 
       <Tab.Screen
-        name="Bag"
-        component={CartScreen}
+        name="wishlist"
+        component={Wishlist}
         options={{
           tabBarIcon: ({ focused }) => (
             focused ?
               <Image
-                source={BagIcon}
+                source={HeartIcon3x}
                 style={{ width: 20, height: 20 }}
                 tintColor={"#866528"}
                 resizeMode="contain"
               /> : <Image
-                source={BagIcon}
+                source={HeartIcon3x}
                 style={{ width: 20, height: 20 }}
                 resizeMode="contain"
               />

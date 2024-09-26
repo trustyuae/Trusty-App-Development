@@ -2,8 +2,28 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/HelveticaNeueMedium.otf",
+      "sha1": "d46c2de0310e80f35934124d36a5556f08948700"
+    },
+    {
+      "path": "assets/fonts/Intrepid Bold.ttf",
+      "sha1": "7e9b1e6899f542ac149d2cedc64bc95fd56b5fd6"
+    },
+    {
       "path": "assets/fonts/Intrepid Regular.ttf",
       "sha1": "afc9af066c398f5e7e36d8ceb7c4b1f11647c1aa"
+    },
+    {
+      "path": "assets/fonts/Orator Bold.ttf",
+      "sha1": "8ffac341c94677d2d532365c34d769f37719a004"
+    },
+    {
+      "path": "assets/fonts/Orator Std Medium.ttf",
+      "sha1": "5d766d705762e860af4d9c5410a5c8f63ca30b48"
+    },
+    {
+      "path": "assets/fonts/OratorStd.otf",
+      "sha1": "5d766d705762e860af4d9c5410a5c8f63ca30b48"
     }
   ]
 }

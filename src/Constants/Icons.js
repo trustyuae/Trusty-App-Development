@@ -29,6 +29,14 @@ export const whatsappIcon = require('../Assets/Icons/whatsappIcon.png')
 export const tabbyIcon = require('../Assets/Icons/tabbyHomePageImage.png')
 export const AdornImage = require('../Assets/Icons/AdornImage.png')
 
+export const NewCartIcons = require('../Assets/Icons/NewCartIcon.png')
+export const NewCartIcons3x = require('../Assets/Icons/NewCartIcon3x.png')
+export const NewSearchIcon3x = require('../Assets/Icons/NewSearchIcon3x.png')
+export const Head3x = require('../Assets/Icons/Head3x.png')
+export const RightArrowIcon3x = require('../Assets/Icons/RightArrowIcon3x.png')
+export const SignatureLogo3x = require('../Assets/Icons/SignatureLogo3x.png')
+export const HeartIcon3x = require('../Assets/Icons/HeartIcon3x.png')
+
 //*************************************************Exported Images**********************
 
 export const ProductIMG = require('../Assets/Images/ProductImg.png');
@@ -45,3 +53,7 @@ export const Dummyproduct3 = require('../Assets/Images/ProductDummy3.png');
 export const tabbyLogo = require('../Assets/Icons/tabbylogo.png')
 export const tamara = require('../Assets/Icons/tamara.png')
 
+
+export const ReadyToGo3x = require('../Assets/Images/ReadyToGo3x.png');
+export const HomeScreenBackground3x = require('../Assets/Icons/homeScreenBackground.png');
+export const homeScreenWriting3x = require('../Assets/Images/homeScreenWriting3x.png');
