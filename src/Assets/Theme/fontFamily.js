@@ -3,6 +3,7 @@ export const fontFamily = {
     fontFamilyProduct: 'Product Sans',
     fontFamilyHelvetica: 'Helvetica Neue Medium',
     fontFamilyOcator: 'Orator Std Medium',
-    fontFamilyOcatorBold: 'Orator Bold'
-
+    fontFamilyOcatorBold: 'Orator Bold',
+    fontFamilyOcatorStd: 'OratorStd',
+    fontFamilyHelveticaRegular: 'HelveticaNeue Regular'
 }

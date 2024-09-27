@@ -281,7 +281,7 @@ const Home = () => {
                   flexDirection: 'row',
                   justifyContent: 'space-between'
                 }}>
-                  <Text style={styles.heading}>Ready To Go</Text>
+                  <Text style={styles.heading}>Ready to Go</Text>
                   <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -398,19 +398,18 @@ const Home = () => {
                 <Text style={{
                   fontSize: 32,
                   fontWeight: '400',
-                  fontFamily: fontFamily.fontFamilyOcator,
+                  fontFamily: fontFamily.fontFamilyOcatorStd,
                   // fontFamily: 'Helvetica Neue Medium',
 
-                  textTransform: 'uppercase',
+                  textTransform: 'none',
                   color: globalColors.lightgold
-                }}>signature </Text>
+                }}>Signature</Text>
                 <View style={{
                   // alignItems: 'center',
                 }}>
                   <Image source={SignatureLogo3x} style={{
                     width: 24,
                     height: 24,
-                    marginLeft: -16,
                   }}>
 
                   </Image>
@@ -421,7 +420,7 @@ const Home = () => {
               <Text style={{
                 fontSize: 32,
                 fontWeight: '400',
-                textTransform: 'uppercase',
+                textTransform: 'none',
                 color: globalColors.darkGray,
                 fontFamily: fontFamily.fontFamilyOcator,
               }}>Selections</Text>
@@ -589,6 +588,9 @@ const styles = StyleSheet.create({
 
     // width: wp('92%'),
     fontFamily: fontFamily.fontFamilyHelvetica,
+    //fontFamilyHelveticaRegular
+    // fontFamily: fontFamily.fontFamilyHelvetica,
+
     fontWeight: '400',
     fontSize: 16,
     // marginTop: hp('2%'),

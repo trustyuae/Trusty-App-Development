@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   scrollViewContent: {
-    paddingBottom: 100, 
+    paddingBottom: 100,
   },
   stepperContainer: {
     marginTop: 90,
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalColors.black,
     padding: 10,
     // marginVertical: 20,
-    // marginBottom: 25,
+    marginBottom: 25,
     position: 'absolute',
     bottom: 15,
     left: 15,

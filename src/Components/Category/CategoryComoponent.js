@@ -77,6 +77,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
     color: globalColors.darkGray,
+    // borderColor: globalColors.black,
+    // border: 0.1,
     fontFamily: fontFamily.fontFamilyOcator,
     //  fontFamily: fontFamily.fontFamilyOcatorBold,
     flexWrap: 'wrap',

@@ -181,7 +181,7 @@ const DrawerNavigation = ({ navigation }) => {
           ),
           headerRight: () => (
             <TouchableOpacity
-            //  onPress={() => navigation.navigate('Cart')}
+             onPress={() => navigation.navigate('Cart')}
             >
               <View style={{ marginRight: wp('4%') }}>
                 {/* <Feather name="shopping-bag" size={25} color='#7C7A78' /> */}
