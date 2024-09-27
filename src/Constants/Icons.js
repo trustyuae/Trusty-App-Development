@@ -36,6 +36,7 @@ export const Head3x = require('../Assets/Icons/Head3x.png')
 export const RightArrowIcon3x = require('../Assets/Icons/RightArrowIcon3x.png')
 export const SignatureLogo3x = require('../Assets/Icons/SignatureLogo3x.png')
 export const HeartIcon3x = require('../Assets/Icons/HeartIcon3x.png')
+export const Search4xUnfill = require('../Assets/Icons/Search4xUnfill.png');
 
 //*************************************************Exported Images**********************
 

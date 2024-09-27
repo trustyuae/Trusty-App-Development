@@ -68,26 +68,41 @@ const Shop = ({ navigation }) => {
                     const isExpanded = expandedCategory[subcategory.id] || false;
 
                     return (
-                        <View key={subcategory.id} style={styles.subcategoryContainer}>
-                            <TouchableOpacity
-                                onPress={() => handlePress(subcategory)}
-                            >
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Text style={styles.subcategoryTitle}>{subcategory.name}</Text>
-                                    {subcategory.subcategories.length > 0 && (
-                                        <Icon
-                                            name={isExpanded ? 'remove' : 'add'}
-                                            size={20}
-                                            color={globalColors.black}
-                                        />
-                                    )}
-                                </View>
-                            </TouchableOpacity>
-                            {isExpanded && (
-                                <View style={styles.nestedSubcategories}>
-                                    {renderSubcategories(subcategory.subcategories)}
-                                </View>
-                            )}
+                        <View key={subcategory.id} style={{}}>
+                            <View style={styles.subcategoryContainer}>
+                                <TouchableOpacity
+                                    onPress={() => handlePress(subcategory)}
+                                >
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        marginVertical: hp('2%'),
+                                        marginHorizontal: wp('6%'),
+
+                                    }}>
+                                        <Text style={styles.subcategoryTitle}>{subcategory.name}</Text>
+                                        {subcategory.subcategories.length > 0 && (
+                                            <Icon
+                                                name={isExpanded ? 'remove' : 'add'}
+                                                size={20}
+                                                color={globalColors.black}
+                                            />
+                                        )}
+                                    </View>
+                                    <View style={{
+                                        marginHorizontal: wp('6%'),
+                                        borderBottomWidth: 1,
+                                        borderBottomColor: '#ddd',
+                                    }}></View>
+                                </TouchableOpacity>
+                                {isExpanded && (
+                                    <View style={styles.nestedSubcategories}>
+                                        {renderSubcategories(subcategory.subcategories)}
+                                    </View>
+                                )}
+                            </View>
+
                         </View>
                     );
                 })}
@@ -176,137 +191,158 @@ const Shop = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{}}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                        <Icon
-                            name="arrow-back"
-                            size={25}
-                            style={{ marginTop: wp('2%'), marginLeft: wp('2%'), zIndex: 1 }}
-                            color={globalColors.black}
-                            onPress={() => navigation.goBack()}
-                        />
-                        <View style={{ position: 'absolute', left: 0, right: 0, alignItems: 'center' }}>
-                            {/* <Image
+            <View style={{
+                height: '100%',
+                backgroundColor: globalColors.headingBackground
+            }}>
+                <ScrollView style={{}} showsVerticalScrollIndicator={false}>
+
+                    <View style={{ backgroundColor: globalColors.white }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                            <Icon
+                                name="arrow-back"
+                                size={25}
+                                style={{
+                                    marginTop: wp('2%'),
+                                    marginLeft: wp('2%'),
+                                    zIndex: 1
+                                }}
+                                color={globalColors.black}
+                                onPress={() => navigation.goBack()}
+                            />
+                            <View style={{ position: 'absolute', left: 0, right: 0, alignItems: 'center' }}>
+                                {/* <Image
                             source={Images.Head}
                             style={{ width: 145, height: 32, }}
                             resizeMode="contain"
                         /> */}
-                            <Text style={{
-                                fontFamily: fontFamily.fontFamilyIntrepid,
-                                fontSize: 22,
-                                textTransform: 'uppercase'
-                            }}>Search</Text>
-                        </View>
-
-                    </View>
-                    <View style={styles.searchContainer}>
-                        <View style={{
-                            flexDirection: 'row',
-                            borderColor: '#DBCCC1',
-                            borderWidth: 1,
-                            backgroundColor: 'white',
-                            margin: 10,
-                            fontSize: 16,
-                            padding: hp('1.5%'),
-                            borderRadius: 40,
-                            paddingLeft: 20,
-                            paddingRight: 20,
-
-                        }}>
-                            <TextInput
-                                style={styles.inputfield}
-                                placeholder="Search"
-                                placeholderTextColor={globalColors.textColorLogin}
-                                value={searchTerm}
-                                onChangeText={handleSearch}
-                            />
-                            <View style={{ justifyContent: 'center' }}>
-                                {searchTerm !== '' && (
-                                    <TouchableOpacity onPress={() => handleClear()}>
-                                        <Icon name="close-circle" size={24} color="gray" />
-                                    </TouchableOpacity>
-                                )}
+                                <Text style={{
+                                    fontFamily: fontFamily.fontFamilyOcator,
+                                    fontSize: 22,
+                                    lineHeight: 22,
+                                    letterSpacing: -2,
+                                    color: globalColors.darkGray
+                                }}>Search</Text>
                             </View>
+
                         </View>
-                        {suggestion && (
-                            <Text style={styles.suggestionText}>{suggestion}</Text>
-                        )}
-                    </View>
-                    <View style={styles.tabs}>
-                        {filteredCategories.length > 0 ? (
-                            filteredCategories.map(category => (
-                                <TouchableOpacity key={category.id} onPress={() => navigation.navigate('ProductDetail', {
-                                    userId: category?.userId
-                                    // isWatchList: product?.isWatchList,
-                                })}>
-                                    <ScrollView style={{
-
-
-                                    }} showsVerticalScrollIndicator={false}>
-                                        <ScrollView showsVerticalScrollIndicator={false}>
-                                            <View style={{ padding: 10 }}>
-                                                <View style={{
-                                                    flexDirection: 'row',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'center',
-
-                                                }}>
-                                                    <View style={{ flex: 1 }}>
-                                                        <Text style={styles.filteredCategory}>{category.name}</Text>
-
-                                                    </View>
-
-                                                    <Image
-                                                        style={{
-                                                            width: wp('20%'),
-                                                            height: hp('10%'),
-                                                            borderRadius: 50,
-                                                        }}
-                                                        source={{ uri: category.image }}
-                                                    />
-                                                </View>
-
-                                                <View style={styles.separator} />
-                                            </View>
-                                        </ScrollView>
-
-
-                                    </ScrollView>
-                                </TouchableOpacity>
-                            ))
-                        ) :
+                        <View style={styles.searchContainer}>
                             <View style={{
                                 flexDirection: 'row',
-                                justifyContent: 'space-around',
+                                borderColor: '#E5E5E5',
+                                borderWidth: 1,
+                                backgroundColor: 'white',
+                                margin: 10,
+                                fontSize: 16,
+                                padding: hp('1.5%'),
+                                borderRadius: 40,
+                                paddingLeft: 20,
+                                paddingRight: 20,
+
                             }}>
-                                {categories.map(category => (
-                                    <TouchableOpacity
-                                        key={category.id}
-                                        style={[styles.tab, selectedTab === category.id && styles.activeTab]}
-                                        onPress={() => setSelectedTab(category.id)}
-                                    ><View style={{
-                                        flexDirection: 'row',
-                                    }}>
-                                            <Text style={[styles.tabText, selectedTab === category.id && styles.activeTabText]}>
-                                                {category.name}
-                                            </Text>
-                                        </View>
-
-                                    </TouchableOpacity>
-                                ))}
+                                <TextInput
+                                    style={styles.inputfield}
+                                    placeholder="Search"
+                                    placeholderTextColor={globalColors.black}
+                                    value={searchTerm}
+                                    onChangeText={handleSearch}
+                                />
+                                <View style={{ justifyContent: 'center' }}>
+                                    {/* {searchTerm !== '' && (
+                                        <TouchableOpacity onPress={() => handleClear()}>
+                                            <Icon name="close-circle" size={24} color="gray" />
+                                        </TouchableOpacity>
+                                    )} */}
+                                    {
+                                        searchTerm ? (
+                                            <TouchableOpacity onPress={() => handleClear()}>
+                                                <Icon name='close' size={24} color={globalColors.black}></Icon>
+                                            </TouchableOpacity>
+                                        ) :
+                                            <Icon name="search" size={24} color={globalColors.lightgold} />
+                                    }
+                                </View>
                             </View>
+                            {suggestion && (
+                                <Text style={styles.suggestionText}>{suggestion}</Text>
+                            )}
+                        </View>
+                        <View style={styles.tabs}>
+                            {filteredCategories.length > 0 ? (
+                                filteredCategories.map(category => (
+                                    <TouchableOpacity style={{ backgroundColor: globalColors.headingBackground }} key={category.id} onPress={() => navigation.navigate('ProductDetail', {
+                                        userId: category?.userId
+                                        // isWatchList: product?.isWatchList,
+                                    })}>
+                                        <ScrollView style={{
+
+                                        }} showsVerticalScrollIndicator={false}>
+                                            <ScrollView showsVerticalScrollIndicator={false}>
+                                                <View style={{ padding: 20, }}>
+                                                    <View style={{
+                                                        flexDirection: 'row',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+
+                                                    }}>
 
 
+                                                        <Image
+                                                            style={{
+                                                                width: 60,
+                                                                height: 60,
+                                                                borderRadius: 50,
+                                                            }}
+                                                            source={{ uri: category.image }}
+                                                        />
+                                                        <View style={{ flex: 1 }}>
+                                                            <Text style={styles.filteredCategory}>{category.name}</Text>
 
-                        }
+                                                        </View>
+                                                    </View>
+
+                                                    {/* <View style={styles.separator}  */}
+                                                </View>
+                                            </ScrollView>
+
+
+                                        </ScrollView>
+                                    </TouchableOpacity>
+                                ))
+                            ) :
+                                <View style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-around',
+                                    marginVertical: hp('2%')
+
+                                }}>
+                                    {categories.map(category => (
+                                        <TouchableOpacity
+                                            key={category.id}
+                                            style={[styles.tab, selectedTab === category.id && styles.activeTab]}
+                                            onPress={() => setSelectedTab(category.id)}
+                                        ><View style={{
+                                            flexDirection: 'row',
+                                        }}>
+                                                <Text style={[styles.tabText, selectedTab === category.id && styles.activeTabText]}>
+                                                    {category.name}
+                                                </Text>
+                                            </View>
+
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+                            }
+                        </View>
                     </View>
-                </View>
 
-                {filteredCategories.length > 0 || searchTerm.trim() !== '' ? '' : <ScrollView style={styles.content}>
-                    {renderContent()}
-                </ScrollView>}
-            </ScrollView>
+                    {filteredCategories.length > 0 || searchTerm.trim() !== '' ? '' :
+                        <ScrollView style={styles.content}>
+                            {renderContent()}
+                        </ScrollView>}
+                </ScrollView>
+            </View >
+
         </SafeAreaView >
     );
 };
@@ -314,58 +350,70 @@ const Shop = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: globalColors.white
+
     },
     tabs: {
         justifyContent: 'space-around',
-        paddingVertical: 10,
+        // maVertical: 10,
+        // marginVertical: hp('1.5%')
+
+
     },
     tab: {
-        padding: 10,
+        // padding: 10
         flexDirection: 'row',
 
     },
     activeTab: {
         borderBottomWidth: 2,
+        borderBottomColor: globalColors.lightgold
     },
     tabText: {
         color: globalColors.black,
-        fontFamily: 'Intrepid Regular',
-        fontSize: 18,
-        fontWeight: '800'
+        fontFamily: fontFamily.fontFamilyHelvetica,
+        textTransform: 'uppercase',
+        fontSize: 15,
+        lineHeight: 24.8,
+        fontWeight: '400',
     },
     activeTabText: {
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        color: globalColors.lightgold,
+
     },
     content: {
         flex: 1,
-        padding: 20,
-        backgroundColor: globalColors.headingBackground
+        backgroundColor: globalColors.headingBackground,
+
     },
     subcategoryContainer: {
-        padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#ddd',
     },
     subcategoryTitle: {
-        fontSize: 18,
-        fontFamily: 'Intrepid Regular',
-
+        fontSize: 24,
+        fontFamily: fontFamily.fontFamilyOcator,
+        color: globalColors.darkGray,
+        lineHeight: 25.8,
+        letterSpacing: -2,
+        textTransform: 'uppercase'
     },
     nestedSubcategories: {
         marginLeft: 20,
     },
-    inputfield: {
-        backgroundColor: 'white',
-        margin: 10,
-        fontSize: 16,
-        borderColor: '#DBCCC1',
-        borderWidth: 1,
-        padding: 8,
-        borderRadius: 20,
-        paddingLeft: 20,
-        fontFamily: 'Intrepid Regular',
+    // inputfield: {
+    //     backgroundColor: 'white',
+    //     margin: 10,
+    //     fontSize: 16,
+    //     borderColor: '#DBCCC1',
+    //     borderWidth: 1,
+    //     padding: 8,
+    //     borderRadius: 20,
+    //     paddingLeft: 20,
+    //     fontFamily: 'Intrepid Regular',
 
-    },
+    // },
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -381,7 +429,11 @@ const styles = StyleSheet.create({
     filteredCategory: {
         padding: 10,
         fontSize: 18,
-        fontFamily: 'Intrepid Regular',
+        fontFamily: fontFamily.fontFamilyOcator,
+        color: globalColors.darkGray,
+        fontWeight: '400',
+        lineHeight: 21.6,
+        letterSpacing: -2,
     },
     searchContainer: {
         paddingLeft: wp('2%'),
@@ -390,8 +442,11 @@ const styles = StyleSheet.create({
     },
     inputfield: {
         flex: 1,
-        fontSize: 16,
-        color: globalColors.textColorLogin,
+        fontSize: 18,
+        // color: globalColors.black,
+        fontFamily: fontFamily.fontFamilyOcator,
+        lineHeight: 21,
+        letterSpacing: -2,
     },
     separator: {
         borderWidth: 0.5,
@@ -400,6 +455,14 @@ const styles = StyleSheet.create({
         width: '80%',
         marginTop: 10
     },
+    suggestionText: {
+        fontFamily: fontFamily.fontFamilyOcator,
+        fontSize: 18,
+        lineHeight: 21,
+        letterSpacing: -2,
+        marginHorizontal: wp('2%')
+    }
 });
 
 export default Shop;
+

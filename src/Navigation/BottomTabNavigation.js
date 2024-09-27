@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ProfileIcon, HomeIcon, SearchIcon, BagIcon, HomeIconfilled, ProfileIconfilled, HeartIcon3x } from '../Constants/Icons';
+import { ProfileIcon, HomeIcon, SearchIcon, BagIcon, HomeIconfilled, ProfileIconfilled, HeartIcon3x, Search4xUnfill } from '../Constants/Icons';
 
 import HomeCustomeNavigation from './HomeCustomeNavigation';
 import LoginCustomeNavigation from './LoginCustomeNavigation';
@@ -69,9 +69,9 @@ const BottomTabNavigation = ({ navigation }) => {
                 style={{ width: 25, height: 25 }}
                 resizeMode="contain"
               /> : <Image
-                source={SearchIcon}
+                source={Search4xUnfill}
                 tintColor={"#fff"}
-                style={{ width: 30, height: 25 }}
+                style={{ width: 25, height: 25 }}
                 resizeMode="contain"
               />
 
@@ -121,9 +121,10 @@ const BottomTabNavigation = ({ navigation }) => {
                 <Image
                   source={ProfileIconfilled}
                   style={{ width: 20, height: 20 }}
+                  tintColor={"#866528"}
                   resizeMode="contain"
                 /> : <Image
-                  source={ProfileIcon}
+                  source={ProfileIconfilled}
                   style={{ width: 20, height: 20 }}
                   resizeMode="contain"
                 />
@@ -141,10 +142,11 @@ const BottomTabNavigation = ({ navigation }) => {
               focused ?
                 <Image
                   source={ProfileIconfilled}
-                  style={{ width: 25, height: 25 }}
+                  style={{ width: 20, height: 20 }}
+                  tintColor={"#866528"}
                   resizeMode="contain"
                 /> : <Image
-                  source={ProfileIcon}
+                  source={ProfileIconfilled}
                   style={{ width: 20, height: 20 }}
                   resizeMode="contain"
                 />

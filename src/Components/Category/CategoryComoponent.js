@@ -75,6 +75,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: hp('1%'),
     fontSize: 18,
+    lineHeight: 21.6,
+    letterSpacing: -2,
     fontWeight: '400',
     color: globalColors.darkGray,
     // borderColor: globalColors.black,
@@ -83,6 +85,5 @@ const styles = StyleSheet.create({
     //  fontFamily: fontFamily.fontFamilyOcatorBold,
     flexWrap: 'wrap',
     width: wp('43%'),
-    lineHeight: 22,
   },
 });

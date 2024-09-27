@@ -159,6 +159,8 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     // fontFamily: 'Intrepid Regular',
     fontFamily: 'Orator Std Medium',
+    lineHeight: 21.6,
+    letterSpacing: -2,
     // fontFamily: 'OratorStd',
     fontWeight: '400',
     color: globalColors.darkGray,

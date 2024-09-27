@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     justifyContent: 'space-around',
+    marginBottom: hp('2%')
   },
   mainHeading: {
     fontSize: 25,
