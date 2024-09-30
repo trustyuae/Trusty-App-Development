@@ -405,7 +405,8 @@ const Home = () => {
                   color: globalColors.lightgold
                 }}>Signature</Text>
                 <View style={{
-                  // alignItems: 'center',
+                  alignItems: 'center',
+                  marginTop: Platform.OS === 'ios' ? 0 : hp('2%')
                 }}>
                   <Image source={SignatureLogo3x} style={{
                     width: 24,

@@ -37,6 +37,7 @@ export const RightArrowIcon3x = require('../Assets/Icons/RightArrowIcon3x.png')
 export const SignatureLogo3x = require('../Assets/Icons/SignatureLogo3x.png')
 export const HeartIcon3x = require('../Assets/Icons/HeartIcon3x.png')
 export const Search4xUnfill = require('../Assets/Icons/Search4xUnfill.png');
+export const SearchIcon3xLightColor = require('../Assets/Icons/SearchIcon3xLightColor.png')
 
 //*************************************************Exported Images**********************
 
@@ -58,3 +59,4 @@ export const tamara = require('../Assets/Icons/tamara.png')
 export const ReadyToGo3x = require('../Assets/Images/ReadyToGo3x.png');
 export const HomeScreenBackground3x = require('../Assets/Icons/homeScreenBackground.png');
 export const homeScreenWriting3x = require('../Assets/Images/homeScreenWriting3x.png');
+export const NoImageShow = require('../Assets/Images/NoImageShow.png')

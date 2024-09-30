@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, TextInput, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, TextInput, Image, RefreshControl } from 'react-native';
 import { globalColors } from '../../Assets/Theme/globalColors';
 import { fetchCategories } from '../../Redux/Slice/categorySearchSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +8,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import axios, { Axios } from 'axios';
 import { Images } from '../../Constants';
 import { fontFamily } from '../../Assets/Theme/fontFamily';
+import { Dummyproduct3, NoImageShow, SearchIcon3xLightColor } from '../../Constants/Icons';
 
 
 
@@ -19,6 +19,7 @@ const Shop = ({ navigation }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [suggestion, setSuggestion] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
 
     const {
         categories,
@@ -29,6 +30,18 @@ const Shop = ({ navigation }) => {
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        try {
+            dispatch(fetchCategories());
+        } catch (error) {
+            console.log('Error refreshing data:', error);
+
+        }
+        setRefreshing(false);
+
+    }
 
     useEffect(() => {
         if (categories.length > 0) {
@@ -79,16 +92,23 @@ const Shop = ({ navigation }) => {
                                         alignItems: 'center',
                                         marginVertical: hp('2%'),
                                         marginHorizontal: wp('6%'),
+                                        // backgroundColor: 'red'
 
                                     }}>
-                                        <Text style={styles.subcategoryTitle}>{subcategory.name}</Text>
-                                        {subcategory.subcategories.length > 0 && (
-                                            <Icon
-                                                name={isExpanded ? 'remove' : 'add'}
-                                                size={20}
-                                                color={globalColors.black}
-                                            />
-                                        )}
+                                        <View>
+                                            <Text style={styles.subcategoryTitle}>{subcategory.name}</Text>
+
+                                        </View>
+                                        <View>
+                                            {subcategory.subcategories.length > 0 && (
+                                                <Icon
+                                                    name={isExpanded ? 'remove' : 'add'}
+                                                    size={20}
+                                                    color={globalColors.black}
+                                                />
+                                            )}
+                                        </View>
+
                                     </View>
                                     <View style={{
                                         marginHorizontal: wp('6%'),
@@ -195,11 +215,24 @@ const Shop = ({ navigation }) => {
                 height: '100%',
                 backgroundColor: globalColors.headingBackground
             }}>
-                <ScrollView style={{}} showsVerticalScrollIndicator={false}>
+                <ScrollView style={{}} showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            tintColor={globalColors.black}
+                        />
+                    }
+                >
 
                     <View style={{ backgroundColor: globalColors.white }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                            <Icon
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '100%',
+                            marginTop: hp('1%')
+                        }}>
+                            {/* <Icon
                                 name="arrow-back"
                                 size={25}
                                 style={{
@@ -209,20 +242,30 @@ const Shop = ({ navigation }) => {
                                 }}
                                 color={globalColors.black}
                                 onPress={() => navigation.goBack()}
-                            />
-                            <View style={{ position: 'absolute', left: 0, right: 0, alignItems: 'center' }}>
+                            /> */}
+                            <View style={{ left: 0, right: 0, alignItems: 'center' }}>
                                 {/* <Image
-                            source={Images.Head}
-                            style={{ width: 145, height: 32, }}
-                            resizeMode="contain"
-                        /> */}
+                               source={Images.Head}
+                               style={{ width: 145, height: 32, }}
+                               resizeMode="contain"
+                               /> */}
+                                {/* <Text style={{
+                                    fontFamily: fontFamily.fontFamilyOcator,
+                                    fontSize: 22,
+                                    lineHeight: 22,
+                                    letterSpacing: -2,
+                                    color: globalColors.darkGray
+                                }}>Explore Menu</Text> */}
+
                                 <Text style={{
                                     fontFamily: fontFamily.fontFamilyOcator,
                                     fontSize: 22,
                                     lineHeight: 22,
                                     letterSpacing: -2,
                                     color: globalColors.darkGray
-                                }}>Search</Text>
+                                }}>{
+                                        searchTerm ? 'Find your favorite items' : 'Explore Menu'
+                                    }</Text>
                             </View>
 
                         </View>
@@ -242,7 +285,7 @@ const Shop = ({ navigation }) => {
                             }}>
                                 <TextInput
                                     style={styles.inputfield}
-                                    placeholder="Search"
+                                    placeholder="Search Here..."
                                     placeholderTextColor={globalColors.black}
                                     value={searchTerm}
                                     onChangeText={handleSearch}
@@ -259,7 +302,8 @@ const Shop = ({ navigation }) => {
                                                 <Icon name='close' size={24} color={globalColors.black}></Icon>
                                             </TouchableOpacity>
                                         ) :
-                                            <Icon name="search" size={24} color={globalColors.lightgold} />
+                                            <Image style={{ height: 20, width: 20 }} source={SearchIcon3xLightColor}></Image>
+                                        // <Icon name="search" size={24} color={globalColors.lightgold} />
                                     }
                                 </View>
                             </View>
@@ -278,23 +322,30 @@ const Shop = ({ navigation }) => {
 
                                         }} showsVerticalScrollIndicator={false}>
                                             <ScrollView showsVerticalScrollIndicator={false}>
-                                                <View style={{ padding: 20, }}>
+                                                <View style={{
+                                                    padding: 20,
+                                                }}>
                                                     <View style={{
                                                         flexDirection: 'row',
                                                         justifyContent: 'space-between',
                                                         alignItems: 'center',
 
                                                     }}>
-
-
-                                                        <Image
+                                                        {category.image ? <Image
                                                             style={{
                                                                 width: 60,
                                                                 height: 60,
                                                                 borderRadius: 50,
                                                             }}
-                                                            source={{ uri: category.image }}
-                                                        />
+                                                            source={{ uri: category.image ? category.image : Dummyproduct3 }}
+                                                        /> : <Image style={{
+                                                            width: 60,
+                                                            height: 60,
+                                                            borderRadius: 50,
+                                                        }} source={NoImageShow}>
+
+                                                        </Image>}
+
                                                         <View style={{ flex: 1 }}>
                                                             <Text style={styles.filteredCategory}>{category.name}</Text>
 
@@ -313,7 +364,7 @@ const Shop = ({ navigation }) => {
                                 <View style={{
                                     flexDirection: 'row',
                                     justifyContent: 'space-around',
-                                    marginVertical: hp('2%')
+                                    marginVertical: hp('1%')
 
                                 }}>
                                     {categories.map(category => (
@@ -357,11 +408,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         // maVertical: 10,
         // marginVertical: hp('1.5%')
+        // backgroundColor: 'red',
+        marginTop: hp('2.5%')
 
 
     },
     tab: {
-        // padding: 10
+        // padding: 10,
+
         flexDirection: 'row',
 
     },
@@ -376,6 +430,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         lineHeight: 24.8,
         fontWeight: '400',
+        marginBottom: hp('1%')
     },
     activeTabText: {
         // fontWeight: 'bold',
@@ -428,6 +483,7 @@ const styles = StyleSheet.create({
     },
     filteredCategory: {
         padding: 10,
+        marginLeft: wp('2%'),
         fontSize: 18,
         fontFamily: fontFamily.fontFamilyOcator,
         color: globalColors.darkGray,
