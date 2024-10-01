@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'react-native';
-import { globalColors } from '../../Assets/Theme/globalColors'; // Assuming globalColors is imported from your theme file
-import { red } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
+import { useFocusEffect } from '@react-navigation/native';
+import { globalColors } from '../../Assets/Theme/globalColors';
 
 const CustomStatusBar = ({ color, barStyle = 'dark-content' }) => {
-  return <StatusBar backgroundColor={color} barStyle={barStyle} />;
+  useFocusEffect(
+    React.useCallback(() => {
+      StatusBar.setBackgroundColor(color);
+      StatusBar.setBarStyle(barStyle);
+    }, [color, barStyle])
+  );
+
+  return null;
 };
 
 export default CustomStatusBar;

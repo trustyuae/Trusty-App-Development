@@ -52,6 +52,7 @@ const SavaIconUnFillTransparant = require('../Assets/Images/SavaIconUnFillTransp
 const SaveIconFillTransparant = require('../Assets/Images/SaveIconFillTransparant.png');
 const readyToGoImage = require('../Assets/Images/readyToGoImage.png');
 const logoResetpage = require('../Assets/Images/SmalliconReset.png');
+
 export default {
   Wishlist,
   Celebration,

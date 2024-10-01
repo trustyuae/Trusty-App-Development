@@ -9,6 +9,7 @@ import axios, { Axios } from 'axios';
 import { Images } from '../../Constants';
 import { fontFamily } from '../../Assets/Theme/fontFamily';
 import { Dummyproduct3, NoImageShow, SearchIcon3xLightColor } from '../../Constants/Icons';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 
 
 
@@ -95,23 +96,38 @@ const Shop = ({ navigation }) => {
                                         // backgroundColor: 'red'
 
                                     }}>
-                                        <View>
-                                            <Text style={styles.subcategoryTitle}>{subcategory.name}</Text>
 
-                                        </View>
-                                        <View>
+                                        <Text style={{
+                                            ...styles.subcategoryTitle,
+                                            fontFamily: isArabic(subcategory.name)
+                                                ? fontFamily.fontFamilyIntrepid
+                                                : fontFamily.fontFamilyOcator,
+                                            letterSpacing: isArabic(subcategory.name)
+                                                ? 0 : -2,
+                                            fontWeight: '400',
+                                            color: isArabic(subcategory.name) ? globalColors.darkGray : globalColors.darkGray,
+                                            fontSize: isArabic(subcategory.name) ? 16 : 18
+
+                                        }}>
+                                            {subcategory.name}
+                                        </Text>
+
+
+                                        <View style={{ marginRight: wp('1%') }}>
                                             {subcategory.subcategories.length > 0 && (
                                                 <Icon
                                                     name={isExpanded ? 'remove' : 'add'}
-                                                    size={20}
-                                                    color={globalColors.black}
+                                                    size={18}
+                                                    color={globalColors.darkGray}
                                                 />
                                             )}
                                         </View>
 
+
+
                                     </View>
                                     <View style={{
-                                        marginHorizontal: wp('6%'),
+                                        // marginHorizontal: wp('6%'),
                                         borderBottomWidth: 1,
                                         borderBottomColor: '#ddd',
                                     }}></View>
@@ -130,7 +146,9 @@ const Shop = ({ navigation }) => {
         );
     };
 
-
+    const isArabic = (text) => {
+        return /[\u0600-\u06FF]/.test(text);
+    };
 
     const renderContent = () => {
         const selectedCategory = categories.find(cat => cat.id === selectedTab);
@@ -211,6 +229,7 @@ const Shop = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <CustomStatusBar color={globalColors.white}></CustomStatusBar>
             <View style={{
                 height: '100%',
                 backgroundColor: globalColors.headingBackground
@@ -262,6 +281,7 @@ const Shop = ({ navigation }) => {
                                     fontSize: 22,
                                     lineHeight: 22,
                                     letterSpacing: -2,
+                                    fontWeight: '400',
                                     color: globalColors.darkGray
                                 }}>{
                                         searchTerm ? 'Find your favorite items' : 'Explore Menu'
@@ -286,7 +306,7 @@ const Shop = ({ navigation }) => {
                                 <TextInput
                                     style={styles.inputfield}
                                     placeholder="Search Here..."
-                                    placeholderTextColor={globalColors.black}
+                                    placeholderTextColor={globalColors.darkGray}
                                     value={searchTerm}
                                     onChangeText={handleSearch}
                                 />
@@ -347,7 +367,9 @@ const Shop = ({ navigation }) => {
                                                         </Image>}
 
                                                         <View style={{ flex: 1 }}>
-                                                            <Text style={styles.filteredCategory}>{category.name}</Text>
+                                                            <Text style={styles.filteredCategory}>
+                                                                {category.name}
+                                                            </Text>
 
                                                         </View>
                                                     </View>
@@ -434,6 +456,7 @@ const styles = StyleSheet.create({
     },
     activeTabText: {
         // fontWeight: 'bold',
+        fontWeight: '500',
         color: globalColors.lightgold,
 
     },
@@ -447,12 +470,15 @@ const styles = StyleSheet.create({
         // borderBottomColor: '#ddd',
     },
     subcategoryTitle: {
-        fontSize: 24,
-        fontFamily: fontFamily.fontFamilyOcator,
+        fontSize: 22,
+        // fontFamily: fontFamily.fontFamilyOcator,
+        // color: globalColors.darkGray,
         color: globalColors.darkGray,
         lineHeight: 25.8,
-        letterSpacing: -2,
-        textTransform: 'uppercase'
+
+        // marginTop: hp('-2%')
+
+        // textTransform: 'uppercase'
     },
     nestedSubcategories: {
         marginLeft: 20,
@@ -500,9 +526,11 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 18,
         // color: globalColors.black,
+        color: globalColors.darkGray,
         fontFamily: fontFamily.fontFamilyOcator,
         lineHeight: 21,
         letterSpacing: -2,
+        textTransform: 'uppercase'
     },
     separator: {
         borderWidth: 0.5,
