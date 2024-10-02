@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { globalColors } from '../../Assets/Theme/globalColors';
 
 const CustomStatusBar = ({ color, barStyle = 'dark-content' }) => {
   useFocusEffect(
     React.useCallback(() => {
-      StatusBar.setBackgroundColor(color);
-      StatusBar.setBarStyle(barStyle);
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor(color); // Android only
+      }
+      StatusBar.setBarStyle(barStyle); // Works on both iOS and Android
     }, [color, barStyle])
   );
 

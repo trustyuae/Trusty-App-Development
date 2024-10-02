@@ -8,7 +8,7 @@ import ThankYouScreen from '../Screens/ThankYou/ThankYouScreen';
 import BottomTabNavigation from './BottomTabNavigation';
 import Profile from '../Screens/Profile/Profile.js';
 import ProfileNavigations from './ProfileNavigations';
-import Icon from 'react-native-vector-icons/Ionicons'; 
+import Icon from 'react-native-vector-icons/Ionicons';
 import OrderDetails from '../Screens/Profile/OrderDetails.js';
 import Order from '../Screens/Profile/Order.js';
 import Wishlist from '../Screens/wishlist/wishlist.js';
@@ -18,6 +18,7 @@ import SetNewPassword from '../Screens/Login/SetNewPassword.js';
 import { Linking } from 'react-native';
 import SearchScreen from '../Screens/search/SearchScreen.js';
 import WebViewScreen from '../Components/WebView/WebViewScreen.js';
+import FindItems from '../Screens/search/FindItems.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -62,7 +63,7 @@ const AppNavigations = ({ navigation }) => {
 
         <Stack.Screen
           name="Cart"
-          component={CartScreen} 
+          component={CartScreen}
 
           options={({ navigation }) => ({
             headerTransparent: true,
@@ -195,7 +196,32 @@ const AppNavigations = ({ navigation }) => {
                 onPress={() => navigation.goBack()}
               />
             ),
-          })}></Stack.Screen>
+          })}>
+
+        </Stack.Screen>
+        <Stack.Screen
+          name="findItems"
+          component={FindItems}
+          options={({ navigation }) => ({
+            headerTransparent: true,
+            title: null,
+            headerStyle: {
+              backgroundColor: '#f6f1eb',
+            },
+            headerBackTitleVisible: false,
+            headerShown: false,
+
+            // headerLeft: () => (
+            //   <Icon
+            //     name="arrow-back"
+            //     size={25}
+            //     color="#333"
+            //     style={{ marginLeft: 1 }}
+            //     onPress={() => navigation.goBack()}
+            //   />
+            // ),
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
