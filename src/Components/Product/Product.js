@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Image,
   Pressable,
   StyleSheet,
@@ -77,15 +78,25 @@ const Product = ({ uri, name, price, product_id, isWatchList, img, description }
         }
       }
     } else {
-      navigation.navigate('LoginCustomeNavigation');
-      Toast.show({
-        type: 'info',
-        text1: 'Please login',
-        position: 'bottom',
-        text2: 'You need to login to save items to your wishlist',
-        visibilityTime: 3000,
-        autoHide: true,
-      });
+      Alert.alert('', 'please login and try again ', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('LoginCustomeNavigation'),
+        },
+      ]);
+      // navigation.navigate('LoginCustomeNavigation');
+      // Toast.show({
+      //   type: 'info',
+      //   text1: 'Please login',
+      //   position: 'bottom',
+      //   text2: 'You need to login to save items to your wishlist',
+      //   visibilityTime: 3000,
+      //   autoHide: true,
+      // });
       console.log('No token available');
     }
   };

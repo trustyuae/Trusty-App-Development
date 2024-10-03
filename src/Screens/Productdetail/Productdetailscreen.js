@@ -340,7 +340,7 @@ export default function Productdetailscreen({ route }) {
 
       <SafeAreaView style={{ justifyContent: 'center' }}>
         <View style={{
-          marginBottom: responseData?.stock_status === "onbackorder" && responseData?.price > 0 ? hp('8%') : 0,
+          marginBottom: responseData?.price > 0 ? hp('8%') : 0,
           marginTop: Platform.OS === 'ios' ? 0 : hp('8%')
         }}>
           {loading ? (
@@ -696,8 +696,8 @@ export default function Productdetailscreen({ route }) {
 
         </View>
         {
-          responseData?.price > 0 && responseData?.stock_status === "onbackorder" && (
-            <ButtonAddToCart
+          responseData?.price > 0 ?
+            (<ButtonAddToCart
               stylesofbtn={styles.custbtn}
               styleoffont={styles.custfontstyle}
               handlepress={handlepress}
@@ -705,7 +705,7 @@ export default function Productdetailscreen({ route }) {
               name={'Add To Cart'}
               loading={load}
             />
-          )
+            ) : ''
         }
         {/* <ButtonAddToCart
           stylesofbtn={styles.custbtn}

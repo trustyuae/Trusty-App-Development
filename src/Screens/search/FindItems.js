@@ -166,7 +166,7 @@ const FindItems = ({ navigation }) => {
                     <Icon
                         name="arrow-back"
                         size={25}
-                        color="#333"
+                        color={globalColors.darkGray}
                         onPress={() => navigation.goBack()}
                     />
                     <Text style={styles.headerText}>Find Your Favorite Items</Text>
@@ -208,26 +208,35 @@ const FindItems = ({ navigation }) => {
                 {/* <View style={{ backgroundColor: globalColors.headingBackground }}> */}
 
 
-                {paginatedStatus === 'loading' ? (
-                    <View style={styles.loadingContainer}>
-                        {/* <Text>Loading products...</Text> */}
-                        {Array.from({ length: 5 }).map((_, index) => (
-                            <RenderSkeletonLoader key={index} />
-                        ))}
-                    </View>
-                ) : (search.trim().length > 0 && searchResults.length === 0) || (!search.trim() && paginatedProducts.length === 0) ? (
-                    <View style={styles.noProductContainer}>
-                        <Text style={styles.noProductText}>No products found</Text>
-                    </View>
-                ) : (
-                    <FlatList
-                        data={search.trim().length > 0 ? searchResults : paginatedProducts}
-                        renderItem={renderProduct}
-                        keyExtractor={(item) => item.id.toString()}
-                        contentContainerStyle={styles.productList}
-                        showsVerticalScrollIndicator={false}
-                    />
-                )}
+                {
+                    paginatedStatus === 'loading' ? (
+                        <View style={styles.loadingContainer}>
+                            {/* <Text>Loading products...</Text> */}
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <RenderSkeletonLoader key={index} />
+                            ))}
+                        </View>
+                    )
+                        :
+
+                        (search.trim().length > 0 && searchResults.length === 0) || (!search.trim() && paginatedProducts.length === 0)
+                            ? (
+                                <View style={styles.noProductContainer}>
+                                    <Text style={styles.noProductText}>No products found</Text>
+                                </View>
+                            )
+                            :
+                            (
+                                <FlatList
+                                    data={search.trim().length > 0 ? searchResults : ''}
+                                    renderItem={renderProduct}
+                                    keyExtractor={(item) => item.id.toString()}
+                                    contentContainerStyle={styles.productList}
+                                    showsVerticalScrollIndicator={false}
+                                />
+                            )
+
+                }
             </View>
 
             {/* </View> */}

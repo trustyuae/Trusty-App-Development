@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dimensions, View, Image, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
@@ -21,23 +20,22 @@ function MyCarousel({ views }) {
   const width = Dimensions.get('window').width;
   const progressValue = useSharedValue(0);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0); 
 
   const lineAnimStyle = useAnimatedStyle(() => {
     return {
       width: `${interpolate(
         progressValue.value,
         [0, views.length - 1],
-        [0, 100], 
+        [0, 100],
         Extrapolate.CLAMP
       )}%`,
-      backgroundColor: '#000000', 
+      backgroundColor: '#000000',
     };
   });
 
-  const handleImagePress = (uri) => {
-    setSelectedImage(uri);
+  const handleImagePress = (index) => {
+    setSelectedImageIndex(index); 
     setModalVisible(true);
   };
 
@@ -51,15 +49,12 @@ function MyCarousel({ views }) {
         onProgressChange={(_, absoluteProgress) =>
           (progressValue.value = absoluteProgress)
         }
-        renderItem={({ item }) => (
-          <View
-
-          >
-            <Pressable onPress={() => handleImagePress(item?.src)}>
-
+        onSnapToItem={(index) => setSelectedImageIndex(index)} // Update the image index on swipe
+        renderItem={({ item, index }) => (
+          <View>
+            <Pressable onPress={() => handleImagePress(index)}>
               <Image source={{ uri: item?.src }} style={styles.Imgcontainer} />
             </Pressable>
-
           </View>
         )}
       />
@@ -73,23 +68,18 @@ function MyCarousel({ views }) {
       >
         <View style={styles.modalContent}>
           <ImageZoom
-            imageUrls={[{ url: selectedImage }]}
+            imageUrls={views.map((item) => ({ url: item.src }))} 
             enableSwipeDown={true}
             onSwipeDown={() => setModalVisible(false)}
+            index={selectedImageIndex} 
             renderIndicator={() => null} 
           />
-          <TouchableOpacity style={styles.closeButton}
-            onPress={() => setModalVisible(false)}>
-            <Icon
-              name="arrow-back"
-              size={25}
-              color="#111"
-           
-            />
+          <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+            <Icon name="arrow-back" size={25} color="#111" />
           </TouchableOpacity>
         </View>
       </Modal>
-    </View >
+    </View>
   );
 }
 
@@ -98,7 +88,7 @@ export default MyCarousel;
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    marginBottom: hp('8')
+    marginBottom: hp('8'),
   },
   Imgcontainer: {
     width: '100%',
@@ -107,20 +97,18 @@ const styles = StyleSheet.create({
   },
   paginationContainer: {
     position: 'absolute',
-    bottom: hp('0%'), 
+    bottom: hp('0%'),
     width: '100%',
     height: 4,
     backgroundColor: '#F0E9DE',
   },
   paginationLine: {
     height: '100%',
-    backgroundColor: '#000000', 
+    backgroundColor: '#000000',
   },
   modal: {
     margin: 0,
-    // justifyContent: 'center',
-    backgroundColor: globalColors.white
-    // alignItems: 'center',
+    backgroundColor: globalColors.white,
   },
   closeButton: {
     position: 'absolute',

@@ -33,7 +33,7 @@ import { ImageBackground } from 'react-native';
 import SkeletonLoaderHomeimg from '../../Components/Loader/SkeletonLoaderHomeimg';
 import { getSignatureSelectionsData } from '../../Redux/Slice/signatureSelections';
 import { fontFamily } from '../../Assets/Theme/fontFamily';
-import { AdornImage, HomeScreenBackground3x, ReadyToGo3x, RightArrowIcon3x, SignatureLogo3x, homeScreenWriting3x, tabbyIcon } from '../../Constants/Icons';
+import { AdornImage, HomeScreenBackground3x, ReadyToGo3x, RightArrowIcon3x, SignatureLogo3x, homeScreenWriting3x } from '../../Constants/Icons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 

@@ -18,10 +18,10 @@ const confirmationTick = require('../Assets/Images/confirmationTick.png');
 const arrowBack = require('../Assets/Images/ArrowleftDirection.png');
 const Logout = require('../Assets/Images/Logout.png');
 const ProfileIcon = require('../Assets/Images/ProfileIcon.png');
-const Bottom = require('../Assets/Images/Bottom.png');
+// const Bottom = require('../Assets/Images/Bottom.png');
 // const Shoes_01 = require('../Assets/Images/Shoes_01.png');
 const Rectangle = require('../Assets/Images/Rectangle.png');
-const Shopping = require('../Assets/Images/Shopping.png');
+// const Shopping = require('../Assets/Images/Shopping.png');
 const Backarrow = require('../Assets/Images/backarrow.png');
 const Rating = require('../Assets/Images/rating.png');
 const Line = require('../Assets/Images/Line.png');
@@ -50,7 +50,7 @@ const SaveIconFill3x = require('../Assets/Images/SaveIconFill3x.png');
 const saveIconUnFill3x = require('../Assets/Images/saveIconUnFill3x.png');
 const SavaIconUnFillTransparant = require('../Assets/Images/SavaIconUnFillTransparant.png');
 const SaveIconFillTransparant = require('../Assets/Images/SaveIconFillTransparant.png');
-const readyToGoImage = require('../Assets/Images/readyToGoImage.png');
+// const readyToGoImage = require('../Assets/Images/readyToGoImage.png');
 const logoResetpage = require('../Assets/Images/SmalliconReset.png');
 
 export default {
@@ -77,8 +77,8 @@ export default {
   Rating,
   Backarrow,
   Rectangle,
-  Bottom,
-  Shopping,
+  // Bottom,
+  // Shopping,
   // Shoes_01,
   icons,
   bag,
@@ -106,5 +106,5 @@ export default {
   logoResetpage, loginImage4x
   , SavaIconUnFillTransparant,
   SaveIconFillTransparant,
-  readyToGoImage
+  // readyToGoImage
 };
