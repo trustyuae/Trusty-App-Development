@@ -26,6 +26,7 @@ import { getToken } from '../../Utils/localstorage';
 import { baseURL } from '../../Utils/API';
 import { fontFamily } from '../../Assets/Theme/fontFamily';
 import { NoImageShow, SearchIcon3xLightColor } from '../../Constants/Icons';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 
 
 const RenderSkeletonLoader = () => {
@@ -121,7 +122,7 @@ const FindItems = ({ navigation }) => {
             // isWatchList: product?.isWatchList,
         })}><View style={styles.productRow}>
                 {
-                    (product.images?.[0].src || product?.image) ? (
+                    (product.images?.[0]?.src || product?.image) ? (
                         <Image
                             source={{ uri: product?.images?.[0]?.src || product?.image }}
                             style={styles.productImage}
@@ -154,7 +155,7 @@ const FindItems = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <SafeAreaView style={{ backgroundColor: 'white' }}>
-                <StatusBar barStyle="Dark-content" />
+                <CustomStatusBar color={globalColors.headingBackground} />
             </SafeAreaView>
 
             {/* <StatusBar barStyle="light-content" /> */}

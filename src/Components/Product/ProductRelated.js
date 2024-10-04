@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Image,
   Pressable,
   StyleSheet,
@@ -88,15 +89,16 @@ const ProductRelated = ({
         }
       }
     } else {
-      navigation.navigate('LoginCustomeNavigation');
-      Toast.show({
-        type: 'info',
-        text1: 'Please login',
-        position: 'bottom',
-        text2: 'You need to login to save items to your wishlist',
-        visibilityTime: 3000,
-        autoHide: true,
-      });
+      Alert.alert('', 'Please login and try again ', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('LoginCustomeNavigation'),
+        },
+      ]);
       console.log('No token available');
     }
   };
@@ -121,7 +123,7 @@ const ProductRelated = ({
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
             style={styles.saveImage}
-            source={saved ? Images.SaveIconFill3x : Images.saveIconUnFill3x}
+            source={saved ? Images.SaveIconFillTransparant : Images.SavaIconUnFillTransparant}
           />
         </Pressable>
       </View>
@@ -192,10 +194,10 @@ const styles = StyleSheet.create({
     left: 15,
   },
   saveImage: {
-    width: 32,
+    width: 22,
     resizeMode: 'contain',
     padding: 8,
-    height: 32,
+    height: 22,
   },
   image: {
     borderRadius: 6,

@@ -35,6 +35,7 @@ import { getSignatureSelectionsData } from '../../Redux/Slice/signatureSelection
 import { fontFamily } from '../../Assets/Theme/fontFamily';
 import { AdornImage, HomeScreenBackground3x, ReadyToGo3x, RightArrowIcon3x, SignatureLogo3x, homeScreenWriting3x } from '../../Constants/Icons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import CustomStatusBar from '../../Components/StatusBar/CustomSatusBar';
 
 
 const Home = () => {
@@ -200,7 +201,7 @@ const Home = () => {
   return (
     <SafeAreaView style={{ backgroundColor: globalColors.statusBar }}>
       <View style={styles.container}>
-        {/* <CustomStatusBar color={globalColors.statusBar}></CustomStatusBar> */}
+        <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>
         {/* <StatusBar backgroundColor={globalColors.statusBar}></StatusBar> */}
         <ScrollView
           showsVerticalScrollIndicator={false}

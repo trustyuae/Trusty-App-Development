@@ -304,11 +304,16 @@ export default function Productdetailscreen({ route }) {
         console.log(error);
       }
     } else {
-      navigation.navigate('LoginCustomeNavigation');
-      Alert.alert(
-        'Please login',
-        'You need to login to save items to your wishlist',
-      );
+      Alert.alert('', 'please login and try again ', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('LoginCustomeNavigation'),
+        },
+      ]);
     }
   };
 

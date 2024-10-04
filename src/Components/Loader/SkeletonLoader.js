@@ -28,7 +28,7 @@ const SkeletonLoader = ({ count }) => {
 
     opacityAnimation.start();
 
-    return () => opacityAnimation.stop(); 
+    return () => opacityAnimation.stop();
   }, [opacity]);
 
   return (
@@ -44,7 +44,7 @@ const SkeletonLoader = ({ count }) => {
           ]}
         />
       ))}
-      
+
     </View>
   );
 };
@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
   skeletonContainer: {
     flexDirection: 'row',
     borderRadius: 10,
-    alignSelf: 'center',
+    justifyContent: 'space-evenly',
+    // alignSelf: 'center',
     // marginLeft: wp('1%'),
     marginBottom: hp('2%'),
     overflow: 'hidden',

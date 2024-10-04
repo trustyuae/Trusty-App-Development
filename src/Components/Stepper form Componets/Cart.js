@@ -285,7 +285,7 @@ const Cart = ({ count, setCount, setOrderDetail, setTotal, scrollViewRef }) => {
     <GestureHandlerRootView >
       <TouchableWithoutFeedback onPress={handleOutsideClick}>
         <SafeAreaView style={{
-          marginBottom: hp('4%'), height: hp('85%'),
+          marginBottom: hp('4%'),
         }}>
           <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
             <CustomStatusBar color={globalColors.headingBackground}></CustomStatusBar>

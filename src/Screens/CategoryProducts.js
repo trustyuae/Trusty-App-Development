@@ -288,23 +288,24 @@ const CategoryProducts = ({ navigation }) => {
               <Text style={styles.errorText}>{msg || error}</Text>
             )
           }
-          ListFooterComponent={
-            status === 'loading' ? (
-              <View>
-                <ActivityIndicator
-                  size="large"
-                  color={globalColors.black}
-                  style={{ marginVertical: 20, justifyContent: 'center' }}
-                />
-              </View>
-            ) : null
-          }
+
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           contentContainerStyle={styles.productContainer}
+        // ListFooterComponent={
+        //   status === 'loading' ? (
+        //     <View>
+        //       <ActivityIndicator
+        //         size="large"
+        //         color={globalColors.black}
+        //         style={{ marginVertical: 20, justifyContent: 'center' }}
+        //       />
+        //     </View>
+        //   ) : null
+        // }
         />
         {/* </ScrollView> */}
       </View>
@@ -321,9 +322,9 @@ const styles = StyleSheet.create({
   },
   productContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     flexWrap: 'wrap',
-    paddingHorizontal: 11,
+    // paddingHorizontal: 11,
   },
   TextHeading: {
     fontSize: 10,

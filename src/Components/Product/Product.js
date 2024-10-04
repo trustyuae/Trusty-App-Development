@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textTransform: 'uppercase',
     // fontFamily: 'Intrepid Regular',
-    fontFamily: 'Orator Std Medium',
+    fontFamily: 'Orator Std',
     lineHeight: 21.6,
     letterSpacing: -2,
     // fontFamily: 'OratorStd',

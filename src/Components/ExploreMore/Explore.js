@@ -23,6 +23,7 @@ import { getToken } from '../../Utils/localstorage';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { NoImg } from '../../Constants/Icons';
+import { fontFamily } from '../../Assets/Theme/fontFamily';
 
 const Explore = ({ uri, name, price, product_id, isWatchList, img, description }) => {
   const dispatch = useDispatch();
@@ -111,7 +112,7 @@ const Explore = ({ uri, name, price, product_id, isWatchList, img, description }
         <Pressable onPress={toggleSaved} style={styles.saveImagea}>
           <Image
             style={styles.saveImage}
-            source={saved ? Images.saveIconFill : Images.saveIconUnFill}
+            source={saved ? Images.SaveIconFillTransparant : Images.SavaIconUnFillTransparant}
           />
         </Pressable>
       </View>
@@ -139,59 +140,63 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     // marginBottom: hp('2%'),
     overflow: 'hidden',
-    height: hp("32%"),
+    // height: hp("32%"),
     // backgroundColor:'yellow'
   },
   imageContainer: {
-    width: wp('30%'),
-    height: hp('18%'),
+    width: wp('32%'),
+    // height: hp('18%'),
     position: 'relative',
   },
   detailsContainer: {
-    marginTop: hp('2%'),
-    height: hp('10%'),
-    width: wp('46%'),
+    marginTop: hp('1.5%'),
+    // marginBottom: hp('2%'),
+    // height: hp('10%'),
+    width: wp('43%'),
     justifyContent: 'center',
   },
   name: {
     width: wp("44%"),
     fontSize: 18,
     textTransform: 'capitalize',
-    fontFamily: 'Intrepid Regular',
+    fontFamily: fontFamily.fontFamilyOcatorStd,
+    lineHeight: 21.6,
+    letterSpacing: -2,
     fontWeight: '400',
-    paddingHorizontal: wp('2%'),
-    color: globalColors.newTextColorProduct, marginTop: wp('5%'),
+    // paddingHorizontal: wp('2%'),
+    color: globalColors.darkGray,
   },
   price: {
-    fontSize: 18,
-    marginTop: wp('1%'),
-    fontFamily: 'Intrepid Regular',
-    paddingHorizontal: wp('2%'),
+    fontSize: 16,
+    marginTop: hp('1%'),
+    marginBottom: hp('2%'),
+    fontFamily: fontFamily.fontFamilyHelvetica,
+    // paddingVertical: wp('2%'),
     fontWeight: '300',
-    color: globalColors.productPriceText,
+    color: globalColors.lightBlack,
   },
   saveImagea: {
     position: 'absolute',
     marginTop: wp('0.1%'),
-    marginLeft: wp('28%'),
+    marginLeft: wp('27.5%'),
     padding: 12,
     left: 15,
   },
   saveImage: {
-    width: 32,
+    width: 22,
     resizeMode: 'contain',
     padding: 8,
-    height: 32,
+    height: 22,
   },
   image: {
     borderRadius: 5,
-    width: wp('46%'),
-    height: hp('21%'),
+    width: wp('43%'),
+    height: hp('22%'),
   },
   dummy: {
     borderRadius: 5,
-    width: wp('46%'),
-    height: hp('21%'),
+    width: wp('43%'),
+    height: hp('22%'),
   },
 
   heading: {
